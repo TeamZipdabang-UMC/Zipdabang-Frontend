@@ -7,6 +7,10 @@ android {
     namespace 'com.example.umc_zipdabang'
     compileSdk 32
 
+    viewBinding{
+        enabled= true
+    }
+
     defaultConfig {
         applicationId "com.example.umc_zipdabang"
         minSdk 21
