@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/jipdabang_light_yellow">
+
+    <ImageView
+        android:id="@+id/iv_zipdabang_title"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingStart="32dp"
+        android:paddingTop="60dp"
+        android:paddingEnd="32dp"
+        android:src="@drawable/jipdabang_title"
+        app:layout_constraintBottom_toTopOf="@id/iv_zipdabang_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="2" />
+
+    <ImageView
+        android:id="@+id/iv_zipdabang_logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="80dp"
+        android:src="@drawable/jipdabang_logo"
+        app:layout_constraintBottom_toTopOf="@id/login_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_zipdabang_title"
+        app:layout_constraintVertical_weight="2" />
+
+    <LinearLayout
+        android:id="@+id/login_background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_zipdabang_logo"
+        app:layout_constraintVertical_weight="1"
+        android:layout_marginBottom="20dp">
+
+        <Button
+            android:id="@+id/btn_kakao_login"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/button_round"
+            android:backgroundTint="@color/jipdabang_white"
+            android:drawableStart="@drawable/login_icon_kakao"
+            android:fontFamily="@font/noto_sans"
+            android:shadowDx="10"
+            android:shadowRadius="10"
+            android:text="카카오 계정으로 시작하기"
+            android:textColor="@color/jipdabang_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_background" />
+
+        <Button
+            android:id="@+id/btn_google_login"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/button_round"
+            android:backgroundTint="@color/jipdabang_white"
+            android:drawableStart="@drawable/login_icon_google"
+            android:fontFamily="@font/noto_sans"
+            android:shadowDx="20"
+            android:shadowRadius="20"
+            android:text="구글 계정으로 시작하기"
+            android:textColor="@color/jipdabang_black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
