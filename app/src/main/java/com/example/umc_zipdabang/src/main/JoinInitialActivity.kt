@@ -31,7 +31,6 @@ class JoinInitialActivity: AppCompatActivity() {
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var googleEmail: String
-    private lateinit var googleNickname: String
     private lateinit var googleProfileImageUrl: String
     private var googleTokenId: String? = ""
 
@@ -63,10 +62,8 @@ class JoinInitialActivity: AppCompatActivity() {
                                         if (firebaseAuth.currentUser != null) {
                                             val user: FirebaseUser = firebaseAuth.currentUser!!
                                             googleEmail = user.email.toString()
-                                            googleNickname = user.displayName.toString()
                                             googleProfileImageUrl = user.photoUrl.toString()
                                             Log.e(TAG, "google email : $googleEmail")
-                                            Log.e(TAG, "google nickname : $googleNickname")
                                             Log.e(TAG, "google profile image url : ${googleProfileImageUrl}")
                                             val googleSignInToken = account.idToken ?: ""
                                             if (googleSignInToken != "") {
@@ -127,9 +124,7 @@ class JoinInitialActivity: AppCompatActivity() {
                                 val kakaoEmail = "${user?.kakaoAccount?.email}"
                                 Log.e(TAG, "kakao email : $kakaoEmail")
                             }
-                            val kakaoNickname = "${user?.kakaoAccount?.profile?.nickname}"
                             val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
-                            Log.e(TAG, "kakao nickname : $kakaoNickname")
                             Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
                         }
                         Log.e(TAG, "로그인 성공 ${token.accessToken}")
