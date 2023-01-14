@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/zipdabang_recipe_navigation"
+    app:startDestination="@id/zipdabangRecipeFragment">
+
+    <fragment
+        android:id="@+id/zipdabangRecipeFragment"
+        android:name="com.example.umc_zipdabang.src.main.ZipdabangRecipeFragment"
+        android:label="ZipdabangRecipeFragment" >
+        <action
+            android:id="@+id/action_zipdabangRecipeFragment_to_zipdabangRecipeCoffeeFragment"
+            app:destination="@id/zipdabangRecipeCoffeeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/zipdabangRecipeCoffeeFragment"
+        android:name="com.example.umc_zipdabang.src.main.ZipdabangRecipeCoffeeFragment"
+        android:label="ZipdabangRecipeCoffeeFragment" />
+</navigation>

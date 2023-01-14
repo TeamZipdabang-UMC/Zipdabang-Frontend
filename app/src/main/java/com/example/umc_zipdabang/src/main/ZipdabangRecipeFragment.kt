@@ -1,5 +1,6 @@
 package com.example.umc_zipdabang.src.main
 
+import android.content.Intent
 import android.icu.text.CaseMap
 import android.os.Bundle
 import android.util.Log
@@ -60,8 +61,9 @@ class ZipdabangRecipeFragment: Fragment() {
 
         val categoriesRVAdapter = CategoriesRVAdapter(categoriesList)
 
-        viewBinding.rvZipdabangRecipeCategories.adapter = categoriesRVAdapter
+
         viewBinding.rvZipdabangRecipeCategories.layoutManager = GridLayoutManager(requireContext(), 3)
+        viewBinding.rvZipdabangRecipeCategories.adapter = categoriesRVAdapter
 
 
         val allRecipesList: ArrayList<AllRecipesData> = arrayListOf()
@@ -81,6 +83,7 @@ class ZipdabangRecipeFragment: Fragment() {
 
         viewBinding.rvZipdabangRecipeAll.adapter = allRecipesRVAdapter
         viewBinding.rvZipdabangRecipeAll.layoutManager = GridLayoutManager(requireContext(), 2)
+
 
     }
 }

@@ -51,6 +51,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // NavigationComponent 관련 dependencies
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
     // glide 관련 dependencies
     implementation 'com.github.bumptech.glide:glide:4.14.0'
     kapt 'com.github.bumptech.glide:compiler:4.14.0'
