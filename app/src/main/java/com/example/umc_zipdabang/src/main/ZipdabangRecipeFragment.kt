@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeBinding
 import org.json.JSONObject
@@ -46,6 +47,19 @@ class ZipdabangRecipeFragment: Fragment() {
             // 문자열 형태의 데이터를 다시 JSON Objcet/Array 형태로 변환하여
             // 키를 통해 값을 조회하는 형식으로 데이터를 가져옴.
         }
+
+        val categoriesList: ArrayList<CategoriesData> = arrayListOf()
+        categoriesList.apply {
+            // add(CategoriesData(사진, 카테고리명)
+
+        }
+
+        val categoriesRVAdapter = CategoriesRVAdapter(categoriesList)
+
+        viewBinding.rvZipdabangRecipeCategories.adapter = categoriesRVAdapter
+        viewBinding.rvZipdabangRecipeCategories.layoutManager = GridLayoutManager(requireContext(), 3)
+
+
         // viewpager adapter 할당
     }
 }
