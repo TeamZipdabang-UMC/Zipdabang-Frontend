@@ -8,7 +8,7 @@ import com.example.umc_zipdabang.databinding.ItemCategoriesBinding
 class CategoriesRVAdapter(private val categoriesList: ArrayList<CategoriesData>): RecyclerView.Adapter<CategoriesRVAdapter.CategoriesDataViewHolder>() {
     inner class CategoriesDataViewHolder(private val viewBinding: ItemCategoriesBinding): RecyclerView.ViewHolder(viewBinding.root) {
         fun bind(categoriesData: CategoriesData) {
-            // 이미지는 수정이 필요해보임. -> url이용, 글라이드 이용
+            // url이용, 글라이드 이용
             val url = categoriesData.picUrl
             GlideApp.with(itemView)
                 .load(url)

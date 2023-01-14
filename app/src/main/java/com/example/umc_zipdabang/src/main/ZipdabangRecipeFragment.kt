@@ -42,7 +42,6 @@ class ZipdabangRecipeFragment: Fragment() {
 
             }
 
-
             // 결국, .json 형태의 파일을 '문자열'형태로 가져오고,
             // 문자열 형태의 데이터를 다시 JSON Objcet/Array 형태로 변환하여
             // 키를 통해 값을 조회하는 형식으로 데이터를 가져옴.
@@ -51,6 +50,13 @@ class ZipdabangRecipeFragment: Fragment() {
         val categoriesList: ArrayList<CategoriesData> = arrayListOf()
         categoriesList.apply {
             // add(CategoriesData(사진, 카테고리명)
+            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458099-b80f35b0-9e6f-4f7e-a863-acfa8995e3b1.png", "커피"))
+            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "녹차"))
+            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "녹차"))
+            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "녹차"))
+            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "녹차"))
+            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "녹차"))
+            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "녹차"))
 
         }
 
@@ -60,6 +66,17 @@ class ZipdabangRecipeFragment: Fragment() {
         viewBinding.rvZipdabangRecipeCategories.layoutManager = GridLayoutManager(requireContext(), 3)
 
 
-        // viewpager adapter 할당
+        val allRecipesList: ArrayList<AllRecipesData> = arrayListOf()
+        allRecipesList.apply {
+            //add(AllRecipesData(사진, 음료명, 좋아요 수)
+            add(AllRecipesData("https://user-images.githubusercontent.com/101035437/212458353-a0e2e377-03d3-4be1-b5e1-d4e234c086b6.png", "sik-k", 150))
+            add(AllRecipesData("https://user-images.githubusercontent.com/101035437/212458353-a0e2e377-03d3-4be1-b5e1-d4e234c086b6.png", "식혜를 마시는데 글자수가 20자정도는 들어가야지", 150))
+        }
+
+        val allRecipesRVAdapter = AllRecipesRVAdapter(allRecipesList)
+
+        viewBinding.rvZipdabangRecipeAll.adapter = allRecipesRVAdapter
+        viewBinding.rvZipdabangRecipeAll.layoutManager = GridLayoutManager(requireContext(), 2)
+
     }
 }
