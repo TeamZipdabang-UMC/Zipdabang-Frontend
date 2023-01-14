@@ -1,6 +1,7 @@
 package com.example.umc_zipdabang.src.main
 
 import android.text.TextUtils.replace
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,13 +37,63 @@ class CategoriesRVAdapter(private val categoriesList: ArrayList<CategoriesData>)
             override fun onClick(v: View?) {
                 val activity = v!!.context as AppCompatActivity
                 val coffeeRecipeFragment = ZipdabangRecipeCoffeeFragment()
+                val beverageRecipeFragment = ZipdabangRecipeBeverageFragment()
+                val teaRecipeFragment = ZipdabangRecipeTeaFragment()
+                val adeRecipeFragment = ZipdabangRecipeAdeFragment()
+                val smoothieRecipeFragment = ZipdabangRecipeSmoothieFragment()
+                val wellbeingRecipeFragment = ZipdabangRecipeWellbeingFragment()
 
+                Log.d("clickTest", "아이템 클릭 확인. position : ${holder.adapterPosition}")
 
-                activity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frame_layout, coffeeRecipeFragment)
-                    .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
-                    .commitAllowingStateLoss()
+                when (holder.adapterPosition) {
+                    0 -> {
+                        activity.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, coffeeRecipeFragment)
+                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
+                            .commitAllowingStateLoss()
+                    }
+
+                    1 -> {
+                        activity.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, beverageRecipeFragment)
+                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
+                            .commitAllowingStateLoss()
+                    }
+
+                    2 -> {
+                        activity.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, teaRecipeFragment)
+                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
+                            .commitAllowingStateLoss()
+                    }
+
+                    3 -> {
+                        activity.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, adeRecipeFragment)
+                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
+                            .commitAllowingStateLoss()
+                    }
+
+                    4 -> {
+                        activity.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, smoothieRecipeFragment)
+                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
+                            .commitAllowingStateLoss()
+                    }
+
+                    5 -> {
+                        activity.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, wellbeingRecipeFragment)
+                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
+                            .commitAllowingStateLoss()
+                    }
+                }
             }
         })
     }
