@@ -2,6 +2,7 @@ package com.example.umc_zipdabang.config.src.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivityMainBinding
 
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
         //WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
 
         setContentView(binding.root)
 

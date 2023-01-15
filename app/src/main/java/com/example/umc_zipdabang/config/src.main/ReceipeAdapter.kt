@@ -22,6 +22,8 @@ class ReceipeAdapter(private val context: MainActivity, private val dataList: Ar
             binding.homeTvHeart2.text=item.receipe[1].heart.toString()
             Glide.with(context).load(item.receipe[0].ImageUrl).into(binding.homeIvCategory1)
             Glide.with(context).load(item.receipe[1].ImageUrl).into(binding.homeIvCategory2)
+            binding.homeIvCategory1.clipToOutline = true
+            binding.homeIvCategory2.clipToOutline = true
 
         }
 
