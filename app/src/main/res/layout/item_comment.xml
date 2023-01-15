@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="312dp"
+    android:layout_height="130dp"
+    android:background="@drawable/comment_background">
+
+    <ImageView
+        android:id="@+id/iv_comment_profile"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/comment_profile_image"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_comment_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:fontFamily="@font/noto_sans"
+        android:textColor="@color/jipdabaing_black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_comment_profile"
+        app:layout_constraintStart_toEndOf="@id/iv_comment_profile"
+        app:layout_constraintTop_toTopOf="@id/iv_comment_profile"
+        tools:text="닉네임1" />
+
+    <TextView
+        android:id="@+id/tv_comment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_comment_nickname"
+        app:layout_constraintTop_toBottomOf="@id/tv_comment_nickname"
+        android:textSize="12sp"
+        android:textColor="#767676"
+        android:text="2023.01.14"/>
+
+    <TextView
+        android:id="@+id/tv_comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tv_comment_date"
+        app:layout_constraintTop_toTopOf="@id/tv_comment_date"
+        android:layout_marginStart="4dp"
+        android:textSize="12sp"
+        android:textColor="#767676"
+        android:fontFamily="@font/noto_sans"
+        android:text="11:30"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_comment_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="14dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="12sp"
+        android:textColor="@color/jipdabaing_black"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:text="너무 맛있네요 다음에 또 만들어먹어볼거에요 이렇게 만들기 쉽고 맛있는 음료는 처음먹어보네요 일상생활에서 쉽게 구할수있는 어쩌구저쩌구 3줄 넘었으니 그만써야지"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
