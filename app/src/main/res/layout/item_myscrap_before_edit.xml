@@ -9,9 +9,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/home_iv_category_1"
         android:layout_width="165dp"
@@ -25,15 +23,7 @@
         app:layout_constraintStart_toStartOf="parent">
     </ImageView>
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/selector_myscrap_edit_check">
 
-        </ImageView>
-
-
-    </FrameLayout>
     <TextView
         android:id="@+id/home_tv_category_1"
         android:layout_width="165dp"

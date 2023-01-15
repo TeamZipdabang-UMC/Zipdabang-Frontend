@@ -82,6 +82,7 @@
             >
 
                 <TextView
+                    android:id="@+id/select_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -101,7 +102,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/myscrap_rv"
+                android:id="@+id/myscrap_edit_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >

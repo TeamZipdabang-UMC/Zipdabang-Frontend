@@ -1,5 +1,6 @@
 package com.example.umc_zipdabang.config.src.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -61,6 +62,21 @@ class MyScapActivity : AppCompatActivity() {
         binding.myscrapIvBack.setOnClickListener{
             onBackPressed()
         }
+
+
+        binding.srapTvEdit.setOnClickListener {
+
+            val intent= Intent(this,EditScrapActivity::class.java)
+            intent.putExtra("array",scraps)
+            startActivity(intent)
+
+
+
+
+        }
+
+
+
 
 
 

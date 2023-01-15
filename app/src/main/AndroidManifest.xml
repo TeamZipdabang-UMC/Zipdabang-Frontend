@@ -25,5 +25,6 @@
         </intent-filter>
     </activity>
         <activity android:name="com.example.umc_zipdabang.config.src.main.MyScapActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.EditScrapActivity"></activity>
 </application>
 </manifest>
