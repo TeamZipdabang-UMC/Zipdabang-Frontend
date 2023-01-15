@@ -31,5 +31,4 @@ class SmoothieRecipesRVAdapter(private val smoothieRecipesList: ArrayList<Smooth
     }
 
     override fun getItemCount(): Int = smoothieRecipesList.size
-
 }
