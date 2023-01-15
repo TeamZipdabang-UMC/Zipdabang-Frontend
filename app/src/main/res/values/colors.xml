@@ -14,5 +14,6 @@
     <color name="jipdabang_yellow">#FBEF65</color>
     <color name="jipdabang_main_yellow">#FDEC65</color>
     <color name="jipdabang_main_">#E4DFDF</color>
+    <color name="jipdabang_bt_gray">#EDEDED</color>
 
 </resources>
