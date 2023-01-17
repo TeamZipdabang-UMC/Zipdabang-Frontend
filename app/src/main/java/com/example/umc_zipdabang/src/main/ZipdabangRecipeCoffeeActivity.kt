@@ -30,6 +30,15 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
 
         viewBinding.rvZipdabangRecipeCoffee.adapter = coffeeRecipesRVAdapter
         viewBinding.rvZipdabangRecipeCoffee.layoutManager = GridLayoutManager(this, 2)
+
+        viewBinding.toolbarBackarrow.setOnClickListener{
+            // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
+
+            viewBinding.toolbarBackarrow.setOnClickListener{
+                // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
+                finish()
+            }
+        }
     }
 
 }
