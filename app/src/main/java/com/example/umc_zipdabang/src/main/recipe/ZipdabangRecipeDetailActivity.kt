@@ -29,7 +29,6 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             if (!like) {
                 like = true
                 viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_filled)
-
             } else {
                 like = false
                 viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_unfilled)
