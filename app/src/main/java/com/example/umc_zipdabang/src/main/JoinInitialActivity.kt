@@ -1,6 +1,8 @@
 package com.example.umc_zipdabang.src.main
 
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResultCallback
@@ -100,41 +102,47 @@ class JoinInitialActivity: AppCompatActivity() {
         // '카카오 계정으로 시작하기' 클릭 시 카카오와 연동.
         // 카카오톡이 설치되어 있다면 카카오톡으로 이동, 그렇지 않다면 웹 상의 로그인 화면으로 이동
         viewBinding.btnKakaoLogin.setOnClickListener {
-            // 만약 카카오톡이 깔려있다면,
-            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-                // 카카오톡 이동하여 로그인
-                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-                    // 로그인 실패 부분
-                    if (error != null) {
-                        Log.e(TAG, "로그인 실패 $error")
-                        // 사용자가 취소
-                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled ) {
-                            return@loginWithKakaoTalk
-                        }
-                        // 다른 오류
-                        else {
-                            UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback) // 카카오 이메일 로그인
-                        }
-                    }
-                    // 로그인 성공 부분
-                    else if (token != null) {
-                        // 카카오 닉네임, 카카오 이메일, 카카오 프로필 사진 URL 가져오기
-                        UserApiClient.instance.me { user, error ->
-                            if (user?.kakaoAccount?.email != null) {
-                                val kakaoEmail = "${user?.kakaoAccount?.email}"
-                                Log.e(TAG, "kakao email : $kakaoEmail")
-                            }
-                            val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
-                            Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
-                        }
-                        Log.e(TAG, "로그인 성공 ${token.accessToken}")
-                    }
-                }
-            } else {
-                // 카카오 이메일 로그인
-                UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback)
-            }
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://zipdabang.store:3000/users/kakao/start"))
+            startActivity(intent)
+//
         }
+        }
+//        viewBinding.btnKakaoLogin.setOnClickListener {
+//            // 만약 카카오톡이 깔려있다면,
+//            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+//                // 카카오톡 이동하여 로그인
+//                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+//                    // 로그인 실패 부분
+//                    if (error != null) {
+//                        Log.e(TAG, "로그인 실패 $error")
+//                        // 사용자가 취소
+//                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled ) {
+//                            return@loginWithKakaoTalk
+//                        }
+//                        // 다른 오류
+//                        else {
+//                            UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback) // 카카오 이메일 로그인
+//                        }
+//                    }
+//                    // 로그인 성공 부분
+//                    else if (token != null) {
+//                        // 카카오 닉네임, 카카오 이메일, 카카오 프로필 사진 URL 가져오기
+//                        UserApiClient.instance.me { user, error ->
+//                            if (user?.kakaoAccount?.email != null) {
+//                                val kakaoEmail = "${user?.kakaoAccount?.email}"
+//                                Log.e(TAG, "kakao email : $kakaoEmail")
+//                            }
+//                            val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
+//                            Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
+//                        }
+//                        Log.e(TAG, "로그인 성공 ${token.accessToken}")
+//                    }
+//                }
+//            } else {
+//                // 카카오 이메일 로그인
+//                UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback)
+//            }
+//        }
     }
 
     // 카카오 메시지 콜백 변수
@@ -159,4 +167,3 @@ class JoinInitialActivity: AppCompatActivity() {
             // startActivity(intent)
         }
     }
-}
