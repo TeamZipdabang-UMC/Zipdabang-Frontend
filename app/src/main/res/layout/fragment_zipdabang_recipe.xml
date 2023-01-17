@@ -12,8 +12,7 @@
             android:id="@+id/toolbar_zipdabang_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/jipdabang_yellow"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:background="@color/jipdabang_yellow">
 
             <TextView
                 android:id="@+id/toolbar_zipdabang_recipe_title"
@@ -32,8 +31,7 @@
     <androidx.core.widget.NestedScrollView
         android:background="#F5F5F5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

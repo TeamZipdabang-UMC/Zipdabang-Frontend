@@ -14,8 +14,7 @@
             android:id="@+id/toolbar_zipdabang_recipe_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+            android:background="@null">
 
             <ImageView
                 android:id="@+id/toolbar_backarrow"
@@ -32,8 +31,7 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -105,81 +103,16 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/tv_zipdabang_recipe_detail_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_zipdabang_recipe_detail_title"
-                tools:text="닉네임" />
-
-            <LinearLayout
-                android:id="@+id/layout_zipdabang_recipe_detail_level"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="180dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/tv_zipdabang_recipe_detail_nickname">
-
-                <TextView
-                    android:id="@+id/tv_zipdabang_recipe_detail_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:fontFamily="@font/noto_sans"
-                    android:textColor="@color/jipdabaing_black"
-                    android:textSize="16sp"
-                    android:text="난이도" />
-
-                <ImageView
-                    android:id="@+id/iv_first_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_star_unfilled" />
-
-
-                <ImageView
-                    android:id="@+id/iv_second_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_star_unfilled" />
-
-                <ImageView
-                    android:id="@+id/iv_third_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_star_unfilled" />
-
-
-                <ImageView
-                    android:id="@+id/iv_fourth_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_star_unfilled" />
-
-
-                <ImageView
-                    android:id="@+id/iv_fifth_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_star_unfilled" />
-
-            </LinearLayout>
+                android:text="@string/string_zipdabang_recipe" />
 
             <LinearLayout
                 android:id="@+id/layout_zipdabang_recipe_detail_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="36dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="@id/tv_zipdabang_recipe_detail_title"
-                app:layout_constraintTop_toBottomOf="@id/layout_zipdabang_recipe_detail_level"
+                app:layout_constraintTop_toBottomOf="@id/tv_zipdabang_recipe_detail_nickname"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="200dp">
