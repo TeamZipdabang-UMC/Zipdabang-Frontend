@@ -5,28 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.Zipdabang_android.Transparent">
-        <!-- 할일 : 툴바 색깔 투명하게하기-->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_zipdabang_recipe_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:theme="@style/Theme.Zipdabang_android.Transparent">-->
+<!--        &lt;!&ndash; 할일 : 툴바 색깔 투명하게하기&ndash;&gt;-->
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar_zipdabang_recipe_detail"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@null">-->
 
-            <ImageView
-                android:id="@+id/toolbar_backarrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:src="@drawable/ic_back_arrow"
-                android:padding="12dp"/>
+<!--            <ImageView-->
+<!--                android:id="@+id/toolbar_backarrow"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="start"-->
+<!--                android:src="@drawable/ic_back_arrow"-->
+<!--                android:padding="12dp"/>-->
 
 
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+<!--        </androidx.appcompat.widget.Toolbar>-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -40,11 +40,22 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewpager_zipdabang_recipe_detail_banner"
                 android:layout_width="0dp"
-                android:layout_height="240dp"
+                android:layout_height="380dp"
                 android:background="#123456"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/toolbar_backarrow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintStart_toStartOf="@id/viewpager_zipdabang_recipe_detail_banner"
+                app:layout_constraintTop_toTopOf="@id/viewpager_zipdabang_recipe_detail_banner"
+                android:src="@drawable/ic_back_arrow"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="8dp"
+                android:padding="10dp"/>
 
 
             <LinearLayout

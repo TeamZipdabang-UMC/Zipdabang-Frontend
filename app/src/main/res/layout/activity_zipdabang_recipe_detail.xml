@@ -28,7 +28,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewpager_zipdabang_recipe_detail_banner"
                 android:layout_width="0dp"
-                android:layout_height="240dp"
+                android:layout_height="380dp"
                 android:background="#123456"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
