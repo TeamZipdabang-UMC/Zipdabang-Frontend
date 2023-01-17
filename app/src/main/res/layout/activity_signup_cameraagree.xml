@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/signup_backbtn"
+        android:layout_width="8dp"
+        android:layout_height="18dp"
+        android:background="@drawable/sign_backbtn"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <TextView
+        android:id="@+id/signup_tv_tital"
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:fontFamily="@font/notosanskrbold"
+        android:text="권한 설정"
+        android:textColor="@color/jipdabang_black"
+        android:textSize="29dp"
+        app:layout_constraintStart_toStartOf="@id/signup_backbtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.15"/>
+
+    <TextView
+        android:id="@+id/signup_tv_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_marginTop="-5dp"
+        android:fontFamily="@font/notosanskrregular"
+        android:text="안전하고 편리한 서비스 이용을 위해\n아래의 접근 권한 허용이 필요합니다"
+        android:textColor="@color/jipdabang_signup_text_gray"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@id/signup_tv_tital"
+        app:layout_constraintTop_toBottomOf="@id/signup_tv_tital" />
+
+    <TextView
+        android:id="@+id/signup_empty_tv3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.39"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/signup_camera_layout"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/signup_camera_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/sign_edge_round"
+        app:layout_constraintVertical_bias="0.39"
+        app:layout_constraintHorizontal_weight="312"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/signup_empty_tv4"
+        app:layout_constraintStart_toEndOf="@id/signup_empty_tv3"
+        app:layout_constraintTop_toTopOf="parent">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/sign_camera"
+            android:scaleType="centerCrop" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <TextView
+                android:id="@+id/signup_tv_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:fontFamily="@font/notosanskrbold"
+                android:text="카메라 (선택)"
+                android:textColor="@color/jipdabang_black"
+                android:textSize="16dp" />
+            <TextView
+                android:id="@+id/signup_tv_cameradescribe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskrregular"
+                android:layout_marginTop="-5dp"
+                android:text="레시피 사진 등록에 필요합니다"
+                android:textColor="@color/jipdabang_sign_text_gray"
+                android:textSize="12dp" />
+        </LinearLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="9" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/signup_empty_tv4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.39"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintStart_toEndOf="@id/signup_camera_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/signup_empty_tv1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintEnd_toStartOf="@id/signup_okaybtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.98"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signup_okaybtn"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:text="확인"
+        android:textSize="16dp"
+        android:fontFamily="@font/notosanskrbold"
+        android:textColor="@color/jipdabang_black"
+        android:background="@drawable/sign_btn_round_yellow"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintHorizontal_weight="312"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/signup_empty_tv2"
+        app:layout_constraintStart_toEndOf="@id/signup_empty_tv1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98"/>
+
+    <TextView
+        android:id="@+id/signup_empty_tv2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/signup_okaybtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.98"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

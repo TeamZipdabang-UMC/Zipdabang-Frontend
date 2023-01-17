@@ -55,6 +55,9 @@
         <activity android:name=".src.signup.SignupServiceagreeChoice2Activity"
             android:exported="true">
         </activity>
+        <activity android:name=".src.signup.SharedPreferenceUtil"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
