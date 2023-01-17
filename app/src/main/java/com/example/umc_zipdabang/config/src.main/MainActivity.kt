@@ -2,14 +2,14 @@ package com.example.umc_zipdabang.config.src.main
 
 
 
-import com.example.umc_zipdabang.config.src.main.HomeFragment
-import com.example.umc_zipdabang.config.src.main.JipFragment
-import com.example.umc_zipdabang.config.src.main.OurFragment
-import com.example.umc_zipdabang.config.src.main.UserFragment
+import com.example.umc_zipdabang.config.src.main.Home.HomeFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Our.OurFragment
+import com.example.umc_zipdabang.config.src.main.Jip.JipFragment
+import com.example.umc_zipdabang.config.src.main.User.UserFragment
 import com.example.umc_zipdabang.databinding.ActivityMainBinding
 
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.tab_home -> {
                     if(homeFragment==null) {
-                        homeFragment=HomeFragment()
+                        homeFragment= HomeFragment()
                         supportFragmentManager.beginTransaction()
                             .add(R.id.main_fl, homeFragment!!)
                             .commitAllowingStateLoss()
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.tab_jip_receipe -> {
                     if(jipFragment==null) {
-                        jipFragment=JipFragment()
+                        jipFragment= JipFragment()
                         supportFragmentManager.beginTransaction()
                             .add(R.id.main_fl, jipFragment!!)
                             .commitAllowingStateLoss()
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.tab_our_receipe -> {
                     if(ourFragment==null) {
-                        ourFragment=OurFragment()
+                        ourFragment= OurFragment()
                         supportFragmentManager.beginTransaction()
                             .add(R.id.main_fl, ourFragment!!)
                             .commitAllowingStateLoss()
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.tab_user -> {
                     if(userFragment==null) {
-                        userFragment=UserFragment()
+                        userFragment= UserFragment()
                         supportFragmentManager.beginTransaction()
                             .add(R.id.main_fl, userFragment!!)
                             .commitAllowingStateLoss()

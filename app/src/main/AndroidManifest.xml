@@ -24,16 +24,16 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-        <activity android:name="com.example.umc_zipdabang.config.src.main.MyScapActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity"></activity>
 
-        <activity android:name="com.example.umc_zipdabang.config.src.main.EditScrapActivity"></activity>
-        <activity android:name="com.example.umc_zipdabang.config.src.main.search.SearchActivity"></activity>
-        <activity android:name="com.example.umc_zipdabang.config.src.main.category.CategoryAdeActivity"></activity>
-        <activity android:name="com.example.umc_zipdabang.config.src.main.category.CategoryBeverageActivity"></activity>
-        <activity android:name="com.example.umc_zipdabang.config.src.main.category.CategoryCoffeeActivity"></activity>
-        <activity android:name="com.example.umc_zipdabang.config.src.main.category.CategorySmoothieActivity"></activity>
-        <activity android:name="com.example.umc_zipdabang.config.src.main.category.CategoryHealthActivity"></activity>
-        <activity android:name="com.example.umc_zipdabang.config.src.main.category.CategoryTeaActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.edit.EditScrapActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.search.SearchActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryAdeActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryBeverageActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryCoffeeActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategorySmoothieActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryHealthActivity"></activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryTeaActivity"></activity>
 
     </application>
 </manifest>
