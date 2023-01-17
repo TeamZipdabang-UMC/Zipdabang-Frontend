@@ -2,6 +2,7 @@ package com.example.umc_zipdabang.config.src.main
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.umc_zipdabang.databinding.ActivityEditscrapBinding
 import com.example.umc_zipdabang.databinding.ItemMyScrapBinding
 import com.example.umc_zipdabang.databinding.ItemMyscrapBeforeEditBinding
 import com.example.umc_zipdabang.databinding.ItemMyscrapEditBinding
+import java.sql.Types.NULL
 
 
 class EditScrapAdapter(private val context: EditScrapActivity, private val dataList: ArrayList<My_Scrap>) :
@@ -22,7 +24,7 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
 
     private var itemClickListener: OnItemClickListener? = null
     interface OnItemClickListener {
-        fun onItemClick(v: View?, pos: Int)
+        fun onItemClick(v: View?, pos: Int, tag : String )
     }
     fun setOnItemClickListener(listener: OnItemClickListener) {
         itemClickListener = listener
@@ -35,8 +37,12 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
         var deletelist : ArrayList<My_Scrap> = arrayListOf()
 
 
-        fun bind(context: Context, item: My_Scrap){
 
+
+        fun bind(context: Context, item: My_Scrap,dataList: ArrayList<My_Scrap>){
+            binding.checkIv.setTag("0")
+            binding.homeIvCategory1.setColorFilter(NULL)
+            binding.checkIv.setImageResource(R.drawable.uncheck_round)
             binding.homeTvCategory1.text= item.title
             binding.homeTvHeart1.text=item.heart.toString()
             Glide.with(context).load(item.ImageUrl).into(binding.homeIvCategory1)
@@ -45,8 +51,20 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
             binding.checkIv.setOnClickListener(object : View.OnClickListener{
                 override fun onClick(p0: View?) {
                     val pos=getAdapterPosition()
+
+                    if(binding.checkIv.getTag()=="0")
+                    {binding.checkIv.setImageResource(R.drawable.check_round)
+                        binding.homeIvCategory1.setColorFilter(Color.parseColor("#80FDEC65"))
+                        binding.checkIv.setTag("1")}
+                    else {
+                        binding.checkIv.setImageResource(R.drawable.uncheck_round)
+                        binding.homeIvCategory1.setColorFilter(NULL)
+                        binding.checkIv.setTag("0")
+                    }
                     if (pos != RecyclerView.NO_POSITION) {
-                        itemClickListener?.onItemClick(p0, pos)
+                            itemClickListener?.onItemClick(p0, pos, binding.checkIv.getTag().toString())
+
+
                     }
                 }
             })
@@ -65,7 +83,7 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(context, dataList[position])
+        holder.bind(context, dataList[position],dataList)
     }
 
     override fun getItemCount(): Int {

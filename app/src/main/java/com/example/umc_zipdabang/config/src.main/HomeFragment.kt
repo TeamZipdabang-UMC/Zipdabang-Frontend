@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.umc_zipdabang.config.src.main.category.*
+import com.example.umc_zipdabang.config.src.main.search.SearchActivity
 import com.example.umc_zipdabang.databinding.FragmentHomeBinding
 
 
@@ -15,10 +17,10 @@ class HomeFragment : Fragment() {
 
     private var  scraps : ArrayList<Main_Scrap> = arrayListOf(
         Main_Scrap("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg","어르신도 좋아하실만한 담백한 블루베리 요거트",1),
-        Main_Scrap("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg","어르신도 좋아하실만한 담백한 블루베리 요거트",12)
+        Main_Scrap("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg","어르신도 좋아하실만한 담백한 블루베리 요거트",100000)
     )
 
-    private var coffee : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",1),
+    private var coffee : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","어르신도 좋아하실만한 담백한 블루베리 요거트",1),
         Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",12))
 
     private var beverage: ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",1),
@@ -27,13 +29,13 @@ class HomeFragment : Fragment() {
     private var tea : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",1),
         Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",12))
 
-    private var ade : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",1),
+    private var ade : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","연인과 함께 먹기 좋은 딸기초코 파르페",1),
         Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",12))
 
     private var smootie_juice : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",1),
         Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",12))
 
-    private var health : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",1),
+    private var health : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","상콤달콤한 딸기샤베트",1),
         Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",12))
 
 
@@ -77,9 +79,52 @@ class HomeFragment : Fragment() {
         viewBinding.homeRvReceipe.isNestedScrollingEnabled=false
 
 
-        return viewBinding.root
+
+        viewBinding.ivSearch.setOnClickListener{
+
+            val intent= Intent(context,SearchActivity::class.java)
+            intent.putExtra("search",viewBinding.etSearch.toString())
+            startActivity(intent)
+
+        }
+
+
+        adapter2.setOnItemClickListener(object :ReceipeAdapter.OnItemClickListener {
+            override fun onItemClick(v: View?, pos: Int) {
+
+                when(pos){
+
+                    0 ->{
+                        val intent = Intent(context, CategoryCoffeeActivity::class.java)
+                        startActivity(intent)
+                    }
+                    1 ->{
+                        val intent = Intent(context, CategoryBeverageActivity::class.java)
+                        startActivity(intent)
+                    } 2 ->{
+                    val intent = Intent(context, CategoryTeaActivity::class.java)
+                    startActivity(intent)
+                } 3 ->{
+                    val intent = Intent(context, CategoryAdeActivity::class.java)
+                    startActivity(intent)
+                } 4 ->{
+                    val intent = Intent(context, CategorySmoothieActivity::class.java)
+                    startActivity(intent)
+                } 5 ->{
+                    val intent = Intent(context, CategoryHealthActivity::class.java)
+                    startActivity(intent)
+                }
+
+
+
+                }
+
 
 
     }
 
+})
+
+        return viewBinding.root
+    }
 }

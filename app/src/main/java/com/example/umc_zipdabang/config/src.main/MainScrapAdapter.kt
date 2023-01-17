@@ -2,6 +2,7 @@ package com.example.umc_zipdabang.config.src.main
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -9,6 +10,8 @@ import com.example.umc_zipdabang.databinding.ItemMyScrapBinding
 
 class MainScrapAdapter(private val context: MainActivity ,private val dataList: ArrayList<ArrayList<Main_Scrap>>) :
     RecyclerView.Adapter<MainScrapAdapter.ViewHolder>(){
+
+
 
 
     class ViewHolder(private var binding:ItemMyScrapBinding):
@@ -24,6 +27,8 @@ class MainScrapAdapter(private val context: MainActivity ,private val dataList: 
             Glide.with(context).load(item[1].ImageUrl).into(binding.homeIvCategory2)
             binding.homeIvCategory1.clipToOutline = true
             binding.homeIvCategory2.clipToOutline = true
+
+
 
 
 

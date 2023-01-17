@@ -30,6 +30,7 @@
         </ImageView>
 
         <TextView
+            android:id="@+id/tv_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="My 스크랩"
@@ -66,55 +67,13 @@
             android:orientation="vertical"
 
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/main_font"
-                    android:text="스크랩한 레시피"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/main_font"
-                    android:text="6"
-                    android:textSize="20sp"
-                    android:textColor="@color/gray"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginHorizontal="3dp"
-                    />
 
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
 
-               <TextView
-                   android:id="@+id/srap_tv_edit"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textColor="#767676"
-                   android:text="편집"
-                   android:layout_gravity="center_vertical"
-                   android:layout_marginRight="10dp">
-
-               </TextView>
-
-
-            </LinearLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/myscrap_rv"
+                android:id="@+id/category_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >

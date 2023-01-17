@@ -11,36 +11,62 @@ class MyScapActivity : AppCompatActivity() {
 
 
     private var scraps: ArrayList<My_Scrap> = arrayListOf(
-        My_Scrap(
-            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-            1
-        ),
+
         My_Scrap(
             "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
             "어르신도 좋아하실만한 담백한 블루베리 요거트",
             12
-        ) ,
-        My_Scrap(
-            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-            15
         ),
         My_Scrap(
             "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
             "어르신도 좋아하실만한 담백한 블루베리 요거트",
-            19
+            123
         ),
         My_Scrap(
             "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
             "어르신도 좋아하실만한 담백한 블루베리 요거트",
-            100
+            125
         ),
         My_Scrap(
             "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
             "어르신도 좋아하실만한 담백한 블루베리 요거트",
-            1200
-        )
+            130
+        ),
+        My_Scrap(
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+            "어르신도 좋아하실만한 담백한 블루베리 요거트",
+            124
+        ),
+        My_Scrap(
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+            "어르신도 좋아하실만한 담백한 블루베리 요거트",
+            1222
+        ),
+        My_Scrap(
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+            "어르신도 좋아하실만한 담백한 블루베리 요거트",
+            1211
+        ),  My_Scrap(
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+            "어르신도 좋아하실만한 담백한 블루베리 요거트",
+            122
+        ),  My_Scrap(
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+            "어르신도 좋아하실만한 담백한 블루베리 요거트",
+            900
+        ),  My_Scrap(
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+            "어르신도 좋아하실만한 담백한 블루베리 요거트",
+            12020
+        ),
+        My_Scrap(
+            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+            "어르신도 좋아하실만한 담백한 블루베리 요거트",
+            14
+        ),
+
+
+
     )
 
 
@@ -58,6 +84,8 @@ class MyScapActivity : AppCompatActivity() {
         val adapter=MyScrapAdapter(this,scraps)
          binding.myscrapRv.adapter=adapter
 
+        adapter.notifyDataSetChanged()
+
 
         binding.myscrapIvBack.setOnClickListener{
             onBackPressed()
@@ -71,12 +99,7 @@ class MyScapActivity : AppCompatActivity() {
             startActivity(intent)
 
 
-
-
         }
-
-
-
 
 
 
