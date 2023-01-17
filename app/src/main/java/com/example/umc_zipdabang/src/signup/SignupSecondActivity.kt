@@ -125,6 +125,7 @@ class SignupSecondActivity : AppCompatActivity() {
             val intent_birthday = Intent(this, SignupResearchActivity::class.java)
             intent_birthday.putExtra("birthday", birthday.text.toString().trim())
             */
+
             val intent = Intent(this, SignupResearchActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)

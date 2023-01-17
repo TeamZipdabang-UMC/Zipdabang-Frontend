@@ -7,6 +7,8 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.util.proto.ProtoOutputStream
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +16,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivitySignupResearchBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignupResearchActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupResearchBinding
+    val api = APIS.create()
 
     @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("ResourceAsColor")
@@ -348,6 +354,24 @@ class SignupResearchActivity : AppCompatActivity() {
             startActivity(intent)
         }
         nextBtn.setOnClickListener {
+            var name_sp =sharedPreference.getString("name","")
+            var nickname_sp =sharedPreference.getString("nickname","")
+            var phonenumber_sp =sharedPreference.getString("phonenumber","")
+            var email_sp =sharedPreference.getString("email","")
+            var birthday_sp =sharedPreference.getString("birthday","")
+
+            val data = PostNewuserBody(name_sp,nickname_sp,phonenumber_sp,
+                birthday_sp, email_sp)
+            api.post_signup_newuser(data).enqueue(object: Callback<PostNewuserBody>{
+                override fun onResponse(call: Call<PostNewuserBody>, response: Response<PostNewuserBody>) {
+                    var result : PostNewuserBody? = response.body()
+                    Log.d("통신","success "+result)
+                }
+                override fun onFailure(call: Call<PostNewuserBody>, t: Throwable) {
+                    Log.d("통신","fail")
+                }
+            })
+
             val intent = Intent(this, SignupServiceagreeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
@@ -359,3 +383,4 @@ class SignupResearchActivity : AppCompatActivity() {
         }
     }
 }
+

@@ -1,5 +1,6 @@
 package com.example.umc_zipdabang.src.signup
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -10,9 +11,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivitySignupFirstBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignupFirstActivity:AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupFirstBinding
+    val api = APIS.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +75,21 @@ class SignupFirstActivity:AppCompatActivity() {
             editor.apply()
             sharedPreference.getString("name","")?.let { Log.e(TAG, it) }
             sharedPreference.getString("nickname","")?.let { Log.e(TAG, it) }
-            /*
-            val intent_name = Intent(this, SignupSecondActivity::class.java)
-            intent_name.putExtra("name", name.text.toString().trim())
-            val intent_nickname = Intent(this, SignupSecondActivity::class.java)
-            intent_nickname.putExtra("nickname", nickname.text.toString().trim())
-             */
+
+            api.get_signup_existnickname(nickname_sp).enqueue(object: Callback<GetNicknameExist>{
+                @SuppressLint("ResourceAsColor")
+                override fun onResponse(call: Call<GetNicknameExist>, response: Response<GetNicknameExist>) {
+                    //만약 중복 닉네임이 존재한다면, 오류 띄우기
+                    //그게 아니라면 그냥 패스
+                    nextBtn.setEnabled(false)
+                    nextBtn.setBackgroundColor(R.color.black)
+                    nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
+                }
+                override fun onFailure(call: Call<GetNicknameExist>, t: Throwable) {
+                    Log.d("통신","fail")
+                }
+            })
+
             val intent = Intent(this, SignupSecondActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
