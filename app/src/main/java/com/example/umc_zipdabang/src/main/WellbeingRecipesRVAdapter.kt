@@ -1,9 +1,12 @@
 package com.example.umc_zipdabang.src.main
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
+import com.example.umc_zipdabang.src.main.recipe.ZipdabangRecipeDetailAdeActivity
+import com.example.umc_zipdabang.src.main.recipe.ZipdabangRecipeDetailWellbeingActivity
 
 class WellbeingRecipesRVAdapter(private val wellbeingRecipesList: ArrayList<WellbeingRecipesData>): RecyclerView.Adapter<WellbeingRecipesRVAdapter.WellbeingRecipesDataViewHolder>() {
     inner class WellbeingRecipesDataViewHolder(private val viewBinding: ItemRecipesPreviewBinding): RecyclerView.ViewHolder(viewBinding.root) {
@@ -14,6 +17,11 @@ class WellbeingRecipesRVAdapter(private val wellbeingRecipesList: ArrayList<Well
                 .into(viewBinding.ivRecipePreview)
             viewBinding.tvRecipePreview.text = wellbeingRecipesData.wellbeing
             viewBinding.tvLikes.text = wellbeingRecipesData.likes.toString()
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, ZipdabangRecipeDetailWellbeingActivity::class.java)
+                intent.run { itemView.context.startActivity(this)}
+            }
         }
     }
 

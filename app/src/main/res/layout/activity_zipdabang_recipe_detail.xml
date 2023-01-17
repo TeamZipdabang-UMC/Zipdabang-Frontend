@@ -11,7 +11,7 @@
         android:theme="@style/Theme.Zipdabang_android.Transparent">
         <!-- 할일 : 툴바 색깔 투명하게하기-->
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_zipdabang_recipe"
+            android:id="@+id/toolbar_zipdabang_recipe_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"

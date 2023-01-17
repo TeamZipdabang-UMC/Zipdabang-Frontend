@@ -22,6 +22,8 @@ class ZipdabangRecipeDetailBannerRVAdapter(var bannerImagesUrl: ArrayList<String
         Glide.with(holder.itemView.context)
             .load(bannerImagesUrl)
             .into(holder.itemView.findViewById(R.id.iv_banner_image))
+
+
     }
 
     override fun getItemCount(): Int = bannerImagesUrl.size

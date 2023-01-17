@@ -61,4 +61,9 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     // livedata 관련 dependency
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    // Retrofit2 및 Okhttp 관련 dependencies
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
 }

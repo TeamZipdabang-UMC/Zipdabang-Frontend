@@ -4,27 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeAdeBinding
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeBeverageBinding
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeCoffeeBinding
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeTeaBinding
+import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeAdeBinding
 
-class ZipdabangRecipeAdeFragment: Fragment() {
-    private lateinit var viewBinding: FragmentZipdabangRecipeAdeBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = FragmentZipdabangRecipeAdeBinding.inflate(inflater, container, false)
-        return viewBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+class ZipdabangRecipeAdeActivity: AppCompatActivity() {
+    private lateinit var viewBinding: ActivityZipdabangRecipeAdeBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewBinding = ActivityZipdabangRecipeAdeBinding.inflate(layoutInflater)
+        super.onCreate(savedInstanceState)
+        setContentView(viewBinding.root)
 
         val adeRecipesList: ArrayList<AdeRecipesData> = arrayListOf()
         adeRecipesList.apply {
@@ -42,11 +33,12 @@ class ZipdabangRecipeAdeFragment: Fragment() {
         val adeRecipesRVAdapter = AdeRecipesRVAdapter(adeRecipesList)
 
         viewBinding.rvZipdabangRecipeAde.adapter = adeRecipesRVAdapter
-        viewBinding.rvZipdabangRecipeAde.layoutManager = GridLayoutManager(requireContext(), 2)
+        viewBinding.rvZipdabangRecipeAde.layoutManager = GridLayoutManager(this, 2)
 
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
 
         }
     }
+
 }

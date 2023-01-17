@@ -4,26 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeBeverageBinding
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeCoffeeBinding
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeTeaBinding
+import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeTeaBinding
 
-class ZipdabangRecipeTeaFragment: Fragment() {
-    private lateinit var viewBinding: FragmentZipdabangRecipeTeaBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = FragmentZipdabangRecipeTeaBinding.inflate(inflater, container, false)
-        return viewBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+class ZipdabangRecipeTeaActivity: AppCompatActivity() {
+    private lateinit var viewBinding: ActivityZipdabangRecipeTeaBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewBinding = ActivityZipdabangRecipeTeaBinding.inflate(layoutInflater)
+        super.onCreate(savedInstanceState)
+        setContentView(viewBinding.root)
 
         val teaRecipesList: ArrayList<TeaRecipesData> = arrayListOf()
         teaRecipesList.apply {
@@ -41,11 +33,12 @@ class ZipdabangRecipeTeaFragment: Fragment() {
         val teaRecipesRVAdapter = TeaRecipesRVAdapter(teaRecipesList)
 
         viewBinding.rvZipdabangRecipeTea.adapter = teaRecipesRVAdapter
-        viewBinding.rvZipdabangRecipeTea.layoutManager = GridLayoutManager(requireContext(), 2)
+        viewBinding.rvZipdabangRecipeTea.layoutManager = GridLayoutManager(this, 2)
 
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
 
         }
+
     }
 }

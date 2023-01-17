@@ -4,25 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeBeverageBinding
-import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeCoffeeBinding
+import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
 
-class ZipdabangRecipeBeverageFragment: Fragment() {
-    private lateinit var viewBinding: FragmentZipdabangRecipeBeverageBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = FragmentZipdabangRecipeBeverageBinding.inflate(inflater, container, false)
-        return viewBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
+    private lateinit var viewBinding: ActivityZipdabangRecipeBeverageBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewBinding = ActivityZipdabangRecipeBeverageBinding.inflate(layoutInflater)
+        super.onCreate(savedInstanceState)
+        setContentView(viewBinding.root)
 
         val beverageRecipesList: ArrayList<BeverageRecipesData> = arrayListOf()
         beverageRecipesList.apply {
@@ -40,11 +33,12 @@ class ZipdabangRecipeBeverageFragment: Fragment() {
         val beverageRecipesRVAdapter = BeverageRecipesRVAdapter(beverageRecipesList)
 
         viewBinding.rvZipdabangRecipeBeverage.adapter = beverageRecipesRVAdapter
-        viewBinding.rvZipdabangRecipeBeverage.layoutManager = GridLayoutManager(requireContext(), 2)
+        viewBinding.rvZipdabangRecipeBeverage.layoutManager = GridLayoutManager(this, 2)
 
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
 
         }
     }
+
 }

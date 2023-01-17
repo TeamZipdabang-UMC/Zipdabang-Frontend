@@ -14,6 +14,6 @@
     </fragment>
     <fragment
         android:id="@+id/zipdabangRecipeCoffeeFragment"
-        android:name="com.example.umc_zipdabang.src.main.ZipdabangRecipeCoffeeFragment"
+        android:name="com.example.umc_zipdabang.src.main.ZipdabangRecipeCoffeeActivity"
         android:label="ZipdabangRecipeCoffeeFragment" />
 </navigation>

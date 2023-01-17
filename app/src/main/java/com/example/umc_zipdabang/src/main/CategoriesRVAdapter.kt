@@ -1,6 +1,7 @@
 package com.example.umc_zipdabang.src.main
 
-import android.text.TextUtils.replace
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ItemCategoriesBinding
+import com.google.android.material.internal.ContextUtils.getActivity
 
-class CategoriesRVAdapter(private val categoriesList: ArrayList<CategoriesData>): RecyclerView.Adapter<CategoriesRVAdapter.CategoriesDataViewHolder>() {
+class CategoriesRVAdapter(val context: Context, private val categoriesList: ArrayList<CategoriesData>): RecyclerView.Adapter<CategoriesRVAdapter.CategoriesDataViewHolder>() {
     inner class CategoriesDataViewHolder(private val viewBinding: ItemCategoriesBinding): RecyclerView.ViewHolder(viewBinding.root) {
         fun bind(categoriesData: CategoriesData) {
             // url이용, 글라이드 이용
@@ -19,8 +21,13 @@ class CategoriesRVAdapter(private val categoriesList: ArrayList<CategoriesData>)
                 .load(url)
                 .into(viewBinding.ivCategory)
             viewBinding.tvCategory.text = categoriesData.category
+
+//            itemView.setOnClickListener()
+
         }
     }
+
+
 
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)
@@ -32,66 +39,46 @@ class CategoriesRVAdapter(private val categoriesList: ArrayList<CategoriesData>)
     }
 
     override fun onBindViewHolder(holder: CategoriesDataViewHolder, position: Int) {
-        holder.bind(categoriesList[position])
+        holder?.bind(categoriesList[position])
+
         holder.itemView.setOnClickListener(object: View.OnClickListener {
+
+            // 댓글삭제 : 데이터셋
+
             override fun onClick(v: View?) {
-                val activity = v!!.context as AppCompatActivity
-                val coffeeRecipeFragment = ZipdabangRecipeCoffeeFragment()
-                val beverageRecipeFragment = ZipdabangRecipeBeverageFragment()
-                val teaRecipeFragment = ZipdabangRecipeTeaFragment()
-                val adeRecipeFragment = ZipdabangRecipeAdeFragment()
-                val smoothieRecipeFragment = ZipdabangRecipeSmoothieFragment()
-                val wellbeingRecipeFragment = ZipdabangRecipeWellbeingFragment()
+//                val activity = v!!.context as AppCompatActivity
 
                 Log.d("clickTest", "아이템 클릭 확인. position : ${holder.adapterPosition}")
 
                 when (holder.adapterPosition) {
                     0 -> {
-                        activity.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, coffeeRecipeFragment)
-                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
-                            .commitAllowingStateLoss()
+                        var intent = Intent(v?.context, ZipdabangRecipeCoffeeActivity::class.java)
+                        v?.context?.startActivity(intent)
                     }
 
                     1 -> {
-                        activity.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, beverageRecipeFragment)
-                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
-                            .commitAllowingStateLoss()
+                        var intent = Intent(v?.context, ZipdabangRecipeBeverageActivity::class.java)
+                        v?.context?.startActivity(intent)
                     }
 
                     2 -> {
-                        activity.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, teaRecipeFragment)
-                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
-                            .commitAllowingStateLoss()
+                        var intent = Intent(v?.context, ZipdabangRecipeTeaActivity::class.java)
+                        v?.context?.startActivity(intent)
                     }
 
                     3 -> {
-                        activity.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, adeRecipeFragment)
-                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
-                            .commitAllowingStateLoss()
+                        var intent = Intent(v?.context, ZipdabangRecipeAdeActivity::class.java)
+                        v?.context?.startActivity(intent)
                     }
 
                     4 -> {
-                        activity.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, smoothieRecipeFragment)
-                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
-                            .commitAllowingStateLoss()
+                        var intent = Intent(v?.context, ZipdabangRecipeSmoothieActivity::class.java)
+                        v?.context?.startActivity(intent)
                     }
 
-                    5 -> {
-                        activity.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.frame_layout, wellbeingRecipeFragment)
-                            .addToBackStack(null) // 뒤로가기 동작을 하면 이전 화면으로 돌아가게끔함.
-                            .commitAllowingStateLoss()
+                    else -> {
+                        val intent5 = Intent(v?.context, ZipdabangRecipeWellbeingActivity::class.java)
+                        v?.context?.startActivity(intent5)
                     }
                 }
             }

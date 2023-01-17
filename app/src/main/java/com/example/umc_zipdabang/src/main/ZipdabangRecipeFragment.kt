@@ -59,7 +59,7 @@ class ZipdabangRecipeFragment: Fragment() {
             add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "건강음료"))
         }
 
-        val categoriesRVAdapter = CategoriesRVAdapter(categoriesList)
+        val categoriesRVAdapter = CategoriesRVAdapter(requireContext(), categoriesList)
 
 
         viewBinding.rvZipdabangRecipeCategories.layoutManager = GridLayoutManager(requireContext(), 3)

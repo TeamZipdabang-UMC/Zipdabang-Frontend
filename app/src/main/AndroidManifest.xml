@@ -31,6 +31,20 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".src.main.ZipdabangRecipeCoffeeActivity" />
+        <activity android:name=".src.main.ZipdabangRecipeBeverageActivity" />
+        <activity android:name=".src.main.ZipdabangRecipeTeaActivity" />
+        <activity android:name=".src.main.ZipdabangRecipeAdeActivity" />
+        <activity android:name=".src.main.ZipdabangRecipeSmoothieActivity" />
+        <activity android:name=".src.main.ZipdabangRecipeWellbeingActivity" />
+        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailActivity" />
+        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailCoffeeActivity" />
+        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailAdeActivity" />
+        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailTeaActivity" />
+        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailBeverageActivity" />
+        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailSmoothieActivity" />
+        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailWellbeingActivity" />
     </application>
 
 </manifest>
