@@ -31,6 +31,7 @@ import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -137,12 +138,19 @@ class JoinInitialActivity : AppCompatActivity() {
                     else if (token != null) {
                         // 카카오 닉네임, 카카오 이메일, 카카오 프로필 사진 URL 가져오기
                         UserApiClient.instance.me { user, error ->
-                            if (user?.kakaoAccount?.email != null) {
-                                val kakaoEmail = "${user?.kakaoAccount?.email}"
-                                Log.e(TAG, "kakao email : $kakaoEmail")
-                            }
+
+                            val kakaoEmail = "${user?.kakaoAccount?.email}"
+                            Log.e(TAG, "kakao email : $kakaoEmail")
+
                             val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
                             Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
+
+                            val kakaoUserJson = JSONObject()
+                            kakaoUserJson.put("userEmail", "${kakaoEmail}")
+                            kakaoUserJson.put("userProfile", "${kakaoProfileImageUrl}")
+
+
+
                         }
                         Log.e(TAG, "로그인 성공 ${token.accessToken}")
                     }
@@ -170,23 +178,23 @@ class JoinInitialActivity : AppCompatActivity() {
                 val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
                 Log.e(TAG, "kakao nickname : $kakaoNickname")
                 Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
-                val service = kakaoRetrofit.create(KakaoService::class.java)
-                val call = service.getKakaoLoginStatus()
-                call.enqueue(object: Callback<KakaoLogin> {
-                    override fun onFailure(call: Call<KakaoLogin>, t: Throwable) {
-                        Log.d("JoinInitialActivity", "${t.message}")
-                    }
-
-                    override fun onResponse(
-                        call: Call<KakaoLogin>,
-                        response: Response<KakaoLogin>
-                    ) {
-                        if (response.code() == 200) {
-                            val kakaoLoginResponse = response.body()
-                            Log.d("JoinInitialActivity", "${kakaoLoginResponse}")
-                        }
-                    }
-                })
+//                val service = kakaoRetrofit.create(KakaoService::class.java)
+//                val call = service.getKakaoLoginStatus()
+//                call.enqueue(object: Callback<KakaoLogin> {
+//                    override fun onFailure(call: Call<KakaoLogin>, t: Throwable) {
+//                        Log.d("JoinInitialActivity", "${t.message}")
+//                    }
+//
+//                    override fun onResponse(
+//                        call: Call<KakaoLogin>,
+//                        response: Response<KakaoLogin>
+//                    ) {
+//                        if (response.code() == 200) {
+//                            val kakaoLoginResponse = response.body()
+//                            Log.d("JoinInitialActivity", "${kakaoLoginResponse}")
+//                        }
+//                    }
+//                })
             }
             Log.e(TAG, "로그인 성공 ${token.accessToken}")
             // 로그인 성공 시 다음 화면으로 넘어가기
