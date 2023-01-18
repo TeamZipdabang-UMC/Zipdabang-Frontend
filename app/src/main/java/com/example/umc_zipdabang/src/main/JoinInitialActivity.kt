@@ -5,11 +5,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.example.umc_zipdabang.databinding.ActivityJoinInitialBinding
+import com.example.umc_zipdabang.src.main.KakaoRetrofitManager.Companion.kakaoRetrofit
+import com.example.umc_zipdabang.src.main.model.KakaoLogin
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -20,14 +26,19 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
+import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 
-class JoinInitialActivity: AppCompatActivity() {
+class JoinInitialActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityJoinInitialBinding
     private val TAG = this.javaClass.simpleName
+    private lateinit var service: KakaoService
+    private lateinit var retrofit: Retrofit
 
     // 구글 로그인을 위하여 필요한 변수들
     private lateinit var launcher: ActivityResultLauncher<Intent>
@@ -58,7 +69,8 @@ class JoinInitialActivity: AppCompatActivity() {
                         task.getResult(ApiException::class.java)?.let { account ->
                             googleTokenId = account.idToken
                             if (googleTokenId != null && googleTokenId != "") {
-                                val credential: AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
+                                val credential: AuthCredential =
+                                    GoogleAuthProvider.getCredential(account.idToken, null)
                                 firebaseAuth.signInWithCredential(credential)
                                     .addOnCompleteListener {
                                         if (firebaseAuth.currentUser != null) {
@@ -66,7 +78,10 @@ class JoinInitialActivity: AppCompatActivity() {
                                             googleEmail = user.email.toString()
                                             googleProfileImageUrl = user.photoUrl.toString()
                                             Log.e(TAG, "google email : $googleEmail")
-                                            Log.e(TAG, "google profile image url : ${googleProfileImageUrl}")
+                                            Log.e(
+                                                TAG,
+                                                "google profile image url : ${googleProfileImageUrl}"
+                                            )
                                             val googleSignInToken = account.idToken ?: ""
                                             if (googleSignInToken != "") {
                                                 Log.e(TAG, "googleSignInToken : $googleSignInToken")
@@ -77,7 +92,7 @@ class JoinInitialActivity: AppCompatActivity() {
                                     }
                             }
                         } ?: throw Exception()
-                    }   catch (e: Exception) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
@@ -101,14 +116,51 @@ class JoinInitialActivity: AppCompatActivity() {
 
         // '카카오 계정으로 시작하기' 클릭 시 카카오와 연동.
         // 카카오톡이 설치되어 있다면 카카오톡으로 이동, 그렇지 않다면 웹 상의 로그인 화면으로 이동
-        viewBinding.btnKakaoLogin.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://zipdabang.store:3000/users/kakao/start"))
-            startActivity(intent)
-//
-        }
-        }
 //        viewBinding.btnKakaoLogin.setOnClickListener {
-//            // 만약 카카오톡이 깔려있다면,
+////            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://zipdabang.store:3000/users/kakao/start"))
+////            startActivity(intent)
+//            val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+//                if (error != null) {
+//                    Log.e(TAG, "카카오계정으로 로그인 실패", error)
+//                } else if (token != null) {
+//                    Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
+//                }
+//            }
+//
+//// 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+//            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+//                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+//                    if (error != null) {
+//                        Log.e(TAG, "카카오톡으로 로그인 실패", error)
+//
+//                        // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+//                        // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+//                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+//                            return@loginWithKakaoTalk
+//                        }
+//
+//                        // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
+//                        UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+//                    } else if (token != null) {
+//                        Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
+//
+//                    }
+//                }
+//            } else {
+//                UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+//            }
+
+//
+//        }
+//    }
+
+        val kakaoRetrofit = Retrofit.Builder()
+            .baseUrl("http://zipdabang.store:3000")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        viewBinding.btnKakaoLogin.setOnClickListener {
+            // 만약 카카오톡이 깔려있다면,
 //            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
 //                // 카카오톡 이동하여 로그인
 //                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
@@ -116,33 +168,58 @@ class JoinInitialActivity: AppCompatActivity() {
 //                    if (error != null) {
 //                        Log.e(TAG, "로그인 실패 $error")
 //                        // 사용자가 취소
-//                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled ) {
+//                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
 //                            return@loginWithKakaoTalk
 //                        }
 //                        // 다른 오류
 //                        else {
-//                            UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback) // 카카오 이메일 로그인
+//                            UserApiClient.instance.loginWithKakaoAccount(
+//                                this,
+//                                callback = mCallback
+//                            ) // 카카오 이메일 로그인
 //                        }
 //                    }
 //                    // 로그인 성공 부분
 //                    else if (token != null) {
 //                        // 카카오 닉네임, 카카오 이메일, 카카오 프로필 사진 URL 가져오기
+//
 //                        UserApiClient.instance.me { user, error ->
 //                            if (user?.kakaoAccount?.email != null) {
 //                                val kakaoEmail = "${user?.kakaoAccount?.email}"
 //                                Log.e(TAG, "kakao email : $kakaoEmail")
+//                                // json 파일 가져오기
+//
+//                                val service = kakaoRetrofit.create(KakaoService::class.java)
+//                                val call = service.getKakaoLoginStatus()
+//                                call.enqueue(object: Callback<KakaoLogin> {
+//                                    override fun onFailure(call: Call<KakaoLogin>, t: Throwable) {
+//                                        Log.d("JoinInitialActivity", "${t.message}")
+//                                    }
+//
+//                                    override fun onResponse(
+//                                        call: Call<KakaoLogin>,
+//                                        response: Response<KakaoLogin>
+//                                    ) {
+//                                        if (response.code() == 200) {
+//                                            val kakaoLoginResponse = response.body()
+//                                            Log.d("JoinInitialActivity", "${kakaoLoginResponse}")
+//                                        }
+//                                    }
+//                                })
+//
 //                            }
-//                            val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
+//                            val kakaoProfileImageUrl =
+//                                "${user?.kakaoAccount?.profile?.profileImageUrl}"
 //                            Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
 //                        }
 //                        Log.e(TAG, "로그인 성공 ${token.accessToken}")
 //                    }
 //                }
 //            } else {
-//                // 카카오 이메일 로그인
-//                UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback)
+                // 카카오 이메일 로그인
+                UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback)
 //            }
-//        }
+        }
     }
 
     // 카카오 메시지 콜백 변수
@@ -161,9 +238,32 @@ class JoinInitialActivity: AppCompatActivity() {
                 val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
                 Log.e(TAG, "kakao nickname : $kakaoNickname")
                 Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
+                val service = kakaoRetrofit.create(KakaoService::class.java)
+                val call = service.getKakaoLoginStatus()
+                call.enqueue(object: Callback<KakaoLogin> {
+                    override fun onFailure(call: Call<KakaoLogin>, t: Throwable) {
+                        Log.d("JoinInitialActivity", "${t.message}")
+                    }
+
+                    override fun onResponse(
+                        call: Call<KakaoLogin>,
+                        response: Response<KakaoLogin>
+                    ) {
+                        if (response.code() == 200) {
+                            val kakaoLoginResponse = response.body()
+                            Log.d("JoinInitialActivity", "${kakaoLoginResponse}")
+                        }
+                    }
+                })
             }
             Log.e(TAG, "로그인 성공 ${token.accessToken}")
             // 로그인 성공 시 다음 화면으로 넘어가기
             // startActivity(intent)
         }
+
+        fun kakaoLoginView() {
+
+        }
     }
+}
+
