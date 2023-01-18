@@ -24,6 +24,21 @@ class SignupFirstActivity:AppCompatActivity() {
         viewBinding=ActivitySignupFirstBinding.inflate((layoutInflater))
         setContentView(viewBinding.root)
 
+        //json 파싱하기
+        /*
+        val nickname_json = assets.open("~.json").reader().readText()
+
+        for(i in 0 until nickname_json.length()){
+            val jsonObject = nickname_json.getJSONObject(i)
+            val nickname_exist = jsonObject.getString("nickname")
+            if(nickname_sp != nickname_exist){
+                //ㅇㅇ 닉네임 써도돼
+            }else{
+                //오류 띄워야함
+            }
+        }
+         */
+
         var name = viewBinding.signupRealedtName
         var nickname =viewBinding.signupRealedtNickname
         var nextBtn = viewBinding.signupNextbtn
@@ -53,14 +68,14 @@ class SignupFirstActivity:AppCompatActivity() {
             }
         }
 
+        //sp 사용
         val sharedPreference = getSharedPreferences("signup",0)
         val editor = sharedPreference.edit()
-        //editor.clear()
-        //editor.apply()
+        editor.clear()
+        editor.apply()
 
         var name_sp =sharedPreference.getString("name","")
         var nickname_sp =sharedPreference.getString("nickname","")
-
         if(name_sp != null && nickname_sp !=null){
             name.setText(sharedPreference.getString("name",""))
             nickname.setText(sharedPreference.getString("nickname",""))
@@ -81,9 +96,9 @@ class SignupFirstActivity:AppCompatActivity() {
                 override fun onResponse(call: Call<GetNicknameExist>, response: Response<GetNicknameExist>) {
                     //만약 중복 닉네임이 존재한다면, 오류 띄우기
                     //그게 아니라면 그냥 패스
-                    nextBtn.setEnabled(false)
-                    nextBtn.setBackgroundColor(R.color.black)
-                    nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
+                        nextBtn.setEnabled(false)
+                        nextBtn.setBackgroundColor(R.color.jipdabang_brown)
+                        nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
                 }
                 override fun onFailure(call: Call<GetNicknameExist>, t: Throwable) {
                     Log.d("통신","fail")
@@ -95,6 +110,10 @@ class SignupFirstActivity:AppCompatActivity() {
             startActivity(intent)
         }
         viewBinding.signupBackbtn.setOnClickListener{
+            editor.putString("name",name.text.toString())
+            editor.putString("nickname",nickname.text.toString())
+            editor.apply()
+
             val intent = Intent(this,SignupCameraagreeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)

@@ -117,20 +117,17 @@ class SignupSecondActivity : AppCompatActivity() {
             sharedPreference.getString("birthday","")?.let { Log.e(ContentValues.TAG, it) }
             sharedPreference.getString("name","")?.let { Log.e(ContentValues.TAG, it) }
             sharedPreference.getString("nickname","")?.let { Log.e(ContentValues.TAG, it) }
-            /*
-            val intent_phonenumber = Intent(this, SignupResearchActivity::class.java)
-            intent_phonenumber.putExtra("phonenumber", phonenumber.text.toString().trim())
-            val intent_email = Intent(this, SignupResearchActivity::class.java)
-            intent_email.putExtra("email", email.text.toString().trim())
-            val intent_birthday = Intent(this, SignupResearchActivity::class.java)
-            intent_birthday.putExtra("birthday", birthday.text.toString().trim())
-            */
 
             val intent = Intent(this, SignupResearchActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }
         viewBinding.signupBackbtn.setOnClickListener {
+            editor.putString("phonenumber",phonenumber.text.toString())
+            editor.putString("email",email.text.toString())
+            editor.putString("birthday",birthday.text.toString())
+            editor.apply()
+
             val intent = Intent(this, SignupFirstActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
@@ -170,25 +167,5 @@ class SignupSecondActivity : AppCompatActivity() {
             viewBinding.signupRealedtBirthday.error =null
             true
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        var phonenumber = viewBinding.signupRealedtPhonenumber
-        var email =viewBinding.signupRealedtEmail
-        var birthday =viewBinding.signupRealedtBirthday
-
-        val sharedPreference = getSharedPreferences("signup",0)
-        val editor = sharedPreference.edit()
-
-        editor.putString("phonenumber",phonenumber.text.toString())
-        editor.putString("email",email.text.toString())
-        editor.putString("birthday",birthday.text.toString())
-        editor.apply()
-
-        sharedPreference.getString("phonenumber","")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("email","")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("birthday","")?.let { Log.e(ContentValues.TAG, it) }
     }
 }
