@@ -72,6 +72,7 @@ class EditScrapActivity : AppCompatActivity() {
                 } else {
                     binding.selectTv.text= deletelist.size.toString() + "개의 레시피가 선택됨"
                     binding.button.setBackgroundResource(R.drawable.bg_home_yellow_delete)
+
                     binding.button.setTextColor(
                         (ContextCompat.getColor(
                             applicationContext,

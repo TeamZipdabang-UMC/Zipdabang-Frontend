@@ -46,6 +46,7 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
                 override fun onClick(p0: View?) {
                     val pos=getAdapterPosition()
 
+
                     if(binding.checkIv.getTag()=="0")
                     {binding.checkIv.setImageResource(R.drawable.check_round)
                         binding.homeIvCategory1.setColorFilter(Color.parseColor("#80FDEC65"))

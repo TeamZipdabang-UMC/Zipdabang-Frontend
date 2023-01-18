@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <FrameLayout
-            android:layout_width="165dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
@@ -18,8 +18,8 @@
 
     <ImageView
         android:id="@+id/home_iv_category_1"
-        android:layout_width="165dp"
-        android:layout_height="120dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_gravity="center"
         android:background="@drawable/bg_home_iv"
         android:scaleType="fitXY"
@@ -38,22 +38,26 @@
 
 
 </FrameLayout>
-    <TextView
-        android:id="@+id/home_tv_category_1"
-        android:layout_width="165dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:textSize="12sp"
-        android:fontFamily="@font/main_font"
-        app:layout_constraintTop_toBottomOf="@id/home_iv_category_1"
-        app:layout_constraintStart_toStartOf="@id/home_iv_category_1"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        android:maxLines="2"
-        android:gravity="center_horizontal"
-        >
+        <TextView
+            android:id="@+id/home_tv_category_1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:lineSpacingExtra="0dp"
+            android:textSize="12sp"
+            android:layout_marginHorizontal="24dp"
+            android:fontFamily="@font/main_font"
+            app:layout_constraintTop_toBottomOf="@id/home_iv_category_2"
+            app:layout_constraintStart_toStartOf="@id/home_iv_category_2"
+            android:layout_marginTop="10dp"
+            android:maxLines="2"
+            >
 
-    </TextView>
+        </TextView>
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_gravity="center"
@@ -94,7 +98,6 @@
                 >
             </TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </LinearLayout>
 
 

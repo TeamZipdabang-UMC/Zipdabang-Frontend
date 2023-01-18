@@ -86,12 +86,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/main_font_noto"
+                    android:fontFamily="@font/main_font"
                     android:text="레시피 선택"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/gray"
                     android:textSize="20sp"
-                    android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="@+id/scroll_ct" />
 
 

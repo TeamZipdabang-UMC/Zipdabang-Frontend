@@ -1,13 +1,19 @@
 package com.example.umc_zipdabang.config.src.main.Home.search
 
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.umc_zipdabang.config.src.main.Home.reciepe.Home_receipe
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.Main_Scrap
+import com.example.umc_zipdabang.config.src.main.Home.reciepe.Home_receipe
 import com.example.umc_zipdabang.databinding.ActivitySearchBinding
 
 class SearchActivity: AppCompatActivity() {
+
 
     private lateinit var viewbinding: ActivitySearchBinding
 
@@ -38,7 +44,11 @@ class SearchActivity: AppCompatActivity() {
         Home_receipe("건강음료",health),
     )
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         super.onCreate(savedInstanceState)
 
@@ -46,11 +56,47 @@ class SearchActivity: AppCompatActivity() {
 
         viewbinding.searchRv.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
 
+        val adapter= SearchAdpater_1(this,category)
+
+        viewbinding.searchRv.adapter=adapter
 
 
-        val string=intent.getStringExtra("search")
+
+
+
+        var string=intent.getStringExtra("search")
 
         viewbinding.etSearch.setText(string)
+
+        var renew=intent.getStringExtra("renew")
+
+        if(renew!=null)
+        {
+            viewbinding.etSearch.setText(renew)
+            renew=null
+
+        }
+
+
+
+
+
+        viewbinding.etSearch.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(view: View?, i: Int, keyEvent: KeyEvent?): Boolean {
+                when (i) {
+                    KeyEvent.KEYCODE_ENTER -> {
+                        val search= Intent(applicationContext,SearchActivity::class.java)
+                            .setFlags( FLAG_ACTIVITY_CLEAR_TOP)
+                        search.putExtra("renew",string)
+                        startActivity(search)
+                    }
+                }
+                return true
+            }
+        })
+
+
+
 
         viewbinding.myscrapIvBack.setOnClickListener{
             onBackPressed()

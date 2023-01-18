@@ -15,7 +15,6 @@ import com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity
 import com.example.umc_zipdabang.config.src.main.Home.category.*
 import com.example.umc_zipdabang.config.src.main.Home.reciepe.Home_receipe
 import com.example.umc_zipdabang.config.src.main.Home.reciepe.ReceipeAdapter
-import com.example.umc_zipdabang.config.src.main.category.*
 import com.example.umc_zipdabang.config.src.main.Home.search.SearchActivity
 import com.example.umc_zipdabang.databinding.FragmentHomeBinding
 
@@ -55,7 +54,7 @@ class HomeFragment : Fragment() {
     private val scraplist : ArrayList<ArrayList<Main_Scrap>> = arrayListOf(scraps)
 
     private val category : ArrayList<Home_receipe> =  arrayListOf(
-        Home_receipe("커피", coffee),
+                                                                  Home_receipe("커피", coffee),
                                                                   Home_receipe("beverage",beverage),
                                                                   Home_receipe("티",tea),
                                                                   Home_receipe("에이드",ade),
@@ -98,7 +97,7 @@ class HomeFragment : Fragment() {
         viewBinding.ivSearch.setOnClickListener{
 
             val intent= Intent(context, SearchActivity::class.java)
-            intent.putExtra("search",viewBinding.etSearch.toString())
+            intent.putExtra("search",viewBinding.etSearch.text.toString())
             startActivity(intent)
 
         }
