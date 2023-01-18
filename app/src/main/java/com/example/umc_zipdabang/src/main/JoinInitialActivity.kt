@@ -225,14 +225,31 @@ class JoinInitialActivity : AppCompatActivity() {
         } else if (token != null) {
             Log.e(TAG, "로그인 성공 ${token.accessToken}")
             UserApiClient.instance.me { user, error ->
-                if (user?.kakaoAccount?.email != null) {
-                    val kakaoEmail = "${user?.kakaoAccount?.email}"
-                    Log.e(TAG, "kakao email : $kakaoEmail")
-                }
+
+                val kakaoEmail = "${user?.kakaoAccount?.email}"
+                Log.e(TAG, "kakao email : $kakaoEmail")
+
                 val kakaoNickname = "${user?.kakaoAccount?.profile?.nickname}"
                 val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
                 Log.e(TAG, "kakao nickname : $kakaoNickname")
                 Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
+
+                val kakaoService = kakaoRetrofit.create(KakaoService::class.java)
+                kakaoService.addKakaoUser(userEmail = kakaoEmail, userProfile = kakaoProfileImageUrl).enqueue(object: Callback<KakaoResponse> {
+                    override fun onResponse(
+                        call: Call<KakaoResponse>,
+                        response: Response<KakaoResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val result = response.body()
+                            Log.d("카카오 회원정보 post 성공", "${result}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<KakaoResponse>, t: Throwable) {
+                        Log.d("카카오 회원정보 가져오기 실패", "실패")
+                    }
+                })
 
             }
             Log.e(TAG, "로그인 성공 ${token.accessToken}")
