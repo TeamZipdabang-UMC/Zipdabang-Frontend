@@ -10,10 +10,8 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 
-interface KakaoService {
-
+interface GoogleService {
     @FormUrlEncoded
-    @POST ("/users/kakao/login")
-    fun addKakaoUser(@Field("userEmail") userEmail: String, @Field("userProfile") userProfile: String): Call<KakaoResponse>
-
+    @POST ("/users/google/login")
+    fun addGoogleUser(@Field("userEmail") userEmail: String, @Field("userProfile") userProfile: String): Call<GoogleResponse>
 }
