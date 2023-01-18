@@ -103,7 +103,7 @@ class JoinInitialActivity : AppCompatActivity() {
             btnGoogleLogin.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
                     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken("1029287557818-0geupck4v0ct9su1jn1lqt3l1r4fo2j7.apps.googleusercontent.com")
+                        .requestIdToken("712573004341-2gj5fnig0bqvh1qj01fbbs0ki81ta84c.apps.googleusercontent.com")
                         .requestEmail()
                         .build()
                     val googleSignInClient = GoogleSignIn.getClient(this@JoinInitialActivity, gso)
