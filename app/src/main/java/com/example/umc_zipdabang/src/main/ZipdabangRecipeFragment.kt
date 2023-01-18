@@ -1,16 +1,16 @@
 package com.example.umc_zipdabang.src.main
 
-import android.content.Intent
-import android.icu.text.CaseMap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeBinding
+import com.example.umc_zipdabang.src.main.data_class.AllRecipesData
+import com.example.umc_zipdabang.src.main.data_class.CategoriesData
+import com.example.umc_zipdabang.src.main.rv_adapter.AllRecipesRVAdapter
+import com.example.umc_zipdabang.src.main.rv_adapter.CategoriesRVAdapter
 import org.json.JSONObject
 
 class ZipdabangRecipeFragment: Fragment() {

@@ -2,9 +2,10 @@ package com.example.umc_zipdabang.src.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeCoffeeBinding
+import com.example.umc_zipdabang.src.main.data_class.CoffeeRecipesData
+import com.example.umc_zipdabang.src.main.rv_adapter.CoffeeRecipesRVAdapter
 
 class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeCoffeeBinding

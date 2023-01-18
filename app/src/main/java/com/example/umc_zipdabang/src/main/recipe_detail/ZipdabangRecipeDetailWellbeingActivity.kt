@@ -1,13 +1,9 @@
-package com.example.umc_zipdabang.src.main.recipe
+package com.example.umc_zipdabang.src.main.recipe_detail
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBinding
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailWellbeingBinding
-import com.example.umc_zipdabang.src.main.ZipdabangRecipeAdeActivity
-import com.example.umc_zipdabang.src.main.ZipdabangRecipeWellbeingActivity
 
 class ZipdabangRecipeDetailWellbeingActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeDetailWellbeingBinding

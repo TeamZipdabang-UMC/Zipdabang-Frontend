@@ -38,13 +38,13 @@
         <activity android:name=".src.main.ZipdabangRecipeAdeActivity" />
         <activity android:name=".src.main.ZipdabangRecipeSmoothieActivity" />
         <activity android:name=".src.main.ZipdabangRecipeWellbeingActivity" />
-        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailActivity" />
-        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailCoffeeActivity" />
-        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailAdeActivity" />
-        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailTeaActivity" />
-        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailBeverageActivity" />
-        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailSmoothieActivity" />
-        <activity android:name=".src.main.recipe.ZipdabangRecipeDetailWellbeingActivity" />
+        <activity android:name=".src.main.recipe_detail.ZipdabangRecipeDetailActivity" />
+        <activity android:name=".src.main.recipe_detail.ZipdabangRecipeDetailCoffeeActivity" />
+        <activity android:name=".src.main.recipe_detail.ZipdabangRecipeDetailAdeActivity" />
+        <activity android:name=".src.main.recipe_detail.ZipdabangRecipeDetailTeaActivity" />
+        <activity android:name=".src.main.recipe_detail.ZipdabangRecipeDetailBeverageActivity" />
+        <activity android:name=".src.main.recipe_detail.ZipdabangRecipeDetailSmoothieActivity" />
+        <activity android:name=".src.main.recipe_detail.ZipdabangRecipeDetailWellbeingActivity" />
     </application>
 
 </manifest>

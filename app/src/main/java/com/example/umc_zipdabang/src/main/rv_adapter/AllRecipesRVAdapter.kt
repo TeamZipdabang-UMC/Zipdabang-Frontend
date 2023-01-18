@@ -1,15 +1,13 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.rv_adapter
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
-import com.example.umc_zipdabang.src.main.recipe.ZipdabangRecipeDetailActivity
+import com.example.umc_zipdabang.src.main.data_class.AllRecipesData
+import com.example.umc_zipdabang.src.main.GlideApp
+import com.example.umc_zipdabang.src.main.recipe_detail.ZipdabangRecipeDetailActivity
 
 class AllRecipesRVAdapter(private val allRecipesList: ArrayList<AllRecipesData>): RecyclerView.Adapter<AllRecipesRVAdapter.AllRecipesDataViewHolder>() {
     inner class AllRecipesDataViewHolder(private val viewBinding: ItemRecipesPreviewBinding): RecyclerView.ViewHolder(viewBinding.root) {
@@ -33,7 +31,7 @@ class AllRecipesRVAdapter(private val allRecipesList: ArrayList<AllRecipesData>)
         return super.getItemViewType(position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllRecipesRVAdapter.AllRecipesDataViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllRecipesDataViewHolder {
         val viewBinding = ItemRecipesPreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AllRecipesDataViewHolder(viewBinding)
     }

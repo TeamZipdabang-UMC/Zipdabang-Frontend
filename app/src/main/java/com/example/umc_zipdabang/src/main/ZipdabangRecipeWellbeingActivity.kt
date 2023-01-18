@@ -1,15 +1,11 @@
 package com.example.umc_zipdabang.src.main
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.databinding.*
+import com.example.umc_zipdabang.src.main.data_class.WellbeingRecipesData
+import com.example.umc_zipdabang.src.main.rv_adapter.WellbeingRecipesRVAdapter
 
 class ZipdabangRecipeWellbeingActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeWellbeingBinding

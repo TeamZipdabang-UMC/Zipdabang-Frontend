@@ -1,12 +1,13 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.rv_adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
-import com.example.umc_zipdabang.src.main.recipe.ZipdabangRecipeDetailActivity
-import com.example.umc_zipdabang.src.main.recipe.ZipdabangRecipeDetailAdeActivity
+import com.example.umc_zipdabang.src.main.data_class.AdeRecipesData
+import com.example.umc_zipdabang.src.main.GlideApp
+import com.example.umc_zipdabang.src.main.recipe_detail.ZipdabangRecipeDetailAdeActivity
 
 class AdeRecipesRVAdapter(private val adeRecipesList: ArrayList<AdeRecipesData>): RecyclerView.Adapter<AdeRecipesRVAdapter.AdeRecipesDataViewHolder>() {
     inner class AdeRecipesDataViewHolder(private val viewBinding: ItemRecipesPreviewBinding): RecyclerView.ViewHolder(viewBinding.root) {
@@ -34,12 +35,12 @@ class AdeRecipesRVAdapter(private val adeRecipesList: ArrayList<AdeRecipesData>)
         return super.getItemViewType(position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdeRecipesRVAdapter.AdeRecipesDataViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdeRecipesDataViewHolder {
         val viewBinding = ItemRecipesPreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AdeRecipesDataViewHolder(viewBinding)
     }
 
-    override fun onBindViewHolder(holder: AdeRecipesRVAdapter.AdeRecipesDataViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AdeRecipesDataViewHolder, position: Int) {
         holder.bind(adeRecipesList[position])
     }
 

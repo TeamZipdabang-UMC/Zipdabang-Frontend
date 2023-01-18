@@ -1,12 +1,13 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.rv_adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
-import com.example.umc_zipdabang.src.main.recipe.ZipdabangRecipeDetailAdeActivity
-import com.example.umc_zipdabang.src.main.recipe.ZipdabangRecipeDetailSmoothieActivity
+import com.example.umc_zipdabang.src.main.GlideApp
+import com.example.umc_zipdabang.src.main.data_class.SmoothieRecipesData
+import com.example.umc_zipdabang.src.main.recipe_detail.ZipdabangRecipeDetailSmoothieActivity
 
 class SmoothieRecipesRVAdapter(private val smoothieRecipesList: ArrayList<SmoothieRecipesData>): RecyclerView.Adapter<SmoothieRecipesRVAdapter.SmoothieRecipesDataViewHolder>() {
     inner class SmoothieRecipesDataViewHolder(private val viewBinding: ItemRecipesPreviewBinding): RecyclerView.ViewHolder(viewBinding.root) {
@@ -29,12 +30,12 @@ class SmoothieRecipesRVAdapter(private val smoothieRecipesList: ArrayList<Smooth
         return super.getItemViewType(position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmoothieRecipesRVAdapter.SmoothieRecipesDataViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmoothieRecipesDataViewHolder {
         val viewBinding = ItemRecipesPreviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SmoothieRecipesDataViewHolder(viewBinding)
     }
 
-    override fun onBindViewHolder(holder: SmoothieRecipesRVAdapter.SmoothieRecipesDataViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SmoothieRecipesDataViewHolder, position: Int) {
         holder.bind(smoothieRecipesList[position])
     }
 

@@ -1,4 +1,4 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.rv_adapter
 
 import android.content.Context
 import android.content.Intent
@@ -6,11 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ItemCategoriesBinding
-import com.google.android.material.internal.ContextUtils.getActivity
+import com.example.umc_zipdabang.src.main.*
+import com.example.umc_zipdabang.src.main.data_class.CategoriesData
 
 class CategoriesRVAdapter(val context: Context, private val categoriesList: ArrayList<CategoriesData>): RecyclerView.Adapter<CategoriesRVAdapter.CategoriesDataViewHolder>() {
     inner class CategoriesDataViewHolder(private val viewBinding: ItemCategoriesBinding): RecyclerView.ViewHolder(viewBinding.root) {
