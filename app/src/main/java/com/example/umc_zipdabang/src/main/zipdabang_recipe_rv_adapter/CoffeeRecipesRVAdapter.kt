@@ -1,13 +1,13 @@
-package com.example.umc_zipdabang.src.main.rv_adapter
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
-import com.example.umc_zipdabang.src.main.data_class.CoffeeRecipesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
 import com.example.umc_zipdabang.src.main.GlideApp
-import com.example.umc_zipdabang.src.main.recipe_detail.ZipdabangRecipeDetailCoffeeActivity
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailCoffeeActivity
 
 class CoffeeRecipesRVAdapter(private val coffeeRecipesList: ArrayList<CoffeeRecipesData>): RecyclerView.Adapter<CoffeeRecipesRVAdapter.CoffeeRecipesDataViewHolder>() {
     inner class CoffeeRecipesDataViewHolder(private val viewBinding: ItemRecipesPreviewBinding): RecyclerView.ViewHolder(viewBinding.root) {

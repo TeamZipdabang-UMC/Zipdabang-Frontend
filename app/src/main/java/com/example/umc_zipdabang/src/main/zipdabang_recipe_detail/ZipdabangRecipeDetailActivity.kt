@@ -1,4 +1,4 @@
-package com.example.umc_zipdabang.src.main.recipe_detail
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

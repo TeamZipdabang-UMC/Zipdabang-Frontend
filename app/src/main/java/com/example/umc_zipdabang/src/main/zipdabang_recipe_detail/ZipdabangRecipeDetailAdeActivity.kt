@@ -1,16 +1,16 @@
-package com.example.umc_zipdabang.src.main.recipe_detail
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBeverageBinding
+import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailAdeBinding
 
-class ZipdabangRecipeDetailBeverageActivity: AppCompatActivity() {
-    private lateinit var viewBinding: ActivityZipdabangRecipeDetailBeverageBinding
+class ZipdabangRecipeDetailAdeActivity: AppCompatActivity() {
+    private lateinit var viewBinding: ActivityZipdabangRecipeDetailAdeBinding
     private lateinit var viewPager2: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewBinding = ActivityZipdabangRecipeDetailBeverageBinding.inflate(layoutInflater)
+        viewBinding = ActivityZipdabangRecipeDetailAdeBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 

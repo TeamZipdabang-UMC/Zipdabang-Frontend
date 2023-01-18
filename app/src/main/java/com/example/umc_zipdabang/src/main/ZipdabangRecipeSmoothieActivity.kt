@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.databinding.*
-import com.example.umc_zipdabang.src.main.data_class.SmoothieRecipesData
-import com.example.umc_zipdabang.src.main.rv_adapter.SmoothieRecipesRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.SmoothieRecipesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.SmoothieRecipesRVAdapter
 
 class ZipdabangRecipeSmoothieActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeSmoothieBinding

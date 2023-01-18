@@ -1,4 +1,4 @@
-package com.example.umc_zipdabang.src.main.rv_adapter
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import com.example.umc_zipdabang.src.main.GlideApp
-import com.example.umc_zipdabang.src.main.data_class.TeaRecipesData
-import com.example.umc_zipdabang.src.main.recipe_detail.ZipdabangRecipeDetailTeaActivity
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.TeaRecipesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailTeaActivity
 
 class TeaRecipesRVAdapter(private val teaRecipesList: ArrayList<TeaRecipesData>): RecyclerView.Adapter<TeaRecipesRVAdapter.TeaRecipesDataViewHolder>() {
     inner class TeaRecipesDataViewHolder(private val viewBinding: ItemRecipesPreviewBinding): RecyclerView.ViewHolder(viewBinding.root) {

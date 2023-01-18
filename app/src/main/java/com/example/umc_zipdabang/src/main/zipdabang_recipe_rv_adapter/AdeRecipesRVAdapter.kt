@@ -1,13 +1,13 @@
-package com.example.umc_zipdabang.src.main.rv_adapter
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
-import com.example.umc_zipdabang.src.main.data_class.AdeRecipesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.AdeRecipesData
 import com.example.umc_zipdabang.src.main.GlideApp
-import com.example.umc_zipdabang.src.main.recipe_detail.ZipdabangRecipeDetailAdeActivity
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailAdeActivity
 
 class AdeRecipesRVAdapter(private val adeRecipesList: ArrayList<AdeRecipesData>): RecyclerView.Adapter<AdeRecipesRVAdapter.AdeRecipesDataViewHolder>() {
     inner class AdeRecipesDataViewHolder(private val viewBinding: ItemRecipesPreviewBinding): RecyclerView.ViewHolder(viewBinding.root) {

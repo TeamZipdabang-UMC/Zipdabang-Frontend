@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeBinding
-import com.example.umc_zipdabang.src.main.data_class.AllRecipesData
-import com.example.umc_zipdabang.src.main.data_class.CategoriesData
-import com.example.umc_zipdabang.src.main.rv_adapter.AllRecipesRVAdapter
-import com.example.umc_zipdabang.src.main.rv_adapter.CategoriesRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.AllRecipesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.CategoriesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.AllRecipesRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.CategoriesRVAdapter
 import org.json.JSONObject
 
 class ZipdabangRecipeFragment: Fragment() {

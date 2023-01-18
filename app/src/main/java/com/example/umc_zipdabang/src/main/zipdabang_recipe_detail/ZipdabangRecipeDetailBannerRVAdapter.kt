@@ -1,4 +1,4 @@
-package com.example.umc_zipdabang.src.main.recipe_detail
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeAdeBinding
-import com.example.umc_zipdabang.src.main.data_class.AdeRecipesData
-import com.example.umc_zipdabang.src.main.rv_adapter.AdeRecipesRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.AdeRecipesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.AdeRecipesRVAdapter
 
 class ZipdabangRecipeAdeActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeAdeBinding
