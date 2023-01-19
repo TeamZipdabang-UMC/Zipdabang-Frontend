@@ -9,15 +9,18 @@ import androidx.room.Query
 @Dao
 interface TokenDao {
     @Insert(onConflict = REPLACE)
-    fun insertToken(token: Token)
+    fun addToken(token: Token)
 
-    @Query ("DELETE FROM tokenDB WHERE token = :token")
-    fun deleteToken(token: Token)
+//    @Query ("DELETE FROM tokenDb WHERE id = 0")
+//    fun deleteToken(token: Token): List<Token>
 
-    @Query ("SELECT FROM tokenDB WHERE token = :token")
-    fun getToken(token: Token)
+    @Query("Select * from tokenDb")
+    fun getToken(): List<Token>
 
     @Delete
-    fun deleteAllToken()
+    suspend fun delete(token: Token)
+
+    @Query ("DELETE FROM tokenDb")
+    suspend fun deleteAll()
 
 }
