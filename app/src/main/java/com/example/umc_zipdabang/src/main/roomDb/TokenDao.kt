@@ -20,6 +20,9 @@ interface TokenDao {
     @Delete
     suspend fun delete(token: Token)
 
+    @Query("SELECT * FROM tokenDb WHERE id LIKE :id LIMIT 1")
+    suspend fun findById(id: Int): Token
+
     @Query ("DELETE FROM tokenDb")
     suspend fun deleteAll()
 
