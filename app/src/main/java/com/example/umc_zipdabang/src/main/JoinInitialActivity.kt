@@ -36,6 +36,7 @@ import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -57,11 +58,7 @@ class JoinInitialActivity : AppCompatActivity() {
     private var googleTokenId: String? = ""
 
     // 토큰을 저장하기 위한 DB(RoomDB) -> 전역적으로 사용하도록 함
-    var tokenDb = Room.databaseBuilder(
-        applicationContext,
-        TokenDatabase::class.java,
-        "tokenDB"
-    ).build()
+    lateinit var tokenDb: TokenDatabase
 
 
     // 카카오 로그인을 위하여 필요한 변수들
@@ -70,6 +67,9 @@ class JoinInitialActivity : AppCompatActivity() {
         viewBinding = ActivityJoinInitialBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
+        // tokenDb
+        tokenDb = TokenDatabase.getTokenDatabase(this)
 
         val baseUrl: String = "http://zipdabang.store:3000"
 
@@ -138,10 +138,12 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
                                                         val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
 
+                                                        val tokenClass = Token(null, token)
+
                                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                                        Thread(Runnable {
-                                                            tokenDb?.tokenDao()?.insertToken(Token(token))
-                                                        }).start()
+                                                        GlobalScope.launch(Dispatchers.IO) {
+                                                            tokenDb.tokenDao().addToken(tokenClass)
+                                                        }
 
                                                         if (status == "login") {
                                                             loggedInIntent.putExtra("token", token)
@@ -241,9 +243,12 @@ class JoinInitialActivity : AppCompatActivity() {
                                         val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
 
                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                        Thread(Runnable {
-                                            tokenDb?.tokenDao()?.insertToken(Token(token))
-                                        }).start()
+                                        val tokenClass = Token(null, token)
+
+                                        // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                                        GlobalScope.launch(Dispatchers.IO) {
+                                            tokenDb.tokenDao().addToken(tokenClass)
+                                        }
 
                                         if (status == "login") {
                                             loggedInIntent.putExtra("token", token)
@@ -308,9 +313,12 @@ class JoinInitialActivity : AppCompatActivity() {
                             val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
 
                             // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                            Thread(Runnable {
-                                tokenDb?.tokenDao()?.insertToken(Token(token))
-                            }).start()
+                            val tokenClass = Token(null, token)
+
+                            // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                            GlobalScope.launch(Dispatchers.IO) {
+                                tokenDb.tokenDao().addToken(tokenClass)
+                            }
 
                             if (status == "login") {
                                 loggedInIntent.putExtra("token", token)
