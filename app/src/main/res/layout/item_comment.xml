@@ -3,8 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="312dp"
-    android:layout_height="130dp"
-    android:background="@drawable/comment_background">
+    android:layout_height="160dp">
+
+    <View
+        android:id="@+id/view_comment"
+        android:layout_width="312dp"
+        android:layout_height="140dp"
+        android:background="@drawable/comment_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/iv_comment_profile"
@@ -15,8 +23,8 @@
         android:background="@drawable/comment_profile_image"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/view_comment"
+        app:layout_constraintTop_toTopOf="@id/view_comment" />
 
     <TextView
         android:id="@+id/tv_comment_nickname"
@@ -58,11 +66,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_comment_date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/view_comment"
+        app:layout_constraintEnd_toEndOf="@id/view_comment"
+        app:layout_constraintBottom_toBottomOf="@id/view_comment"
         android:layout_marginTop="14dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:textSize="12sp"
         android:textColor="@color/jipdabaing_black"
         android:maxLines="3"

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
+import com.example.umc_zipdabang.src.main.GlideApp
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.Comment
 
 class RecipeDetailCommentRVAdapter(private val commentsList: ArrayList<Comment>): RecyclerView.Adapter<RecipeDetailCommentRVAdapter.CommentsViewHolder>() {
@@ -31,6 +32,7 @@ class RecipeDetailCommentRVAdapter(private val commentsList: ArrayList<Comment>)
 
     override fun onBindViewHolder(holder: CommentsViewHolder, position: Int) {
         holder.bind(commentsList[position])
+
     }
 
     override fun getItemCount(): Int = commentsList.size

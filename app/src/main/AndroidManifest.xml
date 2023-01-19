@@ -45,6 +45,7 @@
         <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailBeverageActivity" />
         <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailSmoothieActivity" />
         <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailWellbeingActivity" />
+        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity"/>
     </application>
 
 </manifest>

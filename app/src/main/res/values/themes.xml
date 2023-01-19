@@ -20,4 +20,11 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
+    <style name="toast">
+        <item name="stTextColor">#FFFFFF</item>
+        <item name="stColorBackground">#7C614D</item>
+        <item name="stStrokeWidth">400dp</item>
+        <item name="stLength">LONG</item>
+        <item name="stTextSize">16sp</item>
+    </style>
 </resources>
