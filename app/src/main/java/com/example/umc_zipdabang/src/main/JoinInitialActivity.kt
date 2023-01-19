@@ -140,7 +140,7 @@ class JoinInitialActivity : AppCompatActivity() {
 
                                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                                                         Thread(Runnable {
-                                                            tokenDb.tokenDao().insertToken(Token(token))
+                                                            tokenDb?.tokenDao()?.insertToken(Token(token))
                                                         }).start()
 
                                                         if (status == "login") {
@@ -242,7 +242,7 @@ class JoinInitialActivity : AppCompatActivity() {
 
                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                                         Thread(Runnable {
-                                            tokenDb.tokenDao().insertToken(Token(token))
+                                            tokenDb?.tokenDao()?.insertToken(Token(token))
                                         }).start()
 
                                         if (status == "login") {
@@ -309,7 +309,7 @@ class JoinInitialActivity : AppCompatActivity() {
 
                             // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                             Thread(Runnable {
-                                tokenDb.tokenDao().insertToken(Token(token))
+                                tokenDb?.tokenDao()?.insertToken(Token(token))
                             }).start()
 
                             if (status == "login") {
