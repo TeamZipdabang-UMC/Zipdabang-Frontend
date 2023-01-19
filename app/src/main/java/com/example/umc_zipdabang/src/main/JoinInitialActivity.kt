@@ -13,11 +13,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
 import com.example.umc_zipdabang.databinding.ActivityJoinInitialBinding
 import com.example.umc_zipdabang.src.main.KakaoRetrofitManager.Companion.kakaoRetrofit
 import com.example.umc_zipdabang.src.main.model.GoogleResponse
 import com.example.umc_zipdabang.src.main.model.KakaoLogin
 import com.example.umc_zipdabang.src.main.model.KakaoResponse
+import com.example.umc_zipdabang.src.main.roomDb.Token
+import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -52,6 +55,13 @@ class JoinInitialActivity : AppCompatActivity() {
     private lateinit var googleEmail: String
     private lateinit var googleProfileImageUrl: String
     private var googleTokenId: String? = ""
+
+    // 토큰을 저장하기 위한 DB(RoomDB) -> 전역적으로 사용하도록 함
+    var tokenDb = Room.databaseBuilder(
+        applicationContext,
+        TokenDatabase::class.java,
+        "tokenDB"
+    ).build()
 
 
     // 카카오 로그인을 위하여 필요한 변수들
@@ -117,11 +127,35 @@ class JoinInitialActivity : AppCompatActivity() {
                                                     if (response.isSuccessful) {
                                                         val result = response.body()
                                                         Log.d("구글 회원정보 post 성공", "${result}")
+
+                                                        val googleResultJSON = JSONObject(result.toString())
+                                                        val status = googleResultJSON.getString("status")
+                                                        val token = googleResultJSON.getString("token")
+                                                        Log.d("구글 회원 status", "${status}")
+                                                        Log.d("구글 회원 token", "${token}")
+
+                                                        // 도착 액티비티 수정 필요
+                                                        val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                                                        val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+
+                                                        // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                                                        Thread(Runnable {
+                                                            tokenDb?.tokenDao()?.insertToken(Token(token))
+                                                        }).start()
+
+                                                        if (status == "login") {
+                                                            loggedInIntent.putExtra("token", token)
+                                                            startActivity(loggedInIntent)
+                                                        } else if (status == "join") {
+                                                            joinIntent.putExtra("token", token)
+                                                            startActivity(joinIntent)
+                                                        }
                                                     }
                                                 }
 
                                                 // 토큰을 RoomDB에 저장하고
                                                 // status 값에 따라서 추가정보(join)/메인화면(login)
+                                                // 주의해야 할 것은,
 
                                                 override fun onFailure(call: Call<GoogleResponse>, t: Throwable) {
                                                     Log.d("구글 회원정보 가져오기 실패", "실패")
@@ -186,10 +220,6 @@ class JoinInitialActivity : AppCompatActivity() {
                             val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
                             Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
 
-//                            val kakaoUserJson = JSONObject()
-//                            kakaoUserJson.put("userEmail", "${kakaoEmail}")
-//                            kakaoUserJson.put("userProfile", "${kakaoProfileImageUrl}")
-
                             val kakaoService = kakaoRetrofit.create(KakaoService::class.java)
                             kakaoService.addKakaoUser(userEmail = kakaoEmail, userProfile = kakaoProfileImageUrl).enqueue(object: Callback<KakaoResponse> {
                                 override fun onResponse(
@@ -199,6 +229,29 @@ class JoinInitialActivity : AppCompatActivity() {
                                     if (response.isSuccessful) {
                                         val result = response.body()
                                         Log.d("카카오 회원정보 post 성공", "${result}")
+
+                                        val kakaoResultJSON = JSONObject(result.toString())
+                                        val status = kakaoResultJSON.getString("status")
+                                        val token = kakaoResultJSON.getString("token")
+                                        Log.d("카카오 회원 status", "${status}")
+                                        Log.d("카카오 회원 token", "${token}")
+
+                                        // 도착 액티비티 수정 필요
+                                        val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                                        val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+
+                                        // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                                        Thread(Runnable {
+                                            tokenDb?.tokenDao()?.insertToken(Token(token))
+                                        }).start()
+
+                                        if (status == "login") {
+                                            loggedInIntent.putExtra("token", token)
+                                            startActivity(loggedInIntent)
+                                        } else if (status == "join") {
+                                            joinIntent.putExtra("token", token)
+                                            startActivity(joinIntent)
+                                        }
                                     }
                                 }
 
@@ -225,19 +278,57 @@ class JoinInitialActivity : AppCompatActivity() {
         } else if (token != null) {
             Log.e(TAG, "로그인 성공 ${token.accessToken}")
             UserApiClient.instance.me { user, error ->
-                if (user?.kakaoAccount?.email != null) {
-                    val kakaoEmail = "${user?.kakaoAccount?.email}"
-                    Log.e(TAG, "kakao email : $kakaoEmail")
-                }
+
+                val kakaoEmail = "${user?.kakaoAccount?.email}"
+                Log.e(TAG, "kakao email : $kakaoEmail")
+
                 val kakaoNickname = "${user?.kakaoAccount?.profile?.nickname}"
                 val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
                 Log.e(TAG, "kakao nickname : $kakaoNickname")
                 Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
 
+                val kakaoService = kakaoRetrofit.create(KakaoService::class.java)
+                kakaoService.addKakaoUser(userEmail = kakaoEmail, userProfile = kakaoProfileImageUrl).enqueue(object: Callback<KakaoResponse> {
+                    override fun onResponse(
+                        call: Call<KakaoResponse>,
+                        response: Response<KakaoResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val result = response.body()
+                            Log.d("카카오 회원정보 post 성공", "${result}")
+
+                            val kakaoResultJSON = JSONObject(result.toString())
+                            val status = kakaoResultJSON.getString("status")
+                            val token = kakaoResultJSON.getString("token")
+                            Log.d("카카오 회원 status", "${status}")
+                            Log.d("카카오 회원 token", "${token}")
+
+                            // 도착 액티비티 수정 필요
+                            val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                            val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+
+                            // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                            Thread(Runnable {
+                                tokenDb?.tokenDao()?.insertToken(Token(token))
+                            }).start()
+
+                            if (status == "login") {
+                                loggedInIntent.putExtra("token", token)
+                                startActivity(loggedInIntent)
+                            } else if (status == "join") {
+                                joinIntent.putExtra("token", token)
+                                startActivity(joinIntent)
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<KakaoResponse>, t: Throwable) {
+                        Log.d("카카오 회원정보 가져오기 실패", "실패")
+                    }
+                })
+
             }
             Log.e(TAG, "로그인 성공 ${token.accessToken}")
-            // 로그인 성공 시 다음 화면으로 넘어가기
-            // startActivity(intent)
         }
     }
 }
