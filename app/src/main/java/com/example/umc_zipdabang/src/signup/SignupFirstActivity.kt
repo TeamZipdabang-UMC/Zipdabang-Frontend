@@ -24,21 +24,6 @@ class SignupFirstActivity:AppCompatActivity() {
         viewBinding=ActivitySignupFirstBinding.inflate((layoutInflater))
         setContentView(viewBinding.root)
 
-        //json 파싱하기
-        /*
-        val nickname_json = assets.open("~.json").reader().readText()
-
-        for(i in 0 until nickname_json.length()){
-            val jsonObject = nickname_json.getJSONObject(i)
-            val nickname_exist = jsonObject.getString("nickname")
-            if(nickname_sp != nickname_exist){
-                //ㅇㅇ 닉네임 써도돼
-            }else{
-                //오류 띄워야함
-            }
-        }
-         */
-
         var name = viewBinding.signupRealedtName
         var nickname =viewBinding.signupRealedtNickname
         var nextBtn = viewBinding.signupNextbtn
@@ -91,19 +76,37 @@ class SignupFirstActivity:AppCompatActivity() {
             sharedPreference.getString("name","")?.let { Log.e(TAG, it) }
             sharedPreference.getString("nickname","")?.let { Log.e(TAG, it) }
 
-            api.get_signup_existnickname(nickname_sp).enqueue(object: Callback<GetNicknameExist>{
-                @SuppressLint("ResourceAsColor")
-                override fun onResponse(call: Call<GetNicknameExist>, response: Response<GetNicknameExist>) {
-                    //만약 중복 닉네임이 존재한다면, 오류 띄우기
-                    //그게 아니라면 그냥 패스
-                        nextBtn.setEnabled(false)
-                        nextBtn.setBackgroundColor(R.color.jipdabang_brown)
-                        nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
+            /*
+            //json 파싱하기
+            val nickname_json = assets.open("~.json").reader().readText()
+
+            for(i in 0 until nickname_json.length()){
+                val jsonObject = nickname_json.getJSONObject(i)
+                val nickname_exist = jsonObject.getString("nickname")
+                if(nickname_sp != nickname_exist){
+                    //ㅇㅇ 닉네임 써도돼
+                }else{
+                    //오류 띄워야함
                 }
-                override fun onFailure(call: Call<GetNicknameExist>, t: Throwable) {
-                    Log.d("통신","fail")
+            }
+             */
+/*
+            api.get_signup_existnickname(nickname_sp).enqueue(object: Callback<GetNicknameExistResponse>{
+                override fun onResponse(call: Call<GetNicknameExistResponse>, response: Response<GetNicknameExistResponse>) {
+                    if(response.isSuccessful){
+                        Log.d("통신","success "+response.body()?.exist.toString()+response.body()?.nickname.toString())
+                        //nickname 중복 ㅠㅠ 닉네임 다시 받게 하자
+                    }else{
+                        Log.d("통신","fail "+response.body()?.exist.toString()+response.body()?.nickname.toString())
+                        //nickname 중복 아님 계속 하셈 ㅇㅇ
+                    }
+                }
+                override fun onFailure(call: Call<GetNicknameExistResponse>, t: Throwable) {
+                    Log.d("통신","통신 failㅠㅠ")
                 }
             })
+
+ */
 
             val intent = Intent(this, SignupSecondActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)

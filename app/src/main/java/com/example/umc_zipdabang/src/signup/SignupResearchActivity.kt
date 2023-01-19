@@ -360,17 +360,34 @@ class SignupResearchActivity : AppCompatActivity() {
             var email_sp =sharedPreference.getString("email","")
             var birthday_sp =sharedPreference.getString("birthday","")
 
-            val data = PostNewuserBody(name_sp,nickname_sp,phonenumber_sp,
-                birthday_sp, email_sp)
-            api.post_signup_newuser(data).enqueue(object: Callback<PostNewuserBody>{
-                override fun onResponse(call: Call<PostNewuserBody>, response: Response<PostNewuserBody>) {
-                    var result : PostNewuserBody? = response.body()
-                    Log.d("통신","success "+result)
+            val data = PostNewuserBody(name_sp, nickname_sp, phonenumber_sp, birthday_sp, email_sp)
+            api.post_signup_newuser(data).enqueue(object: Callback<PostNewuserBodyResponse>{
+                override fun onResponse(call: Call<PostNewuserBodyResponse>, response: Response<PostNewuserBodyResponse>) {
+                    if(response.body()?.success==true){
+                        Log.d("통신", "통신 success "+response.body()?.user)
+                    }
                 }
-                override fun onFailure(call: Call<PostNewuserBody>, t: Throwable) {
-                    Log.d("통신","fail")
+                override fun onFailure(call: Call<PostNewuserBodyResponse>, t: Throwable) {
+                    Log.d("통신","통신 failㅠㅠ")
                 }
             })
+
+            /*
+
+            api.get_signup_existnickname(nickname_sp).enqueue(object: Callback<GetNicknameExistResponse>{
+                override fun onResponse(call: Call<GetNicknameExistResponse>, response: Response<GetNicknameExistResponse>) {
+                    if(response.isSuccessful){
+                        Log.d("통신","success "+response.body()?.exist.toString()+response.body()?.nickname.toString())
+                        //nickname 중복 ㅠㅠ
+                    }else{
+                        Log.d("통신","fail "+response.body()?.exist.toString()+response.body()?.nickname.toString())
+                    }
+                }
+                override fun onFailure(call: Call<GetNicknameExistResponse>, t: Throwable) {
+                    Log.d("통신","통신 failㅠㅠ")
+                }
+            })
+             */
 
             val intent = Intent(this, SignupServiceagreeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
