@@ -128,9 +128,8 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         val result = response.body()
                                                         Log.d("구글 회원정보 post 성공", "${result}")
 
-                                                        val googleResultJSON = JSONObject(result.toString())
-                                                        val status = googleResultJSON.getString("status")
-                                                        val token = googleResultJSON.getString("token")
+                                                        val status = result?.status.toString()
+                                                        val token = result?.token.toString()
                                                         Log.d("구글 회원 status", "${status}")
                                                         Log.d("구글 회원 token", "${token}")
 
@@ -232,9 +231,8 @@ class JoinInitialActivity : AppCompatActivity() {
                                         val result = response.body()
                                         Log.d("카카오 회원정보 post 성공", "${result}")
 
-                                        val kakaoResultJSON = JSONObject(result.toString())
-                                        val status = kakaoResultJSON.getString("status")
-                                        val token = kakaoResultJSON.getString("token")
+                                        val status = result?.status.toString()
+                                        val token = result?.token.toString()
                                         Log.d("카카오 회원 status", "${status}")
                                         Log.d("카카오 회원 token", "${token}")
 
@@ -302,9 +300,8 @@ class JoinInitialActivity : AppCompatActivity() {
                             val result = response.body()
                             Log.d("카카오 회원정보 post 성공", "${result}")
 
-                            val kakaoResultJSON = JSONObject(result.toString())
-                            val status = kakaoResultJSON.getString("status")
-                            val token = kakaoResultJSON.getString("token")
+                            val status = result?.status.toString()
+                            val token = result?.token.toString()
                             Log.d("카카오 회원 status", "${status}")
                             Log.d("카카오 회원 token", "${token}")
 
