@@ -56,14 +56,17 @@ class SignupFirstActivity:AppCompatActivity() {
         //sp 사용
         val sharedPreference = getSharedPreferences("signup",0)
         val editor = sharedPreference.edit()
-        editor.clear()
-        editor.apply()
+        //editor.clear()
+        //editor.apply()
 
         var name_sp =sharedPreference.getString("name","")
         var nickname_sp =sharedPreference.getString("nickname","")
         if(name_sp != null && nickname_sp !=null){
             name.setText(sharedPreference.getString("name",""))
             nickname.setText(sharedPreference.getString("nickname",""))
+        }else{
+            name.setText("")
+            nickname.setText("")
         }
 
         nextBtn.setOnClickListener{
@@ -77,28 +80,30 @@ class SignupFirstActivity:AppCompatActivity() {
             sharedPreference.getString("nickname","")?.let { Log.e(TAG, it) }
 
             /*
-            //json 파싱하기
-            val nickname_json = assets.open("~.json").reader().readText()
+           //json 파싱하기
+           val nickname_json = assets.open("~.json").reader().readText()
 
-            for(i in 0 until nickname_json.length()){
-                val jsonObject = nickname_json.getJSONObject(i)
-                val nickname_exist = jsonObject.getString("nickname")
-                if(nickname_sp != nickname_exist){
-                    //ㅇㅇ 닉네임 써도돼
-                }else{
-                    //오류 띄워야함
-                }
-            }
-             */
-/*
+           for(i in 0 until nickname_json.length()){
+               val jsonObject = nickname_json.getJSONObject(i)
+               val nickname_exist = jsonObject.getString("nickname")
+               if(nickname_sp != nickname_exist){
+                   //ㅇㅇ 닉네임 써도돼
+               }else{
+                   //오류 띄워야함
+               }
+           }
+            */
+            var nickname_sp =sharedPreference.getString("nickname","")
             api.get_signup_existnickname(nickname_sp).enqueue(object: Callback<GetNicknameExistResponse>{
                 override fun onResponse(call: Call<GetNicknameExistResponse>, response: Response<GetNicknameExistResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","success "+response.body()?.exist.toString()+response.body()?.nickname.toString())
-                        //nickname 중복 ㅠㅠ 닉네임 다시 받게 하자
-                    }else{
-                        Log.d("통신","fail "+response.body()?.exist.toString()+response.body()?.nickname.toString())
-                        //nickname 중복 아님 계속 하셈 ㅇㅇ
+                    if(response.body()?.exist == true){ //닉네임 중복 ㅠㅠ
+                        Log.d("통신","success "+response.body()?.exist.toString() +response.body()?.nickname.toString())
+                        nextBtn.setEnabled(false)
+                        nextBtn.setBackgroundResource(R.drawable.sign_btn_round)
+                        nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
+                        //!!!!!오류 메세지 띄워야함!!!!!
+                    }else{ //닉네임 중복 아님
+                        Log.d("통신","fail "+response.body()?.exist.toString())
                     }
                 }
                 override fun onFailure(call: Call<GetNicknameExistResponse>, t: Throwable) {
@@ -106,12 +111,11 @@ class SignupFirstActivity:AppCompatActivity() {
                 }
             })
 
- */
-
             val intent = Intent(this, SignupSecondActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }
+
         viewBinding.signupBackbtn.setOnClickListener{
             editor.putString("name",name.text.toString())
             editor.putString("nickname",nickname.text.toString())

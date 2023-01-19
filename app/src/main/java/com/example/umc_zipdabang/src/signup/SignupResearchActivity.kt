@@ -360,11 +360,14 @@ class SignupResearchActivity : AppCompatActivity() {
             var email_sp =sharedPreference.getString("email","")
             var birthday_sp =sharedPreference.getString("birthday","")
 
+            Log.d("통신",name_sp+ nickname_sp+ phonenumber_sp+ birthday_sp+ email_sp)
             val data = PostNewuserBody(name_sp, nickname_sp, phonenumber_sp, birthday_sp, email_sp)
             api.post_signup_newuser(data).enqueue(object: Callback<PostNewuserBodyResponse>{
                 override fun onResponse(call: Call<PostNewuserBodyResponse>, response: Response<PostNewuserBodyResponse>) {
-                    if(response.body()?.success==true){
+                    if(response.body()?.success == true){
                         Log.d("통신", "통신 success "+response.body()?.user)
+                    }else{
+                        Log.d("통신", "통신 success"+response.body()?.success)
                     }
                 }
                 override fun onFailure(call: Call<PostNewuserBodyResponse>, t: Throwable) {
