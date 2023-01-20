@@ -84,6 +84,8 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             }
         }
 
+        //=========================레시피 도전 화면 start=======================
+
         // 하단의 도전버튼 눌렀을 때의 동작들
         viewBinding.btnChallengeStart.setOnClickListener {
             // 버튼 교체
@@ -151,6 +153,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             viewBinding.tvZipdabangRecipeDetailSucceeded.visibility = View.INVISIBLE
             viewBinding.tvZipdabangRecipeDetailChallenging.visibility = View.VISIBLE
         }
+        //=========================레시피 도전 화면 end=======================
     }
 
     private fun showLikeToast() {
