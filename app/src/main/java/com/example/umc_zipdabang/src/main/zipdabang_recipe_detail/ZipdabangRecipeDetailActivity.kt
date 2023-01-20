@@ -1,19 +1,25 @@
 package com.example.umc_zipdabang.src.main.zipdabang_recipe_detail
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBinding
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity
-import io.github.muddz.styleabletoast.StyleableToast
+
 
 class ZipdabangRecipeDetailActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeDetailBinding
@@ -26,9 +32,6 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         viewBinding = ActivityZipdabangRecipeDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-
-
-
 
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
@@ -80,6 +83,74 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 viewBinding.btnZipdabangRecipeWriteComment.visibility = View.VISIBLE
             }
         }
+
+        // 하단의 도전버튼 눌렀을 때의 동작들
+        viewBinding.btnChallengeStart.setOnClickListener {
+            // 버튼 교체
+            viewBinding.btnChallengeStart.visibility = View.INVISIBLE
+            viewBinding.btnChallengeComplete.visibility = View.VISIBLE
+
+            // 설명글 교체
+            viewBinding.layoutZipdabangRecipeDetailChallengers.visibility = View.INVISIBLE
+            viewBinding.tvZipdabangRecipeDetailCurrent.visibility = View.INVISIBLE
+            viewBinding.tvZipdabangRecipeDetailChallengeNum.visibility = View.INVISIBLE
+            viewBinding.tvZipdabangRecipeDetailChallenge.visibility = View.INVISIBLE
+
+            viewBinding.tvZipdabangRecipeDetailChallenging.visibility = View.VISIBLE
+        }
+
+        viewBinding.btnChallengeComplete.setOnClickListener {
+            viewBinding.btnChallengeComplete.visibility = View.INVISIBLE
+            viewBinding.btnChallengeRestart.visibility = View.VISIBLE
+
+            viewBinding.tvZipdabangRecipeDetailChallenging.visibility = View.INVISIBLE
+            viewBinding.tvZipdabangRecipeDetailSucceeded.visibility = View.VISIBLE
+
+            val successDialogView = LayoutInflater.from(this).inflate(R.layout.recipe_success_dialog, null)
+            val successDialogBuilder = AlertDialog.Builder(this)
+                .setView(successDialogView)
+
+            val successDialog = successDialogBuilder.create()
+            successDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            successDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            successDialog.window?.setGravity(Gravity.BOTTOM)
+            successDialog.window?.attributes?.width = WindowManager.LayoutParams.WRAP_CONTENT
+            successDialog.window?.attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
+
+            successDialog.show()
+
+            val exitButton = successDialogView.findViewById<ImageView>(R.id.iv_exit_popup)
+            val commentButton = successDialogView.findViewById<TextView>(R.id.btn_popup_comment)
+            val laterButton = successDialogView.findViewById<TextView>(R.id.tv_popup_comment_later)
+
+            exitButton.setOnClickListener {
+                // 없애는 작업
+                successDialog.dismiss()
+            }
+
+            commentButton.setOnClickListener {
+                // 없애는 작업
+                successDialog.dismiss()
+
+                // 액티비티마다 아래 도착 액티비티 수정 필요!!
+                val commentIntent = Intent(this, ZipdabangRecipeDetailCommentActivity::class.java)
+                startActivity(commentIntent)
+            }
+
+            laterButton.setOnClickListener {
+                // 없애는 작업
+                successDialog.dismiss()
+            }
+        }
+
+        viewBinding.btnChallengeRestart.setOnClickListener {
+            viewBinding.btnChallengeRestart.visibility = View.INVISIBLE
+            viewBinding.btnChallengeComplete.visibility = View.VISIBLE
+
+            // 설명 글 바꾸는 부분
+            viewBinding.tvZipdabangRecipeDetailSucceeded.visibility = View.INVISIBLE
+            viewBinding.tvZipdabangRecipeDetailChallenging.visibility = View.VISIBLE
+        }
     }
 
     private fun showLikeToast() {
@@ -118,6 +189,4 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             view = layout
         }.show()
     }
-
-
 }

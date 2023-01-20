@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">UMC_Zipdabang</string>
     <string name="string_zipdabang_recipe">집다방 레시피</string>
+    <string name="tv_challenging">레시피 도전 중...도전 완료 시 아래의 버튼을 눌러주세요</string>
+    <string name="btn_challenge_recipe">레시피 도전하기</string>
+    <string name="btn_recipe_challenge_complete">레시피 도전 완료</string>
+    <string name="btn_recipe_challenge_restart">레시피 재도전하기</string>
+    <string name="popup_completed">완성!</string>
+    <string name="popup_compliment">레시피를 따라 멋진 음료를 만들었네요. 대단해요!\n직접 만든 음료로 행복한 시간 보내길 바라요😊</string>
 </resources>

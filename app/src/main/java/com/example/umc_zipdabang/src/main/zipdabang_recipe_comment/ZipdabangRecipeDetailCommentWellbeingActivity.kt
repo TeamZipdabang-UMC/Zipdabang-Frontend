@@ -85,6 +85,5 @@ class ZipdabangRecipeDetailCommentWellbeingActivity: AppCompatActivity() {
             }.show()
             viewBinding.editTextComment.text = null
         }
-
     }
 }
