@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:name="com.example.umc_zipdabang.src.main.KakaoApplication"
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,15 +18,46 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipdabang_android"
         tools:targetApi="31">
-        <activity android:name="com.example.umc_zipdabang.src.main.InitialActivity"
+
+        <activity
+            android:name=".src.main.MainActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity android:name=".src.signup.SignupFirstActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.signup.SignupSecondActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.signup.SignupCameraagreeActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.signup.SignupResearchActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.signup.SignupServiceagreeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.umc_zipdabang.src.main.MainActivity"
+        <activity android:name="com.example.umc_zipdabang.src.main.InitialActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.signup.SignupServiceagreeMust1Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.signup.SignupServiceagreeMust2Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.signup.SignupServiceagreeChoice1Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".src.signup.SignupServiceagreeChoice2Activity"
             android:exported="true">
         </activity>
         <activity android:name="com.example.umc_zipdabang.src.main.JoinInitialActivity"
@@ -43,11 +77,8 @@
                     android:scheme="kakao8300d879d66a5f65861ac2de40a4234c" />
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
-
 </manifest>

@@ -21,6 +21,7 @@ import com.example.umc_zipdabang.src.main.model.KakaoLogin
 import com.example.umc_zipdabang.src.main.model.KakaoResponse
 import com.example.umc_zipdabang.src.main.roomDb.Token
 import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
+import com.example.umc_zipdabang.src.signup.SignupServiceagreeActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -137,7 +138,7 @@ class JoinInitialActivity : AppCompatActivity() {
 
                                                         // 도착 액티비티 수정 필요
                                                         val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
-                                                        val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                                                        val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
 
                                                         val tokenClass = Token(null, token)
 
@@ -242,7 +243,7 @@ class JoinInitialActivity : AppCompatActivity() {
 
                                         // 도착 액티비티 수정 필요
                                         val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
-                                        val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                                        val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
 
                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                                         val tokenClass = Token(null, token)
@@ -313,7 +314,7 @@ class JoinInitialActivity : AppCompatActivity() {
 
                             // 도착 액티비티 수정 필요
                             val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
-                            val joinIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                            val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
 
                             // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                             val tokenClass = Token(null, token)
