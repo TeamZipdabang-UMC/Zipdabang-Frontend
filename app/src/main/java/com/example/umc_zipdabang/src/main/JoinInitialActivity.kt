@@ -129,8 +129,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         Log.d("구글 회원정보 post 성공", "${result}")
 
                                                         val status = result?.status.toString()
+                                                        val email = result?.email.toString()
                                                         val token = result?.token.toString()
                                                         Log.d("구글 회원 status", "${status}")
+                                                        Log.d("구글 회원 email", "${email}")
                                                         Log.d("구글 회원 token", "${token}")
 
                                                         // 도착 액티비티 수정 필요
@@ -145,10 +147,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         }
 
                                                         if (status == "login") {
-                                                            loggedInIntent.putExtra("token", token)
+                                                            loggedInIntent.putExtra("email", email)
                                                             startActivity(loggedInIntent)
                                                         } else if (status == "join") {
-                                                            joinIntent.putExtra("token", token)
+                                                            joinIntent.putExtra("email", email)
                                                             startActivity(joinIntent)
                                                         }
                                                     }
@@ -232,8 +234,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                         Log.d("카카오 회원정보 post 성공", "${result}")
 
                                         val status = result?.status.toString()
+                                        val email = result?.email.toString()
                                         val token = result?.token.toString()
                                         Log.d("카카오 회원 status", "${status}")
+                                        Log.d("카카오 회원 email", "${email}")
                                         Log.d("카카오 회원 token", "${token}")
 
                                         // 도착 액티비티 수정 필요
@@ -249,10 +253,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                         }
 
                                         if (status == "login") {
-                                            loggedInIntent.putExtra("token", token)
+                                            loggedInIntent.putExtra("email", email)
                                             startActivity(loggedInIntent)
                                         } else if (status == "join") {
-                                            joinIntent.putExtra("token", token)
+                                            joinIntent.putExtra("email", email)
                                             startActivity(joinIntent)
                                         }
                                     }
@@ -301,8 +305,10 @@ class JoinInitialActivity : AppCompatActivity() {
                             Log.d("카카오 회원정보 post 성공", "${result}")
 
                             val status = result?.status.toString()
+                            val email = result?.email.toString()
                             val token = result?.token.toString()
                             Log.d("카카오 회원 status", "${status}")
+                            Log.d("카카오 회원 email", "${email}")
                             Log.d("카카오 회원 token", "${token}")
 
                             // 도착 액티비티 수정 필요
@@ -318,10 +324,10 @@ class JoinInitialActivity : AppCompatActivity() {
                             }
 
                             if (status == "login") {
-                                loggedInIntent.putExtra("token", token)
+                                loggedInIntent.putExtra("email", email)
                                 startActivity(loggedInIntent)
                             } else if (status == "join") {
-                                joinIntent.putExtra("token", token)
+                                joinIntent.putExtra("email", email)
                                 startActivity(joinIntent)
                             }
                         }
@@ -331,7 +337,6 @@ class JoinInitialActivity : AppCompatActivity() {
                         Log.d("카카오 회원정보 가져오기 실패", "실패")
                     }
                 })
-
             }
             Log.e(TAG, "로그인 성공 ${token.accessToken}")
         }
