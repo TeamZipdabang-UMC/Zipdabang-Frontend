@@ -44,4 +44,9 @@ class CategoryAdeAdapter(private val context: CategoryAdeActivity, private val d
         return dataList.size
     }
 
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
 }

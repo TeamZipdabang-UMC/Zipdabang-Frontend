@@ -16,6 +16,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_home_iv"
             android:scaleType="fitXY"
             android:layout_marginHorizontal="10dp"

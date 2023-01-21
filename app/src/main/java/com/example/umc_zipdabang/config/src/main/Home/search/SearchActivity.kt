@@ -3,6 +3,7 @@ package com.example.umc_zipdabang.config.src.main.Home.search
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
+import android.text.Editable
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
@@ -62,8 +63,6 @@ class SearchActivity: AppCompatActivity() {
 
 
 
-
-
         var string=intent.getStringExtra("search")
 
         viewbinding.etSearch.setText(string)
@@ -73,7 +72,7 @@ class SearchActivity: AppCompatActivity() {
         if(renew!=null)
         {
             viewbinding.etSearch.setText(renew)
-            renew=null
+
 
         }
 
@@ -87,11 +86,11 @@ class SearchActivity: AppCompatActivity() {
                     KeyEvent.KEYCODE_ENTER -> {
                         val search= Intent(applicationContext,SearchActivity::class.java)
                             .setFlags( FLAG_ACTIVITY_CLEAR_TOP)
-                        search.putExtra("renew",string)
+                        search.putExtra("renew",viewbinding.etSearch.text.toString())
                         startActivity(search)
                     }
                 }
-                return true
+                return false
             }
         })
 

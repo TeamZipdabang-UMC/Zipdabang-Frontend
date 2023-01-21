@@ -2,10 +2,7 @@ package com.example.umc_zipdabang.config.src.main.Home
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.umc_zipdabang.config.src.main.*
@@ -93,13 +90,29 @@ class HomeFragment : Fragment() {
         viewBinding.homeRvReceipe.isNestedScrollingEnabled=false
 
 
+        viewBinding.etSearch.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(view: View?, i: Int, keyEvent: KeyEvent?): Boolean {
+                when (i) {
+                    KeyEvent.KEYCODE_ENTER -> {
+                        val search= Intent(context,SearchActivity::class.java)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        search.putExtra("search",viewBinding.etSearch.text.toString())
+                        startActivity(search)
+                    }
+                }
+                return false
+            }
+        })
+
+
 
         viewBinding.ivSearch.setOnClickListener{
 
             val intent= Intent(context, SearchActivity::class.java)
             intent.putExtra("search",viewBinding.etSearch.text.toString())
-            startActivity(intent)
 
+            startActivity(intent)
+            viewBinding.etSearch.setText("")
         }
 
 
