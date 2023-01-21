@@ -222,9 +222,7 @@ class SignupServiceagreeActivity: AppCompatActivity() {
         }
 
         viewBinding.signupBackbtn.setOnClickListener {
-            val intent = Intent(this, SignupResearchActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            startActivity(intent)
+            finish()
         }
     }
 }
