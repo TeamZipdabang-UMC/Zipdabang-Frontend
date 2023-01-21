@@ -7,6 +7,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_zipdabang.databinding.ActivityInitialBinding
 import com.kakao.sdk.common.util.Utility
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class InitialActivity: AppCompatActivity() {
 
@@ -19,6 +22,7 @@ class InitialActivity: AppCompatActivity() {
         viewBinding.btnSignIn.setOnClickListener {
             val intent = Intent(this, JoinInitialActivity::class.java)
             startActivity(intent)
+
         }
 
         // 카카오 키 해시값 확인 목적

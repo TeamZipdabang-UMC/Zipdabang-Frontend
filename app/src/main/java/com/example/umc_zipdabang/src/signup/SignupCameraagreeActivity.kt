@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,7 +35,8 @@ class SignupCameraagreeActivity : AppCompatActivity() {
             }
         }
 
-        val intent_email = intent.getStringExtra("email")
+        val intent_email = intent.getStringExtra("email").toString()
+        Log.d("카메라 스트링", "${intent_email}")
 
         viewBinding.signupOkaybtn.setOnClickListener {
             val intent = Intent(this, SignupFirstActivity::class.java)

@@ -26,11 +26,13 @@ class SignupSecondActivity : AppCompatActivity() {
         var birthday =viewBinding.signupRealedtBirthday
         var nextBtn = viewBinding.signupNextbtn
 
-        val intent_email = intent.getStringExtra("email")
-        birthday.setText(intent_email)
+        val intent_email = intent.getStringExtra("email").toString()
+        email.text = intent_email
+
+        Log.d("second 스트링", "${intent_email}")
 
         phonenumber.addTextChangedListener{
-            if(phonenumber.text.toString().length > 0 && email.text.toString().length >0 && birthday.text.toString().length>0){
+            if(phonenumber.text.toString().length > 0 && birthday.text.toString().length>0){
                 nextBtn.setEnabled(true)
                 nextBtn.setBackgroundResource(R.drawable.sign_btn_round_yellow)
                 nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_black)))
@@ -41,20 +43,20 @@ class SignupSecondActivity : AppCompatActivity() {
                 nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
             }
         }
-        email.addTextChangedListener{
-            if(phonenumber.text.toString().length > 0 && email.text.toString().length >0 && birthday.text.toString().length>0){
-                nextBtn.setEnabled(true)
-                nextBtn.setBackgroundResource(R.drawable.sign_btn_round_yellow)
-                nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_black)))
-            }
-            else{
-                nextBtn.setEnabled(false)
-                nextBtn.setBackgroundResource(R.drawable.sign_btn_round)
-                nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
-            }
-        }
+//        email.addTextChangedListener{
+//            if(phonenumber.text.toString().length > 0 && email.text.toString().length >0 && birthday.text.toString().length>0){
+//                nextBtn.setEnabled(true)
+//                nextBtn.setBackgroundResource(R.drawable.sign_btn_round_yellow)
+//                nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_black)))
+//            }
+//            else{
+//                nextBtn.setEnabled(false)
+//                nextBtn.setBackgroundResource(R.drawable.sign_btn_round)
+//                nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
+//            }
+//        }
         birthday.addTextChangedListener{
-            if(phonenumber.text.toString().length > 0 && email.text.toString().length >0 && birthday.text.toString().length>0){
+            if(phonenumber.text.toString().length > 0 && birthday.text.toString().length>0){
                 nextBtn.setEnabled(true)
                 nextBtn.setBackgroundResource(R.drawable.sign_btn_round_yellow)
                 nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_black)))
@@ -89,13 +91,13 @@ class SignupSecondActivity : AppCompatActivity() {
         var email_sp =sharedPreference.getString("email","")
         var birthday_sp =sharedPreference.getString("birthday","")
 
-        if(phonenumber_sp != null && email_sp !=null && birthday_sp !=null){
+        if(phonenumber_sp != null && birthday_sp !=null){
             phonenumber.setText(sharedPreference.getString("phonenumber",""))
-            email.setText(sharedPreference.getString("email",""))
+//            email.setText(sharedPreference.getString("email",""))
             birthday.setText(sharedPreference.getString("birthday",""))
         }else{
             phonenumber.setText(sharedPreference.getString("phonenumber",""))
-            email.setText(sharedPreference.getString("email",""))
+//            email.setText(sharedPreference.getString("email",""))
             birthday.setText(sharedPreference.getString("birthday",""))
         }
 
@@ -103,15 +105,15 @@ class SignupSecondActivity : AppCompatActivity() {
             if(!validPhonenumber()){
                 return@setOnClickListener
             }
-            if(!validEmail()){
-                return@setOnClickListener
-            }
+//            if(!validEmail()){
+//                return@setOnClickListener
+//            }
             if(!validBirthday()){
                 return@setOnClickListener
             }
 
             editor.putString("phonenumber",phonenumber.text.toString())
-            editor.putString("email",email.text.toString())
+            editor.putString("email", intent_email)
             editor.putString("birthday",birthday.text.toString())
             editor.apply()
 
@@ -127,7 +129,7 @@ class SignupSecondActivity : AppCompatActivity() {
         }
         viewBinding.signupBackbtn.setOnClickListener {
             editor.putString("phonenumber",phonenumber.text.toString())
-            editor.putString("email",email.text.toString())
+            editor.putString("email",intent_email)
             editor.putString("birthday",birthday.text.toString())
             editor.apply()
 
@@ -148,18 +150,18 @@ class SignupSecondActivity : AppCompatActivity() {
             true
         }
     }
-    private fun validEmail():Boolean{
-        val value: String = viewBinding.signupRealedtEmail?.text.toString().trim()
-        val emailpattern = android.util.Patterns.EMAIL_ADDRESS
-        //val emailpattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
-        return if(!value.matches(emailpattern.toRegex())){
-            viewBinding.signupRealedtEmail.error="이메일 형식이 잘못되었습니다."
-            false
-        } else{
-            viewBinding.signupRealedtEmail.error=null
-            true
-        }
-    }
+//    private fun validEmail():Boolean{
+//        val value: String = viewBinding.signupRealedtEmail?.text.toString().trim()
+//        val emailpattern = android.util.Patterns.EMAIL_ADDRESS
+//        //val emailpattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+//        return if(!value.matches(emailpattern.toRegex())){
+//            viewBinding.signupRealedtEmail.error="이메일 형식이 잘못되었습니다."
+//            false
+//        } else{
+//            viewBinding.signupRealedtEmail.error=null
+//            true
+//        }
+//    }
     private fun validBirthday():Boolean{
         val value: String = viewBinding.signupRealedtBirthday?.text.toString().trim()
         val birthdaypattern = "^[0-9-]{8}$"

@@ -187,7 +187,8 @@ class SignupServiceagreeActivity: AppCompatActivity() {
             }
         }
 
-        val intent_email = intent.getStringExtra("email")
+        val intent_email = intent.getStringExtra("email").toString()
+        Log.d("service 스트링", "${intent_email}")
 
         nextBtn.setOnClickListener {
             editor.putBoolean("must1", checkbtnmust1.isSelected)

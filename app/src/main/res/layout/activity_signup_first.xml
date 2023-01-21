@@ -109,7 +109,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/jipdabang_sign_text_gray"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -144,7 +145,8 @@
             android:background="@drawable/round"
             android:maxLength="10"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColor="@color/jipdabang_sign_text_gray"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
