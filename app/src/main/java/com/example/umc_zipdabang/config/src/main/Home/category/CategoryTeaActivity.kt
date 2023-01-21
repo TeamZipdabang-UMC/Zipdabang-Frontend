@@ -18,20 +18,26 @@ class CategoryTeaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCategory1Binding
 
     private var isLoading = false
-    var grid = 2
     private var scraps: ArrayList<My_Scrap> = arrayListOf()
-    private lateinit var adapter: loadingAdapter
+    private lateinit var adapter: CategoryTeaAdapter
     val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     private lateinit var layoutManager: GridLayoutManager
-   var eight=false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         setData()
         initAdapter()
         initScrollListener()
+        binding.tvCategory.text="티"
 
+        binding.myscrapIvBack.setOnClickListener{
+
+            onBackPressed()
+
+        }
 
     }
 
@@ -100,7 +106,7 @@ class CategoryTeaActivity : AppCompatActivity() {
     private fun initAdapter() {
         binding = ActivityCategory1Binding.inflate(layoutInflater)
         setContentView(binding.root)
-        adapter = loadingAdapter(this, scraps)
+        adapter = CategoryTeaAdapter(this, scraps)
         layoutManager = GridLayoutManager(this, 2)
         binding.categoryRv.setLayoutManager(layoutManager)
         binding.categoryRv.setAdapter(adapter)
@@ -157,8 +163,6 @@ class CategoryTeaActivity : AppCompatActivity() {
             Log.d("insert before","msg")
 
             adapter.notifyItemInserted(scraps.size - 1)
-
-
 
 
 
@@ -230,6 +234,7 @@ class CategoryTeaActivity : AppCompatActivity() {
                         12
                     )
                 )
+                Log.d("change before","msg")
 
 
                 adapter.notifyDataSetChanged()

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrap
+import com.example.umc_zipdabang.config.src.main.MainActivity
 import com.example.umc_zipdabang.databinding.ItemInfinteBinding
 import com.example.umc_zipdabang.databinding.ItemLoadingBinding
 
