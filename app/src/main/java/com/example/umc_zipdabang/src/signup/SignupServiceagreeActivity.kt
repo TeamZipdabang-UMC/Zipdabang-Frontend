@@ -187,6 +187,8 @@ class SignupServiceagreeActivity: AppCompatActivity() {
             }
         }
 
+        val intent_email = intent.getStringExtra("email")
+
         nextBtn.setOnClickListener {
             editor.putBoolean("must1", checkbtnmust1.isSelected)
             editor.putBoolean("must2",checkbtnmust2.isSelected)
@@ -197,6 +199,7 @@ class SignupServiceagreeActivity: AppCompatActivity() {
             //sharedPreference.getString("nickname","")?.let { Log.e(ContentValues.TAG, it) }
 
             val intent = Intent(this, SignupCameraagreeActivity::class.java)
+            intent.putExtra("email", intent_email)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }

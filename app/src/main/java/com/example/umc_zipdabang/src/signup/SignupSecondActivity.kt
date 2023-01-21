@@ -26,6 +26,9 @@ class SignupSecondActivity : AppCompatActivity() {
         var birthday =viewBinding.signupRealedtBirthday
         var nextBtn = viewBinding.signupNextbtn
 
+        val intent_email = intent.getStringExtra("email")
+        birthday.setText(intent_email)
+
         phonenumber.addTextChangedListener{
             if(phonenumber.text.toString().length > 0 && email.text.toString().length >0 && birthday.text.toString().length>0){
                 nextBtn.setEnabled(true)

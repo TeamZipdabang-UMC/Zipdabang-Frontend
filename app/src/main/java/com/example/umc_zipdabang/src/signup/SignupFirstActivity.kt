@@ -69,6 +69,8 @@ class SignupFirstActivity:AppCompatActivity() {
             nickname.setText("")
         }
 
+        val intent_email = intent.getStringExtra("email")
+
         nextBtn.setOnClickListener{
             if(!validNickname()){
                 return@setOnClickListener
@@ -112,6 +114,7 @@ class SignupFirstActivity:AppCompatActivity() {
             })
 
             val intent = Intent(this, SignupSecondActivity::class.java)
+            intent.putExtra("email", intent_email)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }
