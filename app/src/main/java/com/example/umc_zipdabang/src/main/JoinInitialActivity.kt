@@ -245,8 +245,16 @@ class JoinInitialActivity : AppCompatActivity() {
                                         val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
                                         val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
 
+//                                        GlobalScope.launch(Dispatchers.IO) {
+//                                            tokenDb.tokenDao().deleteAll()
+//                                        }
+
                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                                         val tokenClass = Token(null, token)
+
+//                                        GlobalScope.launch(Dispatchers.IO) {
+//                                            tokenDb.tokenDao().deleteAll()
+//                                        }
 
                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                                         GlobalScope.launch(Dispatchers.IO) {

@@ -39,8 +39,8 @@
         android:text="이메일"
         android:textColor="@color/jipdabang_black"
         android:textSize="14dp"
-        app:layout_constraintBottom_toTopOf="@id/signup_edt_email"
-        app:layout_constraintStart_toStartOf="@id/signup_edt_email" />
+        app:layout_constraintBottom_toTopOf="@id/signup_realedt_email"
+        app:layout_constraintStart_toStartOf="@id/signup_realedt_email" />
 
     <TextView
         android:id="@+id/signup_tv_describe"
@@ -88,7 +88,8 @@
             android:maxLength="8"
             android:hint="YYMMDD-0******"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColor="@color/jipdabang_sign_text_gray"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -135,7 +136,8 @@
             android:background="@drawable/round"
             android:maxLength="13"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColor="@color/jipdabang_sign_text_gray"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -149,27 +151,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.41"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:id="@+id/signup_edt_email"
+    <TextView
+        android:id="@+id/signup_realedt_email"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:boxStrokeColor="@color/jipdabang_sign_text_gray"
-        app:endIconMode="clear_text"
-        app:endIconTint="#EDEDED"
+        android:layout_height="56dp"
+        android:background="@drawable/round"
+        android:maxLines="1"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="@id/signup_edt_phonenumber"
         app:layout_constraintStart_toStartOf="@id/signup_edt_phonenumber"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.56" >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signup_realedt_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round"
-            android:maxLines="1"
-            android:singleLine="true"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintVertical_bias="0.56"
+        android:textColor="@color/jipdabang_sign_text_gray"
+        android:textSize="16dp"
+        tools:text="01010101"
+        android:gravity="center_vertical"
+        android:padding="16dp" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup_nextbtn"

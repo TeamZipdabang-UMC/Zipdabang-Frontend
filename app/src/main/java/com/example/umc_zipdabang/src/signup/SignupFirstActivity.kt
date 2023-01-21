@@ -69,7 +69,8 @@ class SignupFirstActivity:AppCompatActivity() {
             nickname.setText("")
         }
 
-        val intent_email = intent.getStringExtra("email")
+        val intent_email = intent.getStringExtra("email").toString()
+        Log.d("first 스트링", "${intent_email}")
 
         nextBtn.setOnClickListener{
             if(!validNickname()){
@@ -106,6 +107,10 @@ class SignupFirstActivity:AppCompatActivity() {
                         //!!!!!오류 메세지 띄워야함!!!!!
                     }else{ //닉네임 중복 아님
                         Log.d("통신","fail "+response.body()?.exist.toString())
+                        val intent = Intent(this@SignupFirstActivity, SignupSecondActivity::class.java)
+                        intent.putExtra("email", intent_email)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        startActivity(intent)
                     }
                 }
                 override fun onFailure(call: Call<GetNicknameExistResponse>, t: Throwable) {
@@ -113,10 +118,7 @@ class SignupFirstActivity:AppCompatActivity() {
                 }
             })
 
-            val intent = Intent(this, SignupSecondActivity::class.java)
-            intent.putExtra("email", intent_email)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            startActivity(intent)
+
         }
 
         viewBinding.signupBackbtn.setOnClickListener{
