@@ -162,7 +162,7 @@ class ZipdabangRecipeAdeActivity: AppCompatActivity() {
     }
 
 
-    fun moreItems() {
+    private fun moreItems() {
         val runnable = Runnable {
 
             adeRecipesList.add(AdeRecipesData(null, null, null))
