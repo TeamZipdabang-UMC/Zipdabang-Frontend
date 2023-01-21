@@ -55,6 +55,7 @@ class AllRecipesRVAdapter(private val allRecipesList: ArrayList<AllRecipesData>)
 //        })
     }
 
+
     override fun getItemCount(): Int = allRecipesList.size
 
 }
