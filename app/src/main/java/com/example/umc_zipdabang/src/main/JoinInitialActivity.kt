@@ -191,8 +191,6 @@ class JoinInitialActivity : AppCompatActivity() {
         }
 
 
-
-
         // '카카오 계정으로 시작하기' 클릭 시 카카오와 연동.
         // 카카오톡이 설치되어 있다면 카카오톡으로 이동, 그렇지 않다면 웹 상의 로그인 화면으로 이동
         viewBinding.btnKakaoLogin.setOnClickListener {
