@@ -2,6 +2,7 @@ package com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.NonNull
@@ -12,6 +13,7 @@ import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import com.example.umc_zipdabang.src.main.MainActivity
 import com.example.umc_zipdabang.src.main.ZipdabangRecipeFragment
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.AllRecipesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailCoffeeActivity
 import kotlinx.coroutines.NonDisposableHandle.parent
 
 class LoadingRVAdapter(private val context: MainActivity, private var dataList: ArrayList<AllRecipesData>) :
@@ -36,6 +38,11 @@ class LoadingRVAdapter(private val context: MainActivity, private var dataList: 
                 .load(item.picUrl)
                 .into(binding.ivRecipePreview)
             binding.ivRecipePreview.clipToOutline = true
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, ZipdabangRecipeDetailCoffeeActivity::class.java)
+                intent.run { itemView.context.startActivity(this)}
+            }
 
         }
     }

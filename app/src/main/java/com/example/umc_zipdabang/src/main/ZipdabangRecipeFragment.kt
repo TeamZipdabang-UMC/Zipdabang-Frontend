@@ -33,8 +33,6 @@ class ZipdabangRecipeFragment: Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        // 2. Context를 액티비티로 형변환해서 할당
         mainActivity = context as MainActivity
     }
 
@@ -54,10 +52,6 @@ class ZipdabangRecipeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewpager = viewBinding.viewpagerZipdabangRecipeBanner
         val viewpagerIndicator = viewBinding.viewpagerZipdabangRecipeBannerIndicator
-
-
-
-
 
         setData()
         initAdapter()
