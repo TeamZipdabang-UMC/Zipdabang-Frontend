@@ -49,10 +49,7 @@ class BeverageRecipesRVAdapter(private val context: ZipdabangRecipeBeverageActiv
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(context: Context, item: BeverageRecipesData) {
-
-
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

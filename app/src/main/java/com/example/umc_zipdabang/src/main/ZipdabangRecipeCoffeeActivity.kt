@@ -56,9 +56,7 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
 
-
             finish()
-
         }
     }
 
@@ -119,7 +117,6 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
                 12
             )
         )
-
 
     }
 
@@ -199,7 +196,55 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
                 coffeeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 
 
-
+                coffeeRecipesList.add(
+                    CoffeeRecipesData(
+                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+                        12
+                    )
+                )
+                coffeeRecipesList.add(
+                    CoffeeRecipesData(
+                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+                        12
+                    )
+                )
+                coffeeRecipesList.add(
+                    CoffeeRecipesData(
+                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+                        12
+                    )
+                )
+                coffeeRecipesList.add(
+                    CoffeeRecipesData(
+                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+                        12
+                    )
+                )
+                coffeeRecipesList.add(
+                    CoffeeRecipesData(
+                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+                        12
+                    )
+                )
+                coffeeRecipesList.add(
+                    CoffeeRecipesData(
+                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+                        12
+                    )
+                )
+                coffeeRecipesList.add(
+                    CoffeeRecipesData(
+                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+                        12
+                    )
+                )
                 coffeeRecipesList.add(
                     CoffeeRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
@@ -208,61 +253,9 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
                     )
                 )
 
-                coffeeRecipesList.add(
-                    CoffeeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
 
-                coffeeRecipesList.add(
-                    CoffeeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-
-                coffeeRecipesList.add(
-                    CoffeeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-
-                coffeeRecipesList.add(
-                    CoffeeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-
-                coffeeRecipesList.add(
-                    CoffeeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-
-                coffeeRecipesList.add(
-                    CoffeeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-
-                coffeeRecipesList.add(
-                    CoffeeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
+                coffeeRecipesRVAdapter.notifyDataSetChanged()
+                isLoading = false
 
             }
             runnable2.run()
