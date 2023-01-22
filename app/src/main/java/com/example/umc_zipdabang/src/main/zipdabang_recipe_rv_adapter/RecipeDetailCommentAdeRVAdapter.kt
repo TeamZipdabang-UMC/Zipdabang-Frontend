@@ -13,13 +13,14 @@ import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import com.example.umc_zipdabang.src.main.GlideApp
 import com.example.umc_zipdabang.src.main.ZipdabangRecipeSmoothieActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentAdeActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.Comment
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.SmoothieRecipesData
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailSmoothieActivity
 import java.time.LocalDate
 import java.time.LocalTime
 
-class RecipeDetailCommentRVAdapter(private val context: ZipdabangRecipeDetailCommentActivity, private var dataList: ArrayList<Comment>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecipeDetailCommentAdeRVAdapter(private val context: ZipdabangRecipeDetailCommentAdeActivity, private var dataList: ArrayList<Comment>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private fun update(list: ArrayList<Comment>) {
         this.dataList= list
     }
@@ -44,7 +45,7 @@ class RecipeDetailCommentRVAdapter(private val context: ZipdabangRecipeDetailCom
             binding.ivCommentProfile.clipToOutline = true
 
             itemView.setOnClickListener {
-                val intent = Intent(itemView.context, ZipdabangRecipeDetailCommentActivity::class.java)
+                val intent = Intent(itemView.context, ZipdabangRecipeDetailCommentAdeActivity::class.java)
                 intent.run {
                     itemView.context.startActivity(this)
                 }

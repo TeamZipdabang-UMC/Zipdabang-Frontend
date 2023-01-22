@@ -6,9 +6,9 @@ import java.time.LocalTime
 import java.util.Date
 
 data class Comment(
-    val profileImageUrl: String,
-    val nickname: String,
-    val date: LocalDate,
-    val time: LocalTime,
-    val content: String
+    val profileImageUrl: String?,
+    val nickname: String?,
+    val date: String?,
+    val time: String?,
+    val content: String?
 )
