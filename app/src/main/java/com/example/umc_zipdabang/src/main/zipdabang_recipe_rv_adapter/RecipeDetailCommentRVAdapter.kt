@@ -19,73 +19,34 @@ import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecip
 import java.time.LocalDate
 import java.time.LocalTime
 
-class RecipeDetailCommentRVAdapter(private val context: ZipdabangRecipeDetailCommentActivity, private var dataList: ArrayList<Comment>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private fun update(list: ArrayList<Comment>) {
-        this.dataList= list
-    }
-
-    private var VIEW_TYPE_ITEM = 0
-    private var VIEW_TYPE_LOADING = 1
-
-    class ItemViewHolder(private var binding: ItemCommentBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(context: Context, item: Comment) {
-//            val profileImageUrl: String,
-//            val nickname: String,
-//            val date: LocalDate,
-//            val time: LocalTime,
-//            val content: String
-            binding.tvCommentNickname.text = item.nickname
-            binding.tvCommentDate.text = item.date.toString()
-            binding.tvCommentContent.text = item.content.toString()
-            binding.tvCommentTime.text = item.time.toString()
-            Glide.with(context)
-                .load(item.profileImageUrl)
-                .into(binding.ivCommentProfile)
-            binding.ivCommentProfile.clipToOutline = true
-
-            itemView.setOnClickListener {
-                val intent = Intent(itemView.context, ZipdabangRecipeDetailCommentActivity::class.java)
-                intent.run {
-                    itemView.context.startActivity(this)
-                }
-            }
-        }
-    }
-
-    class LoadingViewHolder(private var binding: ItemLoadingBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(context: Context, item: Comment) {
-
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is ItemViewHolder) {
-            holder.bind(context, dataList[position])
-        } else if (holder is LoadingViewHolder) {
-            holder.bind(context, dataList[position])
-        }
-    }
-
-    @NonNull
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == VIEW_TYPE_ITEM) {
-            val binding = ItemCommentBinding.inflate(LayoutInflater.from(context), parent, false)
-            return ItemViewHolder(binding)
-        } else {
-            val binding = ItemLoadingBinding.inflate(LayoutInflater.from(context), parent, false)
-            return LoadingViewHolder(binding)
+class RecipeDetailCommentRVAdapter(private val commentsList: ArrayList<Comment>): RecyclerView.Adapter<RecipeDetailCommentRVAdapter.CommentsViewHolder>() {
+    inner class CommentsViewHolder(private val viewBinding: ItemCommentBinding): RecyclerView.ViewHolder(viewBinding.root) {
+        fun bind(comment: Comment) {
+            val profilePicUrl = comment.profileImageUrl
+            GlideApp.with(itemView)
+                .load(profilePicUrl)
+                .into(viewBinding.ivCommentProfile)
+            viewBinding.tvCommentNickname.text = comment.nickname
+            viewBinding.tvCommentDate.text = comment.date.toString()
+            viewBinding.tvCommentTime.text = comment.time.toString()
+            viewBinding.tvCommentContent.text = comment.content
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (dataList[position].nickname) {
-            null -> VIEW_TYPE_LOADING
-            else -> VIEW_TYPE_ITEM
-        }
+        return super.getItemViewType(position)
     }
 
-    override fun getItemCount(): Int {
-        return dataList.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder {
+        val viewBinding = ItemCommentBinding.inflate(LayoutInflater.from(parent.context))
+        return CommentsViewHolder(viewBinding)
     }
+
+    override fun onBindViewHolder(holder: CommentsViewHolder, position: Int) {
+        holder.bind(commentsList[position])
+
+    }
+
+    override fun getItemCount(): Int = commentsList.size
 
 }

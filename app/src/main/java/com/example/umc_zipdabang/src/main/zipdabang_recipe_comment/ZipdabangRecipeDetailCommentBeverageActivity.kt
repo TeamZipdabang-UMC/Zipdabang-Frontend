@@ -27,41 +27,45 @@ class ZipdabangRecipeDetailCommentBeverageActivity: AppCompatActivity() {
         val commentList: ArrayList<Comment> = arrayListOf()
         commentList.apply {
             add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
+                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
+                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
             )
+
             add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어요ㅗㅇ러ㅣ머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미asdfasdfasdfasdfa낭머")
+                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
+                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
             )
+
             add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어요ㅗㅇ러ㅣ머이ㅏㅁㄴ이ㅏㄻ니asdfasdfasdfasdf아ㅓ미낭머")
+                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
+                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
             )
+
             add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어asdfasdfasdfazxcvxzdfaeawdf요ㅗㅇ러ㅣ머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
+                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
+                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
             )
+
             add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어요ㅗㅇ러ㅣ머이ㅏㅁㄴ이ㅏㄻ니아ㅓasdfasdvcdawefasdcvadawe미낭머")
+                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
+                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
             )
+
             add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어요ㅗㅇ러ㅣ머이ㅏㅁㄴ이xzcasedfwaefasdㅏㄻ니아ㅓ미낭머")
+                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
+                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
             )
+
             add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어요ㅗㅇ러ㅣ머이ㅏㅁasfdddddasdfacewaefcwcawertㄴ이ㅏㄻ니아ㅓ미낭머")
+                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
+                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
             )
+
             add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어요ㅗㅇ러ㅣ머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미vxzdfaeae낭머")
+                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
+                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
             )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", LocalDate.of(2020, 11, 23),
-                    LocalTime.of(10, 10), "너무 맛ㄱ잇어요ㅗㅇ러ㅣ머이ㅏㅁaweraqdfavcasdfaqewfㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
+
 
         }
 

@@ -46,6 +46,12 @@
         <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailSmoothieActivity" />
         <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailWellbeingActivity" />
         <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity"/>
+        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentAdeActivity"/>
+        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentBeverageActivity"/>
+        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentCoffeeActivity"/>
+        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentSmoothieActivity"/>
+        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentTeaActivity"/>
+        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentWellbeingActivity"/>
     </application>
 
 </manifest>
