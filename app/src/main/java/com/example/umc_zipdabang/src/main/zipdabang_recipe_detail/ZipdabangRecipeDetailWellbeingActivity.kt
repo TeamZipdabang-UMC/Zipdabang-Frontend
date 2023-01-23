@@ -59,7 +59,7 @@ class ZipdabangRecipeDetailWellbeingActivity: AppCompatActivity() {
         }
 
         viewBinding.tvZipdabangRecipeCommentViewDetail.setOnClickListener {
-            val intent = Intent(this, ZipdabangRecipeDetailCommentActivity::class.java)
+            val intent = Intent(this, ZipdabangRecipeDetailCommentWellbeingActivity::class.java)
             startActivity(intent)
         }
 
