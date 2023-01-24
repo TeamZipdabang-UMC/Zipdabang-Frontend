@@ -116,7 +116,6 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
 
     class CommentInfiniteRVAdapter(val activity: ZipdabangRecipeDetailCommentActivity, private val commentNumberList: ArrayList<Comment>): RecyclerView.Adapter<CommentInfiniteRVAdapter.CommentInfiniteViewHolder>() {
 
-
         class CommentInfiniteViewHolder(private var binding: ItemCommentBinding): RecyclerView.ViewHolder(binding.root){
             fun bind(context: Context, item: Comment) {
 
@@ -130,8 +129,7 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
 
                 binding.ivCommentControl.setOnClickListener {
                     val commentEditDeleteDialogView = LayoutInflater.from(context).inflate(R.layout.comment_control_dialog, null)
-                    val commentEditDeleteDialogBuilder = AlertDialog.Builder(context)
-                        .setView(commentEditDeleteDialogView)
+                    val commentEditDeleteDialogBuilder = AlertDialog.Builder(context).setView(commentEditDeleteDialogView)
 
                     val commentEditDeleteDialog = commentEditDeleteDialogBuilder.create()
                     commentEditDeleteDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

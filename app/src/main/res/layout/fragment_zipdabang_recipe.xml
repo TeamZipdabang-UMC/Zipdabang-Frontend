@@ -38,23 +38,16 @@
             android:layout_height="match_parent"
             android:background="#F5F5F5">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewpager_zipdabang_recipe_banner"
-                android:background="#F5F5F5"
+            <ImageView
+                android:id="@+id/iv_zipdabang_recipe_banner"
+                android:background="@color/jipdabang_login_bt_gray"
                 android:layout_width="0dp"
                 android:layout_height="240dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="56dp" />
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/viewpager_zipdabang_recipe_banner_indicator"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="#F5F5F5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewpager_zipdabang_recipe_banner" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_zipdabang_recipe_categories"
@@ -62,9 +55,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewpager_zipdabang_recipe_banner_indicator" />
+                app:layout_constraintTop_toBottomOf="@id/iv_zipdabang_recipe_banner" />
 
             <View
                 android:id="@+id/line_categories_all"
@@ -99,17 +93,6 @@
                 app:layout_constraintStart_toStartOf="@id/view_all_recipes"
                 app:layout_constraintTop_toTopOf="@id/view_all_recipes"
                 app:layout_constraintBottom_toBottomOf="@id/view_all_recipes"/>
-
-            <Spinner
-                android:id="@+id/spinner_all_recipes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@id/view_all_recipes"
-                app:layout_constraintTop_toTopOf="@id/view_all_recipes"
-                app:layout_constraintBottom_toBottomOf="@id/view_all_recipes"
-                android:layout_marginEnd="24dp"
-                android:entries="@array/zipdabang_recipe_view_order"
-                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_zipdabang_recipe_all"

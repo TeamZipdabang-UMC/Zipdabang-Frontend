@@ -50,8 +50,6 @@ class ZipdabangRecipeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewpager = viewBinding.viewpagerZipdabangRecipeBanner
-        val viewpagerIndicator = viewBinding.viewpagerZipdabangRecipeBannerIndicator
 
         setData()
         initAdapter()
