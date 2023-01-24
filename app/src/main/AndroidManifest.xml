@@ -28,6 +28,9 @@
         <activity android:name=".src.my.MyWritingActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".src.my.MySettingActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

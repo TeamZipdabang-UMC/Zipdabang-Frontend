@@ -2,19 +2,15 @@ package com.example.umc_zipdabang.src.my
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.umc_zipdabang.databinding.ActivityMyWritingBinding
+import com.example.umc_zipdabang.databinding.ActivityMySettingBinding
 
-class MyWritingActivity:AppCompatActivity() {
-    private lateinit var viewBinding: ActivityMyWritingBinding
+class MySettingActivity :AppCompatActivity(){
+    private lateinit var viewBinding: ActivityMySettingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewBinding = ActivityMyWritingBinding.inflate(layoutInflater)
+        viewBinding = ActivityMySettingBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-
-        viewBinding.myIngredientPlusbtn.setOnClickListener {
-
-        }
 
         viewBinding.myBackbtn.setOnClickListener {
             finish()
