@@ -69,10 +69,8 @@ class MyFragment : Fragment(){
             startActivity(intent)
         }
         viewBinding.myBtnIcon2.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.mainfragmentcontainer, MySaveFragment())
-                .addToBackStack(null)
-                .commit()
+            val intent = Intent(activity, MySaveActivity::class.java)
+            startActivity(intent)
         }
         viewBinding.myBtnIcon3.setOnClickListener {
             parentFragmentManager.beginTransaction()

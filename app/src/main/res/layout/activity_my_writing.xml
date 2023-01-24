@@ -2,6 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -102,7 +103,8 @@
         app:layout_constraintEnd_toStartOf="@id/my_empty_tv2"
         app:layout_constraintHorizontal_weight="312"
         app:layout_constraintStart_toEndOf="@id/my_empty_tv1"
-        app:layout_constraintTop_toBottomOf="@id/my_albumbtn">
+        app:layout_constraintTop_toBottomOf="@id/my_albumbtn"
+        app:layout_constraintBottom_toTopOf="@id/my_linear_time">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,7 +148,8 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/my_linear_tital"
         app:layout_constraintStart_toStartOf="@id/my_linear_tital"
-        app:layout_constraintEnd_toEndOf="@id/my_linear_tital">
+        app:layout_constraintEnd_toEndOf="@id/my_linear_tital"
+        app:layout_constraintBottom_toTopOf="@id/my_linear_describe">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -187,7 +190,8 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/my_linear_time"
         app:layout_constraintStart_toStartOf="@id/my_linear_tital"
-        app:layout_constraintEnd_toEndOf="@id/my_linear_tital">
+        app:layout_constraintEnd_toEndOf="@id/my_linear_tital"
+        app:layout_constraintBottom_toTopOf="@id/my_linear_ingredient">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -227,7 +231,8 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/my_linear_describe"
         app:layout_constraintStart_toStartOf="@id/my_linear_tital"
-        app:layout_constraintEnd_toEndOf="@id/my_linear_tital">
+        app:layout_constraintEnd_toEndOf="@id/my_linear_tital"
+        app:layout_constraintBottom_toTopOf="@id/my_linear_step">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -236,6 +241,7 @@
             android:textColor="@color/jipdabang_black"
             android:textSize="20dp" />
         <LinearLayout
+            android:id="@+id/my_linear_ingredient_tital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -259,78 +265,172 @@
                 android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
-            android:id='@+id/my_recipe_ingredient'
+                android:id='@+id/my_linear_ingredient_user'
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/my_recipe_tv_ingredientname"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:layout_gravity="start"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="#999999"
+                    app:counterMaxLength="100"
+                    app:errorEnabled="true"
+                    app:endIconTint="#EDEDED"
+                    android:layout_weight="5">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/my_recipe_edt_ingredientname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:background="@drawable/round"
+                        android:fontFamily="@font/notosanskrregular"
+                        android:hint="예) 우유"
+                        android:singleLine="true"
+                        android:textColor="@color/jipdabang_black"
+                        android:textColorHint="#999999"
+                        android:textSize="14dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/my_recipe_tv_ingredientqun"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="14dp"
+                    android:layout_marginEnd="2dp"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="#999999"
+                    app:counterMaxLength="100"
+                    app:errorEnabled="true"
+                    android:layout_weight="4.5">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/my_recipe_edt_ingredientqun"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:background="@drawable/round"
+                        android:fontFamily="@font/notosanskrregular"
+                        android:hint="예) 100ml"
+                        android:singleLine="true"
+                        android:textColor="@color/jipdabang_black"
+                        android:textColorHint="#999999"
+                        android:textSize="14dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10">
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/my_recipe_tv_ingredientname"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:layout_gravity="start"
-                app:hintEnabled="false"
-                app:boxStrokeColor="#999999"
-                app:counterMaxLength="100"
-                app:errorEnabled="true"
-                android:layout_weight="5">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/my_recipe_edt_ingredientname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:background="@drawable/round"
-                    android:fontFamily="@font/notosanskrregular"
-                    android:hint="예) 우유"
-                    android:textColor="@color/jipdabang_black"
-                    android:textColorHint="#999999"
-                    android:textSize="14dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"/>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/my_recipe_tv_ingredientqun"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:textSize="14dp"
-                android:layout_marginEnd="2dp"
-                app:hintEnabled="false"
-                app:boxStrokeColor="#999999"
-                app:counterMaxLength="100"
-                app:errorEnabled="true"
-                android:layout_weight="4.5">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/my_recipe_edt_ingredientqun"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:background="@drawable/round"
-                    android:fontFamily="@font/notosanskrregular"
-                    android:hint="예) 100ml"
-                    android:textColor="@color/jipdabang_black"
-                    android:textColorHint="#999999"
-                    android:textSize="14dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+            android:orientation="vertical"
+            android:id="@+id/my_linear_ingredient_plusframe"/>
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/my_ingredient_plusbtn"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="-12dp"
-            android:background="#EDEDED"
+            android:visibility="visible"
+            android:background="@drawable/my_btn_round"
             android:src="@drawable/my_plusicon"/>
+        <TextView
+            android:id="@+id/my_ingredient_numtv"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1/10"
+            android:textSize="12dp"
+            android:textColor="#767676"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/my_linear_step"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/my_linear_ingredient"
+        app:layout_constraintStart_toStartOf="@id/my_linear_tital"
+        app:layout_constraintEnd_toEndOf="@id/my_linear_tital"
+        app:layout_constraintBottom_toTopOf="@id/my_linear_aftertip">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/notosanskrbold"
+            android:text="레시피 순서"
+            android:textColor="@color/jipdabang_black"
+            android:textSize="20dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatButton
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/round"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Step1 사진 첨부"
+            android:textAlignment="center"
+            android:textSize="16dp"
+            android:textColor="#767676"
+            android:fontFamily="@font/notosanskrregular"
+            android:layout_marginBottom="8dp"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/my_recipe_tv_step"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-4dp"
+            android:textSize="14dp"
+            app:hintEnabled="false"
+            app:boxStrokeColor="#999999"
+            app:counterEnabled="true"
+            app:counterMaxLength="200"
+            app:errorEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/my_recipe_edt_step"
+                android:layout_width="match_parent"
+                android:layout_height="228dp"
+                android:gravity="top"
+                android:background="@drawable/round"
+                android:fontFamily="@font/notosanskrregular"
+                android:hint="레시피를 만드는 방법의 1단계를 설명해 주세요. \n(최대 200자)"
+                android:textColor="@color/jipdabang_black"
+                android:textColorHint="#999999"
+                android:textSize="14dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/my_linear_step_plusframe"/>
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/my_step_plusbtn"
+            android:layout_width="match_parent"
+            android:visibility="visible"
+            android:layout_height="52dp"
+            android:background="@drawable/my_btn_round"
+            android:src="@drawable/my_plusicon"/>
+        <TextView
+            android:id="@+id/my_step_numtv"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Step1/Step10"
+            android:textSize="12dp"
+            android:textColor="#767676"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/my_linear_aftertip"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/my_linear_ingredient"
+        app:layout_constraintTop_toBottomOf="@id/my_linear_step"
         app:layout_constraintStart_toStartOf="@id/my_linear_tital"
         app:layout_constraintEnd_toEndOf="@id/my_linear_tital"
         app:layout_constraintBottom_toTopOf="@id/my_btnbar">
@@ -371,7 +471,9 @@
         android:id="@+id/my_btnbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:weightSum="2"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:weightSum="9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/my_linear_tital"
         app:layout_constraintEnd_toEndOf="@id/my_linear_tital">
@@ -379,19 +481,25 @@
             android:id="@+id/my_savebtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="4"
+            style="?android:attr/borderlessButtonStyle"
             android:clickable="false"
-            android:background="#EDEDED"
+            android:background="@drawable/my_btn_round"
             android:text="임시저장"
             android:textSize="16dp"
             android:fontFamily="@font/notosanskrbold"
-            android:textColor="#999999"/>
+            android:textColor="@color/jipdabang_black" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/my_uploadbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#EDEDED"
+            android:layout_weight="4"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="@drawable/my_btn_round"
             android:clickable="false"
             android:text="업로드"
             android:textSize="16dp"
