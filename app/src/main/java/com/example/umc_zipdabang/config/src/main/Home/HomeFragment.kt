@@ -71,6 +71,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewBinding = FragmentHomeBinding.inflate(layoutInflater)
+
+        //마이스크랩 부분
         viewBinding.homeRvMyScrap.layoutManager= LinearLayoutManager(activity as MainActivity, LinearLayoutManager.VERTICAL,false)
         val adapter1 = MainScrapAdapter(activity as MainActivity, scraplist)
         viewBinding.homeRvMyScrap.adapter= adapter1
@@ -82,14 +84,14 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-
+      //카테고리별 음료
         viewBinding.homeRvReceipe.layoutManager= LinearLayoutManager(activity as MainActivity, LinearLayoutManager.VERTICAL,false)
         val adapter2 = ReceipeAdapter(activity as MainActivity,category)
         viewBinding.homeRvReceipe.adapter= adapter2
         adapter2.notifyDataSetChanged()
         viewBinding.homeRvReceipe.isNestedScrollingEnabled=false
 
-
+        //검색(엔터키 사용)
         viewBinding.etSearch.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(view: View?, i: Int, keyEvent: KeyEvent?): Boolean {
                 when (i) {
@@ -98,6 +100,8 @@ class HomeFragment : Fragment() {
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         search.putExtra("search",viewBinding.etSearch.text.toString())
                         startActivity(search)
+                        viewBinding.etSearch.setText("")
+
                     }
                 }
                 return false
@@ -105,7 +109,7 @@ class HomeFragment : Fragment() {
         })
 
 
-
+        //검색(검색 이미지 누름)
         viewBinding.ivSearch.setOnClickListener{
 
             val intent= Intent(context, SearchActivity::class.java)
@@ -116,6 +120,7 @@ class HomeFragment : Fragment() {
         }
 
 
+        //카테고리별 목록 이동
         adapter2.setOnItemClickListener(object : ReceipeAdapter.OnItemClickListener {
             override fun onItemClick(v: View?, pos: Int) {
 
