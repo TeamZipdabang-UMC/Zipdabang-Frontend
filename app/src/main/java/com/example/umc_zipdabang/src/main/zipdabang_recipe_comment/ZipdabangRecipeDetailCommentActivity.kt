@@ -1,20 +1,24 @@
 package com.example.umc_zipdabang.src.main.zipdabang_recipe_comment
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuView.ItemView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,10 +27,14 @@ import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
+import com.example.umc_zipdabang.src.main.CommentItemAdapter
+import com.example.umc_zipdabang.src.main.MainActivity
+import com.example.umc_zipdabang.src.main.ZipdabangRecipeAdeActivity
 import com.example.umc_zipdabang.src.main.decoration.AdapterDecoration
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.BeverageRecipesData
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.Comment
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailCoffeeActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.BeverageRecipesRVAdapter
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.RecipeDetailCommentRVAdapter
@@ -38,10 +46,10 @@ import java.time.LocalTime
 
 class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
     lateinit var viewBinding: ActivityZipdabangRecipeDetailCommentBinding
-    val commentNumberList: MutableList<Comment> = ArrayList()
-    var page = 1
-    var isLoading = false
-    var limit = 12
+    private val commentNumberList = ArrayList<Comment>()
+    private var page = 1
+    private var isLoading = false
+    private var limit = 12
 
     private lateinit var progressBar: ProgressBar
 
@@ -77,54 +85,10 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
             }
         })
 
-
-        val commentList: ArrayList<Comment> = arrayListOf()
-        commentList.apply {
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-            add(
-                Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png","김기문", "12345",
-                    "6789", "너무 맛ㄱ잇어요ㅗㅇ러ㅣasdfasdfsasafasdfasdfa머이ㅏㅁㄴ이ㅏㄻ니아ㅓ미낭머")
-            )
-
-        }
-
-        val commentRVAdapter = RecipeDetailCommentRVAdapter(commentList)
-//        viewBinding.rvZipdabangRecipeDetailComment.adapter = commentRVAdapter
-//        viewBinding.rvZipdabangRecipeDetailComment.layoutManager = LinearLayoutManager(this)
         viewBinding.ivZipdabangRecipeDetailCommentsBackarrow.setOnClickListener {
             finish()
         }
+
         viewBinding.rvZipdabangRecipeDetailComment.addItemDecoration(AdapterDecoration())
 
         // 댓글 업로드 버튼 눌렀을 때
@@ -140,12 +104,16 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
             viewBinding.editTextComment.text = null
         }
 
+
+
     }
 
-    class CommentInfiniteRVAdapter(val activity: ZipdabangRecipeDetailCommentActivity): RecyclerView.Adapter<CommentInfiniteRVAdapter.CommentInfiniteViewHolder>() {
+    class CommentInfiniteRVAdapter(val activity: ZipdabangRecipeDetailCommentActivity, private val commentNumberList: ArrayList<Comment>): RecyclerView.Adapter<CommentInfiniteRVAdapter.CommentInfiniteViewHolder>() {
+
 
         class CommentInfiniteViewHolder(private var binding: ItemCommentBinding): RecyclerView.ViewHolder(binding.root){
             fun bind(context: Context, item: Comment) {
+
 
                 binding.tvCommentNickname.text= item.nickname
                 binding.tvCommentDate.text=item.date
@@ -154,28 +122,96 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
                 binding.tvCommentTime.text = item.time
                 binding.tvCommentContent.text = item.content
 
-                itemView.setOnClickListener {
-//                    val intent = Intent(itemView.context, ZipdabangRecipeDetailCoffeeActivity::class.java)
-//                    intent.run { itemView.context.startActivity(this)}
+                binding.ivCommentControl.setOnClickListener {
+                    val commentEditDeleteDialogView = LayoutInflater.from(context).inflate(R.layout.comment_control_dialog, null)
+                    val commentEditDeleteDialogBuilder = AlertDialog.Builder(context)
+                        .setView(commentEditDeleteDialogView)
+
+                    val commentEditDeleteDialog = commentEditDeleteDialogBuilder.create()
+                    commentEditDeleteDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    commentEditDeleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    commentEditDeleteDialog.window?.setGravity(Gravity.BOTTOM)
+                    commentEditDeleteDialog.window?.attributes?.width = WindowManager.LayoutParams.WRAP_CONTENT
+                    commentEditDeleteDialog.window?.attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
+
+                    commentEditDeleteDialog.show()
+
+                    val commentPopupExitButton = commentEditDeleteDialogView.findViewById<ImageView>(R.id.btn_comment_control_exit)
+                    val commentPopupEditButton = commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_edit)
+                    val commentPopupDeleteButton = commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_delete)
+
+                    commentPopupExitButton.setOnClickListener {
+                        commentEditDeleteDialog.dismiss()
+                    }
+
+                    // 댓글 수정 선택 시
+                    commentPopupEditButton.setOnClickListener {
+
+                    }
+
+                    // 댓글 삭제 선택 시
+                    commentPopupDeleteButton.setOnClickListener {
+                        commentEditDeleteDialog.dismiss()
+
+                        val commentDeleteDialogView = LayoutInflater.from(context).inflate(R.layout.comment_delete_dialog, null)
+                        val commentDeleteDialogBuilder = AlertDialog.Builder(context)
+                            .setView(commentDeleteDialogView)
+                        val commentDeleteDialog = commentDeleteDialogBuilder.create()
+                        commentDeleteDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        commentDeleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        commentDeleteDialog.window?.setGravity(Gravity.BOTTOM)
+                        commentDeleteDialog.window?.attributes?.width = WindowManager.LayoutParams.WRAP_CONTENT
+                        commentDeleteDialog.window?.attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
+
+                        commentDeleteDialog.show()
+
+                        val commentFinalDeleteButton = commentDeleteDialogView.findViewById<TextView>(R.id.btn_comment_final_delete)
+                        val commentFinalCancelButton = commentDeleteDialogView.findViewById<TextView>(R.id.btn_comment_final_cancel)
+
+                        // 정말 삭제하시겠습니까? - 삭제 클릭 시
+                        commentFinalDeleteButton.setOnClickListener {
+
+                        }
+
+                        // 취소 클릭 시
+                        commentFinalCancelButton.setOnClickListener {
+                            commentDeleteDialog.dismiss()
+                        }
+
+                    }
                 }
 
+            }
+
+            init {
+                binding.ivCommentControl.setOnClickListener(View.OnClickListener {
+                    val moveIntent = Intent(binding.ivCommentControl?.context, MainActivity::class.java)
+                    binding.ivCommentControl?.context?.startActivity(moveIntent)
+                })
             }
         }
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): CommentInfiniteViewHolder {
+        ): CommentInfiniteRVAdapter.CommentInfiniteViewHolder {
             val viewBinding_viewholder = ItemCommentBinding.inflate(LayoutInflater.from(parent.context))
             return CommentInfiniteRVAdapter.CommentInfiniteViewHolder(viewBinding_viewholder)
+
+
         }
 
-        override fun onBindViewHolder(holder: CommentInfiniteViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: CommentInfiniteRVAdapter.CommentInfiniteViewHolder, position: Int) {
             holder.bind(activity, activity.commentNumberList[position])
+
         }
 
         override fun getItemCount(): Int {
             return activity.commentNumberList.size
+        }
+
+        override fun getItemViewType(position: Int): Int {
+            return position
         }
     }
 
@@ -205,7 +241,7 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
             if (::adapter.isInitialized) {
                 adapter.notifyDataSetChanged()
             } else {
-                adapter = CommentInfiniteRVAdapter(this)
+                adapter = ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(this, commentNumberList)
                 viewBinding.rvZipdabangRecipeDetailComment.adapter = adapter
             }
             isLoading = false
