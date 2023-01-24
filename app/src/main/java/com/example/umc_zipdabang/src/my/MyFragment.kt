@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.FragmentMyBinding
+import com.example.umc_zipdabang.src.my.data.IntroChallengedoneRVAdapter
+import com.example.umc_zipdabang.src.my.data.IntroChallengingRVAdapter
 import com.example.umc_zipdabang.src.my.data.ItemRecipeData
 import com.example.umc_zipdabang.src.my.data.ItemRecipeRVAdapter
 
@@ -29,20 +31,30 @@ class MyFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //datalist 생성과 adapter,layoutmanager 연결.
+        val challengedoneList: ArrayList<ItemRecipeData> = arrayListOf()
+        val challengedoneRVAdapter = IntroChallengedoneRVAdapter(challengedoneList)
+        challengedoneList.apply{
+            add(ItemRecipeData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png","녹차를 마시는데 20자 정도 들어가야지지",123))
+            add(ItemRecipeData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png","녹차를 마시는데 20자 정도 들어가야지지",123))
+        }
+        viewBinding.myRvChallengedone.adapter = challengedoneRVAdapter
+        viewBinding.myRvChallengedone.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        val challengingList: ArrayList<ItemRecipeData> = arrayListOf()
+        val challengingRVAdapter = IntroChallengingRVAdapter(challengingList)
+        challengingList.apply{
+            add(ItemRecipeData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png","녹차를 마시는데 20자 정도 들어가야지지",123))
+            add(ItemRecipeData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png","녹차를 마시는데 20자 정도 들어가야지지",123))
+        }
+        viewBinding.myRvChallenging.adapter = challengingRVAdapter
+        viewBinding.myRvChallenging.layoutManager = GridLayoutManager(requireContext(),2)
+
         val itemRecipeList:ArrayList<ItemRecipeData> = arrayListOf()
+        val itemRecipeRVAdapter = ItemRecipeRVAdapter(itemRecipeList)
         itemRecipeList.apply{
             add(ItemRecipeData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png","녹차를 마시는데 20자 정도 들어가야지지",123))
             add(ItemRecipeData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png","녹차를 마시는데 20자 정도 들어가야지지",123))
         }
-        val itemRecipeRVAdapter = ItemRecipeRVAdapter(itemRecipeList)
-
-        viewBinding.myRvChallenging.adapter = itemRecipeRVAdapter
-        viewBinding.myRvChallenging.layoutManager = GridLayoutManager(requireContext(),2)
-
-        viewBinding.myRvChallengedone.adapter = itemRecipeRVAdapter
-        viewBinding.myRvChallengedone.layoutManager = GridLayoutManager(requireContext(),2)
-
         viewBinding.myRvMyscrap.adapter = itemRecipeRVAdapter
         viewBinding.myRvMyscrap.layoutManager = GridLayoutManager(requireContext(),2)
 

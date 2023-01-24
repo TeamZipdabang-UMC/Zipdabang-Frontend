@@ -23,6 +23,8 @@ class MyChallengingFragment: Fragment() {
         return viewBinding.root
     }
 
+    //back버튼 구현
+    ////레시피 총 갯수 서버한테 받기
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.myBackbtn.setOnClickListener {

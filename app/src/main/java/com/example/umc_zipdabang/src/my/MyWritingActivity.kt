@@ -13,12 +13,22 @@ class MyWritingActivity:AppCompatActivity() {
     private lateinit var viewBinding: ActivityMyWritingBinding
     private lateinit var viewBinding2: LayoutStepBinding
 
+    //sharedpreference 연동하기->임시저장 만들자->api 통신
+    //임시저장, 업로드 누를떄 dialog 제작하기
+
+    //업로드 버튼 다 썼을때 활성화되게 하기
+    //재료 삭제 버튼 만들기, 스텝 삭제 버튼 있나?
+
+
+    //오류 메세지 띄우기
+    ////layoutinflater text 왜 안변해...
+
+    ////임시저장 하나만 할수 있다고 하기
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityMyWritingBinding.inflate(layoutInflater)
         viewBinding2 = LayoutStepBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-
 
         var num : Int = 1
         viewBinding.myIngredientPlusbtn.setOnClickListener {

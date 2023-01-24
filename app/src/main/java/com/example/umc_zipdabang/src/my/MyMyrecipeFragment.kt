@@ -43,6 +43,8 @@ class MyMyrecipeFragment : Fragment(){
         return viewBinding.root
     }
 
+    //back버튼 구현
+    ////레시피 총 갯수 서버한테 받기
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.myBackbtn.setOnClickListener {
@@ -54,7 +56,7 @@ class MyMyrecipeFragment : Fragment(){
         initAdapter()
         initScrollListener()
 
-        viewBinding.myTvv.setText(allRecipesList.size.toString())
+       //viewBinding.myTvv.setText(allRecipesList.size.toString())
     }
 
     private fun setData() {

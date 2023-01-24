@@ -471,9 +471,9 @@
         android:id="@+id/my_btnbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="12dp"
-        android:weightSum="9"
+        android:weightSum="8.5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/my_linear_tital"
         app:layout_constraintEnd_toEndOf="@id/my_linear_tital">
@@ -492,7 +492,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="0.5"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/my_uploadbtn"
             android:layout_width="wrap_content"
