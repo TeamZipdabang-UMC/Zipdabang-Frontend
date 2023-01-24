@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.databinding.ActivityMainBinding.inflate
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
@@ -104,6 +105,11 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
             viewBinding.editTextComment.text = null
         }
 
+//        val deleteCommentView = findViewById<TextView>(R.id.btn_comment_final_delete)
+//        deleteCommentView.setOnClickListener {
+//            showCommentDeleteToast()
+//        }
+
 
 
     }
@@ -183,12 +189,6 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
 
             }
 
-            init {
-                binding.ivCommentControl.setOnClickListener(View.OnClickListener {
-                    val moveIntent = Intent(binding.ivCommentControl?.context, MainActivity::class.java)
-                    binding.ivCommentControl?.context?.startActivity(moveIntent)
-                })
-            }
         }
 
         override fun onCreateViewHolder(
@@ -248,4 +248,17 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
             progressBar.visibility = View.GONE
         },2000)
     }
+
+    // 토스트 띄우기
+    private fun showCommentDeleteToast() {
+        Toast(this).apply {
+            duration = Toast.LENGTH_SHORT
+            setGravity(Gravity.BOTTOM, 0, 0)
+            val layout: View = layoutInflater.inflate(R.layout.toast_comment_delete_layout, findViewById(R.id.toast_delete))
+            view = layout
+        }.show()
+
+    }
+
+
 }
