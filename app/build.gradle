@@ -54,4 +54,6 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.14.0'
     //textinputlayout 사용
     implementation 'com.google.android.material:material:1.2.1'
+    //scroll 관련
+    implementation 'com.google.android.material:material:1.0.0'
 }
