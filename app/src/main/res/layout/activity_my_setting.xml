@@ -95,14 +95,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.3" />
 
-        <TextView
+        <ImageView
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/sign_roundbtn_checking"
+            android:src="@drawable/my_check_round"
             android:gravity="center"
-            android:text="x"
-            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/et_nickname"
             app:layout_constraintEnd_toEndOf="@id/et_nickname"
             app:layout_constraintTop_toTopOf="@id/et_nickname"/>
@@ -120,14 +118,43 @@
             android:id="@+id/write_2to10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2~10글자의 한글,영어,숫자를 입력해주세요"
+            android:text="2~10글자의 한글, 영어, 숫자를 입력해주세요"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintHorizontal_bias="0.098"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_nickname"
-            app:layout_constraintVertical_bias="0.08" />
+            app:layout_constraintVertical_bias="0.095" />
+
+        <ImageView
+            android:id="@+id/iv_warning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/my_warning"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/write_2to10"
+            app:layout_constraintVertical_bias="0.03" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/iv_warning"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="닉네임에 형식에 맞추어 입력해주세요"
+            android:fontFamily="@font/notosanskrfont"
+            android:includeFontPadding="false"
+
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/write_2to10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.01"
+            app:layout_constraintHorizontal_bias="0.1"
+            android:textColor="#FF0000"
+            />
 
         <TextView
             android:id="@+id/tv_title_email"
@@ -155,6 +182,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title_email"
             app:layout_constraintVertical_bias="0.1" />
+
+
+
 
         <View
             android:layout_width="350dp"
