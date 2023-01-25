@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.databinding.ActivityJoinInitialBinding
 import com.example.umc_zipdabang.src.main.KakaoRetrofitManager.Companion.kakaoRetrofit
 import com.example.umc_zipdabang.src.main.model.GoogleResponse
@@ -137,7 +138,7 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         Log.d("구글 회원 token", "${token}")
 
                                                         // 도착 액티비티 수정 필요
-                                                        val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                                                        val loggedInIntent = Intent(this@JoinInitialActivity, HomeMainActivity::class.java)
                                                         val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
 
                                                         val tokenClass = Token(null, token)
@@ -242,7 +243,7 @@ class JoinInitialActivity : AppCompatActivity() {
                                         Log.d("카카오 회원 token", "${token}")
 
                                         // 도착 액티비티 수정 필요
-                                        val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                                        val loggedInIntent = Intent(this@JoinInitialActivity, HomeMainActivity::class.java)
                                         val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
 
 //                                        GlobalScope.launch(Dispatchers.IO) {
@@ -321,7 +322,7 @@ class JoinInitialActivity : AppCompatActivity() {
                             Log.d("카카오 회원 token", "${token}")
 
                             // 도착 액티비티 수정 필요
-                            val loggedInIntent = Intent(this@JoinInitialActivity, MainActivity::class.java)
+                            val loggedInIntent = Intent(this@JoinInitialActivity, HomeMainActivity::class.java)
                             val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
 
                             // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
