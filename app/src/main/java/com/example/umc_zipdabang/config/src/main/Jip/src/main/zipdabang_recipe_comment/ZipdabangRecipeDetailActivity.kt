@@ -101,6 +101,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 )
             )
         }
+
         viewBinding.rvZipdabangRecipeComments.layoutManager = LinearLayoutManager(this)
         viewBinding.rvZipdabangRecipeComments.adapter = recipeDetailCommentRVAdapter
 

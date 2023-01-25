@@ -75,6 +75,7 @@ class ZipdabangRecipeFragment: Fragment() {
 //            // 키를 통해 값을 조회하는 형식으로 데이터를 가져옴.
 //        }
 //
+
         val categoriesList: ArrayList<CategoriesData> = arrayListOf()
         categoriesList.apply {
             // add(CategoriesData(사진, 카테고리명)
