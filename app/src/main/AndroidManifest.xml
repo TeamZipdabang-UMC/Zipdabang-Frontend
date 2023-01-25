@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
+        android:name=".config.src.main.SocialLogin.KakaoApplication"
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,43 +24,121 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipdabang_android"
         tools:targetApi="31">
-        <activity
-            android:name=".src.main.MainActivity"
+        <activity android:name=".config.src.main.SocialLogin.InitialActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeCoffeeActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeBeverageActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeTeaActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeAdeActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeSmoothieActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeWellbeingActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailCoffeeActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailAdeActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailTeaActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailBeverageActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailSmoothieActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailWellbeingActivity" />
-        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity"/>
-        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentAdeActivity"/>
-        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentBeverageActivity"/>
-        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentCoffeeActivity"/>
-        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentSmoothieActivity"/>
-        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentTeaActivity"/>
-        <activity android:name=".src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentWellbeingActivity"/>
-    </application>
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeCoffeeActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeBeverageActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeTeaActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeAdeActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeSmoothieActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeWellbeingActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCoffeeActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailAdeActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailTeaActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailBeverageActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailSmoothieActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailWellbeingActivity" />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity"/>
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentAdeActivity"/>
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentBeverageActivity"/>
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentCoffeeActivity"/>
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentSmoothieActivity"/>
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentTeaActivity"/>
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentWellbeingActivity"/>
 
+        <activity
+            android:name=".config.src.main.Jip.src.main.MainActivity"
+            android:exported="true">
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
+    </activity>
+
+        <activity
+            android:name="com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity"
+            android:exported="true">
+
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupFirstActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupSecondActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupCameraagreeActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupResearchActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupServiceagreeActivity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupServiceagreeMust1Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupServiceagreeMust2Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupServiceagreeChoice1Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.signup.SignupServiceagreeChoice2Activity"
+            android:exported="true">
+        </activity>
+        <activity android:name=".config.src.main.SocialLogin.JoinInitialActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:launchMode="singleTask"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
+                <data android:host="oauth"
+                    android:scheme="kakao8300d879d66a5f65861ac2de40a4234c" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity">
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.edit.EditScrapActivity">
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.search.SearchActivity">
+        </activity>
+        <activity android:name=".config.src.main.Home.category.CategoryAdeActivity">
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryBeverageActivity">
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryCoffeeActivity">
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategorySmoothieActivity">
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryHealthActivity">
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryTeaActivity">
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+    </application>
 </manifest>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/signup_backbtn"
+        android:layout_width="8dp"
+        android:layout_height="18dp"
+        android:background="@drawable/sign_backbtn"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <TextView
+        android:id="@+id/signup_tv_tital"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:fontFamily="@font/notosanskrbold"
+        android:text="회원정보 입력 (2/2)"
+        android:textColor="@color/jipdabang_black"
+        android:textSize="29dp"
+        app:layout_constraintStart_toStartOf="@id/signup_backbtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.15"/>
+
+    <TextView
+        android:id="@+id/signup_tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/notosanskrbold"
+        android:text="이메일"
+        android:textColor="@color/jipdabang_black"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toTopOf="@id/signup_realedt_email"
+        app:layout_constraintStart_toStartOf="@id/signup_realedt_email" />
+
+    <TextView
+        android:id="@+id/signup_tv_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_marginTop="-5dp"
+        android:fontFamily="@font/notosanskrregular"
+        android:text=" 닉네임을 제외한 정보는\n 다른 사람에게 공개되지 않습니다"
+        android:textColor="@color/jipdabang_signup_text_gray"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@id/signup_tv_tital"
+        app:layout_constraintTop_toBottomOf="@id/signup_tv_tital" />
+
+    <TextView
+        android:id="@+id/signup_tv_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/notosanskrbold"
+        android:text="생년월일 및 성별"
+        android:textColor="@color/jipdabang_black"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@id/signup_edt_birthday"
+        app:layout_constraintBottom_toTopOf="@id/signup_edt_birthday" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/signup_edt_birthday"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:hintEnabled="false"
+        app:boxStrokeColor="@color/jipdabang_sign_text_gray"
+        app:endIconMode="clear_text"
+        app:endIconTint="#EDEDED"
+        app:layout_constraintEnd_toEndOf="@id/signup_edt_phonenumber"
+        app:layout_constraintStart_toStartOf="@id/signup_edt_phonenumber"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.71" >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signup_realedt_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round"
+            android:maxLength="8"
+            android:hint="YYMMDD-0******"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/jipdabang_sign_text_gray"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/signup_tv_phonenumber"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:fontFamily="@font/notosanskrbold"
+        android:text="휴대폰 번호"
+        android:textColor="@color/jipdabang_black"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@id/signup_edt_phonenumber"
+        app:layout_constraintBottom_toTopOf="@id/signup_edt_phonenumber" />
+
+    <TextView
+        android:id="@+id/signup_empty_tv1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintEnd_toStartOf="@id/signup_edt_phonenumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.41"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/signup_edt_phonenumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        app:boxStrokeColor="@color/jipdabang_sign_text_gray"
+        app:endIconMode="clear_text"
+        app:endIconTint="#EDEDED"
+        app:layout_constraintHorizontal_weight="312"
+        app:layout_constraintEnd_toStartOf="@id/signup_empty_tv2"
+        app:layout_constraintStart_toEndOf="@id/signup_empty_tv1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.41">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signup_realedt_phonenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round"
+            android:maxLength="13"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/jipdabang_sign_text_gray"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/signup_empty_tv2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/signup_edt_phonenumber"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.41"/>
+
+    <TextView
+        android:id="@+id/signup_realedt_email"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@drawable/round"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="@id/signup_edt_phonenumber"
+        app:layout_constraintStart_toStartOf="@id/signup_edt_phonenumber"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.56"
+        android:textColor="@color/jipdabang_sign_text_gray"
+        android:textSize="16dp"
+        tools:text="01010101"
+        android:gravity="center_vertical"
+        android:padding="16dp" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signup_nextbtn"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:text="다음"
+        android:textSize="16dp"
+        android:fontFamily="@font/notosanskrbold"
+        android:textColor="@color/jipdabang_sign_text_gray"
+        android:background="@drawable/sign_btn_round"
+        android:enabled="false"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/signup_edt_phonenumber"
+        app:layout_constraintStart_toStartOf="@id/signup_edt_phonenumber"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

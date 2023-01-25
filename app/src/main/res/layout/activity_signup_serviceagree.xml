@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signup_backbtn"
+        android:layout_width="8dp"
+        android:layout_height="18dp"
+        android:background="@drawable/sign_backbtn"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <TextView
+        android:id="@+id/signup_tv_tital"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:fontFamily="@font/notosanskrbold"
+        android:text="집다방 회원 가입"
+        android:textColor="@color/jipdabang_black"
+        android:textSize="29dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/signup_backbtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <TextView
+        android:id="@+id/signup_tv_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-5dp"
+        android:fontFamily="@font/notosanskrregular"
+        android:text="서비스 이용 약관을 확인해주세요"
+        android:textColor="@color/jipdabang_signup_text_gray"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="@id/signup_tv_tital"
+        app:layout_constraintTop_toBottomOf="@id/signup_tv_tital" />
+
+    <TextView
+        android:id="@+id/signup_empty_tv3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.34"
+        app:layout_constraintHorizontal_weight="28"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/signup_service_layout"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/signup_service_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/signup_empty_tv4"
+        app:layout_constraintHorizontal_weight="290"
+        app:layout_constraintStart_toEndOf="@id/signup_empty_tv3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.347">
+        <ImageButton
+            android:id="@+id/signup_checkbtn_must1"
+            android:layout_width="30dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:background="@drawable/sign_roundbtn_checking"
+            android:src="@drawable/sign_checkbtn"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.8" />
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/notosanskrregular"
+            android:text="[필수] 집다방 이용 약관 동의"
+            android:textColor="@color/jipdabang_black"
+            android:textSize="14dp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="7" />
+        <FrameLayout
+            android:id="@+id/signup_framebtn_must1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_btn_must1"
+                android:clickable="false"
+                android:layout_width="4dp"
+                android:layout_height="7dp"
+                android:background="@drawable/sign_describebtn"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/signup_service_layout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_weight="287"
+        app:layout_constraintStart_toStartOf="@id/signup_service_layout"
+        app:layout_constraintTop_toBottomOf="@id/signup_service_layout"
+        app:layout_constraintEnd_toEndOf="@id/signup_service_layout">
+        <ImageButton
+            android:id="@+id/signup_checkbtn_must2"
+            android:layout_width="30dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:background="@drawable/sign_roundbtn_checking"
+            android:src="@drawable/sign_checkbtn"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.8" />
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="[필수] 개인정보 수집 및 이용 동의"
+            android:textSize="14dp"
+            android:textColor="@color/jipdabang_black"
+            android:fontFamily="@font/notosanskrregular"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="7" />
+        <FrameLayout
+            android:id="@+id/signup_framebtn_must2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_btn_must2"
+                android:clickable="false"
+                android:layout_width="4dp"
+                android:layout_height="7dp"
+                android:background="@drawable/sign_describebtn"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/signup_service_layout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_weight="287"
+        app:layout_constraintStart_toStartOf="@id/signup_service_layout"
+        app:layout_constraintTop_toBottomOf="@id/signup_service_layout2"
+        app:layout_constraintEnd_toEndOf="@id/signup_service_layout">
+        <ImageButton
+            android:id="@+id/signup_checkbtn_choice1"
+            android:layout_width="30dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:background="@drawable/sign_roundbtn_checking"
+            android:src="@drawable/sign_checkbtn"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.8" />
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="[선택] 개인정보 제3자 제공 동의"
+            android:textSize="14dp"
+            android:textColor="@color/jipdabang_black"
+            android:fontFamily="@font/notosanskrregular"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="7" />
+        <FrameLayout
+            android:id="@+id/signup_framebtn_choice1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_btn_choice1"
+                android:clickable="false"
+                android:layout_width="4dp"
+                android:layout_height="7dp"
+                android:background="@drawable/sign_describebtn"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/signup_service_layout4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintHorizontal_weight="287"
+        app:layout_constraintStart_toStartOf="@id/signup_service_layout"
+        app:layout_constraintTop_toBottomOf="@id/signup_service_layout3"
+        app:layout_constraintEnd_toEndOf="@id/signup_service_layout">
+        <ImageButton
+            android:id="@+id/signup_checkbtn_choice2"
+            android:layout_width="30dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:background="@drawable/sign_roundbtn_checking"
+            android:src="@drawable/sign_checkbtn"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.8" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="[선택] 이벤트 및 혜택 알림 수신 동의"
+            android:textSize="14dp"
+            android:textColor="@color/jipdabang_black"
+            android:fontFamily="@font/notosanskrregular"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="7" />
+        <FrameLayout
+            android:id="@+id/signup_framebtn_choice2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_btn_choice2"
+                android:clickable="false"
+                android:layout_width="4dp"
+                android:layout_height="7dp"
+                android:background="@drawable/sign_describebtn"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/signup_edge_round"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:padding="20dp"
+        android:background="@drawable/sign_edge_round"
+        app:layout_constraintHorizontal_weight="312"
+        app:layout_constraintTop_toTopOf="@id/signup_service_layout5"
+        app:layout_constraintBottom_toBottomOf="@id/signup_service_layout5"
+        app:layout_constraintEnd_toStartOf="@id/signup_empty_tv6"
+        app:layout_constraintStart_toEndOf="@id/signup_empty_tv5"/>
+
+    <TextView
+        android:id="@+id/signup_empty_tv5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintEnd_toStartOf="@id/signup_edge_round"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+        android:id="@+id/signup_empty_tv6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/signup_edge_round"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/signup_service_layout5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="13dp"
+        app:layout_constraintBottom_toTopOf="@id/signup_nextbtn"
+        app:layout_constraintEnd_toEndOf="@id/signup_nextbtn"
+        app:layout_constraintHorizontal_weight="287"
+        app:layout_constraintStart_toStartOf="@id/signup_nextbtn"
+        app:layout_constraintTop_toBottomOf="@id/signup_service_layout4"
+        app:layout_constraintVertical_bias="0.167">
+        <ImageButton
+            android:id="@+id/signup_checkbtn_allagree"
+            android:layout_width="32dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/sign_roundbtn_checking"
+            android:src="@drawable/sign_checkbtn" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/notosanskrbold"
+            android:text="모든 약관에 동의합니다."
+            android:textColor="@color/jipdabang_black"
+            android:textSize="16dp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="8" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/signup_empty_tv4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.34"
+        app:layout_constraintHorizontal_weight="23"
+        app:layout_constraintStart_toEndOf="@id/signup_service_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/signup_empty_tv1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintEnd_toStartOf="@id/signup_nextbtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.98"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signup_nextbtn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:background="@drawable/sign_btn_round"
+        android:enabled="false"
+        android:fontFamily="@font/notosanskrbold"
+        android:text="다음"
+        android:textColor="@color/jipdabang_sign_text_gray"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/signup_empty_tv2"
+        app:layout_constraintHorizontal_weight="312"
+        app:layout_constraintStart_toEndOf="@id/signup_empty_tv1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98" />
+
+    <TextView
+        android:id="@+id/signup_empty_tv2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/signup_nextbtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.98"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,26 +1,49 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
 
 android {
     namespace 'com.example.umc_zipdabang'
-    compileSdk 32
+    compileSdk 33
 
     viewBinding{
         enabled= true
+    }
+    task wrapper(type: Wrapper) {
+        gradleVersion = '7.0'
     }
 
     defaultConfig {
         applicationId "com.example.umc_zipdabang"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+        // 룸디비 변경시 필요한 라이브러리
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
+
     }
+    // 룸디비 변경 시 반드시 사용할 의존성들
+    sourceSets {
+        getByName("androidTest") {
+            assets.srcDirs(files(projectDir, "schemas"))
+        }
+    }
+
 
     buildTypes {
         release {
@@ -35,19 +58,19 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    viewBinding{
-        enabled true
-    }
+
+
 }
+
 
 dependencies {
 
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -72,4 +95,59 @@ dependencies {
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    tasks.register("prepareKotlinBuildScriptModel"){}
+
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+    implementation 'com.kakao.sdk:v2-user:2.12.0'
+    implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
+    implementation 'com.google.firebase:firebase-analytics:21.2.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    //testImplementation 'junit:junit:4.13.2'
+    //androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+
+    //implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    //implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation platform("com.squareup.okhttp3:okhttp-bom:4.9.1")
+    implementation "com.squareup.okhttp3:okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor"
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+
+    implementation "com.kakao.sdk:v2-all:2.12.0" // 전체 모듈 설치, 2.11.0 버전부터 지원
+    implementation "com.kakao.sdk:v2-user:2.12.0" // 카카오 로그인
+    implementation "com.kakao.sdk:v2-talk:2.12.0" // 친구, 메시지(카카오톡)
+    implementation "com.kakao.sdk:v2-story:2.12.0" // 카카오스토리
+    implementation "com.kakao.sdk:v2-share:2.12.0" // 메시지(카카오톡 공유)
+    implementation "com.kakao.sdk:v2-navi:2.12.0" // 카카오내비
+    implementation "com.kakao.sdk:v2-friend:2.12.0" // 카카오톡 소셜 피커, 리소스 번들 파일 포함
+
+    implementation "androidx.room:room-runtime:2.5.0"
+    kapt "androidx.room:room-compiler:2.5.0"
+    //implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation("androidx.room:room-ktx:2.5.0")
+
+    // To use Kotlin annotation processing tool (kapt)
+
 }

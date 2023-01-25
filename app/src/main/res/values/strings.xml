@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">UMC_Zipdabang</string>
     <string name="string_zipdabang_recipe">집다방 레시피</string>
@@ -7,4 +9,11 @@
     <string name="btn_recipe_challenge_restart">레시피 재도전하기</string>
     <string name="popup_completed">완성!</string>
     <string name="popup_compliment">레시피를 따라 멋진 음료를 만들었네요. 대단해요!\n직접 만든 음료로 행복한 시간 보내길 바라요😊</string>
+    <string name="tab_home">홈</string>
+    <string name="tab_jip_receiepe">집다방 레시피</string>
+    <string name="tap_our_receipe">우리들의 레시피</string>
+    <string name="tab_user">내집다방</string>
+    <string name="login_underline"><u>로그인</u></string>
+    <string name="login">로그인</string>
+    <string name="sign_in">회원가입</string>
 </resources>
