@@ -1,6 +1,7 @@
 package com.example.umc_zipdabang.src.my
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,7 +28,6 @@ class MyMyrecipeFragment : Fragment(){
     var isLoading = false
 
     lateinit var mainActivity: MainActivity
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
@@ -43,7 +43,6 @@ class MyMyrecipeFragment : Fragment(){
         return viewBinding.root
     }
 
-    //back버튼 구현
     ////레시피 총 갯수 서버한테 받기
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,9 +51,15 @@ class MyMyrecipeFragment : Fragment(){
                 .replace(R.id.mainfragmentcontainer, MyFragment())
                 .commit()
         }
+        viewBinding.myToolbar.bringToFront()
         setData()
         initAdapter()
         initScrollListener()
+
+        viewBinding.myFixbtn.setOnClickListener {
+            val intent = Intent(activity, MyMyrecipeEditActivity::class.java)
+            startActivity(intent)
+        }
 
        //viewBinding.myTvv.setText(allRecipesList.size.toString())
     }

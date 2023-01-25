@@ -6,31 +6,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
         <FrameLayout
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
             android:layout_height="84dp"
-            android:background="@drawable/my_round">
-            <androidx.constraintlayout.utils.widget.ImageFilterButton
-                android:id="@+id/my_backbtn"
-                android:layout_width="15.5dp"
-                android:layout_height="15.2dp"
-                android:layout_gravity="center_vertical|start"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/my_backbtn2"
-                tools:ignore="SpeakableTextPresentCheck" />
+            android:background="@drawable/my_round"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="도전 완료 레시피"
+                android:layout_marginStart="20dp"
+                android:text="레시피 선택"
                 android:textSize="20dp"
-                android:layout_marginTop="8dp"
                 android:textColor="@color/jipdabang_black"
                 android:fontFamily="@font/notosanskrbold"
-                android:layout_gravity="center_horizontal|center_vertical"/>
+                android:layout_gravity="start|center"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/my_cancelbtn"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/my_cancelbtn"
+                android:text="취소"
+                android:textSize="16dp"
+                android:textColor="@color/jipdabang_black"
+                android:fontFamily="@font/notosanskrbold"/>
         </FrameLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -44,8 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="88dp"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.10"
+                app:layout_constraintHorizontal_bias="0.08"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
                 <TextView
@@ -53,16 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskrregular"
-                    android:text="도전 완료한 레시피 "
-                    android:textColor="#999999"
-                    android:textSize="16dp" />
-                <TextView
-                    android:id="@+id/my_tvv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/notosanskrregular"
-                    android:gravity="center_horizontal|end"
-                    android:text="6"
+                    android:text="레시피 선택"
                     android:textColor="#999999"
                     android:textSize="16dp" />
             </LinearLayout>
@@ -75,5 +68,19 @@
                 app:layout_constraintTop_toBottomOf="@id/my_linear_tv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/my_itemdeletebtn"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="52dp"
+        android:layout_margin="16dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@drawable/my_btn_round"
+        android:layout_gravity="bottom"
+        android:text="삭제하기"
+        android:textSize="16dp"
+        android:textColor="#999999"
+        android:fontFamily="@font/notosanskrbold"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -13,6 +13,20 @@ class MySaveActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
+        val sharedPreference = getSharedPreferences("signup",0)
+        val editor = sharedPreference.edit()
+
+        var title_sp = sharedPreference.getString("title","")
+        var time_sp = sharedPreference.getString("time","")
+        var describe_sp = sharedPreference.getString("describe","")
+        var aftertip_sp = sharedPreference.getString("aftertip","")
+
+        if(title_sp != null || time_sp != null || describe_sp !=null || aftertip_sp != null){
+            viewBinding.myRecipeEdtTital.setText(sharedPreference.getString("title_sp",""))
+        }
+
+
+
         viewBinding.myBackbtn.setOnClickListener {
             finish()
         }

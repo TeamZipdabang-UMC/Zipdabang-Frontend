@@ -24,9 +24,9 @@ class MyChallengedoneFragment: Fragment() {
     ): View? {
         viewBinding = FragmentMyChallengedoneBinding.inflate(layoutInflater)
         return viewBinding.root
+
     }
 
-    //back버튼 구현
     ////레시피 총 갯수 서버한테 받기
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +35,8 @@ class MyChallengedoneFragment: Fragment() {
                 .replace(R.id.mainfragmentcontainer, MyFragment())
                 .commit()
         }
+
+        viewBinding.myToolbar.bringToFront()
 
 /*        viewBinding.myToolbar.setOnMenuItemClickListener{ menuItem: MenuItem->
             when(menuItem.itemId){

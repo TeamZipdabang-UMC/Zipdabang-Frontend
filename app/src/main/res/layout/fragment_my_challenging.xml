@@ -6,15 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/my_appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:fitsSystemWindows="true"
-        app:elevation="0dp"
-        app:layout_scrollFlags="scroll|enterAlways">
-        <androidx.appcompat.widget.Toolbar
+        <FrameLayout
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
             android:layout_height="84dp"
@@ -27,7 +19,6 @@
                 android:layout_gravity="center_vertical|start"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="8dp"
-                android:clickable="false"
                 android:scaleType="centerCrop"
                 android:src="@drawable/my_backbtn2"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -40,8 +31,7 @@
                 android:textColor="@color/jipdabang_black"
                 android:fontFamily="@font/notosanskrbold"
                 android:layout_gravity="center_horizontal|center_vertical"/>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+        </FrameLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
