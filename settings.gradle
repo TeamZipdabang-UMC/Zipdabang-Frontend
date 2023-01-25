@@ -11,7 +11,10 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter()
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/'}
+
     }
 }
+
 rootProject.name = "UMC_Zipdabang"
 include ':app'

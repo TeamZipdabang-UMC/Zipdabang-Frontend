@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.umc_zipdabang.config.src.main.MainActivity
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.databinding.ItemMyScrapBinding
 
-class MainScrapAdapter(private val context: MainActivity, private val dataList: ArrayList<ArrayList<Main_Scrap>>) :
+class MainScrapAdapter(private val context: HomeMainActivity, private val dataList: ArrayList<ArrayList<Main_Scrap>>) :
     RecyclerView.Adapter<MainScrapAdapter.ViewHolder>(){
 
 

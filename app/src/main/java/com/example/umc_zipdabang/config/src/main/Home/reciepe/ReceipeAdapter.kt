@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.umc_zipdabang.config.src.main.MainActivity
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.databinding.ItemReceipeBinding
 
-class ReceipeAdapter(private val context: MainActivity, private val dataList: ArrayList<Home_receipe>) :
+class ReceipeAdapter(private val context: HomeMainActivity, private val dataList: ArrayList<Home_receipe>) :
     RecyclerView.Adapter<ReceipeAdapter.ViewHolder>(){
 
     private var itemClickListener: OnItemClickListener? = null

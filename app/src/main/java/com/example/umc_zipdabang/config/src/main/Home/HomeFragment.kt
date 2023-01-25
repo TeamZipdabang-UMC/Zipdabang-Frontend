@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.umc_zipdabang.config.src.main.*
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.MainScrapAdapter
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.Main_Scrap
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity
@@ -73,8 +72,8 @@ class HomeFragment : Fragment() {
         viewBinding = FragmentHomeBinding.inflate(layoutInflater)
 
         //마이스크랩 부분
-        viewBinding.homeRvMyScrap.layoutManager= LinearLayoutManager(activity as MainActivity, LinearLayoutManager.VERTICAL,false)
-        val adapter1 = MainScrapAdapter(activity as MainActivity, scraplist)
+        viewBinding.homeRvMyScrap.layoutManager= LinearLayoutManager(activity as HomeMainActivity, LinearLayoutManager.VERTICAL,false)
+        val adapter1 = MainScrapAdapter(activity as HomeMainActivity, scraplist)
         viewBinding.homeRvMyScrap.adapter= adapter1
 
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -85,8 +84,8 @@ class HomeFragment : Fragment() {
         }
 
       //카테고리별 음료
-        viewBinding.homeRvReceipe.layoutManager= LinearLayoutManager(activity as MainActivity, LinearLayoutManager.VERTICAL,false)
-        val adapter2 = ReceipeAdapter(activity as MainActivity,category)
+        viewBinding.homeRvReceipe.layoutManager= LinearLayoutManager(activity as HomeMainActivity, LinearLayoutManager.VERTICAL,false)
+        val adapter2 = ReceipeAdapter(activity as HomeMainActivity,category)
         viewBinding.homeRvReceipe.adapter= adapter2
         adapter2.notifyDataSetChanged()
         viewBinding.homeRvReceipe.isNestedScrollingEnabled=false
