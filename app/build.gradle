@@ -24,6 +24,20 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // 룸디비 변경시 필요한 라이브러리
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    // 룸디비 변경 시 반드시 사용할 의존성들
+    sourceSets {
+        getByName("androidTest") {
+            assets.srcDirs(files(projectDir, "schemas"))
+        }
     }
 
     buildTypes {

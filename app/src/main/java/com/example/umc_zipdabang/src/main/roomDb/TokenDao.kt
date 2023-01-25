@@ -11,18 +11,19 @@ interface TokenDao {
     @Insert(onConflict = REPLACE)
     fun addToken(token: Token)
 
-//    @Query ("DELETE FROM tokenDb WHERE id = 0")
-//    fun deleteToken(token: Token): List<Token>
+    // 토큰 맨 위에 것 하나만 가져오기
+    @Query("Select * from tokenDb Limit 1")
+    fun getToken(): Token
 
-    @Query("Select * from tokenDb")
-    fun getToken(): List<Token>
-
-    @Delete
-    suspend fun delete(token: Token)
-
+    // 거의 안쓸듯. 하지만 혹시 몰라서 넣어둠.
     @Query("SELECT * FROM tokenDb WHERE id LIKE :id LIMIT 1")
     suspend fun findById(id: Int): Token
 
+    // 전체 토큰을 삭제하는 코드 - 거의 사용하지 않음.
+    @Delete
+    suspend fun delete(token: Token)
+
+    // 전체 토큰을 삭제하는 코드
     @Query ("DELETE FROM tokenDb")
     suspend fun deleteAll()
 
