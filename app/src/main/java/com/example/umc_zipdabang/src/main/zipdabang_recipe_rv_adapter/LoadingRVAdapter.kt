@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.databinding.ItemLoadingBinding
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import com.example.umc_zipdabang.src.main.MainActivity
-import com.example.umc_zipdabang.src.main.ZipdabangRecipeFragment
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeFragment
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.AllRecipesData
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailCoffeeActivity

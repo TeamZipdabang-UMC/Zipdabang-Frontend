@@ -15,10 +15,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBinding
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.Comment
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.Ingredient
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.RecipeOrder
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.IngredientsRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.RecipeCommentRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.RecipeDetailCommentRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.RecipeOrderRVAdapter
 
 
 class ZipdabangRecipeDetailActivity: AppCompatActivity() {
@@ -32,6 +41,9 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         viewBinding = ActivityZipdabangRecipeDetailBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
+        // 리사이클러뷰에 활용할 배열 및 자료구조들
+
 
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
@@ -61,6 +73,42 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 showScrapCancelToast()
             }
         }
+
+        // 준비물 리사이클러 뷰 어댑터 연결
+        val ingredientsList: ArrayList<Ingredient> = arrayListOf()
+        val ingredientsRVAdapter = IngredientsRVAdapter(ingredientsList)
+        ingredientsList.apply {
+            add(Ingredient("우유", "100ml"))
+            add(Ingredient("커피", "50ml"))
+        }
+        viewBinding.rvZipdabangRecipeDetailIngredients.layoutManager = LinearLayoutManager(this)
+        viewBinding.rvZipdabangRecipeDetailIngredients.adapter = ingredientsRVAdapter
+
+
+        // 스텝 리사이클러 뷰 어댑터 연결
+        val recipeOrderList: ArrayList<RecipeOrder> = arrayListOf()
+        val recipeOrderRVAdapter = RecipeOrderRVAdapter(recipeOrderList)
+        recipeOrderList.apply {
+            add(RecipeOrder(1, "이거 넣으세요", "https://user-images.githubusercontent.com/101035437/214457907-b99c46ce-97c9-41ea-b604-5e7aba2b81ed.png"))
+            add(RecipeOrder(2, "저거 넣으세요", "https://user-images.githubusercontent.com/101035437/214457907-b99c46ce-97c9-41ea-b604-5e7aba2b81ed.png"))
+        }
+        viewBinding.rvZipdabangRecipeDetailOrder.layoutManager = LinearLayoutManager(this)
+        viewBinding.rvZipdabangRecipeDetailOrder.adapter = recipeOrderRVAdapter
+
+
+        // 댓글 리사이클러 뷰 어댑터 연결
+        val recipeDetailCommentList: ArrayList<Comment> = arrayListOf()
+        val recipeDetailCommentRVAdapter = RecipeDetailCommentRVAdapter(recipeDetailCommentList)
+        recipeDetailCommentList.apply {
+            add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."
+                )
+            )
+        }
+        viewBinding.rvZipdabangRecipeComments.layoutManager = LinearLayoutManager(this)
+        viewBinding.rvZipdabangRecipeComments.adapter = recipeDetailCommentRVAdapter
+
 
         viewBinding.tvZipdabangRecipeCommentViewDetail.setOnClickListener {
             val intent = Intent(this, ZipdabangRecipeDetailCommentActivity::class.java)

@@ -1,16 +1,13 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeSmoothieBinding
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeTeaBinding
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.SmoothieRecipesData
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.TeaRecipesData
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.SmoothieRecipesRVAdapter
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.TeaRecipesRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.TeaLoadingRVAdapter
 import kotlinx.coroutines.*
 import java.lang.Runnable
 
@@ -21,7 +18,7 @@ class ZipdabangRecipeTeaActivity: AppCompatActivity() {
     var grid = 2
     val teaRecipesList: ArrayList<TeaRecipesData> = arrayListOf()
 
-    private lateinit var teaRecipesRVAdapter: TeaRecipesRVAdapter
+    private lateinit var teaRecipesRVAdapter: TeaLoadingRVAdapter
 
     // private 맞는지 확인 필요
     private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
@@ -108,7 +105,7 @@ class ZipdabangRecipeTeaActivity: AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        teaRecipesRVAdapter = TeaRecipesRVAdapter(this, teaRecipesList)
+        teaRecipesRVAdapter = TeaLoadingRVAdapter(this, teaRecipesList)
         layoutManager = GridLayoutManager(this, 2)
         viewBinding.rvZipdabangRecipeTea.layoutManager = layoutManager
         viewBinding.rvZipdabangRecipeTea.adapter = teaRecipesRVAdapter

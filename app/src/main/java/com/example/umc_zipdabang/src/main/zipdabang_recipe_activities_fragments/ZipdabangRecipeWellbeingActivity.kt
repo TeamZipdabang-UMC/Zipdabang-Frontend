@@ -1,15 +1,13 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.databinding.*
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.BeverageRecipesData
+import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeWellbeingBinding
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.WellbeingRecipesData
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.BeverageRecipesRVAdapter
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.WellbeingRecipesRVAdapter
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.WellbeingLoadingRVAdapter
 import kotlinx.coroutines.*
 import java.lang.Runnable
 
@@ -20,7 +18,7 @@ class ZipdabangRecipeWellbeingActivity: AppCompatActivity() {
     var grid = 2
     val wellbeingRecipesList: ArrayList<WellbeingRecipesData> = arrayListOf()
 
-    private lateinit var wellbeingRecipesRVAdapter: WellbeingRecipesRVAdapter
+    private lateinit var wellbeingRecipesRVAdapter: WellbeingLoadingRVAdapter
 
     val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     private lateinit var layoutManager: GridLayoutManager
@@ -104,7 +102,7 @@ class ZipdabangRecipeWellbeingActivity: AppCompatActivity() {
 
 
     private fun initAdapter() {
-        wellbeingRecipesRVAdapter = WellbeingRecipesRVAdapter(this, wellbeingRecipesList)
+        wellbeingRecipesRVAdapter = WellbeingLoadingRVAdapter(this, wellbeingRecipesList)
         layoutManager = GridLayoutManager(this, 2)
         viewBinding.rvZipdabangRecipeWellbeing.setLayoutManager(layoutManager)
         viewBinding.rvZipdabangRecipeWellbeing.setAdapter(wellbeingRecipesRVAdapter)
@@ -158,7 +156,7 @@ class ZipdabangRecipeWellbeingActivity: AppCompatActivity() {
 
             wellbeingRecipesList.add(WellbeingRecipesData(null, null, null))
 
-            Log.d("insert before","msg")
+            Log.d("insert before", "msg")
 
             wellbeingRecipesRVAdapter.notifyItemInserted(wellbeingRecipesList.size - 1)
 

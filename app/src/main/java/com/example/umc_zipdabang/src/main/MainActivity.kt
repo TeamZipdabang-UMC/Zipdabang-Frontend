@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivityMainBinding
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var viewBinding: ActivityMainBinding

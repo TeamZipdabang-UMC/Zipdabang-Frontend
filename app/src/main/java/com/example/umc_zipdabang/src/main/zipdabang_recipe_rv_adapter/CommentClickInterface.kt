@@ -1,4 +1,4 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter
 
 import android.media.Image
 import android.widget.ImageView

@@ -1,6 +1,5 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -10,15 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.databinding.ActivityMainBinding
 import com.example.umc_zipdabang.databinding.FragmentZipdabangRecipeBinding
+import com.example.umc_zipdabang.src.main.AssetLoader
+import com.example.umc_zipdabang.src.main.MainActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.AllRecipesData
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.CategoriesData
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.AllRecipesRVAdapter
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.CategoriesRVAdapter
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.LoadingRVAdapter
 import kotlinx.coroutines.*
-import org.json.JSONObject
 import java.lang.Runnable
 
 class ZipdabangRecipeFragment: Fragment() {
@@ -79,18 +77,49 @@ class ZipdabangRecipeFragment: Fragment() {
         val categoriesList: ArrayList<CategoriesData> = arrayListOf()
         categoriesList.apply {
             // add(CategoriesData(사진, 카테고리명)
-            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458099-b80f35b0-9e6f-4f7e-a863-acfa8995e3b1.png", "커피"))
-            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "Beverage"))
-            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "티"))
-            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "에이드"))
-            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "스무디/주스"))
-            add(CategoriesData("https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png", "건강음료"))
+            add(
+                CategoriesData(
+                    "https://user-images.githubusercontent.com/101035437/212458099-b80f35b0-9e6f-4f7e-a863-acfa8995e3b1.png",
+                    "커피"
+                )
+            )
+            add(
+                CategoriesData(
+                    "https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png",
+                    "Beverage"
+                )
+            )
+            add(
+                CategoriesData(
+                    "https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png",
+                    "티"
+                )
+            )
+            add(
+                CategoriesData(
+                    "https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png",
+                    "에이드"
+                )
+            )
+            add(
+                CategoriesData(
+                    "https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png",
+                    "스무디/주스"
+                )
+            )
+            add(
+                CategoriesData(
+                    "https://user-images.githubusercontent.com/101035437/212458119-c8b27e99-6208-4109-b041-b7064c213055.png",
+                    "건강음료"
+                )
+            )
         }
 
         val categoriesRVAdapter = CategoriesRVAdapter(requireContext(), categoriesList)
 
 
-        viewBinding.rvZipdabangRecipeCategories.layoutManager = GridLayoutManager(requireContext(), 3)
+        viewBinding.rvZipdabangRecipeCategories.layoutManager =
+            GridLayoutManager(requireContext(), 3)
         viewBinding.rvZipdabangRecipeCategories.adapter = categoriesRVAdapter
 
 //
@@ -229,7 +258,7 @@ class ZipdabangRecipeFragment: Fragment() {
         val runnable = Runnable {
 
             allRecipesList.add(AllRecipesData(null, null, null))
-            Log.d("insert before","msg")
+            Log.d("insert before", "msg")
             adapter.notifyItemInserted(allRecipesList.size - 1)
 
         }

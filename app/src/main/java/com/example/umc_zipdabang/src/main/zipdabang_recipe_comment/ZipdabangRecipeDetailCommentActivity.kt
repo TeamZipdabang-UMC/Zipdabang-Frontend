@@ -1,14 +1,11 @@
 package com.example.umc_zipdabang.src.main.zipdabang_recipe_comment
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -17,33 +14,14 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.MenuView.ItemView
-import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.R
-import com.example.umc_zipdabang.databinding.ActivityMainBinding.inflate
-import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
-import com.example.umc_zipdabang.src.main.CommentItemAdapter
-import com.example.umc_zipdabang.src.main.MainActivity
-import com.example.umc_zipdabang.src.main.ZipdabangRecipeAdeActivity
 import com.example.umc_zipdabang.src.main.decoration.AdapterDecoration
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.BeverageRecipesData
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.Comment
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailActivity
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailCoffeeActivity
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.BeverageRecipesRVAdapter
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.RecipeDetailCommentRVAdapter
-import kotlinx.coroutines.*
-import kotlinx.coroutines.NonDisposableHandle.parent
-import java.lang.Runnable
-import java.time.LocalDate
-import java.time.LocalTime
 
 class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
     lateinit var viewBinding: ActivityZipdabangRecipeDetailCommentBinding

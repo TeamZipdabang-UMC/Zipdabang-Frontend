@@ -1,34 +1,50 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.databinding.*
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.SmoothieRecipesData
-import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.SmoothieRecipesRVAdapter
+import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.BeverageRecipesData
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter.BeverageLoadingRVAdapter
 import kotlinx.coroutines.*
 import java.lang.Runnable
 
-class ZipdabangRecipeSmoothieActivity: AppCompatActivity() {
-    private lateinit var viewBinding: ActivityZipdabangRecipeSmoothieBinding
+class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
+    private lateinit var viewBinding: ActivityZipdabangRecipeBeverageBinding
 
     private var isLoading = false
     var grid = 2
-    val smoothieRecipesList: ArrayList<SmoothieRecipesData> = arrayListOf()
+    val beverageRecipesList: ArrayList<BeverageRecipesData> = arrayListOf()
 
-    private lateinit var smoothieRecipesRVAdapter: SmoothieRecipesRVAdapter
+    private lateinit var beverageRecipesRVAdapter: BeverageLoadingRVAdapter
 
-    // private 맞는지 확인 필요
-    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+    val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewBinding = ActivityZipdabangRecipeSmoothieBinding.inflate(layoutInflater)
+        viewBinding = ActivityZipdabangRecipeBeverageBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
+//        val beverageRecipesList: ArrayList<BeverageRecipesData> = arrayListOf()
+//        beverageRecipesList.apply {
+//            // add(AllRecipesData(사진, 커피명, 좋아요 수)
+//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465847-c47c7299-a045-43f1-8a27-4599222aca50.png", "아메리카노", 150))
+//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465911-3fb5bba0-b2d3-4d76-95c1-b043780b5178.png", "카라멜마끼아또", 2000))
+//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465847-c47c7299-a045-43f1-8a27-4599222aca50.png", "아메리카노", 150))
+//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465911-3fb5bba0-b2d3-4d76-95c1-b043780b5178.png", "카라멜마끼아또", 2000))
+//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465847-c47c7299-a045-43f1-8a27-4599222aca50.png", "아메리카노", 150))
+//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465911-3fb5bba0-b2d3-4d76-95c1-b043780b5178.png", "카라멜마끼아또", 2000))
+//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465847-c47c7299-a045-43f1-8a27-4599222aca50.png", "아메리카노", 150))
+//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465911-3fb5bba0-b2d3-4d76-95c1-b043780b5178.png", "카라멜마끼아또", 2000))
+//        }
+//
+//        val beverageRecipesRVAdapter = BeverageRecipesRVAdapter(beverageRecipesList)
+//
+//        viewBinding.rvZipdabangRecipeBeverage.adapter = beverageRecipesRVAdapter
+//        viewBinding.rvZipdabangRecipeBeverage.layoutManager = GridLayoutManager(this, 2)
 
         setData()
         initAdapter()
@@ -37,183 +53,207 @@ class ZipdabangRecipeSmoothieActivity: AppCompatActivity() {
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
 
-            viewBinding.toolbarBackarrow.setOnClickListener{
-                // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
-                finish()
-            }
+            finish()
         }
     }
 
-
     private fun setData() {
-        smoothieRecipesList.add(
-            SmoothieRecipesData(
+        beverageRecipesList.add(
+            BeverageRecipesData(
                 "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                 "어르신도 좋아하실만한 담백한 블루베리 요거트",
                 12
             )
         )
-        smoothieRecipesList.add(
-            SmoothieRecipesData(
+        beverageRecipesList.add(
+            BeverageRecipesData(
                 "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                 "어르신도 좋아하실만한 담백한 블루베리 요거트",
                 12
             )
         )
-        smoothieRecipesList.add(
-            SmoothieRecipesData(
+        beverageRecipesList.add(
+            BeverageRecipesData(
                 "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                 "어르신도 좋아하실만한 담백한 블루베리 요거트",
                 12
             )
         )
-        smoothieRecipesList.add(
-            SmoothieRecipesData(
+        beverageRecipesList.add(
+            BeverageRecipesData(
                 "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                 "어르신도 좋아하실만한 담백한 블루베리 요거트",
                 12
             )
         )
-        smoothieRecipesList.add(
-            SmoothieRecipesData(
+        beverageRecipesList.add(
+            BeverageRecipesData(
                 "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                 "어르신도 좋아하실만한 담백한 블루베리 요거트",
                 12
             )
         )
-        smoothieRecipesList.add(
-            SmoothieRecipesData(
+        beverageRecipesList.add(
+            BeverageRecipesData(
                 "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                 "어르신도 좋아하실만한 담백한 블루베리 요거트",
                 12
             )
         )
-        smoothieRecipesList.add(
-            SmoothieRecipesData(
+        beverageRecipesList.add(
+            BeverageRecipesData(
                 "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                 "어르신도 좋아하실만한 담백한 블루베리 요거트",
                 12
             )
         )
-        smoothieRecipesList.add(
-            SmoothieRecipesData(
+        beverageRecipesList.add(
+            BeverageRecipesData(
                 "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                 "어르신도 좋아하실만한 담백한 블루베리 요거트",
                 12
             )
         )
+
     }
 
-    private fun initAdapter() {
-        smoothieRecipesRVAdapter = SmoothieRecipesRVAdapter(this, smoothieRecipesList)
-        layoutManager = GridLayoutManager(this, 2)
-        viewBinding.rvZipdabangRecipeSmoothie.layoutManager = layoutManager
-        viewBinding.rvZipdabangRecipeSmoothie.adapter = smoothieRecipesRVAdapter
 
-        layoutManager.setSpanSizeLookup(object: GridLayoutManager.SpanSizeLookup() {
+    private fun initAdapter() {
+        beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this, beverageRecipesList)
+        layoutManager = GridLayoutManager(this, 2)
+        viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
+        viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
+
+        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                if (position == 0) {
+
+                if (position == 0)
+                {
+
                     return 1
+
+
                 }
-                else if ((position % 8 == 0) && position == (smoothieRecipesList.size-1)) {
+                else if ((position % 8 == 0) && position == (beverageRecipesList.size-1))
+                {
+
                     return 2
                 }
-                else {
+                else
+                {
+
                     return 1
                 }
+
             }
         })
     }
 
     private fun initScrollListener() {
-        viewBinding.rvZipdabangRecipeSmoothie.setOnScrollListener(object: RecyclerView.OnScrollListener() {
+
+        viewBinding.rvZipdabangRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (!isLoading) {
-                    if (viewBinding.rvZipdabangRecipeSmoothie.layoutManager != null && (viewBinding.rvZipdabangRecipeSmoothie.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (smoothieRecipesList.size-1)) {
+                    if (viewBinding.rvZipdabangRecipeBeverage.layoutManager != null && (viewBinding.rvZipdabangRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
+                        //리스트 마지막o
                         moreItems()
                         isLoading = true
+
                     }
                 }
             }
         })
     }
 
+
     private fun moreItems() {
         val runnable = Runnable {
-            smoothieRecipesList.add(SmoothieRecipesData(null, null, null))
+
+            beverageRecipesList.add(BeverageRecipesData(null, null, null))
+
             Log.d("insert before", "msg")
-            smoothieRecipesRVAdapter.notifyItemInserted(smoothieRecipesList.size - 1)
+
+            beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
+
+
+
+
 
         }
-        viewBinding.rvZipdabangRecipeSmoothie.post(runnable)
+        viewBinding.rvZipdabangRecipeBeverage.post(runnable)
 
         CoroutineScope(mainDispatcher).launch {
             delay(2000)
             val runnable2 = Runnable {
-                smoothieRecipesList.removeAt(smoothieRecipesList.size-1)
-                val scrollToPosition = smoothieRecipesList.size
-                smoothieRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 
-                smoothieRecipesList.add(
-                    SmoothieRecipesData(
+                beverageRecipesList.removeAt(beverageRecipesList.size - 1)
+                val scrollToPosition = beverageRecipesList.size
+                beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+
+
+                beverageRecipesList.add(
+                    BeverageRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                         "어르신도 좋아하실만한 담백한 블루베리 요거트",
                         12
                     )
                 )
-                smoothieRecipesList.add(
-                    SmoothieRecipesData(
+                beverageRecipesList.add(
+                    BeverageRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                         "어르신도 좋아하실만한 담백한 블루베리 요거트",
                         12
                     )
                 )
-                smoothieRecipesList.add(
-                    SmoothieRecipesData(
+                beverageRecipesList.add(
+                    BeverageRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                         "어르신도 좋아하실만한 담백한 블루베리 요거트",
                         12
                     )
                 )
-                smoothieRecipesList.add(
-                    SmoothieRecipesData(
+                beverageRecipesList.add(
+                    BeverageRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                         "어르신도 좋아하실만한 담백한 블루베리 요거트",
                         12
                     )
                 )
-                smoothieRecipesList.add(
-                    SmoothieRecipesData(
+                beverageRecipesList.add(
+                    BeverageRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                         "어르신도 좋아하실만한 담백한 블루베리 요거트",
                         12
                     )
                 )
-                smoothieRecipesList.add(
-                    SmoothieRecipesData(
+                beverageRecipesList.add(
+                    BeverageRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                         "어르신도 좋아하실만한 담백한 블루베리 요거트",
                         12
                     )
                 )
-                smoothieRecipesList.add(
-                    SmoothieRecipesData(
+                beverageRecipesList.add(
+                    BeverageRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                         "어르신도 좋아하실만한 담백한 블루베리 요거트",
                         12
                     )
                 )
-                smoothieRecipesList.add(
-                    SmoothieRecipesData(
+                beverageRecipesList.add(
+                    BeverageRecipesData(
                         "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
                         "어르신도 좋아하실만한 담백한 블루베리 요거트",
                         12
                     )
                 )
 
-                smoothieRecipesRVAdapter.notifyDataSetChanged()
+
+                beverageRecipesRVAdapter.notifyDataSetChanged()
                 isLoading = false
+
             }
             runnable2.run()
         }

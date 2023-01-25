@@ -11,7 +11,7 @@ import com.example.umc_zipdabang.databinding.ItemCommentBinding
 import com.example.umc_zipdabang.databinding.ItemLoadingBinding
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import com.example.umc_zipdabang.src.main.GlideApp
-import com.example.umc_zipdabang.src.main.ZipdabangRecipeSmoothieActivity
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeSmoothieActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.Comment
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.SmoothieRecipesData

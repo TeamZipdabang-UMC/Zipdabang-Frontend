@@ -11,8 +11,8 @@ import com.example.umc_zipdabang.databinding.ItemLoadingBinding
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
 import com.example.umc_zipdabang.src.main.GlideApp
-import com.example.umc_zipdabang.src.main.ZipdabangRecipeBeverageActivity
-import com.example.umc_zipdabang.src.main.ZipdabangRecipeCoffeeActivity
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeBeverageActivity
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeCoffeeActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.BeverageRecipesData
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailBeverageActivity
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailCoffeeActivity

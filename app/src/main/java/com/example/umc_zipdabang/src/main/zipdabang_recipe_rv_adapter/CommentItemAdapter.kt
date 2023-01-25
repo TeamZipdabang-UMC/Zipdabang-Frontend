@@ -1,11 +1,9 @@
-package com.example.umc_zipdabang.src.main
+package com.example.umc_zipdabang.src.main.zipdabang_recipe_rv_adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
 
 class CommentItemAdapter(private val mList: ArrayList<ImageView>): RecyclerView.Adapter<CommentItemAdapter.ViewHolder>() {

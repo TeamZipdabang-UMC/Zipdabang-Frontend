@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.databinding.ItemCategoriesBinding
 import com.example.umc_zipdabang.src.main.*
+import com.example.umc_zipdabang.src.main.zipdabang_recipe_activities_fragments.*
 import com.example.umc_zipdabang.src.main.zipdabang_recipe_data_class.CategoriesData
 
 class CategoriesRVAdapter(val context: Context, private val categoriesList: ArrayList<CategoriesData>): RecyclerView.Adapter<CategoriesRVAdapter.CategoriesDataViewHolder>() {

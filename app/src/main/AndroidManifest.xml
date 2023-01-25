@@ -32,12 +32,12 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".src.main.ZipdabangRecipeCoffeeActivity" />
-        <activity android:name=".src.main.ZipdabangRecipeBeverageActivity" />
-        <activity android:name=".src.main.ZipdabangRecipeTeaActivity" />
-        <activity android:name=".src.main.ZipdabangRecipeAdeActivity" />
-        <activity android:name=".src.main.ZipdabangRecipeSmoothieActivity" />
-        <activity android:name=".src.main.ZipdabangRecipeWellbeingActivity" />
+        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeCoffeeActivity" />
+        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeBeverageActivity" />
+        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeTeaActivity" />
+        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeAdeActivity" />
+        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeSmoothieActivity" />
+        <activity android:name=".src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeWellbeingActivity" />
         <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailActivity" />
         <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailCoffeeActivity" />
         <activity android:name=".src.main.zipdabang_recipe_detail.ZipdabangRecipeDetailAdeActivity" />
