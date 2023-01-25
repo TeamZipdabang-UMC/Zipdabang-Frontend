@@ -16,6 +16,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Runnable
+import org.json.JSONObject
 
 class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeCoffeeBinding
@@ -72,6 +73,34 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
                 ) {
                     val result = response.body()
                     Log.d("커피 카테고리 레시피 Get 성공", "${result}")
+                    val firstResultArray = arrayListOf<RecipeInfo?>()
+                    for (i in 0 until result?.data!!.size) {
+                        val firstResult = result?.data?.get(i)
+                        firstResultArray.add(firstResult)
+                        Log.d("첫번째 배열", "${firstResultArray}")
+                    }
+
+                    val firstResultIdArray = arrayListOf<Int?>()
+                    val firstResultNameArray = arrayListOf<String?>()
+                    val firstResultImgUrlArray = ArrayList<String?>()
+                    val firstResultLikesArray = ArrayList<Int?>()
+
+                    for (i in 0 until firstResultArray.size) {
+                        firstResultIdArray.add(firstResultArray[i]?.id)
+                        firstResultNameArray.add(firstResultArray[i]?.name)
+                        firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                        firstResultLikesArray.add(firstResultArray[i]?.likes)
+                        Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                        Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                        Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                        Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                    }
+
+
+                    setData()
+                    initAdapter()
+                    initScrollListener()
+
                 }
 
                 override fun onFailure(call: Call<ZipdabangRecipes>, t: Throwable) {
@@ -82,9 +111,10 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
 
 
 
-        setData()
-        initAdapter()
-        initScrollListener()
+
+//        setData()
+//        initAdapter()
+//        initScrollListener()
 
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
