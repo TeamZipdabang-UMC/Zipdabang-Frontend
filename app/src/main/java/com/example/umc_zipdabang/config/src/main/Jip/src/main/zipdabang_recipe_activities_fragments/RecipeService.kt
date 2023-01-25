@@ -1,14 +1,16 @@
-package com.example.umc_zipdabang.config.src.main.Jip.src.main
+package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments
 
-import org.apache.commons.lang3.ObjectUtils.Null
+import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
 import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface RecipeService {
 
     // 집다방 레시피와 우리들의 레시피 모두 지원하는 인터페이스임.
     // 물음표 없으면 초기에 받아오는것.
-    @FormUrlEncoded
     @GET ("/recipes/category")
     fun getCategoryRecipes(
         @Header("x-access-token") token: String?,
@@ -17,7 +19,6 @@ interface RecipeService {
         @Query("is_official") isOfficial: Int): Call<ZipdabangRecipes>
 
     // 물음표 있으면 스크롤 이후 받아오는 것.
-    @FormUrlEncoded
     @GET ("/recipes/category/paging")
     fun getCategoryRecipesScroll(
         @Header("x-access-token") token: String?,
@@ -67,4 +68,8 @@ interface RecipeService {
         @Field ("owner") owner: Int?,
         @Field ("commentId") commentId: Int?
     ): Call<CommentEditResponse>
+
+//    @GET ("/recipes/")
+
+
 }

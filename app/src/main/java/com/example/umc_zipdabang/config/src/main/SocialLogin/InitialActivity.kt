@@ -7,9 +7,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_zipdabang.databinding.ActivityInitialBinding
 import com.kakao.sdk.common.util.Utility
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class InitialActivity: AppCompatActivity() {
 

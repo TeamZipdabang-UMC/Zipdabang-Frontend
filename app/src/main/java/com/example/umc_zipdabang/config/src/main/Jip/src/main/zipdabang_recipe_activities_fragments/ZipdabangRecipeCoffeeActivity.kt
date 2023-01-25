@@ -5,10 +5,16 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.CoffeeLoadingRVAdapter
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeCoffeeBinding
 import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Runnable
 
 class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
@@ -45,6 +51,36 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
 //
 //        viewBinding.rvZipdabangRecipeBeverage.adapter = beverageRecipesRVAdapter
 //        viewBinding.rvZipdabangRecipeBeverage.layoutManager = GridLayoutManager(this, 2)
+
+        val recipeRetrofit = Retrofit.Builder()
+            .baseUrl("http://zipdabang.store:3000")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val recipeService = recipeRetrofit.create(RecipeService::class.java)
+
+        val tokenDb = TokenDatabase.getTokenDatabase(this)
+
+        lateinit var firstResult: List<RecipeInfo>
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val token = tokenDb.tokenDao().getToken()
+            val tokenNum = token.token
+            Log.d("토큰 넘버", "${tokenNum}")
+            recipeService.getCategoryRecipes(tokenNum, 1, 0, 1).enqueue(object : Callback<ZipdabangRecipes> {
+                override fun onResponse(
+                    call: Call<ZipdabangRecipes>,
+                    response: Response<ZipdabangRecipes>
+                ) {
+                    val result = response.body()
+                    Log.d("커피 카테고리 레시피 Get 성공", "${result}")
+                }
+
+                override fun onFailure(call: Call<ZipdabangRecipes>, t: Throwable) {
+                    Log.d("커피 카테고리 레시피 Get", "실패")
+                }
+            })
+        }
+
+
 
         setData()
         initAdapter()

@@ -18,6 +18,9 @@ import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_d
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.CategoriesRVAdapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.LoadingRVAdapter
 import kotlinx.coroutines.*
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.lang.Runnable
 
 class ZipdabangRecipeFragment: Fragment() {
@@ -75,6 +78,7 @@ class ZipdabangRecipeFragment: Fragment() {
 //            // 키를 통해 값을 조회하는 형식으로 데이터를 가져옴.
 //        }
 //
+
 
         val categoriesList: ArrayList<CategoriesData> = arrayListOf()
         categoriesList.apply {
