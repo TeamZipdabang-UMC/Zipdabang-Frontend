@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.umc_zipdabang.databinding.FragmentUserBinding
 
-class UserFragment: Fragment() {
+class MyFragment: Fragment() {
 
     private lateinit var  viewBinding: FragmentUserBinding
 
