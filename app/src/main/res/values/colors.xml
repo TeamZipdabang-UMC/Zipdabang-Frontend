@@ -16,5 +16,6 @@
     <color name="jipdabang_main_">#E4DFDF</color>
     <color name="jipdabang_bt_gray">#EDEDED</color>
     <color name="jipdabang_dialog_tv">#767676</color>
+    <color name="jipdabang_sign_button_gray">#EDEDED</color>
 
 </resources>

@@ -9,7 +9,7 @@ import android.view.WindowManager
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Our.OurFragment
 import com.example.umc_zipdabang.config.src.main.Jip.JipFragment
-import com.example.umc_zipdabang.config.src.main.User.UserFragment
+import com.example.umc_zipdabang.config.src.main.User.MyFragment
 import com.example.umc_zipdabang.databinding.ActivityMainBinding
 
 
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private var homeFragment : HomeFragment? = null
     private var  jipFragment : JipFragment? = null
     private var ourFragment : OurFragment? = null
-   private var userFragment : UserFragment? = null
+   private var userFragment : MyFragment? = null
 
 
 
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.tab_user -> {
                     if(userFragment==null) {
-                        userFragment= UserFragment()
+                        userFragment=MyFragment()
                         supportFragmentManager.beginTransaction()
                             .add(R.id.main_fl, userFragment!!)
                             .commitAllowingStateLoss()
