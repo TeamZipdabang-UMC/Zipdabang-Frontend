@@ -9,7 +9,7 @@ data class CommentsResponse(
 )
 
 data class CommentsData(
-    @SerializedName("comments") val comments: AllComments?
+    @SerializedName("comments") val comments: List<AllComments?>
 //    List<ThreeComments>
 )
 

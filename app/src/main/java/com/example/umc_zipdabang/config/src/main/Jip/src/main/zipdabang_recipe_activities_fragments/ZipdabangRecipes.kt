@@ -11,7 +11,7 @@ data class ZipdabangRecipes(
 )
 
 data class RecipeInfo(
-    @SerializedName("Id") val id: Int,
+    @SerializedName("recipeId") val id: Int,
     @SerializedName("name") val name: String,
     @SerializedName("image_url") val imageUrl: String,
     @SerializedName("likes") val likes: Int

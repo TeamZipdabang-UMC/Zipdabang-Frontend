@@ -5,8 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.ActivityInitialBinding
+import com.google.android.gms.auth.TokenData
 import com.kakao.sdk.common.util.Utility
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class InitialActivity: AppCompatActivity() {
 
@@ -21,6 +26,11 @@ class InitialActivity: AppCompatActivity() {
             startActivity(intent)
 
         }
+
+        val tokenDb = TokenDatabase.getTokenDatabase(this)
+//        GlobalScope.launch(Dispatchers.IO) {
+//            tokenDb.tokenDao().deleteAll()
+//        }
 
 
         // 카카오 키 해시값 확인 목적

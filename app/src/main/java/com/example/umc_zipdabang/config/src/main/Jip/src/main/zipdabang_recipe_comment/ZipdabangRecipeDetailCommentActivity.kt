@@ -1,11 +1,13 @@
 package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -19,8 +21,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.decoration.AdapterDecoration
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.Token
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.AllComments
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.CommentsResponse
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
+import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
+import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.converter.gson.GsonConverterFactory
 
 class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
     lateinit var viewBinding: ActivityZipdabangRecipeDetailCommentBinding
@@ -44,24 +60,126 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
 
         layoutManager = LinearLayoutManager(this)
         viewBinding.rvZipdabangRecipeDetailComment.layoutManager = layoutManager
-        getPage()
 
-        viewBinding.rvZipdabangRecipeDetailComment.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) {
-                    val visibleItemCount = layoutManager.childCount
-                    val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-                    val total = adapter.itemCount
+        val commentRetrofit = retrofit2.Retrofit.Builder()
+            .baseUrl("http://zipdabang.store:3000")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val commentService = commentRetrofit.create(RecipeService::class.java)
 
-                    if (!isLoading) {
-                        if ((visibleItemCount + pastVisibleItem) >= total) {
-                            page += 1
-                            getPage()
-                        }
-                    }
-                }
+        val tokenDb = TokenDatabase.getTokenDatabase(this)
+        val goToLogin = Intent(this, InitialActivity::class.java)
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val token: Token = tokenDb.tokenDao().getToken()
+            if (token.token == "") {
+                startActivity(goToLogin)
             }
-        })
+            val tokenNum = token.token
+            Log.d("토큰 넘버", "${tokenNum}")
+            commentService.getRecipeComments(tokenNum, 49).enqueue(object: Callback<CommentsResponse> {
+                override fun onResponse(
+                    call: Call<CommentsResponse>,
+                    response: Response<CommentsResponse>
+                ) {
+                    val result = response.body()
+                    Log.d("레시피 댓글 Get 성공", "${result}")
+                    val firstResultArray = arrayListOf<AllComments?>()
+                    for (i in 0 until result?.data!!.comments.size) {
+                        val firstResult = result?.data?.comments?.get(i)
+                        firstResultArray.add(firstResult)
+                        Log.d("첫번째 배열 요소", "${firstResultArray}")
+                    }
+
+                    val commentIdArray = arrayListOf<Int?>()
+                    val commentOwnerArray = arrayListOf<Int?>()
+                    val commentBodyArray = arrayListOf<String?>()
+                    val commentDateTimeArray = arrayListOf<String?>()
+                    val commentNicknameArray = arrayListOf<String?>()
+                    val commentProfileUrlArray = arrayListOf<String?>()
+
+                    for (i in 0 until firstResultArray.size) {
+                        commentIdArray.add(firstResultArray[i]?.commentId)
+                        commentOwnerArray.add(firstResultArray[i]?.owner)
+                        commentBodyArray.add(firstResultArray[i]?.body)
+                        commentDateTimeArray.add(firstResultArray[i]?.createdAt)
+                        commentNicknameArray.add(firstResultArray[i]?.nickname)
+                        commentProfileUrlArray.add(firstResultArray[i]?.profile)
+
+                        val dateTimeArray = firstResultArray[i]?.createdAt?.split('T')
+                        val date = dateTimeArray?.get(0)
+                        val time = dateTimeArray?.get(1)
+                        commentNumberList.add(
+                            Comment(firstResultArray[i]?.profile,
+                                firstResultArray[i]?.nickname,
+                                date,
+                                time,
+                                firstResultArray[i]?.body
+                            )
+                        )
+                    }
+                    Handler().postDelayed({
+                        if (::adapter.isInitialized) {
+                            adapter.notifyDataSetChanged()
+                        } else {
+                            adapter = ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(this@ZipdabangRecipeDetailCommentActivity, commentNumberList)
+                            // 여기 고치기
+                            viewBinding.rvZipdabangRecipeDetailComment.layoutManager = layoutManager
+                            viewBinding.rvZipdabangRecipeDetailComment.adapter = adapter
+
+                        }
+                        isLoading = false
+                        progressBar.visibility = View.GONE
+                    },2000)
+
+                    isLoading = true
+                    progressBar.visibility = View.VISIBLE
+
+                    val start = (page-1) * limit
+                    val end = (page) * limit
+
+//                    for (i in start..end) {
+//                        // 여기에 해당 들어갈 내용을 넣기
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+//                    }
+
+                    viewBinding.rvZipdabangRecipeDetailComment.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            if (dy > 0) {
+                                val visibleItemCount = layoutManager.childCount
+                                val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+                                val total = adapter.itemCount
+
+                                if (!isLoading) {
+                                    if ((visibleItemCount + pastVisibleItem) >= total) {
+                                        page += 1
+                                        getPage()
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
+
+                override fun onFailure(call: Call<CommentsResponse>, t: Throwable) {
+                    Log.d("레시피 댓글 불러오기", "실패")
+                }
+            })
+        }
+
+//        getPage()
+
+
 
         viewBinding.ivZipdabangRecipeDetailCommentsBackarrow.setOnClickListener {
             finish()

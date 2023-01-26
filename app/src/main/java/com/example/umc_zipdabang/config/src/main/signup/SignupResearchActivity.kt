@@ -393,7 +393,7 @@ class SignupResearchActivity : AppCompatActivity() {
             })
              */
 
-            val intent = Intent(this, SignupServiceagreeActivity::class.java)
+            val intent = Intent(this, HomeMainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }

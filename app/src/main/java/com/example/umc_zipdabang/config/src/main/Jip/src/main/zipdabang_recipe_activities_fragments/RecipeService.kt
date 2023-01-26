@@ -26,27 +26,46 @@ interface RecipeService {
         @Query("main_page") mainPage: Int, // 나는 무조건 0
         @Query("is_official") isOfficial: Int): Call<ZipdabangRecipes>
 
+    // 집다방 레시피 전체 불러오기 - 초기
+    @GET ("/recipes/official-recipe")
+    fun getAllZipdabangRecipes(
+        @Header("x-access-token") token: String?,
+    ): Call<ZipdabangRecipes>
+
+    // 집다방 레시피 전체 불러오기 - 스크롤
+    @GET ("/recipes/official-recipe")
+    fun getAllZipdabangRecipesScrolled(
+        @Header("x-access-token") token: String?,
+        @Query("last") last: Int?
+    ): Call<ZipdabangRecipes>
+
+    // 우리들의 레시피 전체 불러오기
+
     // 개별 레시피 get
 //    @GET ("/recipes/:recipeId/info")
 //    fun getDetailRecipe(@Query(""))
 
+    // 댓글쓰기
     @POST ("/comments/new-comment")
     fun addComment(
         @Header("x-access-token") token: String?,
         @Field("target") target: Int,
         @Field("body") body: String): Call<CommentAddResponse>
 
-    @GET ("/comments/comments-overview?recipe={recipeId}")
-    fun getThreeComments(@Query("recipe") recipeId: Int): Call<ThreeCommentsResponse>
+    // 댓글 3개 보여주기
+    @GET ("/comments/comments-overview")
+    fun getThreeComments(
+        @Header("x-access-token") token: String?,
+        @Query("recipe") recipeId: Int): Call<ThreeCommentsResponse>
 
     // 댓글 조회 처음
-    @GET ("/comments/comments-view-first?recipe={recipeId}")
+    @GET ("/comments/comments-view-first")
     fun getRecipeComments(
         @Header("x-access-token") token: String?,
         @Query("recipe") recipeId: Int): Call<CommentsResponse>
 
     // 댓글 스크롤
-    @GET ("/comments/comments-view-more?recipe={recipeId}&last={commentId}")
+    @GET ("/comments/comments-view-more")
     fun getMoreRecipeComments(
         @Header("x-access-token") token: String?,
         @Query("recipe") recipeId: Int,
