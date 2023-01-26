@@ -45,6 +45,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/my_frame">
+        <ImageView
+            android:id="@+id/my_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
         <LinearLayout
             android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
@@ -380,17 +384,28 @@
                 android:text="Step 1"
                 android:textSize="16dp"
                 android:textColor="@color/jipdabang_black"/>
-        <androidx.appcompat.widget.AppCompatButton
-            style="?android:attr/borderlessButtonStyle"
-            android:background="@drawable/round"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:text="Step1 사진 첨부"
-            android:textAlignment="center"
-            android:textSize="16dp"
-            android:textColor="#767676"
-            android:fontFamily="@font/notosanskrregular"
-            android:layout_marginBottom="8dp"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/my_recipe_image_step"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/round"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="Step1 사진 첨부"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:textColor="#767676"
+                    android:fontFamily="@font/notosanskrregular"
+                    android:layout_marginBottom="8dp">
+                </androidx.appcompat.widget.AppCompatButton>
+                <ImageView
+                    android:id="@+id/my_recipe_realimage_step"
+                    android:layout_width="52dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"/>
+            </FrameLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/my_recipe_tv_step"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

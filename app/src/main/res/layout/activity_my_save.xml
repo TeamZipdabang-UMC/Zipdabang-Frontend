@@ -369,6 +369,7 @@
                 android:orientation="vertical">
                 <androidx.appcompat.widget.AppCompatButton
                     style="?android:attr/borderlessButtonStyle"
+                    android:id="@+id/my_recipe_image_step"
                     android:background="@drawable/round"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
@@ -476,24 +477,8 @@
             app:layout_constraintStart_toStartOf="@id/my_linear_tital"
             app:layout_constraintEnd_toEndOf="@id/my_linear_tital">
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/my_savebtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                style="?android:attr/borderlessButtonStyle"
-                android:clickable="false"
-                android:background="@drawable/my_btn_round"
-                android:text="임시저장"
-                android:textSize="16dp"
-                android:fontFamily="@font/notosanskrbold"
-                android:textColor="@color/jipdabang_black" />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/my_uploadbtn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 style="?android:attr/borderlessButtonStyle"

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="324dp"
+    android:layout_height="538dp"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/my_dialog_upload">
+        <FrameLayout
+            android:id="@+id/my_xbtn"
+            android:layout_gravity="end"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:clickable="true">
+            <androidx.constraintlayout.utils.widget.ImageFilterButton
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:src="@drawable/my_xbtn"
+                android:scaleType="centerCrop"/>
+        </FrameLayout>
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/my_uploadimg"
+            android:layout_width="300dp"
+            android:layout_height="265dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="업로드 완료!"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:textSize="24dp"
+            android:textColor="@color/jipdabang_black"
+            android:fontFamily="@font/notosanskrbold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="멋진 음료 레시피를 작성하셨네요. 대단해요!"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="-20dp"
+            android:fontFamily="@font/notosanskrregular"
+            android:textSize="16sp"
+            android:textColor="@color/jipdabang_black"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/my_uploaddonebtn"
+            android:layout_width="204dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:background="@drawable/my_btn_round_yellow"
+            android:layout_gravity="center"
+            android:text="업로드 레시피 보러가기"
+            android:textColor="@color/jipdabang_black"
+            android:textSize="16sp"
+            android:fontFamily="@font/notosanskrbold"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <TextView
+            android:id="@+id/my_uploadseelaterbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:text="나중에 보기"
+            android:textSize="12dp"
+            android:textColor="#999999"
+            android:fontFamily="@font/notosanskrregular"/>
+    </LinearLayout>
+</LinearLayout>

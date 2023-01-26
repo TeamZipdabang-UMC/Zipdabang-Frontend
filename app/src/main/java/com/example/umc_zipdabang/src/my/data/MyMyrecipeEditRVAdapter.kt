@@ -33,6 +33,7 @@ class MyMyrecipeEditRVAdapter(private val context: MyMyrecipeEditActivity, priva
             binding.myCheckiv.setTag("0")
             binding.myCheckiv.setImageResource(R.drawable.uncheck_round)
 
+
             binding.myRecipeImg.setColorFilter(NULL)
             binding.myRecipeTital.text = item.tital
             binding.myRecipeHeart.text = item.likes.toString()
