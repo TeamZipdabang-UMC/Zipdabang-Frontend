@@ -137,18 +137,18 @@ class ZipdabangRecipeDetailCommentSmoothieActivity: AppCompatActivity() {
 
         for (i in start..end) {
             // 여기에 해당 들어갈 내용을 넣기
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "반기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
-            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "반기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
+//            commentNumberSmoothieList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "정기문", "1234", "5678", "내입 썩는다."))
 
 
         }

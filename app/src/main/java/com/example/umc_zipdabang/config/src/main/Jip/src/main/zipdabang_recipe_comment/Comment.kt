@@ -10,5 +10,7 @@ data class Comment(
     val nickname: String?,
     val date: String?,
     val time: String?,
-    val content: String?
+    val content: String?,
+    val commentId: Int?,
+    val commentOwner: Int?
 )

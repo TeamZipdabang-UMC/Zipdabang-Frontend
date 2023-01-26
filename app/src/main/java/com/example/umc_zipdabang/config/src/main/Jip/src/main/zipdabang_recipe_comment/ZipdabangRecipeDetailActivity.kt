@@ -95,11 +95,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         val recipeDetailCommentList: ArrayList<Comment> = arrayListOf()
         val recipeDetailCommentRVAdapter = RecipeDetailCommentRVAdapter(recipeDetailCommentList)
         recipeDetailCommentList.apply {
-            add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."
-                )
-            )
+            //add(Comment())
         }
 
         viewBinding.rvZipdabangRecipeComments.layoutManager = LinearLayoutManager(this)

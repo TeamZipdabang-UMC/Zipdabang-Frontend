@@ -21,17 +21,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.decoration.AdapterDecoration
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.CommentDbClass
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.Token
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.AllComments
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.CommentsData
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.CommentsResponse
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.*
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.AllRecipesData
 import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
+import kotlinx.android.synthetic.main.activity_zipdabang_recipe_detail.*
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,6 +49,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
 
     lateinit var adapter: CommentInfiniteRVAdapter
     lateinit var layoutManager: LinearLayoutManager
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,12 +100,16 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                         val commentProfileUrlArray = arrayListOf<String?>()
 
                         for (i in 0 until firstResultArray.size) {
+
                             commentIdArray.add(firstResultArray[i]?.commentId)
                             commentOwnerArray.add(firstResultArray[i]?.owner)
                             commentBodyArray.add(firstResultArray[i]?.body)
                             commentDateTimeArray.add(firstResultArray[i]?.createdAt)
                             commentNicknameArray.add(firstResultArray[i]?.nickname)
                             commentProfileUrlArray.add(firstResultArray[i]?.profile)
+
+                            // 이런 식이면, oncreate 되자마자 삭제하는 편이 나을수도 있음.
+                            tokenDb.commentDao().addComment(CommentDbClass(firstResultArray[i]?.commentId, firstResultArray[i]?.owner))
 
                             val dateTimeArray = firstResultArray[i]?.createdAt?.split('T')
                             val date = dateTimeArray?.get(0)
@@ -116,7 +120,9 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                     firstResultArray[i]?.nickname,
                                     date,
                                     time,
-                                    firstResultArray[i]?.body
+                                    firstResultArray[i]?.body,
+                                    firstResultArray[i]?.commentId,
+                                    firstResultArray[i]?.owner
                                 )
                             )
                         }
@@ -265,7 +271,9 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                                                         firstResultArray[i]?.nickname,
                                                                         newDate,
                                                                         newTime,
-                                                                        firstResultArray[i]?.body
+                                                                        firstResultArray[i]?.body,
+                                                                        firstResultArray[i]?.commentId,
+                                                                        firstResultArray[i]?.owner
                                                                     )
                                                                 )
                                                             }
@@ -321,17 +329,42 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
 
         // 댓글 업로드 버튼 눌렀을 때
         viewBinding.ivUploadComment.setOnClickListener {
-            Toast(this).apply {
-                duration = Toast.LENGTH_SHORT
-                setGravity(Gravity.BOTTOM, 0, 0)
-                val layout: View = layoutInflater.inflate(
-                    R.layout.toast_comment_upload_layout, findViewById(
-                        R.id.toast_comment_upload
+            if (viewBinding.editTextComment.text != null) {
+                val commentBody: String = viewBinding.editTextComment.toString()
+                // 이거는 나중에 고쳐줘야함!!!
+                val recipeId: Int = 49
+                val tokenNumComment = tokenDb.tokenDao().getToken()
+                GlobalScope.launch(Dispatchers.IO) {
+                    commentService.addComment(tokenNumComment.token, recipeId, commentBody).enqueue(object: Callback<CommentAddResponse> {
+                        override fun onResponse(
+                            call: Call<CommentAddResponse>,
+                            response: Response<CommentAddResponse>
+                        ) {
+                            val addCommentResult = response.body()
+                            Log.d("레시피 댓글 추가 성공", "${addCommentResult}")
+
+                        }
+
+                        override fun onFailure(call: Call<CommentAddResponse>, t: Throwable) {
+                            Log.d("레시피 댓글 추가", "실패")
+                        }
+                    })
+                }
+
+
+                Toast(this).apply {
+                    duration = Toast.LENGTH_SHORT
+                    setGravity(Gravity.BOTTOM, 0, 0)
+                    val layout: View = layoutInflater.inflate(
+                        R.layout.toast_comment_upload_layout, findViewById(
+                            R.id.toast_comment_upload
+                        )
                     )
-                )
-                view = layout
-            }.show()
-            viewBinding.editTextComment.text = null
+                    view = layout
+                }.show()
+                viewBinding.editTextComment.text = null
+            }
+
         }
 
 //        val deleteCommentView = findViewById<TextView>(R.id.btn_comment_final_delete)
@@ -344,14 +377,15 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
 
     class CommentInfiniteRVAdapter(
         val activity: ZipdabangRecipeDetailCommentActivity,
-        private val commentNumberList: ArrayList<com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment>
+        public val commentNumberList: ArrayList<com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment>
     ) : RecyclerView.Adapter<CommentInfiniteRVAdapter.CommentInfiniteViewHolder>() {
 
         class CommentInfiniteViewHolder(private var binding: ItemCommentBinding) :
             RecyclerView.ViewHolder(binding.root) {
             fun bind(
                 context: Context,
-                item: com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment
+                item: com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment,
+                commentNumList: ArrayList<Comment>
             ) {
 
 
@@ -421,7 +455,41 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
 
                         // 정말 삭제하시겠습니까? - 삭제 클릭 시
                         commentFinalDeleteButton.setOnClickListener {
+                            val commentDeleteTokenDb = TokenDatabase.getTokenDatabase(context)
+                            val deleteToken = commentDeleteTokenDb.tokenDao().getToken().token
 
+                            val commentDeleteRetrofit = retrofit2.Retrofit.Builder()
+                                .baseUrl("http://zipdabang.store:3000")
+                                .addConverterFactory(GsonConverterFactory.create()).build()
+                            val commentDeleteService = commentDeleteRetrofit.create(RecipeService::class.java)
+
+
+                            GlobalScope.launch(Dispatchers.IO) {
+                                // 댓글 위치
+                                val commentLocation = adapterPosition
+                                val selectedDeleteComment = commentNumList[adapterPosition]
+                                val selectedDeleteCommentId = selectedDeleteComment.commentId
+                                val selectedDeleteCommentOwner = selectedDeleteComment.commentOwner
+                                // 데이터베이스로부터 해당 댓글
+                                commentDeleteService.deleteComment(deleteToken, selectedDeleteCommentOwner, selectedDeleteCommentId).enqueue(object : Callback<CommentEditResponse> {
+                                    override fun onResponse(
+                                        call: Call<CommentEditResponse>,
+                                        response: Response<CommentEditResponse>
+                                    ) {
+                                        val deleteResult = response.body()
+                                        Log.d("레시피 댓글 Delete 성공", "${deleteResult}")
+                                        // 삭제되었어요 토스트 필요
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<CommentEditResponse>,
+                                        t: Throwable
+                                    ) {
+                                        Log.d("삭제 실패", "다시해라")
+                                    }
+                                })
+
+                            }
                         }
 
                         // 취소 클릭 시
@@ -451,7 +519,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
             holder: CommentInfiniteRVAdapter.CommentInfiniteViewHolder,
             position: Int
         ) {
-            holder.bind(activity, activity.commentNumberList[position])
+            holder.bind(activity, activity.commentNumberList[position], commentNumberList)
 
         }
 
@@ -464,152 +532,152 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
         }
     }
 
-    private fun getPage() {
-        isLoading = true
-        progressBar.visibility = View.VISIBLE
-
-        val start = (page - 1) * limit
-        val end = (page) * limit
-
-        for (i in start..end) {
-            // 여기에 해당 들어갈 내용을 넣기
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-            commentNumberList.add(
-                Comment(
-                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
-                    "김기문",
-                    "1234",
-                    "5678",
-                    "내입 썩는다."
-                )
-            )
-        }
-        Handler().postDelayed({
-            if (::adapter.isInitialized) {
-                adapter.notifyDataSetChanged()
-            } else {
-                adapter = ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(
-                    this,
-                    commentNumberList
-                )
-                viewBinding.rvZipdabangRecipeDetailComment.adapter = adapter
-            }
-            isLoading = false
-            progressBar.visibility = View.GONE
-        }, 2000)
-    }
-
-    // 토스트 띄우기
-    private fun showCommentDeleteToast() {
-        Toast(this).apply {
-            duration = Toast.LENGTH_SHORT
-            setGravity(Gravity.BOTTOM, 0, 0)
-            val layout: View = layoutInflater.inflate(
-                R.layout.toast_comment_delete_layout,
-                findViewById(R.id.toast_delete)
-            )
-            view = layout
-        }.show()
-
-    }
+//    private fun getPage() {
+//        isLoading = true
+//        progressBar.visibility = View.VISIBLE
+//
+//        val start = (page - 1) * limit
+//        val end = (page) * limit
+//
+//        for (i in start..end) {
+//            // 여기에 해당 들어갈 내용을 넣기
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//            commentNumberList.add(
+//                Comment(
+//                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+//                    "김기문",
+//                    "1234",
+//                    "5678",
+//                    "내입 썩는다."
+//                )
+//            )
+//        }
+//        Handler().postDelayed({
+//            if (::adapter.isInitialized) {
+//                adapter.notifyDataSetChanged()
+//            } else {
+//                adapter = ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(
+//                    this,
+//                    commentNumberList
+//                )
+//                viewBinding.rvZipdabangRecipeDetailComment.adapter = adapter
+//            }
+//            isLoading = false
+//            progressBar.visibility = View.GONE
+//        }, 2000)
+//    }
+//
+//    // 토스트 띄우기
+//    private fun showCommentDeleteToast() {
+//        Toast(this).apply {
+//            duration = Toast.LENGTH_SHORT
+//            setGravity(Gravity.BOTTOM, 0, 0)
+//            val layout: View = layoutInflater.inflate(
+//                R.layout.toast_comment_delete_layout,
+//                findViewById(R.id.toast_delete)
+//            )
+//            view = layout
+//        }.show()
+//
+//    }
 
 
 }
