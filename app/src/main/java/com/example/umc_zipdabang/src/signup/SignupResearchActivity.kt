@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.databinding.ActivitySignupResearchBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -392,7 +393,7 @@ class SignupResearchActivity : AppCompatActivity() {
             })
              */
 
-            val intent = Intent(this, SignupServiceagreeActivity::class.java)
+            val intent = Intent(this, HomeMainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }

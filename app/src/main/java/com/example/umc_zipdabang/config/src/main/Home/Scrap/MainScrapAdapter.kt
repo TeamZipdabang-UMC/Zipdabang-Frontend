@@ -19,14 +19,18 @@ class MainScrapAdapter(private val context: HomeMainActivity, private val dataLi
         RecyclerView.ViewHolder(binding.root){
 
         fun bind(context: Context, item: ArrayList<Main_Scrap>){
-            binding.homeTvCategory1.text= item[0].title
-            binding.homeTvHeart1.text=item[0].heart.toString()
-            binding.homeTvCategory2.text= item[1].title
-            binding.homeTvHeart2.text=item[1].heart.toString()
-            Glide.with(context).load(item[0].ImageUrl).into(binding.homeIvCategory1)
-            Glide.with(context).load(item[1].ImageUrl).into(binding.homeIvCategory2)
-            binding.homeIvCategory1.clipToOutline = true
-            binding.homeIvCategory2.clipToOutline = true
+
+            if(item.size!=0) {
+
+                binding.homeTvCategory1.text = item[0].title
+                binding.homeTvHeart1.text = item[0].heart.toString()
+                binding.homeTvCategory2.text = item[1].title
+                binding.homeTvHeart2.text = item[1].heart.toString()
+                Glide.with(context).load(item[0].ImageUrl).into(binding.homeIvCategory1)
+                Glide.with(context).load(item[1].ImageUrl).into(binding.homeIvCategory2)
+                binding.homeIvCategory1.clipToOutline = true
+                binding.homeIvCategory2.clipToOutline = true
+            }
 
 
 

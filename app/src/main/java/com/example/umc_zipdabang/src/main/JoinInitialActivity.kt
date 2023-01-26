@@ -1,24 +1,16 @@
 package com.example.umc_zipdabang.src.main
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.databinding.ActivityJoinInitialBinding
 import com.example.umc_zipdabang.src.main.KakaoRetrofitManager.Companion.kakaoRetrofit
 import com.example.umc_zipdabang.src.main.model.GoogleResponse
-import com.example.umc_zipdabang.src.main.model.KakaoLogin
 import com.example.umc_zipdabang.src.main.model.KakaoResponse
 import com.example.umc_zipdabang.src.main.roomDb.Token
 import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
@@ -30,19 +22,14 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.gson.JsonObject
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApi
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
-import org.json.JSONObject
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
