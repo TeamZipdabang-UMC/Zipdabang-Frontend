@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 interface RecipeService {
-
     // 집다방 레시피와 우리들의 레시피 모두 지원하는 인터페이스임.
     // 물음표 없으면 초기에 받아오는것.
     @GET ("/recipes/category")

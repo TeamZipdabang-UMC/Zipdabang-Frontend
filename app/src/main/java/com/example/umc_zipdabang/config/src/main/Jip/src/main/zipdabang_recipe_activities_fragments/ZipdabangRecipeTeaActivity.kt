@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.AdeRecipesData
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.TeaRecipesData
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageLoadingRVAdapter
@@ -60,7 +61,7 @@ class ZipdabangRecipeTeaActivity: AppCompatActivity() {
                 ) {
                     val result = response.body()
                     Log.d("Tea 카테고리 레시피 Get 성공", "${result}")
-                    val firstResultArray = arrayListOf<RecipeInfo?>()
+                    var firstResultArray = arrayListOf<RecipeInfo?>()
                     for (i in 0 until result?.data!!.size) {
                         val firstResult = result?.data?.get(i)
                         firstResultArray.add(firstResult)
@@ -115,6 +116,90 @@ class ZipdabangRecipeTeaActivity: AppCompatActivity() {
 
                         }
                     })
+
+                    // 시작
+                    viewBinding.rvZipdabangRecipeTea.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                            super.onScrolled(recyclerView, dx, dy)
+                            if (!isLoading) {
+                                if (viewBinding.rvZipdabangRecipeTea.layoutManager != null && (viewBinding.rvZipdabangRecipeTea.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (teaRecipesList.size - 1)) {
+                                    //리스트 마지막o
+//                                    moreItems()
+
+                                    val runnable = Runnable {
+
+                                        teaRecipesList.add(TeaRecipesData(null, null, null))
+                                        Log.d("insert before", "msg")
+                                        teaRecipesRVAdapter.notifyItemInserted(teaRecipesList.size - 1)
+
+                                    }
+
+                                    viewBinding.rvZipdabangRecipeTea.post(runnable)
+
+                                    GlobalScope.launch {
+                                        delay(2000)
+                                        withContext(Dispatchers.Main) {
+                                            teaRecipesList.removeAt(teaRecipesList.size - 1)
+                                            val scrollToPosition = teaRecipesList.size
+                                            teaRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+
+                                            recipeService.getAllZipdabangRecipesScrolled(tokenNum, firstResultIdArray.get(firstResultIdArray.size-1)).enqueue(object: Callback<ZipdabangRecipes> {
+                                                override fun onResponse(
+                                                    call: Call<ZipdabangRecipes>,
+                                                    response: Response<ZipdabangRecipes>
+                                                ) {
+
+                                                    var moreResult = response.body()
+                                                    firstResultArray = ArrayList<RecipeInfo?>()
+                                                    Log.d("more result 결과", "${moreResult}")
+                                                    for (i in 0 until moreResult?.data!!.size) {
+                                                        val moreResultData = moreResult?.data?.get(i)
+                                                        firstResultArray.add(moreResultData)
+                                                    }
+
+                                                    Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
+                                                    Log.d("다음 배열", "${firstResultArray}")
+
+                                                    for (i in 0 until moreResult?.data!!.size) {
+                                                        firstResultIdArray.add(firstResultArray[i]?.id)
+                                                        firstResultNameArray.add(firstResultArray[i]?.name)
+                                                        firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                                                        firstResultLikesArray.add(firstResultArray[i]?.likes)
+                                                        Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                                                        Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                                                        Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                                                        Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                                                        teaRecipesList.add(
+                                                            TeaRecipesData(
+                                                                firstResultArray[i]?.imageUrl,
+                                                                firstResultArray[i]?.name,
+                                                                firstResultArray[i]?.likes
+                                                            )
+                                                        )
+                                                        Log.d("아이디 배열 결과", "${firstResultIdArray}")
+                                                        teaRecipesRVAdapter.notifyDataSetChanged()
+                                                        isLoading = false
+                                                    }
+                                                }
+
+                                                override fun onFailure(
+                                                    call: Call<ZipdabangRecipes>,
+                                                    t: Throwable
+                                                ) {
+                                                    Log.d("추가 레시피 불러오기", "실패")
+                                                }
+                                            })
+                                        }
+                                    }
+
+                                    isLoading = true
+
+                                }
+                            }
+                        }
+                    })
+                    // 끝
 
 //                    setData()
 //                    initAdapter()

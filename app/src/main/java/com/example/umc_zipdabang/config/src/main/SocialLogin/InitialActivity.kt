@@ -7,11 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.ActivityInitialBinding
-import com.google.android.gms.auth.TokenData
 import com.kakao.sdk.common.util.Utility
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class InitialActivity: AppCompatActivity() {
 
@@ -40,6 +36,22 @@ class InitialActivity: AppCompatActivity() {
         viewBinding.tvLoginUnderline.setOnClickListener {
 
         }
+
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("http://zipdabang.store:3000")
+//            .addConverterFactory(GsonConverterFactory.create()).build()
+//        val retrofitService = retrofit.create(RecipeService::class.java)
+//
+//        retrofitService.test(Test(null)).enqueue(object : Callback<Success> {
+//            override fun onResponse(call: Call<Success>, response: Response<Success>) {
+//                val result = response.body()
+//                Log.d("가져오기 성공", "${result}")
+//            }
+//
+//            override fun onFailure(call: Call<Success>, t: Throwable) {
+//                Log.d("가져오기", "실패")
+//            }
+//        })
 
 //        val handler = Handler(Looper.getMainLooper())
 //        handler.postDelayed({
