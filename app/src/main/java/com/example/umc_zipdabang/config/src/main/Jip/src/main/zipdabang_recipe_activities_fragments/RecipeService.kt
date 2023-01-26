@@ -67,8 +67,8 @@ interface RecipeService {
     @GET ("/comments/comments-view-more")
     fun getMoreRecipeComments(
         @Header("x-access-token") token: String?,
-        @Query("recipe") recipeId: Int,
-        @Query("last") last: Int): Call<CommentsResponse>
+        @Query("recipe") recipeId: Int?,
+        @Query("last") last: Int?): Call<CommentsResponse>
 
     // 댓글 수정
     @PATCH ("/comments/comments-update")

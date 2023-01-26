@@ -24,23 +24,24 @@ import com.example.umc_zipdabang.config.src.main.Jip.src.main.decoration.Adapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.Token
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.AllComments
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.CommentsData
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.CommentsResponse
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.AllRecipesData
 import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
+class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
     lateinit var viewBinding: ActivityZipdabangRecipeDetailCommentBinding
-    private val commentNumberList = ArrayList<com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment>()
+    private val commentNumberList =
+        ArrayList<com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment>()
     private var page = 1
     private var isLoading = false
     private var limit = 12
@@ -76,66 +77,73 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
             }
             val tokenNum = token.token
             Log.d("토큰 넘버", "${tokenNum}")
-            commentService.getRecipeComments(tokenNum, 49).enqueue(object: Callback<CommentsResponse> {
-                override fun onResponse(
-                    call: Call<CommentsResponse>,
-                    response: Response<CommentsResponse>
-                ) {
-                    val result = response.body()
-                    Log.d("레시피 댓글 Get 성공", "${result}")
-                    val firstResultArray = arrayListOf<AllComments?>()
-                    for (i in 0 until result?.data!!.comments.size) {
-                        val firstResult = result?.data?.comments?.get(i)
-                        firstResultArray.add(firstResult)
-                        Log.d("첫번째 배열 요소", "${firstResultArray}")
-                    }
-
-                    val commentIdArray = arrayListOf<Int?>()
-                    val commentOwnerArray = arrayListOf<Int?>()
-                    val commentBodyArray = arrayListOf<String?>()
-                    val commentDateTimeArray = arrayListOf<String?>()
-                    val commentNicknameArray = arrayListOf<String?>()
-                    val commentProfileUrlArray = arrayListOf<String?>()
-
-                    for (i in 0 until firstResultArray.size) {
-                        commentIdArray.add(firstResultArray[i]?.commentId)
-                        commentOwnerArray.add(firstResultArray[i]?.owner)
-                        commentBodyArray.add(firstResultArray[i]?.body)
-                        commentDateTimeArray.add(firstResultArray[i]?.createdAt)
-                        commentNicknameArray.add(firstResultArray[i]?.nickname)
-                        commentProfileUrlArray.add(firstResultArray[i]?.profile)
-
-                        val dateTimeArray = firstResultArray[i]?.createdAt?.split('T')
-                        val date = dateTimeArray?.get(0)
-                        val time = dateTimeArray?.get(1)
-                        commentNumberList.add(
-                            Comment(firstResultArray[i]?.profile,
-                                firstResultArray[i]?.nickname,
-                                date,
-                                time,
-                                firstResultArray[i]?.body
-                            )
-                        )
-                    }
-                    Handler().postDelayed({
-                        if (::adapter.isInitialized) {
-                            adapter.notifyDataSetChanged()
-                        } else {
-                            adapter = ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(this@ZipdabangRecipeDetailCommentActivity, commentNumberList)
-                            // 여기 고치기
-                            viewBinding.rvZipdabangRecipeDetailComment.layoutManager = layoutManager
-                            viewBinding.rvZipdabangRecipeDetailComment.adapter = adapter
-
+            commentService.getRecipeComments(tokenNum, 49)
+                .enqueue(object : Callback<CommentsResponse> {
+                    override fun onResponse(
+                        call: Call<CommentsResponse>,
+                        response: Response<CommentsResponse>
+                    ) {
+                        val result = response.body()
+                        Log.d("레시피 댓글 Get 성공", "${result}")
+                        var firstResultArray = arrayListOf<AllComments?>()
+                        for (i in 0 until result?.data!!.comments.size) {
+                            val firstResult = result?.data?.comments?.get(i)
+                            firstResultArray.add(firstResult)
+                            Log.d("첫번째 배열 요소", "${firstResultArray}")
                         }
-                        isLoading = false
-                        progressBar.visibility = View.GONE
-                    },2000)
 
-                    isLoading = true
-                    progressBar.visibility = View.VISIBLE
+                        val commentIdArray = arrayListOf<Int?>()
+                        val commentOwnerArray = arrayListOf<Int?>()
+                        val commentBodyArray = arrayListOf<String?>()
+                        val commentDateTimeArray = arrayListOf<String?>()
+                        val commentNicknameArray = arrayListOf<String?>()
+                        val commentProfileUrlArray = arrayListOf<String?>()
 
-                    val start = (page-1) * limit
-                    val end = (page) * limit
+                        for (i in 0 until firstResultArray.size) {
+                            commentIdArray.add(firstResultArray[i]?.commentId)
+                            commentOwnerArray.add(firstResultArray[i]?.owner)
+                            commentBodyArray.add(firstResultArray[i]?.body)
+                            commentDateTimeArray.add(firstResultArray[i]?.createdAt)
+                            commentNicknameArray.add(firstResultArray[i]?.nickname)
+                            commentProfileUrlArray.add(firstResultArray[i]?.profile)
+
+                            val dateTimeArray = firstResultArray[i]?.createdAt?.split('T')
+                            val date = dateTimeArray?.get(0)
+                            val time = dateTimeArray?.get(1)
+                            commentNumberList.add(
+                                Comment(
+                                    firstResultArray[i]?.profile,
+                                    firstResultArray[i]?.nickname,
+                                    date,
+                                    time,
+                                    firstResultArray[i]?.body
+                                )
+                            )
+                        }
+                        Handler().postDelayed({
+                            if (::adapter.isInitialized) {
+                                adapter.notifyDataSetChanged()
+                            } else {
+                                adapter =
+                                    ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(
+                                        this@ZipdabangRecipeDetailCommentActivity,
+                                        commentNumberList
+                                    )
+                                // 여기 고치기
+                                viewBinding.rvZipdabangRecipeDetailComment.layoutManager =
+                                    layoutManager
+                                viewBinding.rvZipdabangRecipeDetailComment.adapter = adapter
+
+                            }
+                            isLoading = false
+                            progressBar.visibility = View.GONE
+                        }, 2000)
+
+                        isLoading = true
+                        progressBar.visibility = View.VISIBLE
+
+                        val start = (page - 1) * limit
+                        val end = (page) * limit
 
 //                    for (i in start..end) {
 //                        // 여기에 해당 들어갈 내용을 넣기
@@ -153,32 +161,156 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
 //                        commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
 //                    }
 
-                    viewBinding.rvZipdabangRecipeDetailComment.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            if (dy > 0) {
-                                val visibleItemCount = layoutManager.childCount
-                                val pastVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
-                                val total = adapter.itemCount
+                        viewBinding.rvZipdabangRecipeDetailComment.addOnScrollListener(object :
+                            RecyclerView.OnScrollListener() {
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                if (dy > 0) {
+                                    val visibleItemCount = layoutManager.childCount
+                                    val pastVisibleItem =
+                                        layoutManager.findFirstCompletelyVisibleItemPosition()
+                                    val total = adapter.itemCount
 
-                                if (!isLoading) {
-                                    if ((visibleItemCount + pastVisibleItem) >= total) {
-                                        page += 1
-                                        getPage()
+                                    if (!isLoading) {
+                                        if ((visibleItemCount + pastVisibleItem) >= total) {
+                                            page += 1
+//                                        getPage()
+                                            isLoading = true
+                                            progressBar.visibility = View.VISIBLE
+
+                                            val start = (page - 1) * limit
+                                            val end = (page) * limit
+
+                                            GlobalScope.launch {
+                                                delay(1000)
+                                                withContext(Dispatchers.Main) {
+                                                    commentService.getMoreRecipeComments(
+                                                        tokenNum,
+                                                        49,
+                                                        commentIdArray.get(commentIdArray.size - 1)
+                                                    ).enqueue(object : Callback<CommentsResponse> {
+                                                        override fun onResponse(
+                                                            call: Call<CommentsResponse>,
+                                                            response: Response<CommentsResponse>
+                                                        ) {
+                                                            var moreResult = response.body()
+                                                            firstResultArray =
+                                                                ArrayList<AllComments?>()
+                                                            Log.d(
+                                                                "more result 댓글 결과",
+                                                                "${moreResult}"
+                                                            )
+                                                            for (i in 0 until moreResult?.data!!.comments.size) {
+                                                                val newResult = moreResult?.data?.comments?.get(i)
+                                                                firstResultArray.add(newResult)
+                                                                Log.d("첫번째 배열 요소", "${firstResultArray}")
+                                                            }
+                                                            Log.d(
+                                                                "댓글 last",
+                                                                "${commentIdArray.get(commentIdArray.size - 1)}"
+                                                            )
+
+                                                            for (i in 0 until moreResult?.data?.comments!!.size) {
+                                                                commentIdArray.add(firstResultArray[i]?.commentId)
+                                                                commentOwnerArray.add(
+                                                                    firstResultArray[i]?.owner
+                                                                )
+                                                                commentBodyArray.add(
+                                                                    firstResultArray[i]?.body
+                                                                )
+                                                                commentDateTimeArray.add(
+                                                                    firstResultArray[i]?.createdAt
+                                                                )
+                                                                commentNicknameArray.add(
+                                                                    firstResultArray[i]?.nickname
+                                                                )
+                                                                commentProfileUrlArray.add(
+                                                                    firstResultArray[i]?.profile
+                                                                )
+
+                                                                Log.d(
+                                                                    "${i}번째 아이디",
+                                                                    "${firstResultArray[i]?.commentId}"
+                                                                )
+                                                                Log.d(
+                                                                    "${i}번째 오너",
+                                                                    "${firstResultArray[i]?.owner}"
+                                                                )
+                                                                Log.d(
+                                                                    "${i}번째 바디",
+                                                                    "${firstResultArray[i]?.body}"
+                                                                )
+                                                                Log.d(
+                                                                    "${i}번째 시간",
+                                                                    "${firstResultArray[i]?.createdAt}"
+                                                                )
+                                                                Log.d(
+                                                                    "${i}번째 닉네임",
+                                                                    "${firstResultArray[i]?.nickname}"
+                                                                )
+                                                                Log.d(
+                                                                    "${i}번째 프사",
+                                                                    "${firstResultArray[i]?.profile}"
+                                                                )
+                                                                val dateTimeNewArray =
+                                                                    firstResultArray[i]?.createdAt?.split(
+                                                                        'T'
+                                                                    )
+                                                                val newDate =
+                                                                    dateTimeNewArray?.get(0)
+                                                                val newTime =
+                                                                    dateTimeNewArray?.get(1)
+                                                                commentNumberList.add(
+                                                                    Comment(
+                                                                        firstResultArray[i]?.profile,
+                                                                        firstResultArray[i]?.nickname,
+                                                                        newDate,
+                                                                        newTime,
+                                                                        firstResultArray[i]?.body
+                                                                    )
+                                                                )
+                                                            }
+                                                        }
+
+                                                        override fun onFailure(
+                                                            call: Call<CommentsResponse>,
+                                                            t: Throwable
+                                                        ) {
+                                                            Log.d("추가댓글 불러오기", "실패")
+                                                        }
+                                                    })
+                                                }
+                                            }
+
+
+                                            Handler().postDelayed({
+                                                if (::adapter.isInitialized) {
+                                                    adapter.notifyDataSetChanged()
+                                                } else {
+                                                    adapter =
+                                                        ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(
+                                                            this@ZipdabangRecipeDetailCommentActivity,
+                                                            commentNumberList
+                                                        )
+                                                    viewBinding.rvZipdabangRecipeDetailComment.adapter =
+                                                        adapter
+                                                }
+                                                isLoading = false
+                                                progressBar.visibility = View.GONE
+                                            }, 2000)
+                                        }
                                     }
                                 }
                             }
-                        }
-                    })
-                }
+                        })
+                    }
 
-                override fun onFailure(call: Call<CommentsResponse>, t: Throwable) {
-                    Log.d("레시피 댓글 불러오기", "실패")
-                }
-            })
+                    override fun onFailure(call: Call<CommentsResponse>, t: Throwable) {
+                        Log.d("댓글 불러오기", "실패")
+                    }
+                })
         }
 
 //        getPage()
-
 
 
         viewBinding.ivZipdabangRecipeDetailCommentsBackarrow.setOnClickListener {
@@ -194,7 +326,9 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
                 setGravity(Gravity.BOTTOM, 0, 0)
                 val layout: View = layoutInflater.inflate(
                     R.layout.toast_comment_upload_layout, findViewById(
-                        R.id.toast_comment_upload))
+                        R.id.toast_comment_upload
+                    )
+                )
                 view = layout
             }.show()
             viewBinding.editTextComment.text = null
@@ -206,38 +340,51 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
 //        }
 
 
-
     }
 
-    class CommentInfiniteRVAdapter(val activity: ZipdabangRecipeDetailCommentActivity, private val commentNumberList: ArrayList<com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment>): RecyclerView.Adapter<CommentInfiniteRVAdapter.CommentInfiniteViewHolder>() {
+    class CommentInfiniteRVAdapter(
+        val activity: ZipdabangRecipeDetailCommentActivity,
+        private val commentNumberList: ArrayList<com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment>
+    ) : RecyclerView.Adapter<CommentInfiniteRVAdapter.CommentInfiniteViewHolder>() {
 
-        class CommentInfiniteViewHolder(private var binding: ItemCommentBinding): RecyclerView.ViewHolder(binding.root){
-            fun bind(context: Context, item: com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment) {
+        class CommentInfiniteViewHolder(private var binding: ItemCommentBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+            fun bind(
+                context: Context,
+                item: com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment
+            ) {
 
 
-                binding.tvCommentNickname.text= item.nickname
-                binding.tvCommentDate.text=item.date
+                binding.tvCommentNickname.text = item.nickname
+                binding.tvCommentDate.text = item.date
                 Glide.with(context).load(item.profileImageUrl).into(binding.ivCommentProfile)
                 binding.ivCommentProfile.clipToOutline = true
                 binding.tvCommentTime.text = item.time
                 binding.tvCommentContent.text = item.content
 
                 binding.ivCommentControl.setOnClickListener {
-                    val commentEditDeleteDialogView = LayoutInflater.from(context).inflate(R.layout.comment_control_dialog, null)
-                    val commentEditDeleteDialogBuilder = AlertDialog.Builder(context).setView(commentEditDeleteDialogView)
+                    val commentEditDeleteDialogView =
+                        LayoutInflater.from(context).inflate(R.layout.comment_control_dialog, null)
+                    val commentEditDeleteDialogBuilder =
+                        AlertDialog.Builder(context).setView(commentEditDeleteDialogView)
 
                     val commentEditDeleteDialog = commentEditDeleteDialogBuilder.create()
                     commentEditDeleteDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     commentEditDeleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                     commentEditDeleteDialog.window?.setGravity(Gravity.BOTTOM)
-                    commentEditDeleteDialog.window?.attributes?.width = WindowManager.LayoutParams.WRAP_CONTENT
-                    commentEditDeleteDialog.window?.attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
+                    commentEditDeleteDialog.window?.attributes?.width =
+                        WindowManager.LayoutParams.WRAP_CONTENT
+                    commentEditDeleteDialog.window?.attributes?.height =
+                        WindowManager.LayoutParams.WRAP_CONTENT
 
                     commentEditDeleteDialog.show()
 
-                    val commentPopupExitButton = commentEditDeleteDialogView.findViewById<ImageView>(R.id.btn_comment_control_exit)
-                    val commentPopupEditButton = commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_edit)
-                    val commentPopupDeleteButton = commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_delete)
+                    val commentPopupExitButton =
+                        commentEditDeleteDialogView.findViewById<ImageView>(R.id.btn_comment_control_exit)
+                    val commentPopupEditButton =
+                        commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_edit)
+                    val commentPopupDeleteButton =
+                        commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_delete)
 
                     commentPopupExitButton.setOnClickListener {
                         commentEditDeleteDialog.dismiss()
@@ -252,20 +399,25 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
                     commentPopupDeleteButton.setOnClickListener {
                         commentEditDeleteDialog.dismiss()
 
-                        val commentDeleteDialogView = LayoutInflater.from(context).inflate(R.layout.comment_delete_dialog, null)
+                        val commentDeleteDialogView = LayoutInflater.from(context)
+                            .inflate(R.layout.comment_delete_dialog, null)
                         val commentDeleteDialogBuilder = AlertDialog.Builder(context)
                             .setView(commentDeleteDialogView)
                         val commentDeleteDialog = commentDeleteDialogBuilder.create()
                         commentDeleteDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                         commentDeleteDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                         commentDeleteDialog.window?.setGravity(Gravity.BOTTOM)
-                        commentDeleteDialog.window?.attributes?.width = WindowManager.LayoutParams.WRAP_CONTENT
-                        commentDeleteDialog.window?.attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
+                        commentDeleteDialog.window?.attributes?.width =
+                            WindowManager.LayoutParams.WRAP_CONTENT
+                        commentDeleteDialog.window?.attributes?.height =
+                            WindowManager.LayoutParams.WRAP_CONTENT
 
                         commentDeleteDialog.show()
 
-                        val commentFinalDeleteButton = commentDeleteDialogView.findViewById<TextView>(R.id.btn_comment_final_delete)
-                        val commentFinalCancelButton = commentDeleteDialogView.findViewById<TextView>(R.id.btn_comment_final_cancel)
+                        val commentFinalDeleteButton =
+                            commentDeleteDialogView.findViewById<TextView>(R.id.btn_comment_final_delete)
+                        val commentFinalCancelButton =
+                            commentDeleteDialogView.findViewById<TextView>(R.id.btn_comment_final_cancel)
 
                         // 정말 삭제하시겠습니까? - 삭제 클릭 시
                         commentFinalDeleteButton.setOnClickListener {
@@ -288,13 +440,17 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
             parent: ViewGroup,
             viewType: Int
         ): CommentInfiniteRVAdapter.CommentInfiniteViewHolder {
-            val viewBinding_viewholder = ItemCommentBinding.inflate(LayoutInflater.from(parent.context))
+            val viewBinding_viewholder =
+                ItemCommentBinding.inflate(LayoutInflater.from(parent.context))
             return CommentInfiniteRVAdapter.CommentInfiniteViewHolder(viewBinding_viewholder)
 
 
         }
 
-        override fun onBindViewHolder(holder: CommentInfiniteRVAdapter.CommentInfiniteViewHolder, position: Int) {
+        override fun onBindViewHolder(
+            holder: CommentInfiniteRVAdapter.CommentInfiniteViewHolder,
+            position: Int
+        ) {
             holder.bind(activity, activity.commentNumberList[position])
 
         }
@@ -312,34 +468,133 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
         isLoading = true
         progressBar.visibility = View.VISIBLE
 
-        val start = (page-1) * limit
+        val start = (page - 1) * limit
         val end = (page) * limit
 
         for (i in start..end) {
             // 여기에 해당 들어갈 내용을 넣기
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
-            commentNumberList.add(Comment("https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png", "김기문", "1234", "5678", "내입 썩는다."))
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
+            commentNumberList.add(
+                Comment(
+                    "https://user-images.githubusercontent.com/101035437/213335682-3b9f3b22-19b1-4a62-a326-d5a287557584.png",
+                    "김기문",
+                    "1234",
+                    "5678",
+                    "내입 썩는다."
+                )
+            )
         }
         Handler().postDelayed({
             if (::adapter.isInitialized) {
                 adapter.notifyDataSetChanged()
             } else {
-                adapter = ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(this, commentNumberList)
+                adapter = ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter(
+                    this,
+                    commentNumberList
+                )
                 viewBinding.rvZipdabangRecipeDetailComment.adapter = adapter
             }
             isLoading = false
             progressBar.visibility = View.GONE
-        },2000)
+        }, 2000)
     }
 
     // 토스트 띄우기
@@ -347,7 +602,10 @@ class ZipdabangRecipeDetailCommentActivity: AppCompatActivity() {
         Toast(this).apply {
             duration = Toast.LENGTH_SHORT
             setGravity(Gravity.BOTTOM, 0, 0)
-            val layout: View = layoutInflater.inflate(R.layout.toast_comment_delete_layout, findViewById(R.id.toast_delete))
+            val layout: View = layoutInflater.inflate(
+                R.layout.toast_comment_delete_layout,
+                findViewById(R.id.toast_delete)
+            )
             view = layout
         }.show()
 
