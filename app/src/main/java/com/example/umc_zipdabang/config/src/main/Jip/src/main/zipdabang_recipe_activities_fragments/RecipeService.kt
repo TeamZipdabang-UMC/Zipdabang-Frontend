@@ -92,12 +92,13 @@ interface RecipeService {
         @Field ("newBody") newBody: String?
     ): Call<CommentEditResponse>
 
-    @DELETE ("/comments/comments-delete")
+    @Headers("Content-Type: application/json")
+    @HTTP(method = "DELETE", path="/comments/comments-delete", hasBody = true)
     fun deleteComment(
-        @Header ("x-aceess-token") token: String?,
-        @Field ("owner") owner: Int?,
-        @Field ("commentId") commentId: Int?
+        @Header ("x-access-token") token: String?,
+        @Body commentDeleteBody: CommentDeleteBody?
     ): Call<CommentEditResponse>
+
 
 //    @GET ("/recipes/")
 
