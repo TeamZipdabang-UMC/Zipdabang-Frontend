@@ -333,25 +333,29 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
         // 댓글 업로드 버튼 눌렀을 때
         viewBinding.ivUploadComment.setOnClickListener {
             if (viewBinding.editTextComment.text != null) {
-                val commentBody: String = viewBinding.editTextComment.toString()
+                val commentBody: String = viewBinding.editTextComment.text.toString()
                 // 이거는 나중에 고쳐줘야함!!!
                 val recipeId: Int = 49
-                val tokenNumComment = tokenDb.tokenDao().getToken()
                 GlobalScope.launch(Dispatchers.IO) {
-                    commentService.addComment(tokenNumComment.token, recipeId, commentBody).enqueue(object: Callback<CommentAddResponse> {
-                        override fun onResponse(
-                            call: Call<CommentAddResponse>,
-                            response: Response<CommentAddResponse>
-                        ) {
-                            val addCommentResult = response.body()
-                            Log.d("레시피 댓글 추가 성공", "${addCommentResult}")
 
-                        }
+                    val tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
+                    withContext(Dispatchers.Main) {
+                        commentService.addComment(tempToken, CommentAddBody(49, commentBody)).enqueue(object: Callback<CommentAddResponse> {
+                            override fun onResponse(
+                                call: Call<CommentAddResponse>,
+                                response: Response<CommentAddResponse>
+                            ) {
+                                val addCommentResult = response.body()
+                                Log.d("레시피 댓글 추가 성공", "${addCommentResult}")
 
-                        override fun onFailure(call: Call<CommentAddResponse>, t: Throwable) {
-                            Log.d("레시피 댓글 추가", "실패")
-                        }
-                    })
+                            }
+
+                            override fun onFailure(call: Call<CommentAddResponse>, t: Throwable) {
+                                Log.d("레시피 댓글 추가", "실패")
+                            }
+                        })
+                    }
+
                 }
 
 

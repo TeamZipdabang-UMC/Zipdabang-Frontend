@@ -62,8 +62,8 @@ interface RecipeService {
     @POST ("/comments/new-comment")
     fun addComment(
         @Header("x-access-token") token: String?,
-        @Field("target") target: Int,
-        @Field("body") body: String): Call<CommentAddResponse>
+        @Body addBody: CommentAddBody?
+    ): Call<CommentAddResponse>
 
     // 댓글 3개 보여주기
     @GET ("/comments/comments-overview")
