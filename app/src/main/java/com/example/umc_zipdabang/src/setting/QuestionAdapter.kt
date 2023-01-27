@@ -5,21 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.databinding.ItemMyNoticeBinding
+import com.example.umc_zipdabang.databinding.ItemQuestionBinding
 
-class NoticeAdapter(private val context: MyNoticeActivity, private val dataList: ArrayList<Notice>) :
-    RecyclerView.Adapter<NoticeAdapter.ViewHolder>(){
+class QuestionAdapter(private val context: FirstQuestionActivity, private val dataList: ArrayList<question>) :
+    RecyclerView.Adapter<QuestionAdapter.ViewHolder>(){
 
 
-    inner class ViewHolder(private var binding: ItemMyNoticeBinding):
+    inner class ViewHolder(private var binding: ItemQuestionBinding):
 
         RecyclerView.ViewHolder(binding.root){
 
-        fun bind(context: Context, item: Notice){
+        fun bind(context: Context, item: question){
 
 
-            binding.myNoticeTitle.text= item.title
-            binding.myNoticeDate.text=item.date
+            binding.questTitle.text= item.title
+            binding.questDate.text=item.date
 
 
             binding.arrow.setOnClickListener(object : View.OnClickListener{
@@ -46,7 +46,7 @@ class NoticeAdapter(private val context: MyNoticeActivity, private val dataList:
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding=ItemMyNoticeBinding.inflate(LayoutInflater.from(context),parent,false)
+        val binding=ItemQuestionBinding.inflate(LayoutInflater.from(context),parent,false)
         return ViewHolder(binding)
     }
 

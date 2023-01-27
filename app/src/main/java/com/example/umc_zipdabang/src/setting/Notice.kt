@@ -1,3 +1,3 @@
 package com.example.umc_zipdabang.src.setting
 
-data class Notice(val title : String, val date : String)
+data class Notice(val id : Int?, val title : String?, val date : String?)

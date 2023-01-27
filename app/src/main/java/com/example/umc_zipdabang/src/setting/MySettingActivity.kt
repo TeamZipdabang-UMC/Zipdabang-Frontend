@@ -22,6 +22,27 @@ class MySettingActivity :AppCompatActivity(){
             startActivity(intent)
 
         }
+        //이용약관 이동
+        viewBinding.ivToTos.setOnClickListener {
+
+            val intent = Intent(this,ActvityTos::class.java)
+            startActivity(intent)
+
+        }
+
+        viewBinding.ivToQuestion.setOnClickListener {
+
+            val intent = Intent(this,FirstQuestionActivity::class.java)
+            startActivity(intent)
+
+        }
+
+        viewBinding.ivToFAQ.setOnClickListener {
+
+            val intent = Intent(this,MyFAQActivity::class.java)
+            startActivity(intent)
+
+        }
 
         viewBinding.myBackbtn.setOnClickListener {
             finish()
