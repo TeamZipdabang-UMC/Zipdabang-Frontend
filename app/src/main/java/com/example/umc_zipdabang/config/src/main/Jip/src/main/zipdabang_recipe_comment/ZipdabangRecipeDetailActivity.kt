@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +17,23 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.Token
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.*
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.Ingredient
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.RecipeOrder
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.IngredientsRVAdapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.RecipeDetailCommentRVAdapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.RecipeOrderRVAdapter
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBinding
+import com.google.android.gms.auth.TokenData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class ZipdabangRecipeDetailActivity: AppCompatActivity() {
@@ -69,37 +80,143 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             }
         }
 
-        // 준비물 리사이클러 뷰 어댑터 연결
-        val ingredientsList: ArrayList<Ingredient> = arrayListOf()
-        val ingredientsRVAdapter = IngredientsRVAdapter(ingredientsList)
-        ingredientsList.apply {
-            add(Ingredient("우유", "100ml"))
-            add(Ingredient("커피", "50ml"))
+        val tokenDb = TokenDatabase.getTokenDatabase(this)
+        val recipeRetrofit = Retrofit.Builder()
+            .baseUrl("http://zipdabang.store:3000")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val recipeService = recipeRetrofit.create(RecipeService::class.java)
+
+
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val token: Token = tokenDb.tokenDao().getToken()
+            recipeService.getDetailRecipe(token.token, 49).enqueue(object : Callback<RecipeDetailResponse> {
+                override fun onResponse(
+                    call: Call<RecipeDetailResponse>,
+                    response: Response<RecipeDetailResponse>
+                ) {
+                    val recipeDetailResult = response.body()
+                    Log.d("상세 레시피 get 성공", "${recipeDetailResult}")
+
+
+                    val ingredientsList = arrayListOf<IngredientDetail>()
+                    val stepsList = arrayListOf<Step>()
+                    val recipeInfo = recipeDetailResult?.recipeDataClass?.recipe?.get(0)
+                    // 이거 2개 배열로 오니까 파싱해야함.
+                    val ingredients = recipeDetailResult?.recipeDataClass?.ingredient
+                    val steps = recipeDetailResult?.recipeDataClass?.steps
+                    for (i in 0 until ingredients!!.size) {
+                        ingredientsList.add(IngredientDetail(ingredients?.get(i)?.name.toString(), ingredients?.get(i)?.quantity.toString()))
+                    }
+
+                    val ingredientsRVAdapter = IngredientsRVAdapter(ingredientsList)
+                    viewBinding.rvZipdabangRecipeDetailIngredients.layoutManager = LinearLayoutManager(this@ZipdabangRecipeDetailActivity)
+                    viewBinding.rvZipdabangRecipeDetailIngredients.adapter = ingredientsRVAdapter
+
+                    // 스텝
+
+                    for (i in 0 until steps!!.size) {
+                        stepsList.add(Step(steps?.get(i)?.step, steps?.get(i)?.stepDescription.toString(), steps?.get(i)?.stepImageUrl.toString()))
+                    }
+                    val recipeOrderRVAdapter = RecipeOrderRVAdapter(stepsList)
+                    viewBinding.rvZipdabangRecipeDetailOrder.layoutManager = LinearLayoutManager(this@ZipdabangRecipeDetailActivity)
+                    viewBinding.rvZipdabangRecipeDetailOrder.adapter = recipeOrderRVAdapter
+
+
+                    val likes = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.likes
+                    val scraps = recipeDetailResult?.recipeDataClass?.scraps
+                    val comments = recipeDetailResult?.recipeDataClass?.comments
+                    val likeOrNot = recipeDetailResult?.recipeDataClass?.liked
+                    val scrapped = recipeDetailResult?.recipeDataClass?.scraped
+                    val challengersNum = recipeDetailResult?.recipeDataClass?.challenger
+                    val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
+
+                    Glide.with(this@ZipdabangRecipeDetailActivity)
+                        .load(recipeImageUrl)
+                        .into(viewBinding.viewpagerZipdabangRecipeDetailBanner)
+
+                    viewBinding.tvZipdabangRecipeDetailTitle.text = recipeInfo?.name
+                    viewBinding.tvZipdabangRecipeDetailNickname.text = "집다방 레시피"
+                    viewBinding.tvZipdabangRecipeDetailNum.text = recipeInfo?.takeTime.toString()
+                    viewBinding.tvZipdabangRecipeDetailDescription.text = recipeInfo?.intro
+                    viewBinding.tvZipdabangRecipeDetailTipContent.text = recipeInfo?.review
+                    viewBinding.tvZipdabangRecipeCommentNum.text = comments.toString()
+                    viewBinding.tvZipdabangRecipeScrapNum.text = scraps.toString()
+                    viewBinding.tvZipdabangRecipeLikeNum.text = likes.toString()
+                    viewBinding.tvZipdabangRecipeDetailChallengeNum.text = challengersNum.toString()
+
+
+                }
+
+                override fun onFailure(call: Call<RecipeDetailResponse>, t: Throwable) {
+                    Log.d("상세 레시피 get 실패", "실패")
+                }
+            })
         }
-        viewBinding.rvZipdabangRecipeDetailIngredients.layoutManager = LinearLayoutManager(this)
-        viewBinding.rvZipdabangRecipeDetailIngredients.adapter = ingredientsRVAdapter
-
-
-        // 스텝 리사이클러 뷰 어댑터 연결
-        val recipeOrderList: ArrayList<RecipeOrder> = arrayListOf()
-        val recipeOrderRVAdapter = RecipeOrderRVAdapter(recipeOrderList)
-        recipeOrderList.apply {
-            add(RecipeOrder(1, "이거 넣으세요", "https://user-images.githubusercontent.com/101035437/214457907-b99c46ce-97c9-41ea-b604-5e7aba2b81ed.png"))
-            add(RecipeOrder(2, "저거 넣으세요", "https://user-images.githubusercontent.com/101035437/214457907-b99c46ce-97c9-41ea-b604-5e7aba2b81ed.png"))
-        }
-        viewBinding.rvZipdabangRecipeDetailOrder.layoutManager = LinearLayoutManager(this)
-        viewBinding.rvZipdabangRecipeDetailOrder.adapter = recipeOrderRVAdapter
-
 
         // 댓글 리사이클러 뷰 어댑터 연결
         val recipeDetailCommentList: ArrayList<Comment> = arrayListOf()
         val recipeDetailCommentRVAdapter = RecipeDetailCommentRVAdapter(recipeDetailCommentList)
-        recipeDetailCommentList.apply {
-            //add(Comment())
+
+
+
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val token: Token = tokenDb.tokenDao().getToken()
+            recipeService.getThreeComments(token.token, 49).enqueue(object: Callback<ThreeCommentsResponse> {
+                override fun onResponse(
+                    call: Call<ThreeCommentsResponse>,
+                    response: Response<ThreeCommentsResponse>
+                ) {
+                    val threeCommentsResult = response.body()
+                    Log.d("상세 레시피 댓글 3개 가져오기 성공", "${threeCommentsResult}")
+                    val threeComments = threeCommentsResult?.data?.comments
+                    val threeCommentsList = arrayListOf<ThreeComments?>()
+                    for (i in 0 until threeComments!!.size) {
+                        threeCommentsList.add(threeComments?.get(i))
+                    }
+
+                    val threeCommentsProfile = arrayListOf<String?>()
+                    val threeCommentsDateTime = arrayListOf<String?>()
+                    val threeCommentsNickname = arrayListOf<String?>()
+                    val threeCommentsContent = arrayListOf<String?>()
+
+                    for (i in 0 until threeComments.size) {
+                        threeCommentsProfile.add(threeCommentsList[i]?.profile)
+                        val dateTimeArray = threeCommentsList[i]?.createdAt?.split('T')
+                        val date = dateTimeArray?.get(0)
+                        val time = dateTimeArray?.get(1)
+
+                        recipeDetailCommentList.apply {
+                            add(Comment(
+                                threeCommentsList[i]?.profile,
+                                threeCommentsList[i]?.nickname,
+                                date,
+                                time,
+                                threeCommentsList[i]?.body,
+                                null,
+                                null
+                                )
+                            )
+                        }
+                    }
+                    viewBinding.rvZipdabangRecipeComments.layoutManager = LinearLayoutManager(this@ZipdabangRecipeDetailActivity)
+                    viewBinding.rvZipdabangRecipeComments.adapter = recipeDetailCommentRVAdapter
+
+                }
+
+
+                override fun onFailure(call: Call<ThreeCommentsResponse>, t: Throwable) {
+                    Log.d("상세 레시피 댓글 3개 가져오기 실패", "실패")
+                }
+            })
         }
 
-        viewBinding.rvZipdabangRecipeComments.layoutManager = LinearLayoutManager(this)
-        viewBinding.rvZipdabangRecipeComments.adapter = recipeDetailCommentRVAdapter
+        // 스텝 리사이클러 뷰 어댑터 연결
+
+
+
+
 
 
         viewBinding.tvZipdabangRecipeCommentViewDetail.setOnClickListener {

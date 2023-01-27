@@ -53,8 +53,10 @@ interface RecipeService {
 
 
     // 개별 레시피 get
-//    @GET ("/recipes/:recipeId/info")
-//    fun getDetailRecipe(@Query(""))
+    @GET ("/recipes/info")
+    fun getDetailRecipe(
+        @Header("x-access-token") token: String?,
+        @Query("recipe") recipe: Int?): Call<RecipeDetailResponse>
 
     // 댓글쓰기
     @POST ("/comments/new-comment")

@@ -30,6 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="380dp"
                 android:background="#123456"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -136,16 +137,6 @@
                     android:textSize="16sp"
                     android:layout_weight="1"
                     android:gravity="right|center_vertical"/>
-
-                <TextView
-                    android:id="@+id/tv_zipdabang_recipe_detail_minute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/noto_sans"
-                    android:text="분"
-                    android:textColor="@color/jipdabaing_black"
-                    android:textSize="16sp"
-                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -496,7 +487,7 @@
                         android:id="@+id/tv_zipdabang_recipe_detail_challenge_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="xx"
+                        android:text="null"
                         android:textSize="14sp"
                         android:textColor="@color/jipdabaing_black"
                         android:fontFamily="@font/noto_sans"/>
