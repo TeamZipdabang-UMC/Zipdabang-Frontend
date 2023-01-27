@@ -3,8 +3,12 @@ package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_
 import com.google.gson.annotations.SerializedName
 import org.apache.commons.lang3.ObjectUtils.Null
 
-data class CommentEditResponse(
+data class PressLikeResponse(
     @SerializedName ("success") val success: Boolean?,
-    @SerializedName ("data") val data: Any?,
+    @SerializedName ("data") val data: Likes?,
     @SerializedName ("error") val error: String?
+)
+
+data class Likes(
+    @SerializedName ("likes") val likes: Int?
 )

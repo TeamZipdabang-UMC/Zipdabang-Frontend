@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/jipdabang_white">
 
 <!--    <com.google.android.material.appbar.AppBarLayout-->
 <!--        android:layout_width="match_parent"-->
@@ -23,7 +24,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/jipdabang_white">
 
             <ImageView
                 android:id="@+id/viewpager_zipdabang_recipe_detail_banner"
@@ -573,12 +575,13 @@
                     android:id="@+id/btn_challenge_restart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/btn_recipe_challenge_restart"
+                    android:text="도전 완료 레시피"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/jipdabaing_black"
                     android:fontFamily="@font/noto_sans"
                     android:background="@drawable/btn_challenge_recipe"
+                    android:backgroundTint="@color/jipdabang_login_btn_gray"
                     android:gravity="center"
                     android:visibility="gone"/>
 

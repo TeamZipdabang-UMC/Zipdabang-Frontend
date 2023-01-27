@@ -392,7 +392,8 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
             fun bind(
                 context: Context,
                 item: com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment,
-                commentNumList: ArrayList<Comment>
+                commentNumList: ArrayList<Comment>,
+                viewbinding: ActivityZipdabangRecipeDetailCommentBinding
             ) {
 
 
@@ -443,43 +444,39 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                         val commentEditService = commentEditRetrofit.create(RecipeService::class.java)
                         GlobalScope.launch(Dispatchers.IO) {
 
-                            val editToken = commentEditTokenDb.tokenDao().getToken().token
-
                             val commentEditLocation = adapterPosition
                             val selectedEditComment = commentNumList[adapterPosition]
                             val selectedEditommentId = selectedEditComment.commentId
                             val selectedEditCommentOwner = selectedEditComment.commentOwner
-                            val editComment = itemView.findViewById<EditText>(R.id.edit_text_comment).toString()
+                            val editComment = viewbinding.editTextComment.text.toString()
 
-
-                            // 시험용 토큰 넣음. 나중에 바꾸기. editToken으로 바꿀것.
-                            commentEditService.editComment("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", selectedEditCommentOwner, selectedEditommentId, editComment).enqueue(object : Callback<CommentEditResponse> {
-                                override fun onResponse(
-                                    call: Call<CommentEditResponse>,
-                                    response: Response<CommentEditResponse>
-                                ) {
-                                    if (response.code() == 200) {
-                                        Log.d("댓글 수정 가능", "${response.body()}")
-                                        // 댓글 수정 토스트 필요
-
-
-                                        // 리사이클러뷰에 알리기
-                                        commentInfiniteRVAdapter.notifyItemChanged(adapterPosition)
-                                   }
-                                    else if (response.code() == 400) {
-
-                                    }
-                                }
-
-                                override fun onFailure(
-                                    call: Call<CommentEditResponse>,
-                                    t: Throwable
-                                ) {
-                                    Log.d("댓글 수정 실패", ":통신 실패")
-                                }
-                            })
-
-
+//                            withContext(Dispatchers.Main) {
+//                                val editToken = commentEditTokenDb.tokenDao().getToken().token
+//                                // 시험용 토큰 넣음. 나중에 바꾸기. editToken으로 바꿀것.
+//                                commentEditService.editComment("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", CommentEditBody(selectedEditCommentOwner, selectedEditommentId, editComment)).enqueue(object : Callback<CommentEditResponse> {
+//                                    override fun onResponse(
+//                                        call: Call<CommentEditResponse>,
+//                                        response: Response<CommentEditResponse>
+//                                    ) {
+//                                        if (response.code() == 200) {
+//                                            Log.d("댓글 수정 가능", "${response.body()}")
+//                                            // 리사이클러뷰에 알리기
+//
+//                                            commentInfiniteRVAdapter.notifyItemChanged(adapterPosition)
+//                                        }
+//                                        else if (response.code() == 400) {
+//                                            Log.d("댓글 수정 불가능", "다른 사용자")
+//                                        }
+//                                    }
+//
+//                                    override fun onFailure(
+//                                        call: Call<CommentEditResponse>,
+//                                        t: Throwable
+//                                    ) {
+//                                        Log.d("댓글 수정 실패", ":통신 실패")
+//                                    }
+//                                })
+//                            }
                         }
 
                     }
@@ -598,7 +595,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
             holder: CommentInfiniteRVAdapter.CommentInfiniteViewHolder,
             position: Int
         ) {
-            holder.bind(activity, activity.commentNumberList[position], commentNumberList)
+            holder.bind(activity, activity.commentNumberList[position], commentNumberList, ActivityZipdabangRecipeDetailCommentBinding.inflate(activity.layoutInflater))
 
         }
 

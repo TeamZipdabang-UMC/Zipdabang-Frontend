@@ -32,6 +32,7 @@ import com.google.android.gms.auth.TokenData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -50,6 +51,11 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
 
         // 리사이클러뷰에 활용할 배열 및 자료구조들
 
+        val tokenDb = TokenDatabase.getTokenDatabase(this)
+        val recipeRetrofit = Retrofit.Builder()
+            .baseUrl("http://zipdabang.store:3000")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val recipeService = recipeRetrofit.create(RecipeService::class.java)
 
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
@@ -66,6 +72,22 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_unfilled)
                 showLikeCancelToast()
             }
+            GlobalScope.launch(Dispatchers.IO) {
+                val recipeId = 49
+                val token: Token = tokenDb.tokenDao().getToken()
+                recipeService.pressLike(token.token, recipeId).enqueue(object: Callback<PressLikeResponse> {
+                    override fun onResponse(
+                        call: Call<PressLikeResponse>,
+                        response: Response<PressLikeResponse>
+                    ) {
+                        Log.d("좋아요 누르기 성공", "${response.body()}")
+                    }
+
+                    override fun onFailure(call: Call<PressLikeResponse>, t: Throwable) {
+                        Log.d("좋아요 누르기 실패", "실패...")
+                    }
+                })
+            }
         }
 
         viewBinding.ivZipdabangRecipeScrap.setOnClickListener {
@@ -73,18 +95,9 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 scrap = true
                 viewBinding.ivZipdabangRecipeScrap.setImageResource(R.drawable.ic_scrap_filled)
                 showScrapToast()
-            } else {
-                scrap = false
-                viewBinding.ivZipdabangRecipeScrap.setImageResource(R.drawable.ic_scrap_unfilled)
-                showScrapCancelToast()
             }
         }
 
-        val tokenDb = TokenDatabase.getTokenDatabase(this)
-        val recipeRetrofit = Retrofit.Builder()
-            .baseUrl("http://zipdabang.store:3000")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        val recipeService = recipeRetrofit.create(RecipeService::class.java)
 
 
 
@@ -130,10 +143,46 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     val scrapped = recipeDetailResult?.recipeDataClass?.scraped
                     val challengersNum = recipeDetailResult?.recipeDataClass?.challenger
                     val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
+                    val challengeStatus = recipeDetailResult?.recipeDataClass?.isChallenge
+
+                    if (likeOrNot == true) {
+                        like = true
+                        viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_filled)
+                    } else {
+                        like = false
+                        viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_unfilled)
+                    }
+
+                    if (scrapped == true) {
+                        scrap = true
+                        viewBinding.ivZipdabangRecipeScrap.setImageResource(R.drawable.ic_scrap_filled)
+                    } else {
+                        scrap = false
+                        viewBinding.ivZipdabangRecipeScrap.setImageResource(R.drawable.ic_scrap_unfilled)
+                    }
+
+                    if (challengeStatus == 0) {
+                        viewBinding.btnChallengeStart.visibility = View.VISIBLE
+                        viewBinding.btnChallengeComplete.visibility = View.INVISIBLE
+                        viewBinding.btnChallengeRestart.visibility = View.INVISIBLE
+                    } else if (challengeStatus == 1) {
+                        viewBinding.btnChallengeStart.visibility = View.INVISIBLE
+                        viewBinding.btnChallengeComplete.visibility = View.VISIBLE
+                        viewBinding.btnChallengeRestart.visibility = View.INVISIBLE
+                    } else {
+                        viewBinding.btnChallengeStart.visibility = View.INVISIBLE
+                        viewBinding.btnChallengeComplete.visibility = View.INVISIBLE
+                        viewBinding.btnChallengeRestart.visibility = View.VISIBLE
+                    }
 
                     Glide.with(this@ZipdabangRecipeDetailActivity)
                         .load(recipeImageUrl)
                         .into(viewBinding.viewpagerZipdabangRecipeDetailBanner)
+
+//                    val dialogImageView = findViewById<ImageView>(R.id.iv_popup_recipe_image)
+//                    Glide.with(this@ZipdabangRecipeDetailActivity)
+//                        .load(recipeImageUrl)
+//                        .into(dialogImageView)
 
                     viewBinding.tvZipdabangRecipeDetailTitle.text = recipeInfo?.name
                     viewBinding.tvZipdabangRecipeDetailNickname.text = "집다방 레시피"
@@ -233,11 +282,50 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
 
         viewBinding.ivUploadComment.setOnClickListener {
             if (viewBinding.editTextComment.text != null) {
+                val commentBody: String = viewBinding.editTextComment.text.toString()
+                // 이거는 나중에 고쳐줘야함!!!
+                val recipeId: Int = 49
+                GlobalScope.launch(Dispatchers.IO) {
+
+                    val commentRetrofit = retrofit2.Retrofit.Builder()
+                        .baseUrl("http://zipdabang.store:3000")
+                        .addConverterFactory(GsonConverterFactory.create()).build()
+                    val commentService = commentRetrofit.create(RecipeService::class.java)
+                    val tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
+                    withContext(Dispatchers.Main) {
+                        commentService.addComment(tempToken, CommentAddBody(49, commentBody)).enqueue(object: Callback<CommentAddResponse> {
+                            override fun onResponse(
+                                call: Call<CommentAddResponse>,
+                                response: Response<CommentAddResponse>
+                            ) {
+                                val addCommentResult = response.body()
+                                Log.d("레시피 댓글 추가 성공", "${addCommentResult}")
+
+                            }
+
+                            override fun onFailure(call: Call<CommentAddResponse>, t: Throwable) {
+                                Log.d("레시피 댓글 추가", "실패")
+                            }
+                        })
+                    }
+
+                }
                 viewBinding.layoutWriteComment.visibility = View.INVISIBLE
                 viewBinding.editTextComment.visibility = View.INVISIBLE
                 viewBinding.ivUploadComment.visibility = View.INVISIBLE
                 viewBinding.editTextComment.text = null
                 viewBinding.btnZipdabangRecipeWriteComment.visibility = View.VISIBLE
+
+                Toast(this).apply {
+                    duration = Toast.LENGTH_SHORT
+                    setGravity(Gravity.BOTTOM, 0, 0)
+                    val layout: View = layoutInflater.inflate(
+                        R.layout.toast_comment_upload_layout, findViewById(
+                            R.id.toast_comment_upload
+                        )
+                    )
+                    view = layout
+                }.show()
             }
         }
 
@@ -256,6 +344,24 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             viewBinding.tvZipdabangRecipeDetailChallenge.visibility = View.INVISIBLE
 
             viewBinding.tvZipdabangRecipeDetailChallenging.visibility = View.VISIBLE
+
+            GlobalScope.launch(Dispatchers.IO) {
+                val recipeId = 49
+                val tokenDb = TokenDatabase.getTokenDatabase(this@ZipdabangRecipeDetailActivity)
+                val token: Token = tokenDb.tokenDao().getToken()
+                recipeService.pressChallenge(token.token, recipeId).enqueue(object : Callback<ChallengeResponse> {
+                    override fun onResponse(
+                        call: Call<ChallengeResponse>,
+                        response: Response<ChallengeResponse>
+                    ) {
+                        Log.d("챌린지 버튼 누르기 성공", "${response.body()}")
+                    }
+
+                    override fun onFailure(call: Call<ChallengeResponse>, t: Throwable) {
+                        Log.d("챌린지 버튼 누르기 실패", "실패")
+                    }
+                })
+            }
         }
 
         viewBinding.btnChallengeComplete.setOnClickListener {
@@ -265,6 +371,24 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             viewBinding.tvZipdabangRecipeDetailChallenging.visibility = View.INVISIBLE
             viewBinding.tvZipdabangRecipeDetailSucceeded.visibility = View.VISIBLE
 
+            GlobalScope.launch(Dispatchers.IO) {
+                val recipeId = 49
+                val tokenDb = TokenDatabase.getTokenDatabase(this@ZipdabangRecipeDetailActivity)
+                val token: Token = tokenDb.tokenDao().getToken()
+                recipeService.pressChallenge(token.token, recipeId).enqueue(object : Callback<ChallengeResponse> {
+                    override fun onResponse(
+                        call: Call<ChallengeResponse>,
+                        response: Response<ChallengeResponse>
+                    ) {
+                        Log.d("챌린지 버튼 누르기 성공", "${response.body()}")
+                    }
+
+                    override fun onFailure(call: Call<ChallengeResponse>, t: Throwable) {
+                        Log.d("챌린지 버튼 누르기 실패", "실패")
+                    }
+                })
+            }
+
             val successDialogView = LayoutInflater.from(this).inflate(R.layout.recipe_success_dialog, null)
             val successDialogBuilder = AlertDialog.Builder(this)
                 .setView(successDialogView)
@@ -272,9 +396,11 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             val successDialog = successDialogBuilder.create()
             successDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             successDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+
             successDialog.window?.setGravity(Gravity.BOTTOM)
             successDialog.window?.attributes?.width = WindowManager.LayoutParams.WRAP_CONTENT
             successDialog.window?.attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
+
 
             successDialog.show()
 
@@ -300,15 +426,6 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 // 없애는 작업
                 successDialog.dismiss()
             }
-        }
-
-        viewBinding.btnChallengeRestart.setOnClickListener {
-            viewBinding.btnChallengeRestart.visibility = View.INVISIBLE
-            viewBinding.btnChallengeComplete.visibility = View.VISIBLE
-
-            // 설명 글 바꾸는 부분
-            viewBinding.tvZipdabangRecipeDetailSucceeded.visibility = View.INVISIBLE
-            viewBinding.tvZipdabangRecipeDetailChallenging.visibility = View.VISIBLE
         }
         //=========================레시피 도전 화면 end=======================
     }

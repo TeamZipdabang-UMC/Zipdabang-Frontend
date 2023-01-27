@@ -28,6 +28,8 @@ data class RecipeDataClass(
     val comments: Int?,
     @SerializedName ("scraps")
     val scraps: Int?,
+    @SerializedName ("isChallenge")
+    val isChallenge: Int?,
     @SerializedName ("steps")
     val steps: List<Step>?
 )

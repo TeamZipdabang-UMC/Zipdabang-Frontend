@@ -88,18 +88,30 @@ interface RecipeService {
     @PATCH ("/comments/comments-update")
     fun editComment(
         @Header ("x-access-token") token: String?,
-        @Field ("owner") owner: Int?,
-        @Field ("commentId") commentId: Int?,
-        // 새로운 댓글의 내용
-        @Field ("newBody") newBody: String?
+        @Body commentEditBody: CommentEditBody?
     ): Call<CommentEditResponse>
 
+    // 댓글 삭제
     @Headers("Content-Type: application/json")
     @HTTP(method = "DELETE", path="/comments/comments-delete", hasBody = true)
     fun deleteComment(
         @Header ("x-access-token") token: String?,
         @Body commentDeleteBody: CommentDeleteBody?
     ): Call<CommentEditResponse>
+
+    // 좋아요 누름
+    @POST ("/recipes/{recipeId}/like")
+    fun pressLike(
+        @Header ("x-access-token") token: String?,
+        @Path ("recipeId") recipeId: Int?
+    ): Call<PressLikeResponse>
+
+    // 레시피 도전
+    @POST ("/recipes/{recipeId}/challenge")
+    fun pressChallenge(
+        @Header ("x-access-token") token: String?,
+        @Path ("recipeId") recipeId: Int?
+    ): Call<ChallengeResponse>
 
 
 //    @GET ("/recipes/")
