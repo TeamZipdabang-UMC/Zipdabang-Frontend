@@ -4,12 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.config.src.main.Home.reciepe.Home_receipe
 import com.example.umc_zipdabang.databinding.ItemSearchBinding
 
-class SearchAdpater_1(private val context: SearchActivity, private val dataList: ArrayList<Home_receipe>) :
+class SearchAdpater_1(private val context: SearchActivity, private val dataList: ArrayList<Search_Receipe>) :
     RecyclerView.Adapter<SearchAdpater_1.ViewHolder>(){
 
 
@@ -17,12 +15,14 @@ class SearchAdpater_1(private val context: SearchActivity, private val dataList:
 
         RecyclerView.ViewHolder(binding.root){
 
-        fun bind(context: Context, item: Home_receipe){
+        fun bind(context: Context, item: Search_Receipe, list : ArrayList<Search_Receipe>){
 
-            binding.homeTvCategory.text = item.category
-            val adapter= SearchAdapter_2(context as SearchActivity,item.receipe)
-            binding.homeRvSearchCategory.adapter=adapter
-            binding.homeRvSearchCategory.layoutManager=GridLayoutManager(context,2)
+             if(list.size!=0) {
+                 binding.homeTvCategory.text = item.category
+                 val adapter = SearchAdapter_2(context as SearchActivity, item.receipe)
+                 binding.homeRvSearchCategory.adapter = adapter
+                 binding.homeRvSearchCategory.layoutManager = GridLayoutManager(context, 2)
+             }
 
 
 
@@ -43,7 +43,7 @@ class SearchAdpater_1(private val context: SearchActivity, private val dataList:
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(context, dataList[position])
+        holder.bind(context, dataList[position],dataList)
 
     }
 

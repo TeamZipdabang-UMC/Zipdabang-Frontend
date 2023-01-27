@@ -309,11 +309,14 @@ class HomeFragment : Fragment() {
                 override fun onKey(view: View?, i: Int, keyEvent: KeyEvent?): Boolean {
                     when (i) {
                         KeyEvent.KEYCODE_ENTER -> {
+                            //다음 액티비티에 정보 넘기기
                             val search = Intent(context, SearchActivity::class.java)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             search.putExtra("search", viewBinding.etSearch.text.toString())
                             startActivity(search)
                             viewBinding.etSearch.setText("")
+
+
 
                         }
                     }

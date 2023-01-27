@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.umc_zipdabang.config.src.main.Home.Scrap.Main_Scrap
-import com.example.umc_zipdabang.config.src.main.Home.reciepe.Home_receipe
-import com.example.umc_zipdabang.databinding.ItemSearchBinding
+import com.example.umc_zipdabang.config.src.main.Home.Scrap.Search
 import com.example.umc_zipdabang.databinding.ItemSearchReciepeBinding
 
-class SearchAdapter_2(private val context: SearchActivity, private val dataList: ArrayList<Main_Scrap>) :
+class SearchAdapter_2(private val context: SearchActivity, private val dataList: ArrayList<Search>) :
     RecyclerView.Adapter<SearchAdapter_2.ViewHolder>(){
 
 
@@ -18,10 +16,10 @@ class SearchAdapter_2(private val context: SearchActivity, private val dataList:
 
         RecyclerView.ViewHolder(binding.root){
 
-        fun bind(context: Context, item: Main_Scrap){
-            binding.homeTvCategory1.text=item.title
-            binding.homeTvHeart1.text=item.heart.toString()
-            Glide.with(context).load(item.ImageUrl).into(binding.homeIvCategory1)
+        fun bind(context: Context, item: Search){
+            binding.homeTvCategory1.text=item.name
+            binding.homeTvHeart1.text=item.likes.toString()
+            Glide.with(context).load(item.image).into(binding.homeIvCategory1)
             binding.homeIvCategory1.clipToOutline = true
 
 

@@ -15,4 +15,14 @@ interface RetrofitMainService {
     ): Call<Main_Response>
 
 
+    @GET("/recipes/search")
+    fun get_Search(
+        @Query("keyword") keyword : String?,
+        @Header("x-access-token") token: String?
+    ): Call<Search_Response>
+
+
+
+
+
 }
