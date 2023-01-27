@@ -2,7 +2,6 @@ package com.example.umc_zipdabang.src.my
 
 import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
-import retrofit2.http.Multipart
 
 //DTO 클래스 선언
 data class PostNewRecipeBody(
@@ -35,37 +34,12 @@ data class PostNewRecipeBodyResponse(
 
 
 
-data class PostNewRecipeImageBody(
-    @SerializedName("img") var img: MultipartBody
-)
 data class PostNewRecipeImageBodyResponse(
     @SerializedName("success") var success : Boolean,
-    @SerializedName("data") var data : ArrayList<PostNewRecipeImageList>,
+    @SerializedName("data") var image: PostNewRecipeImage,
     @SerializedName("error") var error : String
 )
-data class PostNewRecipeImageList(
-    @SerializedName("image") var image : String
-)
 
-
-data class PostNewuserBody(
-    @SerializedName("name") var name : String?,
-    @SerializedName("nickname") var nickname : String?,
-    @SerializedName("phoneNum") var phoneNum : String?,
-    @SerializedName("birth") var birth : String?,
-    @SerializedName("email") var email : String?
-)
-data class PostNewuserBodyResponse(
-    @SerializedName("success") var success : Boolean,
-    @SerializedName("user") var user : ArrayList<PostNewuserBodyUser>
-)
-data class PostNewuserBodyUser(
-    @SerializedName("email") var email : String?,
-    @SerializedName("name") var name : String?,
-    @SerializedName("birth") var birth : String?,
-    @SerializedName("phoneNum") var phoneNum : String?
-)
-data class GetNicknameExistResponse(
-    @SerializedName("exist") var exist : Boolean,
-    @SerializedName("nickname") var nickname : String
+data class PostNewRecipeImage(
+    @SerializedName("image") var image : Object
 )

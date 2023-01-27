@@ -73,20 +73,60 @@ class MyWritingActivity:AppCompatActivity() {
     private lateinit var binding_save : DialogSaveBinding
     private lateinit var binding_reallynotsave : DialogReallynotsaveBinding
 
-    val api = APIS.create()
+    private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
+
+    private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+    { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUri = result.data?.data ?: return@registerForActivityResult
+
+            val file = File(absolutelyPath(imageUri, this))
+            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+            sendImage(body)
+
+            Log.d("테스트", file.name)
+
+            viewBinding.myImage.setImageURI(imageUri)
+
+            /*val sharedPreference = getSharedPreferences("writing", 0)
+            val editor = sharedPreference.edit()
+
+            Glide.with(this)
+                .asBitmap()
+                .load(imageUri)
+                .centerCrop()
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        val layout = viewBinding.myImage
+                        layout.background = BitmapDrawable(resources, resource)
+                        editor.putString("thumbnail", bitmapToString(resource))
+                        editor.apply()
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+                })*/
+        }
+    }
+
+    companion object{
+        const val REQ_GALLERY =1
+    }
 
     //sharedpreference 쪽 api 연결하기
 
     ////임시저장, 업로드 누를떄 dialog 제작하기
     ////내레시피 안됨 ㅠㅠ
 
-    //재료 스텝 삭제 버튼 구현
     //업로드 버튼 다썼을때 활성화되게 하기
     //임시저장 해둔게 있으면 글쓰기 전에 dialog 띄우기
     //toast 띄우기
 
-    //재료 스탭 갯수 view 위치 이동되게하기
-    //오류 띄우는거 수정하기
 
     fun bitmaptoByteArray(bitmap: Bitmap) : ByteArray{
         var outputStream = ByteArrayOutputStream()
@@ -97,8 +137,6 @@ class MyWritingActivity:AppCompatActivity() {
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
         return bitmap
     }
-
-
     fun bitmapToString(bitmap:Bitmap):String{
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
@@ -134,7 +172,7 @@ class MyWritingActivity:AppCompatActivity() {
             //재료, step, 사진 저장하기
         }*/
 
-        viewBinding.myRecipeEdtTital.addTextChangedListener(object : TextWatcher {
+        /*viewBinding.myRecipeEdtTital.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -193,7 +231,7 @@ class MyWritingActivity:AppCompatActivity() {
                     viewBinding.myRecipeTvAftertip.error = null
                 }
             }
-        })
+        })*/
 
         var ingredient_view : String
         var ingredient_title_save : String
@@ -223,6 +261,11 @@ class MyWritingActivity:AppCompatActivity() {
             //editor.putString(ingredient_title_sp,viewBinding.myRecipeEdtIngredientname.text.toString())
 //            editor.putString(ingredient_quan_sp,viewBinding.myRecipeEdtIngredientqun.text.toString())
         }
+
+
+        var picList = arrayListOf<String>()
+        var textList = arrayListOf<String>()
+
         var num2: Int = 1
         viewBinding.myStepPlusbtn.setOnClickListener {
             val step_view = LayoutInflater.from(this).inflate(R.layout.layout_step, null)
@@ -238,6 +281,8 @@ class MyWritingActivity:AppCompatActivity() {
                 viewBinding.myStepPlusbtn.setVisibility(View.INVISIBLE)
             }
         }
+
+
         viewBinding2.myRecipeEdtStep.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -301,10 +346,7 @@ class MyWritingActivity:AppCompatActivity() {
         }
 
 
-        class check_coffee(var coffee: String){
-
-        }
-
+        var check_coffee:String
         var check_beverage:String
         var check_tea:String
         var check_ade:String
@@ -352,10 +394,9 @@ class MyWritingActivity:AppCompatActivity() {
                 binding_uploadcategory.myCoffee.isSelected = !(binding_uploadcategory.myCoffee.isSelected == true)
                 if (binding_uploadcategory.myCoffee.isSelected) {
                     binding_uploadcategory.myCoffee.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
-                    var check = check_coffee("1")
+
                 } else {
                     binding_uploadcategory.myCoffee.setBackgroundResource(R.drawable.my_btn_round_notsave)
-                    var check = check_coffee("0")
                 }
             }
             binding_uploadcategory.myBeverage.setOnClickListener {
@@ -439,7 +480,7 @@ class MyWritingActivity:AppCompatActivity() {
                 val dialog_upload = dialog_upload_builder.create()
 
                 //여기서 카테고리 저장하셈
-                /*if( ){
+                /*if(check_coffee == 1 ){
                     editor.putString("category","coffee")
                     editor.apply()
                 }else if(binding_uploadcategory.myBeverage.isSelected){
@@ -481,7 +522,7 @@ class MyWritingActivity:AppCompatActivity() {
                 )
 
                 val body = PostNewRecipeBody(recipe_list, ingredient_list, steps_list)
-                api.post_newrecipe("x-access-token", body).enqueue(object: Callback<PostNewRecipeBodyResponse> {
+                retrofit.post_newrecipe("x-access-token", body).enqueue(object: Callback<PostNewRecipeBodyResponse> {
                     override fun onResponse(call: Call<PostNewRecipeBodyResponse>, response: Response<PostNewRecipeBodyResponse>) {
                         Log.d("통신","통신은 성공임")
                     }
@@ -535,7 +576,7 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_uploadcategory.show()
         }
 
-        viewBinding.myRecipeImageStep.setOnClickListener{
+        /*viewBinding.myRecipeImageStep.setOnClickListener{
             viewBinding.myRecipeTvImage.setText("사진은 하나만 첨부가능하며,변경할수 없습니다.")
             binding_camera = DialogCameraBinding.inflate(layoutInflater)
             val dialog_camera_builder = AlertDialog.Builder(this).setView(binding_camera.root)
@@ -556,9 +597,9 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
-        }
+        }*/
 
-        viewBinding.myAlbumbtn.setOnClickListener {
+       /* viewBinding.myAlbumbtn.setOnClickListener {
             binding_camera = DialogCameraBinding.inflate(layoutInflater)
             val dialog_camera_builder = AlertDialog.Builder(this).setView(binding_camera.root)
             val dialog_camera = dialog_camera_builder.create()
@@ -579,15 +620,15 @@ class MyWritingActivity:AppCompatActivity() {
             }
 
             dialog_camera.show()
+        }*/
+        viewBinding.myAlbumbtn.setOnClickListener{
+            selectGallery()
         }
     }
 
-    companion object{
-        const val REVIEW_MIN_LENGTH = 10
-        const val REQ_GALLERY =1
-    }
 
-    fun getRealPathFromURI(uri: Uri):String{
+
+    /*fun getRealPathFromURI(uri: Uri):String{
         val buildName = Build.MANUFACTURER
         if(buildName.equals("Xiaomi")){
             return uri.path!!
@@ -601,46 +642,36 @@ class MyWritingActivity:AppCompatActivity() {
         val result = cursor.getString(columnIndex)
         cursor.close()
         return result
-    }
+    }*/
 
-    lateinit var imageFile : File
-    private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        result ->
-        val imageUri = result.data?.data
+    private fun selectGallery(){
+        val writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val readPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        val sharedPreference2 = getSharedPreferences("writing_image", 0)
-        val editor2 = sharedPreference2.edit()
-
-        val file = File(absolutelyPath(imageUri, this))
-        val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-        val body = MultipartBody.Part.createFormData("profile", file.name, requestFile)
-        sendImage(body)
-
-        imageUri?.let{
-            imageFile = File(getRealPathFromURI(it))
-
-            val sharedPreference = getSharedPreferences("writing", 0)
-            val editor = sharedPreference.edit()
-
-            Glide.with(this)
-                .asBitmap()
-                .load(imageUri)
-                .centerCrop()
-                .into(object : CustomTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        val layout = viewBinding.myImage
-                        layout.background = BitmapDrawable(resources, resource)
-                        editor.putString("thumbnail", bitmapToString(resource))
-                        editor.apply()
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
-                //.into(viewBinding.myImage)
+        if(writePermission == PackageManager.PERMISSION_DENIED ||
+            readPermission == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
+        }else{
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.setDataAndType(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                "image/*"
+            )
+            imageResult.launch(intent)
+            /*if(num == 1){
+                imageResult1.launch(intent)
+            } else{
+                imageResult.launch(intent)
+            }*/
         }
     }
-    private val imageResult1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+
+//        val sharedPreference2 = getSharedPreferences("writing_image", 0)
+//        val editor2 = sharedPreference2.edit()
+
+   /* private val imageResult1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result ->
         val imageUri = result.data?.data
 
@@ -666,43 +697,9 @@ class MyWritingActivity:AppCompatActivity() {
                     }
                 })
         }
-    }
+    }*/
 
-    private fun selectGallery(num:Int){
-        val writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        val readPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-
-        if(writePermission == PackageManager.PERMISSION_DENIED ||
-                readPermission == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
-        }else{
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                "image/*"
-            )
-
-            if(num == 1){
-                imageResult1.launch(intent)
-            } else{
-                imageResult.launch(intent)
-            }
-        }
-    }
-
-    fun sendImage(body: MultipartBody.Part){
-        api.post_newrecipe_image("x-access-token", body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-            override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                Log.d("통신","통신 잘됐나")
-            }
-            override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                Log.d("통신","통신 전혀 안됨..")
-            }
-        })
-    }
-
-    fun absolutelyPath(path:Uri?, context: Context): String{
+    fun absolutelyPath(path: Uri?, context : Context): String {
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
         var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -711,6 +708,24 @@ class MyWritingActivity:AppCompatActivity() {
         var result = c?.getString(index!!)
 
         return result!!
+    }
+
+    fun sendImage(body: MultipartBody.Part){
+        retrofit.post_newrecipe_image("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
+            override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
+                if(response.isSuccessful){
+                    Log.d("통신","이미지 전송 성공")
+                    val result = response.body()
+                    val data = result?.image?.image
+                    Log.d("로그",data.toString())
+                }else{
+                    Log.d("통신","이미지 전송 실패")
+                }
+            }
+            override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
+                Log.d("통신",t.message.toString())
+            }
+        })
     }
 
     override fun onBackPressed() {

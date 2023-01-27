@@ -8,12 +8,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
-interface APIS {
+interface APIS_My {
 
     @POST("/recipes/new-recipe")
     fun post_newrecipe(
         @Header("x-access-token") token: String?,
-        @Body newrecipe: PostNewRecipeBody
+        @Body newrecipe: PostNewRecipeBody,
     ): Call<PostNewRecipeBodyResponse>
 
 
@@ -21,21 +21,7 @@ interface APIS {
     @POST("/recipes/thumb-picture")
     fun post_newrecipe_image(
         @Header("x-access-token") token: String,
-        //@Body newrecipethumbnail: PostNewRecipeImageBody,
-        @Part imageFile: MultipartBody.Part
+        @Part img: MultipartBody.Part,
     ): Call<PostNewRecipeImageBodyResponse>
 
-
-    companion object{
-        private const val BASE_URL = "http://zipdabang.store:3000"
-        fun create():APIS{
-            val gson: Gson = GsonBuilder().setLenient().create();
-
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build()
-                .create(APIS::class.java)
-        }
-    }
 }
