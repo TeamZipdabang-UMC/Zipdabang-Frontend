@@ -3,26 +3,27 @@ package com.example.umc_zipdabang.src.my
 import retrofit2.Call
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.MultipartBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface APIS {
 
-    @POST("/users/user-data")
-    fun post_signup_newuser(
-        @Body userInfo: PostNewuserBody
-    ): Call<PostNewuserBodyResponse>
+    @POST("/recipes/new-recipe")
+    fun post_newrecipe(
+        @Header("x-access-token") token: String?,
+        @Body newrecipe: PostNewRecipeBody
+    ): Call<PostNewRecipeBodyResponse>
 
-    @GET("/users/exist-nickname?")
-    //@Headers("Autorization:token 발급받은 키")
-    fun get_signup_existnickname(
-        @Query("nickname") nickname : String?
-    ): Call<GetNicknameExistResponse>
+
+    @Multipart
+    @POST("/recipes/thumb-picture")
+    fun post_newrecipe_image(
+        @Header("x-access-token") token: String,
+        //@Body newrecipethumbnail: PostNewRecipeImageBody,
+        @Part imageFile: MultipartBody.Part
+    ): Call<PostNewRecipeImageBodyResponse>
 
 
     companion object{

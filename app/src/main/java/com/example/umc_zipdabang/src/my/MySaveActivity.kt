@@ -1,23 +1,60 @@
 package com.example.umc_zipdabang.src.my
 
+import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.Gravity
 import android.view.WindowManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.databinding.ActivityMySaveBinding
 import com.example.umc_zipdabang.databinding.DialogUploadBinding
 import com.example.umc_zipdabang.databinding.DialogUploadsuccessBinding
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 class MySaveActivity:AppCompatActivity() {
     private lateinit var viewBinding: ActivityMySaveBinding
     private lateinit var binding_upload : DialogUploadBinding
     private lateinit var binding_uploadsuccess : DialogUploadsuccessBinding
+
+    fun bitmaptoByteArray(bitmap: Bitmap) : ByteArray{
+        var outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, outputStream)
+        return outputStream.toByteArray()
+    }
+    fun byteArrayToBitmap(byteArray: ByteArray):Bitmap{
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        return bitmap
+    }
+
+
+    fun bitmapToString(bitmap:Bitmap):String{
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+    fun stringToBitmap(encodedString: String):Bitmap{
+        val encodeByte = Base64.decode(encodedString, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityMySaveBinding.inflate(layoutInflater)
@@ -27,6 +64,7 @@ class MySaveActivity:AppCompatActivity() {
         val sharedPreference = getSharedPreferences("writing",0)
         val editor = sharedPreference.edit()
 
+        var thumbnail_sp = sharedPreference.getString("thumbnail","")
         var title_sp = sharedPreference.getString("title","")
         var time_sp = sharedPreference.getString("time","")
         var describe_sp = sharedPreference.getString("describe","")
@@ -36,24 +74,39 @@ class MySaveActivity:AppCompatActivity() {
         var step1_image_sp = sharedPreference.getString("step1_image","")
         var step1_describe_sp = sharedPreference.getString("step1_describe","")
 
+
         sharedPreference.getString("title","@")?.let { Log.e(ContentValues.TAG, it) }
         sharedPreference.getString("time","@")?.let { Log.e(ContentValues.TAG, it) }
         sharedPreference.getString("describe","@")?.let { Log.e(ContentValues.TAG, it) }
         sharedPreference.getString("aftertip","@")?.let { Log.e(ContentValues.TAG, it) }
         sharedPreference.getString("ingredient1_title","@")?.let { Log.e(ContentValues.TAG, it) }
         sharedPreference.getString("ingredient1_quan","@")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("step1_image","@")?.let { Log.e(ContentValues.TAG, it) }
         sharedPreference.getString("step1_describe","@")?.let { Log.e(ContentValues.TAG, it) }
+        sharedPreference.getString("category","@")?.let { Log.e(ContentValues.TAG, it) }
 
-            viewBinding.myRecipeEdtTital.setText(title_sp)
-            viewBinding.myRecipeEdtTime.setText(time_sp)
-            viewBinding.myRecipeEdtDescribe.setText(describe_sp)
-            viewBinding.myRecipeEdtAftertip.setText(aftertip_sp)
-            viewBinding.myRecipeEdtIngredientname.setText(ingredient1_title_sp)
-            viewBinding.myRecipeEdtIngredientqun.setText(ingredient1_quan_sp)
-            viewBinding.myRecipeImageStep.setText(step1_image_sp)
-            viewBinding.myRecipeEdtStep.setText(step1_describe_sp)
+        //centercrop 안됨 해결하자
+        viewBinding.myImage.setImageBitmap(thumbnail_sp?.let { stringToBitmap(it) })
+        viewBinding.myImage.bringToFront()
+        viewBinding.myRecipeRealimageStep.setImageBitmap(stringToBitmap((step1_image_sp!!)))
 
+        viewBinding.myImage.bringToFront()
+        viewBinding.myRecipeEdtTital.setText(title_sp)
+        viewBinding.myRecipeEdtTime.setText(time_sp)
+        viewBinding.myRecipeEdtDescribe.setText(describe_sp)
+        viewBinding.myRecipeEdtAftertip.setText(aftertip_sp)
+        viewBinding.myRecipeEdtIngredientname.setText(ingredient1_title_sp)
+        viewBinding.myRecipeEdtIngredientqun.setText(ingredient1_quan_sp)
+        viewBinding.myRecipeEdtStep.setText(step1_describe_sp)
+
+        viewBinding.myImage.setOnClickListener{
+            viewBinding.myImage.bringToFront()
+            selectGallery(0)
+        }
+
+        viewBinding.myRecipeImageStep.setOnClickListener {
+            viewBinding.myRecipeImageStep.bringToFront()
+            selectGallery(1)
+        }
 
         viewBinding.myUploadbtn.setOnClickListener {
             binding_upload = DialogUploadBinding.inflate(layoutInflater)
@@ -125,6 +178,82 @@ class MySaveActivity:AppCompatActivity() {
 
         viewBinding.myBackbtn.setOnClickListener {
             finish()
+        }
+    }
+
+    companion object{
+        const val REVIEW_MIN_LENGTH = 10
+        const val REQ_GALLERY =1
+    }
+
+    fun getRealPathFromURI(uri: Uri):String{
+        val buildName = Build.MANUFACTURER
+        if(buildName.equals("Xiaomi")){
+            return uri.path!!
+        }
+        var columnIndex = 0
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri, proj, null, null, null)
+        if(cursor!!.moveToFirst()){
+            columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        }
+        val result = cursor.getString(columnIndex)
+        cursor.close()
+        return result
+    }
+
+    lateinit var imageFile : File
+    private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result ->
+        val imageUri = result.data?.data
+        Log.d("uri 떴냐", imageUri.toString())
+
+        imageUri?.let{
+            imageFile = File(getRealPathFromURI(it))
+
+            Glide.with(this)
+                .asBitmap()
+                .load(imageUri)
+                .centerCrop()
+                .into(viewBinding.myImage)
+        }
+    }
+    private val imageResult1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result ->
+        val imageUri = result.data?.data
+        Log.d("uri 떴냐", imageUri.toString())
+
+        imageUri?.let{
+            imageFile = File(getRealPathFromURI(it))
+
+            Glide.with(this)
+                .asBitmap()
+                .load(imageUri)
+                .centerCrop()
+                .into(viewBinding.myRecipeRealimageStep)
+        }
+    }
+    private fun selectGallery(num:Int){
+        val writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val readPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        if(writePermission == PackageManager.PERMISSION_DENIED ||
+            readPermission == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
+        }else{
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.setDataAndType(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                "image/*"
+            )
+
+            if(num == 1){
+                imageResult1.launch(intent)
+            } else{
+                imageResult.launch(intent)
+            }
         }
     }
 }
