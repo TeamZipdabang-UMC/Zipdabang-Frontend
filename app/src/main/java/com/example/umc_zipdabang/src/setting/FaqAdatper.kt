@@ -17,8 +17,10 @@ class FaqAdatper(private val context: MyFAQActivity, private val dataList: Array
 
         fun bind(context: Context, item: FAQ){
 
+
+
+
             binding.question.text=item.ask
-            binding.answer.text=item.answer
 
             binding.layout01.setOnClickListener {
                 if(binding.layoutDetail01.visibility == View.VISIBLE) {
