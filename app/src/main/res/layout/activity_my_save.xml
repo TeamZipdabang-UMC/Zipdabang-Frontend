@@ -48,8 +48,7 @@
             <ImageView
                 android:id="@+id/my_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"/>
+                android:layout_height="match_parent"/>
             <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
@@ -100,15 +99,118 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/my_albumbtn"/>
 
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/my_recipe_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="2dp"
+            app:layout_constraintTop_toBottomOf="@id/my_albumbtn"
+            app:layout_constraintStart_toStartOf="@id/my_linear_tital"
+            app:layout_constraintEnd_toEndOf="@id/my_linear_tital">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskrbold"
+                android:text="카테고리 선택"
+                android:textColor="@color/jipdabang_black"
+                android:textSize="20dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-4dp">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/my_coffee"
+                    android:layout_width="94dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/my_btn_round_notsave"
+                    android:layout_gravity="center"
+                    android:text="커피"
+                    android:textColor="@color/jipdabang_black"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/notosanskrregular"
+                    style="?android:attr/borderlessButtonStyle"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/my_beverage"
+                    android:layout_width="94dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/my_btn_round_notsave"
+                    android:layout_gravity="center"
+                    android:text="Beverage"
+                    android:textColor="@color/jipdabang_black"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/notosanskrregular"
+                    style="?android:attr/borderlessButtonStyle"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/my_tea"
+                    android:layout_width="94dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/my_btn_round_notsave"
+                    android:layout_gravity="center"
+                    android:text="티"
+                    android:textColor="@color/jipdabang_black"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/notosanskrregular"
+                    style="?android:attr/borderlessButtonStyle"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/my_ade"
+                    android:layout_width="94dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/my_btn_round_notsave"
+                    android:layout_gravity="center"
+                    android:text="에이드"
+                    android:textColor="@color/jipdabang_black"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/notosanskrregular"
+                    style="?android:attr/borderlessButtonStyle"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/my_smudi"
+                    android:layout_width="94dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/my_btn_round_notsave"
+                    android:layout_gravity="center"
+                    android:text="스무디/주스"
+                    android:textColor="@color/jipdabang_black"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/notosanskrregular"
+                    style="?android:attr/borderlessButtonStyle"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/my_health"
+                    android:layout_width="94dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/my_btn_round_notsave"
+                    android:layout_gravity="center"
+                    android:text="건강음료"
+                    android:textColor="@color/jipdabang_black"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/notosanskrregular"
+                    style="?android:attr/borderlessButtonStyle"/>
+            </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/my_linear_tital"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="14dp"
             app:layout_constraintEnd_toStartOf="@id/my_empty_tv2"
             app:layout_constraintHorizontal_weight="312"
             app:layout_constraintStart_toEndOf="@id/my_empty_tv1"
-            app:layout_constraintTop_toBottomOf="@id/my_albumbtn"
+            app:layout_constraintTop_toBottomOf="@id/my_recipe_category"
             app:layout_constraintBottom_toTopOf="@id/my_linear_time">
             <TextView
                 android:layout_width="wrap_content"
@@ -905,15 +1007,17 @@
                 android:layout_height="52dp"
                 android:orientation="horizontal"
                 android:layout_weight="2">
+
                 <androidx.constraintlayout.utils.widget.ImageFilterButton
                     android:id="@+id/my_ingredient_plusbtn"
                     android:layout_width="wrap_content"
-                    android:visibility="visible"
                     android:layout_height="52dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/my_btn_round"
                     android:src="@drawable/my_plusicon"
-                    android:layout_marginEnd="2dp"/>
+                    android:visibility="visible"
+                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
                 <androidx.constraintlayout.utils.widget.ImageFilterButton
                     android:id="@+id/my_ingredient_minusbtn"
                     android:layout_width="wrap_content"

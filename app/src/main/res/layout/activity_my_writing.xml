@@ -50,7 +50,9 @@
         <ImageView
             android:id="@+id/my_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"/>
         <LinearLayout
             android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
@@ -77,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-14dp"
                 android:textAlignment="center"
-                android:text="레시피와 관련 있는 사진 한 장을 업로드해 주세요.\n한번 추가한 사진은 변경할 수 없습니다."
+                android:text="레시피와 관련 있는 사진 한 장을 업로드해 주세요."
                 android:textSize="12dp"
                 android:textColor="@color/jipdabang_black"
                 android:fontFamily="@font/notosanskrregular"/>
@@ -1089,7 +1091,8 @@
                     android:id="@+id/my_recipe_realimage_step"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:scaleType="fitXY"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image"
                     android:layout_width="wrap_content"
@@ -1162,7 +1165,8 @@
                     android:id="@+id/my_recipe_realimage_step2"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image2"
                     android:layout_width="wrap_content"
@@ -1235,7 +1239,8 @@
                     android:id="@+id/my_recipe_realimage_step3"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image3"
                     android:layout_width="wrap_content"
@@ -1308,7 +1313,8 @@
                     android:id="@+id/my_recipe_realimage_step4"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image4"
                     android:layout_width="wrap_content"
@@ -1381,7 +1387,8 @@
                     android:id="@+id/my_recipe_realimage_step5"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image5"
                     android:layout_width="wrap_content"
@@ -1454,7 +1461,8 @@
                     android:id="@+id/my_recipe_realimage_step6"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image6"
                     android:layout_width="wrap_content"
@@ -1527,7 +1535,8 @@
                     android:id="@+id/my_recipe_realimage_step7"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image7"
                     android:layout_width="wrap_content"
@@ -1600,7 +1609,8 @@
                     android:id="@+id/my_recipe_realimage_step8"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image8"
                     android:layout_width="wrap_content"
@@ -1673,7 +1683,8 @@
                     android:id="@+id/my_recipe_realimage_step9"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image9"
                     android:layout_width="wrap_content"
@@ -1746,7 +1757,8 @@
                     android:id="@+id/my_recipe_realimage_step10"
                     android:layout_width="52dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginStart="10dp"
+                    android:adjustViewBounds="true"/>
                 <TextView
                     android:id="@+id/my_recipe_tv_image10"
                     android:layout_width="wrap_content"

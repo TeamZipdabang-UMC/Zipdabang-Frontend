@@ -7,19 +7,23 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivityMyMyrecipeEditBinding
+import com.example.umc_zipdabang.databinding.ToastMyDeleteBinding
 import com.example.umc_zipdabang.src.my.data.ItemRecipeData
 import com.example.umc_zipdabang.src.my.data.MyMyrecipeEditRVAdapter
 import com.example.umc_zipdabang.src.my.etc.DeleteDialog
+import java.net.URL
 
 class MyMyrecipeEditActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityMyMyrecipeEditBinding
     private var scraps: ArrayList<ItemRecipeData> = arrayListOf()
     private var deleteList: ArrayList<ItemRecipeData> = arrayListOf()
+    private lateinit var binding_toast_my_delete : ToastMyDeleteBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityMyMyrecipeEditBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
 
         viewBinding.myCancelbtn.setOnClickListener {
             onBackPressed()

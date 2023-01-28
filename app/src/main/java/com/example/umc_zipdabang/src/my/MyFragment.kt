@@ -77,6 +77,7 @@ class MyFragment : Fragment(){
             startActivity(intent)
         }*/
         viewBinding.myBtnIcon1.setOnClickListener {
+
             val intent = Intent(activity, MyWritingActivity::class.java)
             startActivity(intent)
         }

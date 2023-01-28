@@ -1,6 +1,7 @@
 package com.example.umc_zipdabang.src.my
 
 import android.Manifest
+import android.Manifest.permission.CAMERA
 import android.app.Activity
 import android.content.ContentValues
 import android.content.ContentValues.TAG
@@ -34,6 +35,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -48,7 +50,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.umc_zipdabang.BuildConfig
+//import com.example.umc_zipdabang.BuildConfig
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.*
 import com.example.umc_zipdabang.src.my.etc.*
@@ -62,31 +64,32 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Byte.decode
+import java.text.SimpleDateFormat
 import kotlin.properties.Delegates
 
 class MyWritingActivity:AppCompatActivity() {
     private lateinit var viewBinding: ActivityMyWritingBinding
-    private lateinit var viewBinding2: LayoutStepBinding
     private lateinit var binding_upload : DialogUploadBinding
     private lateinit var binding_uploadsuccess : DialogUploadsuccessBinding
     private lateinit var binding_camera : DialogCameraBinding
     private lateinit var binding_save : DialogSaveBinding
-    private lateinit var binding_reallynotsave : DialogReallynotsaveBinding
+    private lateinit var binding_toast_save : ToastSaveBinding
+    private lateinit var binding_toast_delete : ToastDeleteBinding
 
-    /*private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)*/
+    private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
 
-    //sharedpreference, api 코드작성
-    //step 지웠는데 왜 사진 남아있냐 ㅠㅠ null 처리했는데...
+    //step 지웠는데 왜 사진 남아있냐 ㅠㅠ null 처리했는데...!->glide 정확히 지우자!!!!!
+    //sharedpreference, api 코드작성!!!!!
+    
+    //내레시피 안됨 ㅠㅠ
+    //이미지 갱신.... 이건 서버랑 실험해봐야함.
+    //이미지 회전 막기.... 이것도 서버랑 실험해봐야함.
+
 
     //업로드 버튼 다썼을때 활성화되게 하기
     //임시저장 해둔게 있으면 글쓰기 전에 dialog 띄우기
-
-    //카메라 권한 받아오기
-
-    //jpg 오류 -> base64 인코딩해야하냐 -> jpg 오류 안나는데 뭐임
-
     //toast 띄우기
-    ////내레시피 안됨 ㅠㅠ
+
 
     fun bitmaptoByteArray(bitmap: Bitmap) : ByteArray{
         var outputStream = ByteArrayOutputStream()
@@ -108,9 +111,9 @@ class MyWritingActivity:AppCompatActivity() {
         return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityMyWritingBinding.inflate(layoutInflater)
-        viewBinding2 = LayoutStepBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
@@ -319,47 +322,47 @@ class MyWritingActivity:AppCompatActivity() {
         viewBinding.myStepMinusbtn.setOnClickListener{
             if(num2==10){
                 viewBinding.myRecipeRealimageXbtn10.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep10.setImageBitmap(null)
+
                 viewBinding.myRecipeEdtStep10.setText(null)
                 viewBinding.myStep10.visibility = View.GONE
             }else if(num2 == 9){
                 viewBinding.myRecipeRealimageXbtn9.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep9.setImageBitmap(null)
+                viewBinding.myRecipeRealimageStep9.setImageResource(0)
                 viewBinding.myRecipeEdtStep9.setText(null)
                 viewBinding.myStep9.visibility= View.GONE
             }else if(num2 == 8){
                 viewBinding.myRecipeRealimageXbtn8.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep8.setImageBitmap(null)
+                viewBinding.myRecipeRealimageStep8.setImageResource(0)
                 viewBinding.myRecipeEdtStep8.setText(null)
                 viewBinding.myStep8.visibility= View.GONE
             }else if(num2 == 7){
                 viewBinding.myRecipeRealimageXbtn7.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep7.setImageBitmap(null)
+                viewBinding.myRecipeRealimageStep7.setImageResource(0)
                 viewBinding.myRecipeEdtStep7.setText(null)
                 viewBinding.myStep7.visibility= View.GONE
             }else if(num2 == 6){
                 viewBinding.myRecipeRealimageXbtn6.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep6.setImageBitmap(null)
+                viewBinding.myRecipeRealimageStep6.setImageResource(0)
                 viewBinding.myRecipeEdtStep6.setText(null)
                 viewBinding.myStep6.visibility= View.GONE
             }else if(num2 == 5){
                 viewBinding.myRecipeRealimageXbtn5.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep5.setImageBitmap(null)
+                viewBinding.myRecipeRealimageStep5.setImageResource(0)
                 viewBinding.myRecipeEdtStep5.setText(null)
                 viewBinding.myStep5.visibility= View.GONE
             }else if(num2 == 4){
                 viewBinding.myRecipeRealimageXbtn4.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep4.setImageBitmap(null)
+                viewBinding.myRecipeRealimageStep4.setImageResource(0)
                 viewBinding.myRecipeEdtStep4.setText(null)
                 viewBinding.myStep4.visibility= View.GONE
             }else if(num2 == 3){
                 viewBinding.myRecipeRealimageXbtn3.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep3.setImageBitmap(null)
+                viewBinding.myRecipeRealimageStep3.setImageResource(0)
                 viewBinding.myRecipeEdtStep3.setText(null)
                 viewBinding.myStep3.visibility= View.GONE
             }else if(num2 == 2){
                 viewBinding.myRecipeRealimageXbtn2.visibility = View.INVISIBLE
-                viewBinding.myRecipeRealimageStep2.setImageBitmap(null)
+                viewBinding.myRecipeRealimageStep2.setImageResource(0)
                 viewBinding.myRecipeEdtStep2.setText(null)
                 viewBinding.myStep2.visibility= View.GONE
             }
@@ -379,13 +382,14 @@ class MyWritingActivity:AppCompatActivity() {
             editor.apply()
             editor2.clear()
             editor2.apply()
+            finish()
         }
 
 
         //임시저장 버튼 눌렀을때
         viewBinding.mySavebtn.setOnClickListener {
-            editor.putString("ingredient",num.toString())
-            editor.putString("step",num2.toString())
+            editor.putInt("ingredient",num)
+            editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
             editor.putString("time", viewBinding.myRecipeEdtTime.text.toString())
             editor.putString("describe", viewBinding.myRecipeEdtDescribe.text.toString())
@@ -446,8 +450,6 @@ class MyWritingActivity:AppCompatActivity() {
                 editor.apply()
             }
 
-            sharedPreference.getString("ingredient", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step", "@")?.let { Log.e(ContentValues.TAG, it) }
             sharedPreference.getString("category", "@")?.let { Log.e(ContentValues.TAG, it) }
             sharedPreference.getString("title", "@")?.let { Log.e(ContentValues.TAG, it) }
             sharedPreference.getString("time", "@")?.let { Log.e(ContentValues.TAG, it) }
@@ -755,7 +757,21 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                /*checkPermissions(Permissions)
+                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                takePictureIntent.resolveActivity(packageManager)?.also{
+                    startActivityForResult(takePictureIntent,PICK_CAMERA)}*/
+                /*if(checkPermission()){
+                    dispatchTakePictureIntent()
+                    Log.d("리스트",list.get(0).toString())
+                    Glide.with(this)
+                        .load(list.get(0))
+                        .centerCrop()
+                        .into(viewBinding.myImage)
+                    viewBinding.myImage.bringToFront()
+                }else{
+                    requestPermission()
+                }*/
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(0)
@@ -778,7 +794,21 @@ class MyWritingActivity:AppCompatActivity() {
            dialog_camera.setCancelable(true)
 
            binding_camera.myCameraFrame.setOnClickListener{
-               Log.d("카메라 준비완료","ㅈㅂ")
+               /*if(checkPermission()){
+                   Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                       takePictureIntent.resolveActivity(packageManager)?.also {
+                           startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                       }
+                   }
+                   viewBinding.myRecipeRealimageStep.bringToFront()
+                   viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
+                   viewBinding.myRecipeRealimageXbtn.bringToFront()
+               }else{
+                   requestPermission()
+               }*/
+
+
+               dialog_camera.dismiss()
            }
            binding_camera.myFileFrame.setOnClickListener{
                selectGallery(1)
@@ -1007,6 +1037,58 @@ class MyWritingActivity:AppCompatActivity() {
         }
     }
 
+    /*private val PICK_STORAGE=1001
+    private val PICK_CAMERA=1000
+    private val PERMISSIONS_REQUEST=100
+    private var imageUrl : String =""
+
+    private val Permissions = arrayOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+    )
+    private fun checkPermissions(permissions: Array<String>) : Boolean {
+        val permissionList : MutableList<String> = mutableListOf()
+        for(permission in permissions){
+            val result= ContextCompat.checkSelfPermission(this,permission)
+            if(result != PackageManager.PERMISSION_GRANTED){
+                permissionList.add(permission)
+            }
+        }
+        if(permissionList.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this, permissionList.toTypedArray(), PERMISSIONS_REQUEST
+            )
+            return false
+        }
+        return true
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_STORAGE) {
+                val pickedImage: Uri? = data?.data
+                if (pickedImage != null) {
+                    imageUrl = pickedImage.toString()
+                }
+                Glide.with(this)
+                    .load(imageUrl)
+                    .centerCrop()
+                    .into(viewBinding.myImage)
+            }
+
+            if (requestCode == PICK_CAMERA) {
+                val imageBitmap = data?.extras?.get("data") as Bitmap
+                val pickedImage: Uri? = data.data
+                if (pickedImage != null) {
+                    imageUrl = pickedImage.toString()
+                }
+                viewBinding.myImage.setImageBitmap(imageBitmap)
+            }
+        }
+    }
+*/
 
     private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -1017,19 +1099,21 @@ class MyWritingActivity:AppCompatActivity() {
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
             //sendImage(body)
 
+            //val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,imageUri)
             Log.d("테스트", file.name)
 
             val sharedPreference2 = getSharedPreferences("writing_image", 0)
             val editor2 = sharedPreference2.edit()
-            editor2.putString("thumbnail", file.name)
+            editor2.putString("thumbnail", imageUri.toString())
             editor2.apply()
             sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
-                .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
+                .load(imageUri)
+                .into(viewBinding.myImage)
+        /*object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
@@ -1040,7 +1124,7 @@ class MyWritingActivity:AppCompatActivity() {
                     override fun onLoadCleared(placeholder: Drawable?) {
 
                     }
-                })
+                }*/
         }
     }
     private val imageResult1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1062,20 +1146,9 @@ class MyWritingActivity:AppCompatActivity() {
 
             Glide.with(this)
                 .asBitmap()
-                .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .load(imageUri)
+                .into(viewBinding.myRecipeRealimageStep)
         }
     }
     private val imageResult2 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1097,20 +1170,9 @@ class MyWritingActivity:AppCompatActivity() {
 
             Glide.with(this)
                 .asBitmap()
-                .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep2
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .load(imageUri)
+                .into(viewBinding.myRecipeRealimageStep2)
         }
     }
     private val imageResult3 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1132,20 +1194,9 @@ class MyWritingActivity:AppCompatActivity() {
 
             Glide.with(this)
                 .asBitmap()
-                .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep3
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .load(imageUri)
+                .into(viewBinding.myRecipeRealimageStep3)
         }
     }
     private val imageResult4 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1167,20 +1218,9 @@ class MyWritingActivity:AppCompatActivity() {
 
             Glide.with(this)
                 .asBitmap()
-                .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep4
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .load(imageUri)
+                .into(viewBinding.myRecipeRealimageStep4)
         }
     }
     private val imageResult5 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1204,18 +1244,7 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep5
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .into( viewBinding.myRecipeRealimageStep5)
         }
     }
     private val imageResult6 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1239,18 +1268,7 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep6
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .into(viewBinding.myRecipeRealimageStep6)
         }
     }
     private val imageResult7 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1274,18 +1292,7 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep7
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .into(viewBinding.myRecipeRealimageStep7)
         }
     }
     private val imageResult8 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1309,18 +1316,7 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep8
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .into(viewBinding.myRecipeRealimageStep8)
         }
     }
     private val imageResult9 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1344,18 +1340,7 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep9
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .into(viewBinding.myRecipeRealimageStep9)
         }
     }
     private val imageResult10 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -1379,18 +1364,7 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myRecipeRealimageStep10
-                        layout.background = BitmapDrawable(resources, resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
+                .into(viewBinding.myRecipeRealimageStep10)
         }
     }
 
@@ -1434,7 +1408,7 @@ class MyWritingActivity:AppCompatActivity() {
             }
         }
     }
-   /* fun sendImage(body: MultipartBody.Part){
+    fun sendImage(body: MultipartBody.Part){
         retrofit.post_newrecipe_image("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
             override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                 if(response.isSuccessful){
@@ -1450,7 +1424,7 @@ class MyWritingActivity:AppCompatActivity() {
                 Log.d("통신",t.message.toString())
             }
         })
-    }*/
+    }
     companion object{
         const val REQ_GALLERY =1
     }
@@ -1464,6 +1438,71 @@ class MyWritingActivity:AppCompatActivity() {
 
         return result!!
     }
+
+   /* private val activityResult: ActivityResultLauncher<Intent> =registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == RESULT_OK && it.data!=null)
+    }*/
+
+
+    //허용안할경우에 재확인..?
+   private fun requestPermission(){
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,CAMERA),1)
+    }
+
+    //카메라 허용이 됐는지 안됐는지 확인
+    private fun checkPermission():Boolean{
+        return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    private val REQUEST_IMAGE_CAPTURE = 1
+    //카메라 허용하시겠습니까 띄우는 아이
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    //var list = arrayListOf<Bitmap>()
+
+    @Override
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if( resultCode == Activity.RESULT_OK) {
+            val GALLERY = 0
+            if (requestCode == GALLERY) {
+                var ImnageData: Uri? = data?.data
+                //Toast.makeText(this, ImnageData.toString(), Toast.LENGTH_SHORT).show()
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, ImnageData)
+//                    list.add(bitmap)
+//                    Log.d("리스트",list.get(0).toString())
+                     Glide.with(this)
+                        .load(bitmap)
+                        .centerCrop()
+                        .into(viewBinding.myImage)
+                     //viewBinding.myImage.setImageBitmap(bitmap)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            else if( requestCode == REQUEST_IMAGE_CAPTURE)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                //list.add(imageBitmap)
+                 Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myImage)
+                //viewBinding.myImage.setImageBitmap(bitmap)
+            }
+        }
+    }
+
 
    /* override fun onBackPressed() {
         val sharedPreference = getSharedPreferences("writing", 0)
