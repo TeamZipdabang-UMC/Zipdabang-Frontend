@@ -43,15 +43,13 @@ class MySaveActivity:AppCompatActivity() {
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
         return bitmap
     }
-
-
     fun bitmapToString(bitmap:Bitmap):String{
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
-    fun stringToBitmap(encodedString: String):Bitmap{
+    fun stringToBitmap(encodedString: String?):Bitmap{
         val encodeByte = Base64.decode(encodedString, Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
     }
@@ -63,16 +61,54 @@ class MySaveActivity:AppCompatActivity() {
 
         val sharedPreference = getSharedPreferences("writing",0)
         val editor = sharedPreference.edit()
+        val sharedPreference2 = getSharedPreferences("writing_image", 0)
+        val editor2 = sharedPreference2.edit()
 
-        var thumbnail_sp = sharedPreference.getString("thumbnail","")
+        var thumbnail_sp = sharedPreference2.getString("thumbnail","")
         var title_sp = sharedPreference.getString("title","")
         var time_sp = sharedPreference.getString("time","")
         var describe_sp = sharedPreference.getString("describe","")
         var aftertip_sp = sharedPreference.getString("aftertip","")
         var ingredient1_title_sp = sharedPreference.getString("ingredient1_title","")
         var ingredient1_quan_sp = sharedPreference.getString("ingredient1_quan","")
-        var step1_image_sp = sharedPreference.getString("step1_image","")
+        var ingredient2_title_sp = sharedPreference.getString("ingredient2_title","")
+        var ingredient2_quan_sp = sharedPreference.getString("ingredient2_quan","")
+        var ingredient3_title_sp = sharedPreference.getString("ingredient3_title","")
+        var ingredient3_quan_sp = sharedPreference.getString("ingredient3_quan","")
+        var ingredient4_title_sp = sharedPreference.getString("ingredient4_title","")
+        var ingredient4_quan_sp = sharedPreference.getString("ingredient4_quan","")
+        var ingredient5_title_sp = sharedPreference.getString("ingredient5_title","")
+        var ingredient5_quan_sp = sharedPreference.getString("ingredient5_quan","")
+        var ingredient6_title_sp = sharedPreference.getString("ingredient6_title","")
+        var ingredient6_quan_sp = sharedPreference.getString("ingredient6_quan","")
+        var ingredient7_title_sp = sharedPreference.getString("ingredient7_title","")
+        var ingredient7_quan_sp = sharedPreference.getString("ingredient7_quan","")
+        var ingredient8_title_sp = sharedPreference.getString("ingredient8_title","")
+        var ingredient8_quan_sp = sharedPreference.getString("ingredient8_quan","")
+        var ingredient9_title_sp = sharedPreference.getString("ingredient9_title","")
+        var ingredient9_quan_sp = sharedPreference.getString("ingredient9_quan","")
+        var ingredient10_title_sp = sharedPreference.getString("ingredient10_title","")
+        var ingredient10_quan_sp = sharedPreference.getString("ingredient10_quan","")
+        var step1_image_sp = sharedPreference2.getString("step1_image","")
         var step1_describe_sp = sharedPreference.getString("step1_describe","")
+        var step2_image_sp = sharedPreference2.getString("step2_image","")
+        var step2_describe_sp = sharedPreference.getString("step2_describe","")
+        var step3_image_sp = sharedPreference2.getString("step3_image","")
+        var step3_describe_sp = sharedPreference.getString("step3_describe","")
+        var step4_image_sp = sharedPreference2.getString("step4_image","")
+        var step4_describe_sp = sharedPreference.getString("step4_describe","")
+        var step5_image_sp = sharedPreference2.getString("step5_image","")
+        var step5_describe_sp = sharedPreference.getString("step5_describe","")
+        var step6_image_sp = sharedPreference2.getString("step6_image","")
+        var step6_describe_sp = sharedPreference.getString("step6_describe","")
+        var step7_image_sp = sharedPreference2.getString("step7_image","")
+        var step7_describe_sp = sharedPreference.getString("step7_describe","")
+        var step8_image_sp = sharedPreference2.getString("step8_image","")
+        var step8_describe_sp = sharedPreference.getString("step8_describe","")
+        var step9_image_sp = sharedPreference2.getString("step9_image","")
+        var step9_describe_sp = sharedPreference.getString("step9_describe","")
+        var step10_image_sp = sharedPreference2.getString("step10_image","")
+        var step10_describe_sp = sharedPreference.getString("step10_describe","")
 
 
         sharedPreference.getString("title","@")?.let { Log.e(ContentValues.TAG, it) }
@@ -84,12 +120,19 @@ class MySaveActivity:AppCompatActivity() {
         sharedPreference.getString("step1_describe","@")?.let { Log.e(ContentValues.TAG, it) }
         sharedPreference.getString("category","@")?.let { Log.e(ContentValues.TAG, it) }
 
-        //centercrop 안됨 해결하자
-        viewBinding.myImage.setImageBitmap(thumbnail_sp?.let { stringToBitmap(it) })
-        viewBinding.myImage.bringToFront()
-        viewBinding.myRecipeRealimageStep.setImageBitmap(stringToBitmap((step1_image_sp!!)))
 
-        viewBinding.myImage.bringToFront()
+        Glide.with(this)
+            .asBitmap()
+            .load(thumbnail_sp)
+            .centerCrop()
+            .into(viewBinding.myImage)
+
+       Glide.with(this)
+           .asBitmap()
+           .load(step1_image_sp)
+           .centerCrop()
+           .into(viewBinding.myRecipeRealimageStep)
+
         viewBinding.myRecipeEdtTital.setText(title_sp)
         viewBinding.myRecipeEdtTime.setText(time_sp)
         viewBinding.myRecipeEdtDescribe.setText(describe_sp)
@@ -113,7 +156,6 @@ class MySaveActivity:AppCompatActivity() {
             val dialog_upload_builder = AlertDialog.Builder(this).setView(binding_upload.root)
             val dialog_upload = dialog_upload_builder.create()
 
-            //여기서 카테고리 저장하셈
             //dialog_uploadcategory.window?.setFeatureDrawableResource(ColorDrawable(Color.parseColor()))
             dialog_upload.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
             dialog_upload.setCanceledOnTouchOutside(true)
@@ -132,7 +174,7 @@ class MySaveActivity:AppCompatActivity() {
                 dialog_uploadsuccess.setCanceledOnTouchOutside(true)
                 dialog_uploadsuccess.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog_uploadsuccess.window?.setGravity(Gravity.BOTTOM)
-                dialog_uploadsuccess.setCancelable(true)
+                dialog_uploadsuccess.setCancelable(false)
 
                 //업로드 레시피 보러가기
                 binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
@@ -162,7 +204,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
                 //나중에 보기
                 binding_uploadsuccess.myUploadseelaterbtn.setOnClickListener {
-                    //홈화면 돌아가기
                     dialog_uploadsuccess.dismiss()
                     finish()
                 }
@@ -185,7 +226,6 @@ class MySaveActivity:AppCompatActivity() {
         const val REVIEW_MIN_LENGTH = 10
         const val REQ_GALLERY =1
     }
-
     fun getRealPathFromURI(uri: Uri):String{
         val buildName = Build.MANUFACTURER
         if(buildName.equals("Xiaomi")){
@@ -201,7 +241,6 @@ class MySaveActivity:AppCompatActivity() {
         cursor.close()
         return result
     }
-
     lateinit var imageFile : File
     private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result ->

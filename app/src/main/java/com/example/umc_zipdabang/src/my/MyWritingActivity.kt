@@ -66,57 +66,13 @@ import kotlin.properties.Delegates
 class MyWritingActivity:AppCompatActivity() {
     private lateinit var viewBinding: ActivityMyWritingBinding
     private lateinit var viewBinding2: LayoutStepBinding
-    private lateinit var binding_uploadcategory : DialogUploadCategoryBinding
     private lateinit var binding_upload : DialogUploadBinding
     private lateinit var binding_uploadsuccess : DialogUploadsuccessBinding
     private lateinit var binding_camera : DialogCameraBinding
     private lateinit var binding_save : DialogSaveBinding
     private lateinit var binding_reallynotsave : DialogReallynotsaveBinding
 
-    private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
-
-    private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-    { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val imageUri = result.data?.data ?: return@registerForActivityResult
-
-            val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-            val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            sendImage(body)
-
-            Log.d("테스트", file.name)
-
-            viewBinding.myImage.setImageURI(imageUri)
-
-            /*val sharedPreference = getSharedPreferences("writing", 0)
-            val editor = sharedPreference.edit()
-
-            Glide.with(this)
-                .asBitmap()
-                .load(imageUri)
-                .centerCrop()
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-                        val layout = viewBinding.myImage
-                        layout.background = BitmapDrawable(resources, resource)
-                        editor.putString("thumbnail", bitmapToString(resource))
-                        editor.apply()
-                    }
-
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })*/
-        }
-    }
-
-    companion object{
-        const val REQ_GALLERY =1
-    }
+    /*private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)*/
 
     //sharedpreference 쪽 api 연결하기
 
@@ -126,7 +82,6 @@ class MyWritingActivity:AppCompatActivity() {
     //업로드 버튼 다썼을때 활성화되게 하기
     //임시저장 해둔게 있으면 글쓰기 전에 dialog 띄우기
     //toast 띄우기
-
 
     fun bitmaptoByteArray(bitmap: Bitmap) : ByteArray{
         var outputStream = ByteArrayOutputStream()
@@ -157,7 +112,7 @@ class MyWritingActivity:AppCompatActivity() {
         val sharedPreference = getSharedPreferences("writing", 0)
         val editor = sharedPreference.edit()
         val sharedPreference2 = getSharedPreferences("writing_image", 0)
-        val editor2 = sharedPreference.edit()
+        val editor2 = sharedPreference2.edit()
 
        /* viewBinding.myUploadbtn.setOnClickListener {
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
@@ -172,72 +127,95 @@ class MyWritingActivity:AppCompatActivity() {
             //재료, step, 사진 저장하기
         }*/
 
-        /*viewBinding.myRecipeEdtTital.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+        //카테고리 선택 버튼
+        viewBinding.myCoffee.setOnClickListener {
+            if(viewBinding.myBeverage.isSelected || viewBinding.myTea.isSelected || viewBinding.myAde.isSelected
+                || viewBinding.mySmudi.isSelected || viewBinding.myHealth.isSelected){
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            }else{
+                viewBinding.myCoffee.isSelected = !(viewBinding.myCoffee.isSelected == true)
+                if (viewBinding.myCoffee.isSelected) {
+                    viewBinding.myCoffee.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
 
-            override fun afterTextChanged(p0: Editable?) {
-                if (viewBinding.myRecipeEdtTital.text.toString().length == 20) {
-                    viewBinding.myRecipeTvTital.error = "최대 글자 수를 초과하였습니다."
                 } else {
-                    viewBinding.myRecipeTvTital.error = null
+                    viewBinding.myCoffee.setBackgroundResource(R.drawable.my_btn_round_notsave)
                 }
             }
-        })
-        viewBinding.myRecipeEdtDescribe.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+        }
+        viewBinding.myBeverage.setOnClickListener {
+            if(viewBinding.myCoffee.isSelected || viewBinding.myTea.isSelected || viewBinding.myAde.isSelected
+                || viewBinding.mySmudi.isSelected || viewBinding.myHealth.isSelected) {
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            }else{
+                viewBinding.myBeverage.isSelected = !(viewBinding.myBeverage.isSelected == true)
+                if (viewBinding.myBeverage.isSelected) {
+                    viewBinding.myBeverage.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
 
-            override fun afterTextChanged(p0: Editable?) {
-                if (viewBinding.myRecipeEdtDescribe.text.toString().length == 100) {
-                    viewBinding.myRecipeTvDescribe.error = "최대 글자 수를 초과하였습니다."
                 } else {
-                    viewBinding.myRecipeTvDescribe.error = null
+                    viewBinding.myBeverage.setBackgroundResource(R.drawable.my_btn_round_notsave)
+
                 }
             }
-        })
-        viewBinding.myRecipeEdtStep.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+        }
+        viewBinding.myTea.setOnClickListener {
+            if(viewBinding.myBeverage.isSelected || viewBinding.myCoffee.isSelected || viewBinding.myAde.isSelected
+                || viewBinding.mySmudi.isSelected || viewBinding.myHealth.isSelected){
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            }else {
+                viewBinding.myTea.isSelected = !(viewBinding.myTea.isSelected == true)
+                if (viewBinding.myTea.isSelected) {
+                    viewBinding.myTea.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
 
-            override fun afterTextChanged(p0: Editable?) {
-                if (viewBinding.myRecipeEdtStep.text.toString().length == 200) {
-                    viewBinding.myRecipeTvStep.error = "최대 글자 수를 초과하였습니다."
                 } else {
-                    viewBinding.myRecipeTvStep.error = null
+                    viewBinding.myTea.setBackgroundResource(R.drawable.my_btn_round_notsave)
+
                 }
             }
-        })
-        viewBinding.myRecipeEdtAftertip.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+        }
+        viewBinding.myAde.setOnClickListener {
+            if(viewBinding.myBeverage.isSelected || viewBinding.myCoffee.isSelected || viewBinding.myTea.isSelected
+                || viewBinding.mySmudi.isSelected || viewBinding.myHealth.isSelected){
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            }else {
+                viewBinding.myAde.isSelected = !(viewBinding.myAde.isSelected == true)
+                if (viewBinding.myAde.isSelected) {
+                    viewBinding.myAde.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
 
-            override fun afterTextChanged(p0: Editable?) {
-                if (viewBinding.myRecipeEdtAftertip.text.toString().length == 200) {
-                    viewBinding.myRecipeTvAftertip.error = "최대 글자 수를 초과하였습니다."
                 } else {
-                    viewBinding.myRecipeTvAftertip.error = null
+                    viewBinding.myAde.setBackgroundResource(R.drawable.my_btn_round_notsave)
+
                 }
             }
-        })*/
+        }
+        viewBinding.mySmudi.setOnClickListener {
+            if(viewBinding.myBeverage.isSelected || viewBinding.myCoffee.isSelected || viewBinding.myTea.isSelected
+                || viewBinding.myAde.isSelected || viewBinding.myHealth.isSelected){
 
-        var ingredient_view : String
-        var ingredient_title_save : String
-        var ingredient_quan_save : String
-        var ingredient_title_sp :String
-        var ingredient_quan_sp :String
+            }else {
+                viewBinding.mySmudi.isSelected = !(viewBinding.mySmudi.isSelected == true)
+                if (viewBinding.mySmudi.isSelected) {
+                    viewBinding.mySmudi.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
+                } else {
+                    viewBinding.mySmudi.setBackgroundResource(R.drawable.my_btn_round_notsave)
+                }
+            }
+        }
+        viewBinding.myHealth.setOnClickListener {
+            if(viewBinding.myBeverage.isSelected || viewBinding.myCoffee.isSelected || viewBinding.myTea.isSelected
+                || viewBinding.myAde.isSelected || viewBinding.mySmudi.isSelected){
+
+            }else {
+                viewBinding.myHealth.isSelected = !(viewBinding.myHealth.isSelected == true)
+                if (viewBinding.myHealth.isSelected) {
+                    viewBinding.myHealth.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
+
+                } else {
+                    viewBinding.myHealth.setBackgroundResource(R.drawable.my_btn_round_notsave)
+
+                }
+            }
+        }
+
         var num: Int = 1
         viewBinding.myIngredientPlusbtn.setOnClickListener {
             num++
@@ -250,22 +228,14 @@ class MyWritingActivity:AppCompatActivity() {
             viewBinding.myLinearIngredientPlusframe.addView(ingredient_view)
 
 
-
-            ingredient_title_sp = "ingredient"+num+"_title"
-            ingredient_quan_sp = "ingredient"+num+"_quan"
-
-
 //            ingredient_view.findViewById<EditText>(R.id.my_recipe_edt_ingredientname).getText()
 //            ingredient_view.findViewById<EditText>(R.id.my_recipe_edt_ingredientqun).getText()
 
             //editor.putString(ingredient_title_sp,viewBinding.myRecipeEdtIngredientname.text.toString())
 //            editor.putString(ingredient_quan_sp,viewBinding.myRecipeEdtIngredientqun.text.toString())
         }
-
-
         var picList = arrayListOf<String>()
         var textList = arrayListOf<String>()
-
         var num2: Int = 1
         viewBinding.myStepPlusbtn.setOnClickListener {
             val step_view = LayoutInflater.from(this).inflate(R.layout.layout_step, null)
@@ -282,23 +252,7 @@ class MyWritingActivity:AppCompatActivity() {
             }
         }
 
-
-        viewBinding2.myRecipeEdtStep.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                if (viewBinding.myRecipeEdtStep.text.toString().length == 200) {
-                    viewBinding.myRecipeTvStep.error = "최대 글자 수를 초과하였습니다."
-                } else {
-                    viewBinding.myRecipeTvStep.error = null
-                }
-            }
-        })
-
+        //임시저장 버튼 눌렀을때
         viewBinding.mySavebtn.setOnClickListener {
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
             editor.putString("time", viewBinding.myRecipeEdtTime.text.toString())
@@ -341,265 +295,159 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_save.show()
         }
 
+        //뒤로가기 할때
         viewBinding.myBackbtn.setOnClickListener {
-            finish()
+
         }
 
-
-        var check_coffee:String
-        var check_beverage:String
-        var check_tea:String
-        var check_ade:String
-        var check_smudi:String
-        var check_health:String
-        viewBinding.myUploadbtn.setOnClickListener{
+        //업로드 버튼 눌렀을때
+        viewBinding.myUploadbtn.setOnClickListener {
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
             editor.putString("time", viewBinding.myRecipeEdtTime.text.toString())
             editor.putString("describe", viewBinding.myRecipeEdtDescribe.text.toString())
             editor.putString("aftertip", viewBinding.myRecipeEdtAftertip.text.toString())
-            editor.putString("ingridient1_title",viewBinding.myRecipeEdtIngredientname.text.toString())
-            editor.putString("ingridient1_quan",viewBinding.myRecipeEdtIngredientqun.text.toString())
-            editor.putString("step1_describe",viewBinding.myRecipeEdtStep.text.toString())
+            editor.putString("ingridient1_title", viewBinding.myRecipeEdtIngredientname.text.toString())
+            editor.putString("ingridient1_quan", viewBinding.myRecipeEdtIngredientqun.text.toString())
+            editor.putString("step1_describe", viewBinding.myRecipeEdtStep.text.toString())
             editor.apply()
 
+            sharedPreference.getString("title", "@")?.let { Log.e(ContentValues.TAG, it) }
+            sharedPreference.getString("time", "@")?.let { Log.e(ContentValues.TAG, it) }
+            sharedPreference.getString("describe", "@")?.let { Log.e(ContentValues.TAG, it) }
+            sharedPreference.getString("aftertip", "@")?.let { Log.e(ContentValues.TAG, it) }
+            sharedPreference.getString("ingredient1_title", "@")?.let { Log.e(ContentValues.TAG, it) }
+            sharedPreference.getString("ingredient1_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
+            sharedPreference.getString("step1_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
+            sharedPreference.getString("category", "@")?.let { Log.e(ContentValues.TAG, it) }
 
-            sharedPreference.getString("title","@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("time","@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("describe","@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("aftertip","@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient1_title","@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient1_quan","@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step1_describe","@")?.let { Log.e(ContentValues.TAG, it) }
-
-//            var title_save = viewBinding.myRecipeEdtTital.text.toString()
-//            var time_save = viewBinding.myRecipeEdtTime.text.toString()
-//            var describe_save = viewBinding.myRecipeEdtDescribe.text.toString()
-//            var aftertip_save = viewBinding.myRecipeEdtAftertip.text.toString()
-//            var ingridient1_title_save = viewBinding.myRecipeEdtIngredientname.text.toString()
-//            var ingridient1_quan_save = viewBinding.myRecipeEdtIngredientqun.text.toString()
-//            //var step1_image_save = viewBinding.myRecipeEdtTital.text.toString()
-//            var step1_describe_save = viewBinding.myRecipeEdtStep.text.toString()
-
-            binding_uploadcategory = DialogUploadCategoryBinding.inflate(layoutInflater)
-            val dialog_uploadcategory_builder = AlertDialog.Builder(this).setView(binding_uploadcategory.root)
-            val dialog_uploadcategory = dialog_uploadcategory_builder.create()
-
-            dialog_uploadcategory.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog_uploadcategory.setCanceledOnTouchOutside(true)
-            dialog_uploadcategory.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog_uploadcategory.window?.setGravity(Gravity.BOTTOM)
-            dialog_uploadcategory.setCancelable(true)
-
-            binding_uploadcategory.myCoffee.setOnClickListener {
-                binding_uploadcategory.myCoffee.isSelected = !(binding_uploadcategory.myCoffee.isSelected == true)
-                if (binding_uploadcategory.myCoffee.isSelected) {
-                    binding_uploadcategory.myCoffee.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
-
-                } else {
-                    binding_uploadcategory.myCoffee.setBackgroundResource(R.drawable.my_btn_round_notsave)
-                }
-            }
-            binding_uploadcategory.myBeverage.setOnClickListener {
-                binding_uploadcategory.myBeverage.isSelected = !(binding_uploadcategory.myBeverage.isSelected == true)
-                if (binding_uploadcategory.myBeverage.isSelected) {
-                    binding_uploadcategory.myBeverage.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
-                    check_beverage = "1"
-                } else {
-                    binding_uploadcategory.myBeverage.setBackgroundResource(R.drawable.my_btn_round_notsave)
-                    check_beverage = "0"
-                }
-            }
-            binding_uploadcategory.myTea.setOnClickListener {
-                binding_uploadcategory.myTea.isSelected = !(binding_uploadcategory.myTea.isSelected == true)
-                if (binding_uploadcategory.myTea.isSelected) {
-                    binding_uploadcategory.myTea.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
-                    check_tea ="1"
-                } else {
-                    binding_uploadcategory.myTea.setBackgroundResource(R.drawable.my_btn_round_notsave)
-                    check_tea ="0"
-                }
-            }
-            binding_uploadcategory.myAde.setOnClickListener {
-                binding_uploadcategory.myAde.isSelected = !(binding_uploadcategory.myAde.isSelected == true)
-                if (binding_uploadcategory.myAde.isSelected) {
-                    binding_uploadcategory.myAde.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
-                    check_ade = "1"
-                } else {
-                    binding_uploadcategory.myAde.setBackgroundResource(R.drawable.my_btn_round_notsave)
-                    check_ade = "0"
-                }
-            }
-            binding_uploadcategory.mySmudi.setOnClickListener {
-                binding_uploadcategory.mySmudi.isSelected = !(binding_uploadcategory.mySmudi.isSelected == true)
-                if (binding_uploadcategory.mySmudi.isSelected) {
-                    binding_uploadcategory.mySmudi.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
-                    check_smudi = "1"
-                } else {
-                    binding_uploadcategory.mySmudi.setBackgroundResource(R.drawable.my_btn_round_notsave)
-                    check_smudi="0"
-                }
-            }
-            binding_uploadcategory.myHealth.setOnClickListener {
-                binding_uploadcategory.myHealth.isSelected = !(binding_uploadcategory.myHealth.isSelected == true)
-                if (binding_uploadcategory.myHealth.isSelected) {
-                    binding_uploadcategory.myHealth.setBackgroundResource(R.drawable.my_btn_round_notsave_selected)
-                    check_health = "1"
-                } else {
-                    binding_uploadcategory.myHealth.setBackgroundResource(R.drawable.my_btn_round_notsave)
-                    check_health = "0"
-                }
+            //카테고리 선택
+            if (viewBinding.myCoffee.isSelected) {
+                editor.putString("category", "coffee")
+                editor.apply()
+            } else if (viewBinding.myBeverage.isSelected) {
+                editor.putString("category", "beverage")
+                editor.apply()
+            } else if (viewBinding.myTea.isSelected) {
+                editor.putString("category", "tea")
+                editor.apply()
+            } else if (viewBinding.myAde.isSelected) {
+                editor.putString("category", "ade")
+                editor.apply()
+            } else if (viewBinding.mySmudi.isSelected) {
+                editor.putString("category", "smudi")
+                editor.apply()
+            } else if (viewBinding.myHealth.isSelected) {
+                editor.putString("category", "health")
+                editor.apply()
+            } else {
+                editor.putString("category", "")
+                editor.apply()
             }
 
-            /*if(binding_uploadcategory.myCoffee.isSelected){
-                editor.putString("category","coffee")
-                editor.apply()
-            }else if(binding_uploadcategory.myBeverage.isSelected){
-                editor.putString("category","beverage")
-                editor.apply()
-            }else if(binding_uploadcategory.myTea.isSelected){
-                editor.putString("category","tea")
-                editor.apply()
-            }else if(binding_uploadcategory.myAde.isSelected){
-                editor.putString("category","ade")
-                editor.apply()
-            }else if(binding_uploadcategory.mySmudi.isSelected){
-                editor.putString("category","smudi")
-                editor.apply()
-            }else if(binding_uploadcategory.myHealth.isSelected){
-                editor.putString("category","health")
-                editor.apply()
-            }else{
-                editor.putString("category","")
-                editor.apply()
-            }*/
+            //업로드하시겠습니까? 다이얼로그 띄우기
+            binding_upload = DialogUploadBinding.inflate(layoutInflater)
+            val dialog_upload_builder = AlertDialog.Builder(this).setView(binding_upload.root)
+            val dialog_upload = dialog_upload_builder.create()
 
-            //업로드 완료 눌렀을때
-            binding_uploadcategory.myDonebtn.setOnClickListener {
-                binding_upload = DialogUploadBinding.inflate(layoutInflater)
-                val dialog_upload_builder = AlertDialog.Builder(this).setView(binding_upload.root)
-                val dialog_upload = dialog_upload_builder.create()
+            //dialog_uploadcategory.window?.setFeatureDrawableResource(ColorDrawable(Color.parseColor()))
+            dialog_upload.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            dialog_upload.setCanceledOnTouchOutside(true)
+            dialog_upload.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog_upload.window?.setGravity(Gravity.BOTTOM)
+            dialog_upload.setCancelable(true)
 
-                //여기서 카테고리 저장하셈
-                /*if(check_coffee == 1 ){
-                    editor.putString("category","coffee")
-                    editor.apply()
-                }else if(binding_uploadcategory.myBeverage.isSelected){
-                    editor.putString("category","beverage")
-                    editor.apply()
-                }else if(binding_uploadcategory.myTea.isSelected){
-                    editor.putString("category","tea")
-                    editor.apply()
-                }else if(binding_uploadcategory.myAde.isSelected){
-                    editor.putString("category","ade")
-                    editor.apply()
-                }else if(binding_uploadcategory.mySmudi.isSelected){
-                    editor.putString("category","smudi")
-                    editor.apply()
-                }else if(binding_uploadcategory.myHealth.isSelected){
-                    editor.putString("category","health")
-                    editor.apply()
-                }else{
-                    editor.putString("category","")
-                    editor.apply()
-                }*/
-
-                //dialog_uploadcategory.window?.setFeatureDrawableResource(ColorDrawable(Color.parseColor()))
-                dialog_upload.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-                dialog_upload.setCanceledOnTouchOutside(true)
-                dialog_upload.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog_upload.window?.setGravity(Gravity.BOTTOM)
-                dialog_upload.setCancelable(true)
-
-
-                val recipe_list = PostNewRecipeList(1, sharedPreference.getString("title","")
-                ,sharedPreference.getString("describe",""),sharedPreference.getString("aftertip","")
-                    ,sharedPreference.getString("time",""), sharedPreference.getString("aftertip",""))
+            //업로드 하겠습니다 버튼 눌렀을때
+            binding_upload.myUploadbtn.setOnClickListener {
+                //여기서 api 호출
+                val recipe_list = PostNewRecipeList(
+                    1,
+                    sharedPreference.getString("title", ""),
+                    sharedPreference.getString("describe", ""),
+                    sharedPreference.getString("aftertip", ""),
+                    sharedPreference.getString("time", ""),
+                    sharedPreference.getString("aftertip", "")
+                )
                 val ingredient_list = arrayListOf<PostNewRecipeIngredient>(
-                    PostNewRecipeIngredient(sharedPreference.getString("ingredient1_title",""), sharedPreference.getString("ingredient1_quan",""))
+                    PostNewRecipeIngredient(
+                        sharedPreference.getString("ingredient1_title", ""),
+                        sharedPreference.getString("ingredient1_quan", "")
+                    )
                 )
                 val steps_list = arrayListOf<PostNewRecipeSteps>(
-                    PostNewRecipeSteps(sharedPreference.getString("step1_title",""), sharedPreference.getString("step1_describe",""), sharedPreference.getString("",""))
+                    PostNewRecipeSteps(
+                        sharedPreference.getString("step1_title", ""),
+                        sharedPreference.getString("step1_describe", ""),
+                        sharedPreference.getString("", "")
+                    )
                 )
 
                 val body = PostNewRecipeBody(recipe_list, ingredient_list, steps_list)
-                retrofit.post_newrecipe("x-access-token", body).enqueue(object: Callback<PostNewRecipeBodyResponse> {
-                    override fun onResponse(call: Call<PostNewRecipeBodyResponse>, response: Response<PostNewRecipeBodyResponse>) {
-                        Log.d("통신","통신은 성공임")
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeBodyResponse>, t: Throwable) {
-                        Log.d("통신", "통신 실패..")
-                    }
-                })
+                /*retrofit.post_newrecipe("x-access-token", body)
+                    .enqueue(object : Callback<PostNewRecipeBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeBodyResponse>,
+                            response: Response<PostNewRecipeBodyResponse>
+                        ) {
+                            Log.d("통신", "통신은 성공임")
+                        }
 
-                //업로드 재확인
-                binding_upload.myUploadbtn.setOnClickListener{
-                    dialog_upload.dismiss()
-                    binding_uploadsuccess = DialogUploadsuccessBinding.inflate(layoutInflater)
-                    val dialog_uploadsuccess_builder = AlertDialog.Builder(this).setView(binding_uploadsuccess.root)
-                    val dialog_uploadsuccess = dialog_uploadsuccess_builder.create()
+                        override fun onFailure(
+                            call: Call<PostNewRecipeBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", "통신 실패..")
+                        }
+                    })*/
+                //업로드 성공되었습니다 dialog 띄우기
+                dialog_upload.dismiss()
+                binding_uploadsuccess = DialogUploadsuccessBinding.inflate(layoutInflater)
+                val dialog_uploadsuccess_builder = AlertDialog.Builder(this).setView(binding_uploadsuccess.root)
+                val dialog_uploadsuccess = dialog_uploadsuccess_builder.create()
 
-                    dialog_uploadsuccess.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-                    dialog_uploadsuccess.setCanceledOnTouchOutside(true)
-                    dialog_uploadsuccess.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    dialog_uploadsuccess.window?.setGravity(Gravity.BOTTOM)
-                    dialog_uploadsuccess.setCancelable(true)
+                dialog_uploadsuccess.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                dialog_uploadsuccess.setCanceledOnTouchOutside(true)
+                dialog_uploadsuccess.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog_uploadsuccess.window?.setGravity(Gravity.BOTTOM)
+                dialog_uploadsuccess.setCancelable(false)
 
-                    //업로드 레시피 보러가기
-                    binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
-                        dialog_uploadcategory.dismiss()
-                        dialog_uploadsuccess.dismiss()
-                        finish()
-                    }
-                    //나중에 보기
-                    binding_uploadsuccess.myUploadseelaterbtn.setOnClickListener {
-                        dialog_uploadcategory.dismiss()
-                        dialog_uploadsuccess.dismiss()
-                        finish()
-                    }
-                    binding_uploadsuccess.myXbtn.setOnClickListener{
-                        dialog_uploadcategory.dismiss()
-                        dialog_uploadsuccess.dismiss()
-                        finish()
-                    }
-                    dialog_uploadsuccess.show()
+                sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
+                Glide.with(this)
+                    .asBitmap()
+                    .load(sharedPreference2.getString("thumbnail",""))
+                    .centerCrop()
+                    .into(binding_uploadsuccess.myUploadimg)
+
+                //업로드 레시피 보러가기 눌렀을때
+                binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
+                    dialog_uploadsuccess.dismiss()
+                    finish()
+                    //여기서 상세페이지 넘어가야함!!!!!
                 }
-                binding_upload.myCancelbtn.setOnClickListener {
-                    dialog_upload.dismiss()
+                //나중에 보기 눌렀을때
+                binding_uploadsuccess.myUploadseelaterbtn.setOnClickListener {
+                    dialog_uploadsuccess.dismiss()
+                    finish()
                 }
-                dialog_upload.show()
-            }
-            //업로드 뒤로가기헀을때
-            binding_uploadcategory.myBackbtn.setOnClickListener {
-               dialog_uploadcategory.dismiss()
+                //x버튼 눌렀을때
+                binding_uploadsuccess.myXbtn.setOnClickListener {
+                    dialog_uploadsuccess.dismiss()
+                    finish()
+                }
+
+                dialog_uploadsuccess.show()
             }
 
-            dialog_uploadcategory.show()
+            //업로드 안하겠습니다 버튼 눌렀을때
+            binding_upload.myCancelbtn.setOnClickListener {
+                dialog_upload.dismiss()
+            }
+
+            dialog_upload.show()
         }
 
-        /*viewBinding.myRecipeImageStep.setOnClickListener{
-            viewBinding.myRecipeTvImage.setText("사진은 하나만 첨부가능하며,변경할수 없습니다.")
-            binding_camera = DialogCameraBinding.inflate(layoutInflater)
-            val dialog_camera_builder = AlertDialog.Builder(this).setView(binding_camera.root)
-            val dialog_camera = dialog_camera_builder.create()
 
-            dialog_camera.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog_camera.setCanceledOnTouchOutside(true)
-            dialog_camera.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog_camera.window?.setGravity(Gravity.BOTTOM)
-            dialog_camera.setCancelable(true)
-
-            binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
-            }
-            binding_camera.myFileFrame.setOnClickListener{
-                viewBinding.myRecipeRealimageStep.bringToFront()
-                selectGallery(1)
-                dialog_camera.dismiss()
-            }
-            dialog_camera.show()
-        }*/
-
-       /* viewBinding.myAlbumbtn.setOnClickListener {
+        //썸네일 사진 올리기
+        viewBinding.myAlbumbtn.setOnClickListener {
             binding_camera = DialogCameraBinding.inflate(layoutInflater)
             val dialog_camera_builder = AlertDialog.Builder(this).setView(binding_camera.root)
             val dialog_camera = dialog_camera_builder.create()
@@ -620,31 +468,107 @@ class MyWritingActivity:AppCompatActivity() {
             }
 
             dialog_camera.show()
-        }*/
-        viewBinding.myAlbumbtn.setOnClickListener{
-            selectGallery()
         }
+
+        //step1 사진 올리기
+        viewBinding.myRecipeImageStep.setOnClickListener{
+           viewBinding.myRecipeTvImage.setText("사진은 하나만 첨부가능합니다.")
+           binding_camera = DialogCameraBinding.inflate(layoutInflater)
+           val dialog_camera_builder = AlertDialog.Builder(this).setView(binding_camera.root)
+           val dialog_camera = dialog_camera_builder.create()
+
+           dialog_camera.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+           dialog_camera.setCanceledOnTouchOutside(true)
+           dialog_camera.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+           dialog_camera.window?.setGravity(Gravity.BOTTOM)
+           dialog_camera.setCancelable(true)
+
+           binding_camera.myCameraFrame.setOnClickListener{
+               Log.d("카메라 준비완료","ㅈㅂ")
+           }
+           binding_camera.myFileFrame.setOnClickListener{
+               viewBinding.myRecipeRealimageStep.bringToFront()
+               selectGallery(1)
+               dialog_camera.dismiss()
+           }
+           dialog_camera.show()
+       }
     }
 
 
 
-    /*fun getRealPathFromURI(uri: Uri):String{
-        val buildName = Build.MANUFACTURER
-        if(buildName.equals("Xiaomi")){
-            return uri.path!!
-        }
-        var columnIndex = 0
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = contentResolver.query(uri, proj, null, null, null)
-        if(cursor!!.moveToFirst()){
-            columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        }
-        val result = cursor.getString(columnIndex)
-        cursor.close()
-        return result
-    }*/
+    private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUri = result.data?.data ?: return@registerForActivityResult
 
-    private fun selectGallery(){
+            val file = File(absolutelyPath(imageUri, this))
+            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+            //sendImage(body)
+
+            Log.d("테스트", file.name)
+
+            val sharedPreference2 = getSharedPreferences("writing", 0)
+            val editor2 = sharedPreference2.edit()
+            editor2.putString("thumbnail", file.name)
+            editor2.apply()
+            sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
+
+            Glide.with(this)
+                .asBitmap()
+                .load(imageUri)
+                .centerCrop()
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        val layout = viewBinding.myImage
+                        layout.background = BitmapDrawable(resources, resource)
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+                })
+        }
+    }
+    private val imageResult1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val imageUri = result.data?.data ?: return@registerForActivityResult
+
+            val file = File(absolutelyPath(imageUri, this))
+            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+            //sendImage(body)
+
+            Log.d("테스트", file.name)
+
+            val sharedPreference2 = getSharedPreferences("writing", 0)
+            val editor2 = sharedPreference2.edit()
+            editor2.putString("step1_image", file.name)
+            editor2.apply()
+            sharedPreference2.getString("step1_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+
+            Glide.with(this)
+                .asBitmap()
+                .load(imageUri)
+                .centerCrop()
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        val layout = viewBinding.myRecipeRealimageStep
+                        layout.background = BitmapDrawable(resources, resource)
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+                })
+        }
+    }
+
+    private fun selectGallery(num: Int){
         val writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         val readPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
@@ -658,59 +582,15 @@ class MyWritingActivity:AppCompatActivity() {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 "image/*"
             )
-            imageResult.launch(intent)
-            /*if(num == 1){
+
+            if(num == 1){
                 imageResult1.launch(intent)
             } else{
                 imageResult.launch(intent)
-            }*/
+            }
         }
     }
-
-
-//        val sharedPreference2 = getSharedPreferences("writing_image", 0)
-//        val editor2 = sharedPreference2.edit()
-
-   /* private val imageResult1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            result ->
-        val imageUri = result.data?.data
-
-        val sharedPreference = getSharedPreferences("writing", 0)
-        val editor = sharedPreference.edit()
-
-        imageUri?.let{
-            imageFile = File(getRealPathFromURI(it))
-
-            Glide.with(this)
-                .asBitmap()
-                .load(imageUri)
-                .centerCrop()
-                .into(object : CustomTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        val layout = viewBinding.myRecipeRealimageStep
-                        layout.background = BitmapDrawable(resources, resource)
-                        editor.putString("step1_image", bitmapToString(resource))
-                        editor.apply()
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {
-
-                    }
-                })
-        }
-    }*/
-
-    fun absolutelyPath(path: Uri?, context : Context): String {
-        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
-        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        c?.moveToFirst()
-
-        var result = c?.getString(index!!)
-
-        return result!!
-    }
-
-    fun sendImage(body: MultipartBody.Part){
+   /* fun sendImage(body: MultipartBody.Part){
         retrofit.post_newrecipe_image("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
             override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                 if(response.isSuccessful){
@@ -726,9 +606,22 @@ class MyWritingActivity:AppCompatActivity() {
                 Log.d("통신",t.message.toString())
             }
         })
+    }*/
+    companion object{
+        const val REQ_GALLERY =1
+    }
+    fun absolutelyPath(path: Uri?, context : Context): String {
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
+        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+
+        var result = c?.getString(index!!)
+
+        return result!!
     }
 
-    override fun onBackPressed() {
+   /* override fun onBackPressed() {
         val sharedPreference = getSharedPreferences("writing", 0)
         val editor = sharedPreference.edit()
 
@@ -754,5 +647,5 @@ class MyWritingActivity:AppCompatActivity() {
             finish()
         }
         dialog_reallynotsave.show()
-    }
+    }*/
 }
