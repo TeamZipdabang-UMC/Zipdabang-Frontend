@@ -59,11 +59,14 @@ class MySaveActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
-        val sharedPreference = getSharedPreferences("writing",0)
-        val editor = sharedPreference.edit()
+        val sharedPreference = getSharedPreferences("writing", 0)
+        val editor = sharedPreference.edit() //제목, 카테고리, 시간, 한줄소개, 재료이름, 재료갯수, 스텝설명, 후기, 재료스탭 갯수
         val sharedPreference2 = getSharedPreferences("writing_image", 0)
-        val editor2 = sharedPreference2.edit()
+        val editor2 = sharedPreference2.edit() //이미지의 url을 담음 //썸네일, stp1사진, step2사진, ...
 
+        var ingredient_sp = sharedPreference.getInt("ingredient",0)
+        var step_sp = sharedPreference.getInt("step", 0)
+        var category = sharedPreference.getString("category","")
         var thumbnail_sp = sharedPreference2.getString("thumbnail","")
         var title_sp = sharedPreference.getString("title","")
         var time_sp = sharedPreference.getString("time","")
@@ -111,16 +114,6 @@ class MySaveActivity:AppCompatActivity() {
         var step10_describe_sp = sharedPreference.getString("step10_describe","")
 
 
-        sharedPreference.getString("title","@")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("time","@")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("describe","@")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("aftertip","@")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("ingredient1_title","@")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("ingredient1_quan","@")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("step1_describe","@")?.let { Log.e(ContentValues.TAG, it) }
-        sharedPreference.getString("category","@")?.let { Log.e(ContentValues.TAG, it) }
-
-
         Glide.with(this)
             .asBitmap()
             .load(thumbnail_sp)
@@ -151,72 +144,12 @@ class MySaveActivity:AppCompatActivity() {
             selectGallery(1)
         }
 
-        viewBinding.myUploadbtn.setOnClickListener {
-            binding_upload = DialogUploadBinding.inflate(layoutInflater)
-            val dialog_upload_builder = AlertDialog.Builder(this).setView(binding_upload.root)
-            val dialog_upload = dialog_upload_builder.create()
+        //임시저장 버튼
+        viewBinding.mySavebtn.setOnClickListener{
 
-            //dialog_uploadcategory.window?.setFeatureDrawableResource(ColorDrawable(Color.parseColor()))
-            dialog_upload.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog_upload.setCanceledOnTouchOutside(true)
-            dialog_upload.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog_upload.window?.setGravity(Gravity.BOTTOM)
-            dialog_upload.setCancelable(true)
-
-            //업로드 재확인
-            binding_upload.myUploadbtn.setOnClickListener{
-                dialog_upload.dismiss()
-                binding_uploadsuccess = DialogUploadsuccessBinding.inflate(layoutInflater)
-                val dialog_uploadsuccess_builder = AlertDialog.Builder(this).setView(binding_uploadsuccess.root)
-                val dialog_uploadsuccess = dialog_uploadsuccess_builder.create()
-
-                dialog_uploadsuccess.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-                dialog_uploadsuccess.setCanceledOnTouchOutside(true)
-                dialog_uploadsuccess.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog_uploadsuccess.window?.setGravity(Gravity.BOTTOM)
-                dialog_uploadsuccess.setCancelable(false)
-
-                //업로드 레시피 보러가기
-                binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
-                    editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
-                    editor.putString("time", viewBinding.myRecipeEdtTime.text.toString())
-                    editor.putString("describe", viewBinding.myRecipeEdtDescribe.text.toString())
-                    editor.putString("aftertip", viewBinding.myRecipeEdtAftertip.text.toString())
-                    editor.putString("ingridient1_title",viewBinding.myRecipeEdtIngredientname.toString())
-                    editor.putString("ingridient1_quan",viewBinding.myRecipeEdtIngredientqun.toString())
-                    editor.putString("step1_image",viewBinding.myRecipeImageStep.toString())
-                    editor.putString("step1_describe",viewBinding.myRecipeEdtStep.toString())
-                    editor.apply()
-
-                    sharedPreference.getString("title","")?.let { Log.e(ContentValues.TAG, it) }
-                    sharedPreference.getString("time","")?.let { Log.e(ContentValues.TAG, it) }
-                    sharedPreference.getString("describe","")?.let { Log.e(ContentValues.TAG, it) }
-                    sharedPreference.getString("aftertip","")?.let { Log.e(ContentValues.TAG, it) }
-                    sharedPreference.getString("ingridient1_title","")?.let { Log.e(ContentValues.TAG, it) }
-                    sharedPreference.getString("ingridient1_quan","")?.let { Log.e(ContentValues.TAG, it) }
-                    sharedPreference.getString("step1_image","")?.let { Log.e(ContentValues.TAG, it) }
-                    sharedPreference.getString("step1_describe","")?.let { Log.e(ContentValues.TAG, it) }
-
-
-                    dialog_uploadsuccess.dismiss()
-                    finish()
-                    //sp 여기서 다 보내주기
-                }
-                //나중에 보기
-                binding_uploadsuccess.myUploadseelaterbtn.setOnClickListener {
-                    dialog_uploadsuccess.dismiss()
-                    finish()
-                }
-
-                dialog_uploadsuccess.show()
-            }
-            binding_upload.myCancelbtn.setOnClickListener {
-                dialog_upload.dismiss()
-            }
-
-            dialog_upload.show()
         }
 
+        //뒤로가기 버튼
         viewBinding.myBackbtn.setOnClickListener {
             finish()
         }

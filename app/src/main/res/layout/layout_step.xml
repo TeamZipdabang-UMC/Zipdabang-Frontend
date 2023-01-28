@@ -14,45 +14,49 @@
         android:text="Step 2"
         android:textSize="16dp"
         android:textColor="@color/jipdabang_black"/>
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/my_recipe_btn"
-        style="?android:attr/borderlessButtonStyle"
-        android:background="@drawable/round"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:text="Step2 사진 첨부"
-        android:textAlignment="center"
-        android:textSize="16dp"
-        android:textColor="#767676"
-        android:fontFamily="@font/notosanskrregular"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="4dp"/>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/my_recipe_tv_step"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-4dp"
-        android:textSize="14dp"
-        app:hintEnabled="false"
-        app:boxStrokeColor="#999999"
-        app:counterEnabled="true"
-        app:counterMaxLength="200"
-        app:errorEnabled="true"
-        app:errorIconDrawable="@null">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/my_recipe_edt_step"
-            android:layout_width="match_parent"
-            android:layout_height="228dp"
-            android:gravity="top"
-            android:maxLength="200"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/my_recipe_btn"
+            style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/round"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Step2 사진 첨부"
+            android:textAlignment="center"
+            android:textSize="16dp"
+            android:textColor="#767676"
             android:fontFamily="@font/notosanskrregular"
-            android:hint="레시피를 만드는 방법의 2단계를 설명해 주세요. \n(최대 200자)"
-            android:textColor="@color/jipdabang_black"
-            android:textColorHint="#999999"
-            android:textSize="14dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/my_recipe_tv_step"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-4dp"
+            android:textSize="14dp"
+            app:hintEnabled="false"
+            app:boxStrokeColor="#999999"
+            app:counterEnabled="true"
+            app:counterMaxLength="200"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@null">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/my_recipe_edt_step"
+                android:layout_width="match_parent"
+                android:layout_height="228dp"
+                android:gravity="top"
+                android:maxLength="200"
+                android:background="@drawable/round"
+                android:fontFamily="@font/notosanskrregular"
+                android:hint="레시피를 만드는 방법의 2단계를 설명해 주세요. \n(최대 200자)"
+                android:textColor="@color/jipdabang_black"
+                android:textColorHint="#999999"
+                android:textSize="14dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
 
 
