@@ -38,6 +38,7 @@ class ZipdabangRecipeFragment: Fragment() {
     private lateinit var layoutManager: GridLayoutManager
     var isLoading = false
     var grid = 2
+    private var clickedRecipeId: Int? = null
 
 
 
@@ -72,7 +73,7 @@ class ZipdabangRecipeFragment: Fragment() {
 
         val goToLogin = Intent(requireContext(), InitialActivity::class.java)
 
-        adapter = LoadingRVAdapter(activity as HomeMainActivity, allRecipesList)
+
         layoutManager = GridLayoutManager(requireContext(), 2)
 
         val categoriesList: ArrayList<CategoriesData> = arrayListOf()
@@ -166,6 +167,8 @@ class ZipdabangRecipeFragment: Fragment() {
                             )
                         )
                     }
+                    Log.d("Id 목록", "${firstResultIdArray}")
+                    adapter = LoadingRVAdapter(activity as HomeMainActivity, allRecipesList, firstResultIdArray)
                     viewBinding.rvZipdabangRecipeAll.setLayoutManager(layoutManager)
                     viewBinding.rvZipdabangRecipeAll.setAdapter(adapter)
                     layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {

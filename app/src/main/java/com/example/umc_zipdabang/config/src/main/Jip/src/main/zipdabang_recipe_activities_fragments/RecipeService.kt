@@ -69,7 +69,7 @@ interface RecipeService {
     @GET ("/comments/comments-overview")
     fun getThreeComments(
         @Header("x-access-token") token: String?,
-        @Query("recipe") recipeId: Int): Call<ThreeCommentsResponse>
+        @Query("recipe") recipeId: Int?): Call<ThreeCommentsResponse>
 
     // 댓글 조회 처음
     @GET ("/comments/comments-view-first")

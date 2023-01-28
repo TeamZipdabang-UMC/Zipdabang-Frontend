@@ -33,6 +33,7 @@ import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
 import kotlinx.android.synthetic.main.activity_zipdabang_recipe_detail.*
+import kotlinx.android.synthetic.main.item_loading.*
 import kotlinx.coroutines.*
 import okhttp3.internal.notify
 import retrofit2.Call
@@ -47,6 +48,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
     private var page = 1
     private var isLoading = false
     private var limit = 12
+
 
     private lateinit var progressBar: ProgressBar
 

@@ -49,6 +49,11 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
+        // 인텐트 가져오기
+        val selectedRecipeId = intent.getStringExtra("recipeId")
+        Log.d("선택된 레시피의 Id", "${selectedRecipeId}")
+        val idInt = selectedRecipeId?.toInt()
+
         // 리사이클러뷰에 활용할 배열 및 자료구조들
 
         val tokenDb = TokenDatabase.getTokenDatabase(this)
@@ -73,7 +78,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 showLikeCancelToast()
             }
             GlobalScope.launch(Dispatchers.IO) {
-                val recipeId = 49
+                val recipeId = idInt
                 val token: Token = tokenDb.tokenDao().getToken()
                 recipeService.pressLike(token.token, recipeId).enqueue(object: Callback<PressLikeResponse> {
                     override fun onResponse(
@@ -103,7 +108,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.IO) {
             val token: Token = tokenDb.tokenDao().getToken()
-            recipeService.getDetailRecipe(token.token, 49).enqueue(object : Callback<RecipeDetailResponse> {
+            recipeService.getDetailRecipe(token.token, idInt).enqueue(object : Callback<RecipeDetailResponse> {
                 override fun onResponse(
                     call: Call<RecipeDetailResponse>,
                     response: Response<RecipeDetailResponse>
@@ -212,7 +217,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.IO) {
             val token: Token = tokenDb.tokenDao().getToken()
-            recipeService.getThreeComments(token.token, 49).enqueue(object: Callback<ThreeCommentsResponse> {
+            recipeService.getThreeComments(token.token, idInt).enqueue(object: Callback<ThreeCommentsResponse> {
                 override fun onResponse(
                     call: Call<ThreeCommentsResponse>,
                     response: Response<ThreeCommentsResponse>
@@ -284,7 +289,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             if (viewBinding.editTextComment.text != null) {
                 val commentBody: String = viewBinding.editTextComment.text.toString()
                 // 이거는 나중에 고쳐줘야함!!!
-                val recipeId: Int = 49
+                val recipeId: Int? = idInt
                 GlobalScope.launch(Dispatchers.IO) {
 
                     val commentRetrofit = retrofit2.Retrofit.Builder()
@@ -293,7 +298,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     val commentService = commentRetrofit.create(RecipeService::class.java)
                     val tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
                     withContext(Dispatchers.Main) {
-                        commentService.addComment(tempToken, CommentAddBody(49, commentBody)).enqueue(object: Callback<CommentAddResponse> {
+                        commentService.addComment(tempToken, CommentAddBody(recipeId, commentBody)).enqueue(object: Callback<CommentAddResponse> {
                             override fun onResponse(
                                 call: Call<CommentAddResponse>,
                                 response: Response<CommentAddResponse>
@@ -346,7 +351,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             viewBinding.tvZipdabangRecipeDetailChallenging.visibility = View.VISIBLE
 
             GlobalScope.launch(Dispatchers.IO) {
-                val recipeId = 49
+                val recipeId = idInt
                 val tokenDb = TokenDatabase.getTokenDatabase(this@ZipdabangRecipeDetailActivity)
                 val token: Token = tokenDb.tokenDao().getToken()
                 recipeService.pressChallenge(token.token, recipeId).enqueue(object : Callback<ChallengeResponse> {
@@ -372,7 +377,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             viewBinding.tvZipdabangRecipeDetailSucceeded.visibility = View.VISIBLE
 
             GlobalScope.launch(Dispatchers.IO) {
-                val recipeId = 49
+                val recipeId = idInt
                 val tokenDb = TokenDatabase.getTokenDatabase(this@ZipdabangRecipeDetailActivity)
                 val token: Token = tokenDb.tokenDao().getToken()
                 recipeService.pressChallenge(token.token, recipeId).enqueue(object : Callback<ChallengeResponse> {
