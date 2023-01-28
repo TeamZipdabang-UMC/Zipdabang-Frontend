@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrap
+import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrapp
 import com.example.umc_zipdabang.databinding.ItemMyscrapEditBinding
 import java.sql.Types.NULL
 
 
-class EditScrapAdapter(private val context: EditScrapActivity, private val dataList: ArrayList<My_Scrap>) :
+class EditScrapAdapter(private val context: EditScrapActivity, private val dataList: ArrayList<My_Scrapp>) :
     RecyclerView.Adapter<EditScrapAdapter.ViewHolder>(){
 
     private var itemClickListener: OnItemClickListener? = null
@@ -33,7 +34,7 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
 
 
 
-        fun bind(context: Context, item: My_Scrap, dataList: ArrayList<My_Scrap>){
+        fun bind(context: Context, item: My_Scrapp, dataList: ArrayList<My_Scrapp>){
             binding.checkIv.setTag("0")
             binding.homeIvCategory1.setColorFilter(NULL)
             binding.checkIv.setImageResource(R.drawable.uncheck_round)

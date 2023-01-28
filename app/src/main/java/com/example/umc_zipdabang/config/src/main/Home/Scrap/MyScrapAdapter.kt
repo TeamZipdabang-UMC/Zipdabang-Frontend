@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.databinding.ItemMyscrapBeforeEditBinding
 
-class MyScrapAdapter(private val context: MyScapActivity, private val dataList: ArrayList<My_Scrap>) :
+class MyScrapAdapter(private val context: MyScapActivity, private val dataList: ArrayList<My_Scrapp>) :
     RecyclerView.Adapter<MyScrapAdapter.ViewHolder>(){
 
 
@@ -15,13 +15,16 @@ class MyScrapAdapter(private val context: MyScapActivity, private val dataList: 
 
         RecyclerView.ViewHolder(binding.root){
 
-        fun bind(context: Context, item: My_Scrap){
-            binding.homeTvCategory1.text= item.title
-            binding.homeTvHeart1.text=item.heart.toString()
-            Glide.with(context).load(item.ImageUrl).into(binding.homeIvCategory1)
-            binding.homeIvCategory1.clipToOutline = true
+        fun bind(context: Context, item: My_Scrapp, dataList: ArrayList<My_Scrapp>){
 
+            if(dataList.size!=0) {
 
+                binding.homeTvCategory1.text = item.title
+                binding.homeTvHeart1.text = item.heart.toString()
+                Glide.with(context).load(item.ImageUrl).into(binding.homeIvCategory1)
+                binding.homeIvCategory1.clipToOutline = true
+
+            }
         }
 
     }
@@ -34,7 +37,7 @@ class MyScrapAdapter(private val context: MyScapActivity, private val dataList: 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(context, dataList[position])
+        holder.bind(context, dataList[position],dataList)
 
     }
 

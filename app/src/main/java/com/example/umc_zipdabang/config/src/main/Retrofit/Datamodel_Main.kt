@@ -18,6 +18,15 @@ data class Main_Response(
 
 )
 
+data class Delete(
+
+    @SerializedName("target")
+    var target : Array<Int>?
+
+
+)
+
+
 
 
 
