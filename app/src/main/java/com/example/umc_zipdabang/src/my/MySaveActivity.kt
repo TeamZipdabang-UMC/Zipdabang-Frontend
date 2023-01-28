@@ -1456,7 +1456,6 @@ class MySaveActivity:AppCompatActivity() {
         }
     }
 
-
     private fun selectGallery(num: Int){
         val writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         val readPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -1526,6 +1525,118 @@ class MySaveActivity:AppCompatActivity() {
         var result = c?.getString(index!!)
 
         return result!!
+    }
+
+
+
+    private var REQUEST_THUMBNAIL = 1
+    private var REQUEST_STEP1 = 1
+    private var REQUEST_STEP2 = 1
+    private var REQUEST_STEP3 = 1
+    private var REQUEST_STEP4 = 1
+    private var REQUEST_STEP5 = 1
+    private var REQUEST_STEP6 = 1
+    private var REQUEST_STEP7 = 1
+    private var REQUEST_STEP8 = 1
+    private var REQUEST_STEP9 = 1
+    private var REQUEST_STEP10 = 1
+    //허용안할경우에 재확인..?
+    private fun requestPermission(){
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        ),1)
+    }
+    //카메라 허용이 됐는지 안됐는지 확인
+    private fun checkPermission():Boolean{
+        return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+    }
+    @Override
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if( resultCode == Activity.RESULT_OK) {
+            if( requestCode == REQUEST_THUMBNAIL)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myImage)
+            }
+            else if(requestCode == REQUEST_STEP1)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep)
+            }
+            else if(requestCode == REQUEST_STEP2)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep2)
+            }else if(requestCode == REQUEST_STEP3)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep3)
+            }else if(requestCode == REQUEST_STEP4)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep4)
+            }else if(requestCode == REQUEST_STEP5)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep5)
+            }else if(requestCode == REQUEST_STEP6)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep6)
+            }else if(requestCode == REQUEST_STEP7)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep7)
+            }else if(requestCode == REQUEST_STEP8)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep8)
+            }else if(requestCode == REQUEST_STEP9)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep9)
+            }else if(requestCode == REQUEST_STEP10)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .into(viewBinding.myRecipeRealimageStep10)
+            }
+        }
     }
 
 }

@@ -50,6 +50,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
 //import com.example.umc_zipdabang.BuildConfig
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.*
@@ -78,13 +79,13 @@ class MyWritingActivity:AppCompatActivity() {
 
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
 
-    //step 지웠는데 왜 사진 남아있냐 ㅠㅠ null 처리했는데...!->glide 정확히 지우자!!!!!
+    //step 지웠는데 왜 사진 남아있냐 ㅠㅠ null 처리했는데...!->glide 삭제가 안됨.....
     //sharedpreference, api 코드작성!!!!!
     
     //내레시피 안됨 ㅠㅠ
     //이미지 갱신.... 이건 서버랑 실험해봐야함.
-    //이미지 회전 막기.... 이것도 서버랑 실험해봐야함.
 
+    //이미지 회전 막기->코드 있음
 
     //업로드 버튼 다썼을때 활성화되게 하기
     //임시저장 해둔게 있으면 글쓰기 전에 dialog 띄우기
@@ -322,7 +323,7 @@ class MyWritingActivity:AppCompatActivity() {
         viewBinding.myStepMinusbtn.setOnClickListener{
             if(num2==10){
                 viewBinding.myRecipeRealimageXbtn10.visibility = View.INVISIBLE
-
+                viewBinding.myRecipeRealimageStep10.setImageResource(0)
                 viewBinding.myRecipeEdtStep10.setText(null)
                 viewBinding.myStep10.visibility = View.GONE
             }else if(num2 == 9){
@@ -756,23 +757,23 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.window?.setGravity(Gravity.BOTTOM)
             dialog_camera.setCancelable(true)
 
+            //카메라에서 가져오기
             binding_camera.myCameraFrame.setOnClickListener{
-                /*checkPermissions(Permissions)
-                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                takePictureIntent.resolveActivity(packageManager)?.also{
-                    startActivityForResult(takePictureIntent,PICK_CAMERA)}*/
-                /*if(checkPermission()){
-                    dispatchTakePictureIntent()
-                    Log.d("리스트",list.get(0).toString())
-                    Glide.with(this)
-                        .load(list.get(0))
-                        .centerCrop()
-                        .into(viewBinding.myImage)
+                REQUEST_THUMBNAIL = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_THUMBNAIL)
+                        }
+                    }
                     viewBinding.myImage.bringToFront()
                 }else{
                     requestPermission()
-                }*/
+                }
+                dialog_camera.dismiss()
             }
+
+            //갤러리에서 가져오기
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(0)
                 viewBinding.myImage.bringToFront()
@@ -794,10 +795,12 @@ class MyWritingActivity:AppCompatActivity() {
            dialog_camera.setCancelable(true)
 
            binding_camera.myCameraFrame.setOnClickListener{
-               /*if(checkPermission()){
+               REQUEST_THUMBNAIL = 0
+               REQUEST_STEP1 = 1
+               if(checkPermission()){
                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                        takePictureIntent.resolveActivity(packageManager)?.also {
-                           startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                           startActivityForResult(takePictureIntent, REQUEST_STEP1)
                        }
                    }
                    viewBinding.myRecipeRealimageStep.bringToFront()
@@ -805,9 +808,7 @@ class MyWritingActivity:AppCompatActivity() {
                    viewBinding.myRecipeRealimageXbtn.bringToFront()
                }else{
                    requestPermission()
-               }*/
-
-
+               }
                dialog_camera.dismiss()
            }
            binding_camera.myFileFrame.setOnClickListener{
@@ -817,7 +818,8 @@ class MyWritingActivity:AppCompatActivity() {
                viewBinding.myRecipeRealimageXbtn.bringToFront()
                dialog_camera.dismiss()
            }
-           dialog_camera.show()
+            dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
        }
         //step2 사진 올리기
         viewBinding.myRecipeImageStep2.setOnClickListener{
@@ -832,7 +834,22 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP2)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep2.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn2.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(2)
@@ -842,6 +859,8 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
         }
         //step3 사진 올리기
         viewBinding.myRecipeImageStep3.setOnClickListener{
@@ -856,7 +875,23 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 0
+                REQUEST_STEP3 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP3)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep3.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn3.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(3)
@@ -866,6 +901,9 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
+            REQUEST_STEP2 = 1
         }
         //step4 사진 올리기
         viewBinding.myRecipeImageStep4.setOnClickListener{
@@ -880,7 +918,24 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 0
+                REQUEST_STEP3 = 0
+                REQUEST_STEP4 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP4)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep4.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn4.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(4)
@@ -890,6 +945,10 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
+            REQUEST_STEP2 = 1
+            REQUEST_STEP3 = 1
         }
         //step5 사진 올리기
         viewBinding.myRecipeImageStep5.setOnClickListener{
@@ -904,7 +963,25 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 0
+                REQUEST_STEP3 = 0
+                REQUEST_STEP4 = 0
+                REQUEST_STEP5 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP5)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep5.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn5.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(5)
@@ -914,6 +991,11 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
+            REQUEST_STEP2 = 1
+            REQUEST_STEP3 = 1
+            REQUEST_STEP4 = 1
         }
         //step6 사진 올리기
         viewBinding.myRecipeImageStep6.setOnClickListener{
@@ -928,7 +1010,26 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 0
+                REQUEST_STEP3 = 0
+                REQUEST_STEP4 = 0
+                REQUEST_STEP5 = 0
+                REQUEST_STEP6 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP6)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep6.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn6.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(6)
@@ -938,6 +1039,12 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
+            REQUEST_STEP2 = 1
+            REQUEST_STEP3 = 1
+            REQUEST_STEP4 = 1
+            REQUEST_STEP5 = 1
         }
         //step7 사진 올리기
         viewBinding.myRecipeImageStep7.setOnClickListener{
@@ -952,7 +1059,27 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 0
+                REQUEST_STEP3 = 0
+                REQUEST_STEP4 = 0
+                REQUEST_STEP5 = 0
+                REQUEST_STEP6 = 0
+                REQUEST_STEP7 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP7)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep7.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn7.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(7)
@@ -962,6 +1089,13 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
+            REQUEST_STEP2 = 1
+            REQUEST_STEP3 = 1
+            REQUEST_STEP4 = 1
+            REQUEST_STEP5 = 1
+            REQUEST_STEP6 = 1
         }
         //step8 사진 올리기
         viewBinding.myRecipeImageStep8.setOnClickListener{
@@ -976,7 +1110,28 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 0
+                REQUEST_STEP3 = 0
+                REQUEST_STEP4 = 0
+                REQUEST_STEP5 = 0
+                REQUEST_STEP6 = 0
+                REQUEST_STEP7 = 0
+                REQUEST_STEP8 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP8)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep8.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn8.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(8)
@@ -986,6 +1141,14 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
+            REQUEST_STEP2 = 1
+            REQUEST_STEP3 = 1
+            REQUEST_STEP4 = 1
+            REQUEST_STEP5 = 1
+            REQUEST_STEP6 = 1
+            REQUEST_STEP7 = 1
         }
         //step9 사진 올리기
         viewBinding.myRecipeImageStep9.setOnClickListener{
@@ -1000,7 +1163,29 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 0
+                REQUEST_STEP3 = 0
+                REQUEST_STEP4 = 0
+                REQUEST_STEP5 = 0
+                REQUEST_STEP6 = 0
+                REQUEST_STEP7 = 0
+                REQUEST_STEP8 = 0
+                REQUEST_STEP9 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP9)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep9.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn9.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(9)
@@ -1010,6 +1195,15 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
+            REQUEST_STEP2 = 1
+            REQUEST_STEP3 = 1
+            REQUEST_STEP4 = 1
+            REQUEST_STEP5 = 1
+            REQUEST_STEP6 = 1
+            REQUEST_STEP7 = 1
+            REQUEST_STEP8 = 1
         }
         //step10 사진 올리기
         viewBinding.myRecipeImageStep10.setOnClickListener{
@@ -1024,7 +1218,30 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.setCancelable(true)
 
             binding_camera.myCameraFrame.setOnClickListener{
-                Log.d("카메라 준비완료","ㅈㅂ")
+                REQUEST_THUMBNAIL = 0
+                REQUEST_STEP1 = 0
+                REQUEST_STEP2 = 0
+                REQUEST_STEP3 = 0
+                REQUEST_STEP4 = 0
+                REQUEST_STEP5 = 0
+                REQUEST_STEP6 = 0
+                REQUEST_STEP7 = 0
+                REQUEST_STEP8 = 0
+                REQUEST_STEP9 = 0
+                REQUEST_STEP10 = 1
+                if(checkPermission()){
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, REQUEST_STEP10)
+                        }
+                    }
+                    viewBinding.myRecipeRealimageStep10.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn10.bringToFront()
+                }else{
+                    requestPermission()
+                }
+                dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
                 selectGallery(10)
@@ -1034,62 +1251,21 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
             dialog_camera.show()
+            REQUEST_THUMBNAIL = 1
+            REQUEST_STEP1 = 1
+            REQUEST_STEP2 = 1
+            REQUEST_STEP3 = 1
+            REQUEST_STEP4 = 1
+            REQUEST_STEP5 = 1
+            REQUEST_STEP6 = 1
+            REQUEST_STEP7 = 1
+            REQUEST_STEP8 = 1
+            REQUEST_STEP9 = 1
         }
     }
 
-    /*private val PICK_STORAGE=1001
-    private val PICK_CAMERA=1000
-    private val PERMISSIONS_REQUEST=100
-    private var imageUrl : String =""
-
-    private val Permissions = arrayOf(
-        Manifest.permission.CAMERA,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-    )
-    private fun checkPermissions(permissions: Array<String>) : Boolean {
-        val permissionList : MutableList<String> = mutableListOf()
-        for(permission in permissions){
-            val result= ContextCompat.checkSelfPermission(this,permission)
-            if(result != PackageManager.PERMISSION_GRANTED){
-                permissionList.add(permission)
-            }
-        }
-        if(permissionList.isNotEmpty()) {
-            ActivityCompat.requestPermissions(
-                this, permissionList.toTypedArray(), PERMISSIONS_REQUEST
-            )
-            return false
-        }
-        return true
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == PICK_STORAGE) {
-                val pickedImage: Uri? = data?.data
-                if (pickedImage != null) {
-                    imageUrl = pickedImage.toString()
-                }
-                Glide.with(this)
-                    .load(imageUrl)
-                    .centerCrop()
-                    .into(viewBinding.myImage)
-            }
-
-            if (requestCode == PICK_CAMERA) {
-                val imageBitmap = data?.extras?.get("data") as Bitmap
-                val pickedImage: Uri? = data.data
-                if (pickedImage != null) {
-                    imageUrl = pickedImage.toString()
-                }
-                viewBinding.myImage.setImageBitmap(imageBitmap)
-            }
-        }
-    }
-*/
-
+    //api post 위한 이미지 url 리스트
+    private var list = arrayListOf<String>()
     private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
@@ -1097,7 +1273,25 @@ class MyWritingActivity:AppCompatActivity() {
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+            //썸네일 post
+            retrofit.post_newrecipe_image("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
+                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
+                    if(response.isSuccessful){
+                        Log.d("통신","이미지 전송 성공")
+                        
+                        val result = response.body()
+                        val data = result?.image?.image
+                        list.add(data.toString())
+                        Log.d("로그",data.toString())
+                        
+                    }else{
+                        Log.d("통신","이미지 전송 실패")
+                    }
+                }
+                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
+                    Log.d("통신",t.message.toString())
+                }
+            })
 
             //val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,imageUri)
             Log.d("테스트", file.name)
@@ -1112,6 +1306,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .centerCrop()
                 .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myImage)
         /*object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(
@@ -1134,7 +1334,25 @@ class MyWritingActivity:AppCompatActivity() {
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+            // step1 post
+            retrofit.post_newrecipe_image("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
+                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
+                    if(response.isSuccessful){
+                        Log.d("통신","이미지 전송 성공")
+
+                        val result = response.body()
+                        val data = result?.image?.image
+                        list.add(data.toString())
+                        Log.d("로그",data.toString())
+
+                    }else{
+                        Log.d("통신","이미지 전송 실패")
+                    }
+                }
+                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
+                    Log.d("통신",t.message.toString())
+                }
+            })
 
             Log.d("테스트", file.name)
 
@@ -1147,6 +1365,12 @@ class MyWritingActivity:AppCompatActivity() {
             Glide.with(this)
                 .asBitmap()
                 .centerCrop()
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .load(imageUri)
                 .into(viewBinding.myRecipeRealimageStep)
         }
@@ -1172,6 +1396,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .centerCrop()
                 .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myRecipeRealimageStep2)
         }
     }
@@ -1196,6 +1426,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .centerCrop()
                 .load(imageUri)
+                .apply(
+                    RequestOptions()
+                    .signature(ObjectKey(System.currentTimeMillis()))
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myRecipeRealimageStep3)
         }
     }
@@ -1220,6 +1456,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .centerCrop()
                 .load(imageUri)
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myRecipeRealimageStep4)
         }
     }
@@ -1244,6 +1486,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into( viewBinding.myRecipeRealimageStep5)
         }
     }
@@ -1268,6 +1516,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myRecipeRealimageStep6)
         }
     }
@@ -1292,6 +1546,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myRecipeRealimageStep7)
         }
     }
@@ -1316,6 +1576,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myRecipeRealimageStep8)
         }
     }
@@ -1340,6 +1606,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myRecipeRealimageStep9)
         }
     }
@@ -1364,6 +1636,12 @@ class MyWritingActivity:AppCompatActivity() {
                 .asBitmap()
                 .load(imageUri)
                 .centerCrop()
+                .apply(
+                    RequestOptions()
+                        .signature(ObjectKey(System.currentTimeMillis()))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
                 .into(viewBinding.myRecipeRealimageStep10)
         }
     }
@@ -1439,69 +1717,217 @@ class MyWritingActivity:AppCompatActivity() {
         return result!!
     }
 
-   /* private val activityResult: ActivityResultLauncher<Intent> =registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()){
-        if(it.resultCode == RESULT_OK && it.data!=null)
-    }*/
 
-
+    private var REQUEST_THUMBNAIL = 1
+    private var REQUEST_STEP1 = 1
+    private var REQUEST_STEP2 = 1
+    private var REQUEST_STEP3 = 1
+    private var REQUEST_STEP4 = 1
+    private var REQUEST_STEP5 = 1
+    private var REQUEST_STEP6 = 1
+    private var REQUEST_STEP7 = 1
+    private var REQUEST_STEP8 = 1
+    private var REQUEST_STEP9 = 1
+    private var REQUEST_STEP10 = 1
     //허용안할경우에 재확인..?
-   private fun requestPermission(){
+    private fun requestPermission(){
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,CAMERA),1)
     }
-
     //카메라 허용이 됐는지 안됐는지 확인
     private fun checkPermission():Boolean{
         return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
             Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
     }
-
-    private val REQUEST_IMAGE_CAPTURE = 1
-    //카메라 허용하시겠습니까 띄우는 아이
-    private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            }
-        }
-    }
-
-    //var list = arrayListOf<Bitmap>()
-
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        val sharedPreference2 = getSharedPreferences("writing_image", 0)
+        val editor2 = sharedPreference2.edit()
+
         if( resultCode == Activity.RESULT_OK) {
-            val GALLERY = 0
-            if (requestCode == GALLERY) {
-                var ImnageData: Uri? = data?.data
-                //Toast.makeText(this, ImnageData.toString(), Toast.LENGTH_SHORT).show()
-                try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, ImnageData)
-//                    list.add(bitmap)
-//                    Log.d("리스트",list.get(0).toString())
-                     Glide.with(this)
-                        .load(bitmap)
-                        .centerCrop()
-                        .into(viewBinding.myImage)
-                     //viewBinding.myImage.setImageBitmap(bitmap)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            else if( requestCode == REQUEST_IMAGE_CAPTURE)
+            if( requestCode == REQUEST_THUMBNAIL)
             {
                 val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                //list.add(imageBitmap)
-                 Glide.with(this)
+                viewBinding.myImage.setImageBitmap(imageBitmap)
+                editor2.putString("thumbnail", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }
+            else if(requestCode == REQUEST_STEP1)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
                     .load(imageBitmap)
                     .centerCrop()
-                    .into(viewBinding.myImage)
-                //viewBinding.myImage.setImageBitmap(bitmap)
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep)
+                editor2.putString("step1_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step1_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }
+            else if(requestCode == REQUEST_STEP2)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep2)
+                editor2.putString("step2_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step2_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }else if(requestCode == REQUEST_STEP3)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep3)
+
+                editor2.putString("step3_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step3_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }else if(requestCode == REQUEST_STEP4)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep4)
+
+                editor2.putString("step4_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step4_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }else if(requestCode == REQUEST_STEP5)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep5)
+
+                editor2.putString("step5_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step5_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }else if(requestCode == REQUEST_STEP6)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep6)
+
+                editor2.putString("step6_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step6_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }else if(requestCode == REQUEST_STEP7)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep7)
+
+                editor2.putString("step7_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step7_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }else if(requestCode == REQUEST_STEP8)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep8)
+
+                editor2.putString("step8_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step8_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }else if(requestCode == REQUEST_STEP9)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep9)
+
+                editor2.putString("step9_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step9_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+            }else if(requestCode == REQUEST_STEP10)
+            {
+                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                Glide.with(this)
+                    .load(imageBitmap)
+                    .centerCrop()
+                    .apply(
+                        RequestOptions()
+                            .signature(ObjectKey(System.currentTimeMillis()))
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    )
+                    .into(viewBinding.myRecipeRealimageStep10)
+
+                editor2.putString("step10_image", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("step10_image", "@")?.let { Log.e(ContentValues.TAG, it) }
             }
         }
     }
+
 
 
    /* override fun onBackPressed() {
