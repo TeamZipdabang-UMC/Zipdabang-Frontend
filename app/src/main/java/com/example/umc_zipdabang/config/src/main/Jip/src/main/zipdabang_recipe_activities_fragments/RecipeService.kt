@@ -22,8 +22,9 @@ interface RecipeService {
     fun getCategoryRecipesScroll(
         @Header("x-access-token") token: String?,
         @Query("categoryId") categoryId: Int,
-        @Query("main_page") mainPage: Int, // 나는 무조건 0
-        @Query("is_official") isOfficial: Int): Call<ZipdabangRecipes>
+        @Query("last") last: Int?, // 나는 무조건 0
+        @Query("isMain") isMain: Int?,
+        @Query("isOfficial") isOfficial: Int?): Call<ZipdabangRecipes>
 
     // 집다방 레시피 전체 불러오기 - 초기
     @GET ("/recipes/official-recipe")

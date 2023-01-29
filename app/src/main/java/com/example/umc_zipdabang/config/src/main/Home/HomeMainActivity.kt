@@ -9,6 +9,7 @@ import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Our.OurFragment
 import com.example.umc_zipdabang.config.src.main.Jip.JipFragment
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeFragment
+import com.example.umc_zipdabang.config.src.main.Our.OurRecipeFragment
 import com.example.umc_zipdabang.config.src.main.User.MyFragment
 import com.example.umc_zipdabang.databinding.ActivityMainBinding
 
@@ -17,7 +18,7 @@ class HomeMainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var homeFragment : HomeFragment? = null
     private var  jipFragment : ZipdabangRecipeFragment? = null
-    private var ourFragment : OurFragment? = null
+    private var ourFragment : OurRecipeFragment? = null
     private var userFragment : MyFragment? = null
 
 
@@ -107,7 +108,7 @@ class HomeMainActivity : AppCompatActivity() {
                 }
                 R.id.tab_our_receipe -> {
                     if(ourFragment==null) {
-                        ourFragment= OurFragment()
+                        ourFragment= OurRecipeFragment()
                         supportFragmentManager.beginTransaction()
                             .add(R.id.main_fl, ourFragment!!)
                             .commitAllowingStateLoss()

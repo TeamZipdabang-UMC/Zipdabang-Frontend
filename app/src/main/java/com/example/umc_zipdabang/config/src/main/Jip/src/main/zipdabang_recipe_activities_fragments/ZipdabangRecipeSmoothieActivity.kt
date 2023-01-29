@@ -146,7 +146,7 @@ class ZipdabangRecipeSmoothieActivity: AppCompatActivity() {
                                             val scrollToPosition = smoothieRecipesList.size
                                             smoothieRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 
-                                            recipeService.getAllZipdabangRecipesScrolled(tokenNum, firstResultIdArray.get(firstResultIdArray.size-1)).enqueue(object: Callback<ZipdabangRecipes> {
+                                            recipeService.getCategoryRecipesScroll(tokenNum, 5, firstResultIdArray.get(firstResultIdArray.size-1), 0, 1).enqueue(object: Callback<ZipdabangRecipes> {
                                                 override fun onResponse(
                                                     call: Call<ZipdabangRecipes>,
                                                     response: Response<ZipdabangRecipes>
@@ -155,34 +155,38 @@ class ZipdabangRecipeSmoothieActivity: AppCompatActivity() {
                                                     var moreResult = response.body()
                                                     firstResultArray = ArrayList<RecipeInfo?>()
                                                     Log.d("more result 결과", "${moreResult}")
-                                                    for (i in 0 until moreResult?.data!!.size) {
-                                                        val moreResultData = moreResult?.data?.get(i)
-                                                        firstResultArray.add(moreResultData)
-                                                    }
 
-                                                    Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
-                                                    Log.d("다음 배열", "${firstResultArray}")
+                                                    if (moreResult != null) {
+                                                        for (i in 0 until moreResult?.data!!.size) {
+                                                            val moreResultData = moreResult?.data?.get(i)
+                                                            firstResultArray.add(moreResultData)
+                                                        }
 
-                                                    for (i in 0 until moreResult?.data!!.size) {
-                                                        firstResultIdArray.add(firstResultArray[i]?.id)
-                                                        firstResultNameArray.add(firstResultArray[i]?.name)
-                                                        firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                                                        firstResultLikesArray.add(firstResultArray[i]?.likes)
-                                                        Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
-                                                        Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
-                                                        Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
-                                                        Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-                                                        smoothieRecipesList.add(
-                                                            SmoothieRecipesData(
-                                                                firstResultArray[i]?.imageUrl,
-                                                                firstResultArray[i]?.name,
-                                                                firstResultArray[i]?.likes
+                                                        Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
+                                                        Log.d("다음 배열", "${firstResultArray}")
+
+                                                        for (i in 0 until moreResult?.data!!.size) {
+                                                            firstResultIdArray.add(firstResultArray[i]?.id)
+                                                            firstResultNameArray.add(firstResultArray[i]?.name)
+                                                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                                                            firstResultLikesArray.add(firstResultArray[i]?.likes)
+                                                            Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                                                            Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                                                            Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                                                            Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                                                            smoothieRecipesList.add(
+                                                                SmoothieRecipesData(
+                                                                    firstResultArray[i]?.imageUrl,
+                                                                    firstResultArray[i]?.name,
+                                                                    firstResultArray[i]?.likes
+                                                                )
                                                             )
-                                                        )
-                                                        Log.d("아이디 배열 결과", "${firstResultIdArray}")
-                                                        smoothieRecipesRVAdapter.notifyDataSetChanged()
-                                                        isLoading = false
+                                                            Log.d("아이디 배열 결과", "${firstResultIdArray}")
+                                                            smoothieRecipesRVAdapter.notifyDataSetChanged()
+                                                            isLoading = false
+                                                        }
                                                     }
+
                                                 }
 
                                                 override fun onFailure(

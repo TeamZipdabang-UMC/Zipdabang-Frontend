@@ -49,9 +49,6 @@ class IngredientsRVAdapter(private val ingredientsList: ArrayList<IngredientDeta
         holder.bind(ingredientsList[position])
 
 
-
-
-
     }
 
     override fun getItemCount(): Int = ingredientsList.size

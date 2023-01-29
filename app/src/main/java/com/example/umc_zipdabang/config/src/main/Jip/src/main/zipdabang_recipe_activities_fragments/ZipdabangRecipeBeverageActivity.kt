@@ -161,7 +161,7 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                                             val scrollToPosition = beverageRecipesList.size
                                             beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 
-                                            recipeService.getAllZipdabangRecipesScrolled(tokenNum, firstResultIdArray.get(firstResultIdArray.size-1)).enqueue(object: Callback<ZipdabangRecipes> {
+                                            recipeService.getCategoryRecipesScroll(tokenNum, 2, firstResultIdArray.get(firstResultIdArray.size-1), 0, 1).enqueue(object: Callback<ZipdabangRecipes> {
                                                 override fun onResponse(
                                                     call: Call<ZipdabangRecipes>,
                                                     response: Response<ZipdabangRecipes>
