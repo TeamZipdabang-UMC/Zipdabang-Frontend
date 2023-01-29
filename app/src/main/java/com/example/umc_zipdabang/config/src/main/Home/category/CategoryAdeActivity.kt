@@ -38,16 +38,10 @@ class CategoryAdeActivity : AppCompatActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-            CoroutineScope(mainDispatcher).launch {
-                delay(2000)
                 setData()
-            }
                 initAdapter()
-                initScrollListener()
 
             binding.tvCategory.text="에이드"
-
-
             binding.myscrapIvBack.setOnClickListener{
 
                 onBackPressed()
@@ -58,19 +52,18 @@ class CategoryAdeActivity : AppCompatActivity() {
 
         private fun setData() {
 
+            val tokenDb = TokenDatabase.getTokenDatabase(this@CategoryAdeActivity)
+            //   token1 = tokenDb.tokenDao().getToken().token.toString()
 
+            token1 =
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
 
-                val tokenDb = TokenDatabase.getTokenDatabase(this@CategoryAdeActivity)
-                //   token1 = tokenDb.tokenDao().getToken().token.toString()
+            var categoryId = 4
+            var is_Main = 1
+            var is_Official = 0
 
-                token1 =
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
-
-                var categoryId= 4
-                var is_Main=1
-                var is_Official=0
-
-                service.get_Category(categoryId,is_Main,is_Official,token1)?.enqueue(object :
+            GlobalScope.launch(Dispatchers.IO) {
+                service.get_Category(categoryId, is_Main, is_Official, token1)?.enqueue(object :
                     Callback<DTO_Scroll_Response> {
 
                     override fun onResponse(
@@ -80,11 +73,17 @@ class CategoryAdeActivity : AppCompatActivity() {
                     ) {
                         // 정상적으로 통신이 성공된 경우
                         val result = response.body()
-                        Log.d("마지막","${result}")
-                        for(i : Int in 0 .. 11){
+                        Log.d("마지막", "${result}")
+                        for (i: Int in 0..11) {
 
-                            scraps.add(My_Scrapp(result?.data?.get(i)?.recipeid, result?.data?.get(i)?.likes, result?.data?.get(i)?.image
-                            ,result?.data?.get(i)?.name))
+                            scraps.add(
+                                My_Scrapp(
+                                    result?.data?.get(i)?.recipeid,
+                                    result?.data?.get(i)?.likes,
+                                    result?.data?.get(i)?.image,
+                                    result?.data?.get(i)?.name
+                                )
+                            )
 
                         }
 
@@ -101,7 +100,7 @@ class CategoryAdeActivity : AppCompatActivity() {
 
             }
 
-
+        }
 
 
 
@@ -138,9 +137,6 @@ class CategoryAdeActivity : AppCompatActivity() {
 
                 }
             })
-        }
-
-        private fun initScrollListener() {
 
             binding.categoryRv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
