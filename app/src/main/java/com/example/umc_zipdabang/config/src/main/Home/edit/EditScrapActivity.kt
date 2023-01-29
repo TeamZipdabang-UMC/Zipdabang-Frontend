@@ -63,7 +63,6 @@ class EditScrapActivity : AppCompatActivity() {
 
 
             var intent = getIntent()
-
             scraps = intent.getSerializableExtra("array") as ArrayList<My_Scrapp>
             val adapter = EditScrapAdapter(this@EditScrapActivity, scraps)
             binding.myscrapEditRv.layoutManager =

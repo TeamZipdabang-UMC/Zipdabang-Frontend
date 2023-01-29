@@ -20,10 +20,7 @@ import com.example.umc_zipdabang.databinding.FragmentHomeBinding
 import com.example.umc_zipdabang.src.main.JoinInitialActivity
 import com.example.umc_zipdabang.src.main.roomDb.Token
 import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -92,7 +89,7 @@ class HomeFragment : Fragment() {
 
 
         GlobalScope.launch(Dispatchers.IO) {
-
+            viewBinding.etSearch.setText("")
             val tokenDb = TokenDatabase.getTokenDatabase(activity as HomeMainActivity)
             token1 = tokenDb.tokenDao().getToken().token.toString()
             Log.d("토큰", token1!!)
@@ -311,10 +308,13 @@ class HomeFragment : Fragment() {
                             //다음 액티비티에 정보 넘기기
                             val search = Intent(context, SearchActivity::class.java)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            search.putExtra("search", viewBinding.etSearch.text.toString())
+                            var string= viewBinding.etSearch.text.toString()
+                            search.putExtra("key_search", string)
                             startActivity(search)
-                            viewBinding.etSearch.setText("")
-
+                            GlobalScope.launch {
+                                delay(20)
+                                viewBinding.etSearch.setText("")
+                            }
 
 
                         }
@@ -328,11 +328,13 @@ class HomeFragment : Fragment() {
             viewBinding.ivSearch.setOnClickListener {
 
                 val intent = Intent(context, SearchActivity::class.java)
-                intent.putExtra("search", viewBinding.etSearch.text.toString())
-
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                var string=viewBinding.etSearch.text.toString()
+                intent.putExtra("search", string)
                 startActivity(intent)
                 viewBinding.etSearch.setText("")
             }
+
 
 
             //카테고리별 목록 이동

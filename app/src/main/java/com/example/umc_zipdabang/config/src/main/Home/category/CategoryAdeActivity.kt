@@ -27,30 +27,31 @@ class CategoryAdeActivity : AppCompatActivity() {
         RetrofitMainService::class.java
     )
 
-    var a=1
+        var a=1
         private var isLoading = false
         private var scraps: ArrayList<My_Scrapp> = arrayListOf()
         private lateinit var adapter: CategoryAdeAdapter
         val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
         private lateinit var layoutManager: GridLayoutManager
 
-
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-                setData()
-                initAdapter()
-
+            binding = ActivityCategory1Binding.inflate(layoutInflater)
             binding.tvCategory.text="에이드"
+            setContentView(binding.root)
+
             binding.myscrapIvBack.setOnClickListener{
 
                 onBackPressed()
 
             }
 
-        }
 
-        private fun setData() {
+            GlobalScope.launch(Dispatchers.IO){
+
+
+
 
             val tokenDb = TokenDatabase.getTokenDatabase(this@CategoryAdeActivity)
             //   token1 = tokenDb.tokenDao().getToken().token.toString()
@@ -62,7 +63,7 @@ class CategoryAdeActivity : AppCompatActivity() {
             var is_Main = 1
             var is_Official = 0
 
-            GlobalScope.launch(Dispatchers.IO) {
+
                 service.get_Category(categoryId, is_Main, is_Official, token1)?.enqueue(object :
                     Callback<DTO_Scroll_Response> {
 
@@ -88,6 +89,35 @@ class CategoryAdeActivity : AppCompatActivity() {
                         }
 
 
+                        adapter = CategoryAdeAdapter(this@CategoryAdeActivity, scraps)
+                        layoutManager = GridLayoutManager(this@CategoryAdeActivity, 2)
+                        binding.categoryRv.setLayoutManager(layoutManager)
+                        binding.categoryRv.setAdapter(adapter)
+
+
+                        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+                            override fun getSpanSize(position: Int): Int {
+
+                                if (position == 0)
+                                {
+
+                                    return 1
+
+
+                                }
+                                else if ((position % 12 == 0) && position == (scraps.size-1))
+                                {
+
+                                    return 2
+                                }
+                                else
+                                {
+
+                                    return 1
+                                }
+
+                            }
+                        })
                     }
 
 
@@ -98,45 +128,8 @@ class CategoryAdeActivity : AppCompatActivity() {
                     }
                 })
 
-            }
-
-        }
 
 
-
-
-
-        private fun initAdapter() {
-            binding = ActivityCategory1Binding.inflate(layoutInflater)
-            setContentView(binding.root)
-            adapter = CategoryAdeAdapter(this, scraps)
-            layoutManager = GridLayoutManager(this, 2)
-            binding.categoryRv.setLayoutManager(layoutManager)
-            binding.categoryRv.setAdapter(adapter)
-
-            layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-
-                    if (position == 0)
-                    {
-
-                        return 1
-
-
-                    }
-                    else if ((position % 12 == 0) && position == (scraps.size-1))
-                    {
-
-                        return 2
-                    }
-                    else
-                    {
-
-                        return 1
-                    }
-
-                }
-            })
 
             binding.categoryRv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
@@ -146,7 +139,95 @@ class CategoryAdeActivity : AppCompatActivity() {
                         if (binding.categoryRv.layoutManager != null && (binding.categoryRv.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (scraps.size - 1)) {
                             //리스트 마지막o
                             Log.d("ssssaa","$a")
-                            if(a==1) moreItems()
+                            if(a==1) {
+                                val runnable = Runnable {
+                                    Log.d("ssssnull","??")
+
+                                    scraps.add(My_Scrapp(null, null, null,null))
+
+                                    adapter.notifyItemInserted(scraps.size - 1)
+
+
+                                }
+                                binding.categoryRv.post(runnable)
+
+                                CoroutineScope(mainDispatcher).launch {
+                                    delay(600)
+                                    val runnable2 = Runnable {
+                                        Log.d("ssss스크랩_bofore drop","${scraps}")
+                                        scraps.removeAt(scraps.size - 1)
+                                        val scrollToPosition = scraps.size
+                                        Log.d("ssss스크랩_after drop","${scraps}")
+                                        adapter.notifyItemRemoved(scrollToPosition)
+
+                                        var categoryId= 4
+                                        var is_Main=1
+                                        var is_Official=0
+                                        Log.d("ssss전송 id","${scraps[scraps.size-1].id}")
+                                        service.get_Scroll_Category(categoryId,scraps[scraps.size-1].id,is_Main,is_Official,token1)?.enqueue(object :
+                                            Callback<DTO_Scroll_Response2> {
+
+                                            override fun onResponse(
+                                                call: Call<DTO_Scroll_Response2>,
+                                                response: Response<DTO_Scroll_Response2>
+
+                                            ) {
+                                                // 정상적으로 통신이 성공된 경우
+                                                val result = response.body()
+                                                if(result?.data?.size!! < 12) a=0
+                                                Log.d("ssssa","${a}")
+
+                                                Log.d("ssssscrapsremovebefore","${scraps}")
+                                                if(result!=null)scraps.removeAt(scraps.size-1)
+                                                val size= result?.data?.size?.minus(1)
+                                                //Log.d("ssssid","${scraps[scraps.size-1].id}")
+                                                Log.d("ssss_받은_result","${result}")
+                                                Log.d("ssssresultremoveaft","${scraps}")
+
+
+                                                for (i: Int in 0..size!!) {
+                                                    scraps.add(
+                                                        My_Scrapp(
+                                                            result?.data?.get(i)?.recipeid,
+                                                            result?.data?.get(i)?.likes,
+                                                            result?.data?.get(i)?.image,
+                                                            result?.data?.get(i)?.name
+                                                        )
+                                                    )
+
+                                                }
+                                                Log.d("ssssresultaft2","${scraps}")
+                                                Log.d("ssss######","----------------")
+
+
+
+                                            }
+
+
+                                            override fun onFailure(
+                                                call: Call<DTO_Scroll_Response2>,
+                                                t: Throwable
+                                            ) {
+                                            }
+                                        })
+
+
+
+
+
+
+
+
+                                    }
+                                    if(a==1) runnable2.run()
+                                    adapter.notifyDataSetChanged()
+                                    isLoading = false
+
+
+                                }
+
+                            }
+
                             isLoading = true
 
                         }
@@ -154,98 +235,6 @@ class CategoryAdeActivity : AppCompatActivity() {
                 }
             })
         }
-
-
-        fun moreItems() {
-            val runnable = Runnable {
-                Log.d("ssssnull","??")
-
-                scraps.add(My_Scrapp(null, null, null,null))
-
-                adapter.notifyItemInserted(scraps.size - 1)
-
-
-            }
-            binding.categoryRv.post(runnable)
-
-            CoroutineScope(mainDispatcher).launch {
-                delay(2000)
-                val runnable2 = Runnable {
-                    Log.d("ssss스크랩_bofore drop","${scraps}")
-                    scraps.removeAt(scraps.size - 1)
-                    val scrollToPosition = scraps.size
-                    Log.d("ssss스크랩_after drop","${scraps}")
-                    adapter.notifyItemRemoved(scrollToPosition)
-
-                    var categoryId= 4
-                    var is_Main=1
-                    var is_Official=0
-                    Log.d("ssss전송 id","${scraps[scraps.size-1].id}")
-                    service.get_Scroll_Category(categoryId,scraps[scraps.size-1].id,is_Main,is_Official,token1)?.enqueue(object :
-                        Callback<DTO_Scroll_Response2> {
-
-                        override fun onResponse(
-                            call: Call<DTO_Scroll_Response2>,
-                            response: Response<DTO_Scroll_Response2>
-
-                        ) {
-                            // 정상적으로 통신이 성공된 경우
-                            val result = response.body()
-                            if(result?.data?.size!! < 12) a=0
-                            Log.d("ssssa","${a}")
-
-                            Log.d("ssssscrapsremovebefore","${scraps}")
-                            if(result!=null)scraps.removeAt(scraps.size-1)
-                            val size= result?.data?.size?.minus(1)
-                            //Log.d("ssssid","${scraps[scraps.size-1].id}")
-                            Log.d("ssss_받은_result","${result}")
-                            Log.d("ssssresultremoveaft","${scraps}")
-
-
-                                 for (i: Int in 0..size!!) {
-                                     scraps.add(
-                                         My_Scrapp(
-                                             result?.data?.get(i)?.recipeid,
-                                             result?.data?.get(i)?.likes,
-                                             result?.data?.get(i)?.image,
-                                             result?.data?.get(i)?.name
-                                         )
-                                     )
-
-                                 }
-
-
-
-
-                            Log.d("ssssresultaft2","${scraps}")
-                            Log.d("ssss######","----------------")
-
-
-
-                        }
-
-
-                        override fun onFailure(
-                            call: Call<DTO_Scroll_Response2>,
-                            t: Throwable
-                        ) {
-                        }
-                    })
-
-
-
-
-
-
-
-
-                }
-               if(a==1) runnable2.run()
-                adapter.notifyDataSetChanged()
-                isLoading = false
-
-            }
-            }
-
         }
 
+}

@@ -68,11 +68,17 @@ class SearchActivity: AppCompatActivity() {
 
 
             }else{
-               string = intent.getStringExtra("search").toString()
+                string = intent?.getStringExtra("search")?.toString()
+                if (string != null) {
+                    Log.d("검색",string)
+                }
+                if(string == null) {
+                    string = intent.getStringExtra("key_search").toString()
+                    Log.d("검색00", string)
+                }
+
             }
-
             viewbinding.etSearch.setText(string)
-
             val tokenDb = TokenDatabase.getTokenDatabase(this@SearchActivity)
             token1 = tokenDb.tokenDao().getToken().token.toString()
 
@@ -85,124 +91,125 @@ class SearchActivity: AppCompatActivity() {
                     response: Response<Search_Response>
 
                 ) {
-
                     // 정상적으로 통신이 성공된 경우
                     val result = response.body()
                     var i = 0
-                    while (true) {
-                        if (coffee.size == result?.data?.coffeeSearch?.size) break
+                    if (result?.success == true) {
+                        while (true) {
+                            if (coffee.size == result?.data?.coffeeSearch?.size) break
 
-                        coffee.add(
-                            Search(
-                                result?.data?.coffeeSearch?.get(i)?.id,
-                                result?.data?.coffeeSearch?.get(i)?.image_url,
-                                result?.data?.coffeeSearch?.get(i)?.name,
-                                result?.data?.coffeeSearch?.get(i)?.likes
+                            coffee.add(
+                                Search(
+                                    result?.data?.coffeeSearch?.get(i)?.id,
+                                    result?.data?.coffeeSearch?.get(i)?.image_url,
+                                    result?.data?.coffeeSearch?.get(i)?.name,
+                                    result?.data?.coffeeSearch?.get(i)?.likes
+                                )
                             )
+
+                            i++
+                        }
+
+                        if (coffee.size != 0) category.add(Search_Receipe("커피", coffee))
+                        i = 0
+
+                        while (true) {
+                            if (beverage.size == result?.data?.beverageSearch?.size) break
+                            beverage.add(
+                                Search(
+                                    result?.data?.beverageSearch?.get(i)?.id,
+                                    result?.data?.beverageSearch?.get(i)?.image_url,
+                                    result?.data?.beverageSearch?.get(i)?.name,
+                                    result?.data?.beverageSearch?.get(i)?.likes
+                                )
+                            )
+
+                            i++
+                        }
+                        if (beverage.size != 0) category.add(Search_Receipe("beverage", beverage))
+
+                        i = 0
+
+                        while (true) {
+                            if (tea.size == result?.data?.teaSearch?.size) break
+                            tea.add(
+                                Search(
+                                    result?.data?.teaSearch?.get(i)?.id,
+                                    result?.data?.teaSearch?.get(i)?.image_url,
+                                    result?.data?.teaSearch?.get(i)?.name,
+                                    result?.data?.teaSearch?.get(i)?.likes
+                                )
+                            )
+
+                            i++
+                        }
+                        if (tea.size != 0) category.add(Search_Receipe("티", tea))
+
+                        i = 0
+                        while (true) {
+
+                            if (ade.size == result?.data?.adeSearch?.size) break
+                            ade.add(
+                                Search(
+                                    result?.data?.adeSearch?.get(i)?.id,
+                                    result?.data?.adeSearch?.get(i)?.image_url,
+                                    result?.data?.adeSearch?.get(i)?.name,
+                                    result?.data?.adeSearch?.get(i)?.likes
+                                )
+                            )
+
+
+                            i++
+                        }
+                        if (ade.size != 0) category.add(Search_Receipe("에이드", ade))
+
+                        i = 0
+                        Log.d("사이즈", coffee.size.toString())
+
+                        while (true) {
+                            if (smoothie.size == result?.data?.smoothieSearch?.size) break
+                            smoothie.add(
+                                Search(
+                                    result?.data?.smoothieSearch?.get(i)?.id,
+                                    result?.data?.smoothieSearch?.get(i)?.image_url,
+                                    result?.data?.smoothieSearch?.get(i)?.name,
+                                    result?.data?.smoothieSearch?.get(i)?.likes
+                                )
+                            )
+
+                            i++
+                        }
+                        if (smoothie.size != 0) category.add(Search_Receipe("스무디/주스", smoothie))
+
+                        i = 0
+                        while (true) {
+                            if (
+                                health.size == result?.data?.healthSearch?.size) break
+                            health.add(
+                                Search(
+                                    result?.data?.healthSearch?.get(i)?.id,
+                                    result?.data?.healthSearch?.get(i)?.image_url,
+                                    result?.data?.healthSearch?.get(i)?.name,
+                                    result?.data?.healthSearch?.get(i)?.likes
+                                )
+                            )
+
+                            i++
+                        }
+                        if (health.size != 0) category.add(Search_Receipe("건강음료", health))
+
+                        viewbinding.searchRv.layoutManager = LinearLayoutManager(
+                            this@SearchActivity,
+                            LinearLayoutManager.VERTICAL,
+                            false
                         )
 
-                        i++
+                        val adapter = SearchAdpater_1(this@SearchActivity, category)
+                        viewbinding.searchRv.adapter = adapter
+
+                        //처음 검색
+
                     }
-
-                    if (coffee.size != 0) category.add(Search_Receipe("커피", coffee))
-                    i = 0
-
-                    while (true) {
-                        if (beverage.size == result?.data?.beverageSearch?.size) break
-                        beverage.add(
-                            Search(
-                                result?.data?.beverageSearch?.get(i)?.id,
-                                result?.data?.beverageSearch?.get(i)?.image_url,
-                                result?.data?.beverageSearch?.get(i)?.name,
-                                result?.data?.beverageSearch?.get(i)?.likes
-                            )
-                        )
-
-                        i++
-                    }
-                    if (beverage.size != 0) category.add(Search_Receipe("beverage", beverage))
-
-                    i = 0
-
-                    while (true) {
-                        if (tea.size == result?.data?.teaSearch?.size) break
-                        tea.add(
-                            Search(
-                                result?.data?.teaSearch?.get(i)?.id,
-                                result?.data?.teaSearch?.get(i)?.image_url,
-                                result?.data?.teaSearch?.get(i)?.name,
-                                result?.data?.teaSearch?.get(i)?.likes
-                            )
-                        )
-
-                        i++
-                    }
-                    if (tea.size != 0) category.add(Search_Receipe("티", tea))
-
-                    i = 0
-                    while (true) {
-
-                        if (ade.size == result?.data?.adeSearch?.size) break
-                        ade.add(
-                            Search(
-                                result?.data?.adeSearch?.get(i)?.id,
-                                result?.data?.adeSearch?.get(i)?.image_url,
-                                result?.data?.adeSearch?.get(i)?.name,
-                                result?.data?.adeSearch?.get(i)?.likes
-                            )
-                        )
-
-
-                        i++
-                    }
-                    if (ade.size != 0) category.add(Search_Receipe("에이드", ade))
-
-                    i = 0
-                    Log.d("사이즈",coffee.size.toString())
-
-                    while (true) {
-                        if (smoothie.size == result?.data?.smoothieSearch?.size) break
-                        smoothie.add(
-                            Search(
-                                result?.data?.smoothieSearch?.get(i)?.id,
-                                result?.data?.smoothieSearch?.get(i)?.image_url,
-                                result?.data?.smoothieSearch?.get(i)?.name,
-                                result?.data?.smoothieSearch?.get(i)?.likes
-                            )
-                        )
-
-                        i++
-                    }
-                    if (smoothie.size != 0) category.add(Search_Receipe("스무디/주스", smoothie))
-
-                    i = 0
-                    while (true) {
-                        if (
-                            health.size == result?.data?.healthSearch?.size) break
-                        health.add(
-                            Search(
-                                result?.data?.healthSearch?.get(i)?.id,
-                                result?.data?.healthSearch?.get(i)?.image_url,
-                                result?.data?.healthSearch?.get(i)?.name,
-                                result?.data?.healthSearch?.get(i)?.likes
-                            )
-                        )
-
-                        i++
-                    }
-                    if (health.size != 0) category.add(Search_Receipe("건강음료", health))
-
-                    viewbinding.searchRv.layoutManager = LinearLayoutManager(
-                        this@SearchActivity,
-                        LinearLayoutManager.VERTICAL,
-                        false
-                    )
-
-                    val adapter = SearchAdpater_1(this@SearchActivity, category)
-                    viewbinding.searchRv.adapter = adapter
-
-                    //처음 검색
-
                 }
 
 
@@ -234,7 +241,7 @@ class SearchActivity: AppCompatActivity() {
 
 
             viewbinding.myscrapIvBack.setOnClickListener {
-                onBackPressed()
+                finish()
             }
 
 
