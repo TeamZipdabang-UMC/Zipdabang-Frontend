@@ -41,7 +41,6 @@ class HomeFragment : Fragment() {
     private var ade: ArrayList<Main_Scrap> = arrayListOf()
     private var smootie_juice: ArrayList<Main_Scrap> = arrayListOf()
     private var health: ArrayList<Main_Scrap> = arrayListOf()
-
     private lateinit var adapter2: ReceipeAdapter
 
     private var category: ArrayList<Home_receipe> = arrayListOf()
