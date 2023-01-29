@@ -38,7 +38,8 @@ class MyFAQActivity : AppCompatActivity() {
                     faqlist.add(
                         FAQ(
                             result?.data?.get(i)?.FAQid,
-                            result?.data?.get(i)?.FAQquestion
+                            result?.data?.get(i)?.FAQquestion,
+                            result?.data?.get(i)?.FAQanswer
                         )
                     )
 
@@ -67,44 +68,6 @@ class MyFAQActivity : AppCompatActivity() {
         adapter?.setOnItemClickListener(object : FaqAdatper.OnItemClickListener {
             override fun onItemClick(v: View?, pos: Int) {
 
-                service.get_faq_list(token).enqueue(object :
-                    Callback<FAQ_Response> {
-                    override fun onResponse(
-                        call: Call<FAQ_Response>,
-                        response: Response<FAQ_Response>
-                    ) {
-                        val result = response.body()
-                        var i = 0
-                        while (true) {
-                            if (faqlist.size == result?.data?.size) break
-
-                            faqlist.add(
-                                FAQ(
-                                    result?.data?.get(i)?.FAQid,
-                                    result?.data?.get(i)?.FAQquestion
-                                )
-                            )
-
-                            i++
-                        }
-
-                        viewBinding.faqRv.layoutManager = LinearLayoutManager(
-                            this@MyFAQActivity,
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
-                        adapter = FaqAdatper(this@MyFAQActivity, faqlist)
-                        viewBinding.faqRv.adapter = adapter
-
-
-                    }
-
-                    override fun onFailure(call: Call<FAQ_Response>, t: Throwable) {
-
-                    }
-
-
-                })
 
             }
 

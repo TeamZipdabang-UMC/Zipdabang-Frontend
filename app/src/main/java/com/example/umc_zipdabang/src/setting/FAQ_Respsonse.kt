@@ -23,9 +23,14 @@ data class DFAQ(
     @SerializedName("question")
     var FAQquestion:  String?,
 
+    @SerializedName("answer")
+    var FAQanswer:  String?,
+
+    )
 
 
-)
+
+
 
 data class FAQ_Detail_Response(
 

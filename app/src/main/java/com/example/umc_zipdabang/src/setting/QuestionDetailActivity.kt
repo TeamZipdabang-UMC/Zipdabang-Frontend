@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivityMyEditQuestionBinding
-import com.example.umc_zipdabang.databinding.ActivityMyNoticeDetailBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -100,6 +99,7 @@ class QuestionDetailActivity  :  AppCompatActivity(){
             var token1  =
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
             val service = Retrofit.retrofit.create(RetrofitQuestService::class.java)
+
 
 
             dialog.setOnClickListener(object : Dialog_question.ButtonClickListener {

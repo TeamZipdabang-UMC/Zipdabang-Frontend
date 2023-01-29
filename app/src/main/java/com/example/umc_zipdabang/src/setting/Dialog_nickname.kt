@@ -8,13 +8,14 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.example.umc_zipdabang.databinding.NicknameDialogBinding
 import com.example.umc_zipdabang.databinding.QuestionDialogBinding
 
-class Dialog_question(
+class Dialog_nickname(
     context: AppCompatActivity
 ) : Dialog(context) { // 뷰를 띄워야하므로 Dialog 클래스는 context를 인자로 받는다.
 
-    private var binding:  QuestionDialogBinding =QuestionDialogBinding . inflate(context.layoutInflater)
+    private var binding: NicknameDialogBinding =NicknameDialogBinding. inflate(context.layoutInflater)
 
 
     private var onClickListener: ButtonClickListener?= null
@@ -27,7 +28,7 @@ class Dialog_question(
 
 
 
-    fun setOnClickListener(listener: Dialog_question.ButtonClickListener){
+    fun setOnClickListener(listener: ButtonClickListener){
         onClickListener = listener
     }
     val dialog= Dialog(context)
