@@ -106,6 +106,13 @@ interface RecipeService {
         @Path ("recipeId") recipeId: Int?
     ): Call<PressLikeResponse>
 
+    // 스크랩 누름
+    @POST ("/recipes/{recipeId}/scrap")
+    fun pressScrap(
+        @Header ("x-access-token") token: String?,
+        @Path ("recipeId") recipeId: Int?
+    ): Call<PressScrapResponse>
+
     // 레시피 도전
     @POST ("/recipes/{recipeId}/challenge")
     fun pressChallenge(

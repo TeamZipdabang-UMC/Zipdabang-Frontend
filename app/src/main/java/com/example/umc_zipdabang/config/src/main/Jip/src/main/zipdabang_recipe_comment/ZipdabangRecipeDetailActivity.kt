@@ -101,6 +101,24 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 viewBinding.ivZipdabangRecipeScrap.setImageResource(R.drawable.ic_scrap_filled)
                 showScrapToast()
             }
+            // 이거 고치기
+            GlobalScope.launch(Dispatchers.IO) {
+                val recipeId = idInt
+                val token: Token = tokenDb.tokenDao().getToken()
+                recipeService.pressScrap(token.token, recipeId).enqueue(object: Callback<PressScrapResponse> {
+                    override fun onResponse(
+                        call: Call<PressScrapResponse>,
+                        response: Response<PressScrapResponse>
+                    ) {
+                        Log.d("스크랩 누르기 성공", "${response.body()}")
+                    }
+
+                    override fun onFailure(call: Call<PressScrapResponse>, t: Throwable) {
+                        Log.d("스크랩 누르기", "실패")
+                    }
+
+                })
+            }
         }
 
 
