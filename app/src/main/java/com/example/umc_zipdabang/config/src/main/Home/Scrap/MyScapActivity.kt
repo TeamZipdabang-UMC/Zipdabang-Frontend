@@ -80,6 +80,7 @@ class MyScapActivity : AppCompatActivity() {
                     val adapter = MyScrapAdapter(this@MyScapActivity, scraps)
 
                     binding.myscrapRv.adapter = adapter
+                    binding.scrapSize.text=scraps.size.toString()
                     adapter.notifyDataSetChanged()
 
 

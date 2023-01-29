@@ -52,17 +52,12 @@ class CategoryAdeActivity : AppCompatActivity() {
 
 
 
-
             val tokenDb = TokenDatabase.getTokenDatabase(this@CategoryAdeActivity)
-            //   token1 = tokenDb.tokenDao().getToken().token.toString()
+             token1 = tokenDb.tokenDao().getToken().token.toString()
 
-            token1 =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
-
-            var categoryId = 4
-            var is_Main = 1
-            var is_Official = 0
-
+                var categoryId = 4
+                var is_Main = 1
+                var is_Official = 0
 
                 service.get_Category(categoryId, is_Main, is_Official, token1)?.enqueue(object :
                     Callback<DTO_Scroll_Response> {
@@ -75,7 +70,11 @@ class CategoryAdeActivity : AppCompatActivity() {
                         // 정상적으로 통신이 성공된 경우
                         val result = response.body()
                         Log.d("마지막", "${result}")
-                        for (i: Int in 0..11) {
+                        val first_size= result?.data?.size
+                        if (first_size != null) {
+                            if(first_size<12) a=0
+                        }
+                        for (i: Int in 0..first_size!!-1) {
 
                             scraps.add(
                                 My_Scrapp(
@@ -141,23 +140,25 @@ class CategoryAdeActivity : AppCompatActivity() {
                             Log.d("ssssaa","$a")
                             if(a==1) {
                                 val runnable = Runnable {
-                                    Log.d("ssssnull","??")
+                                    Log.d("ssssnull", "??")
 
-                                    scraps.add(My_Scrapp(null, null, null,null))
+                                    scraps.add(My_Scrapp(null, null, null, null))
 
                                     adapter.notifyItemInserted(scraps.size - 1)
 
 
                                 }
+
                                 binding.categoryRv.post(runnable)
+                            }
 
                                 CoroutineScope(mainDispatcher).launch {
-                                    delay(600)
+                                    delay(300)
                                     val runnable2 = Runnable {
                                         Log.d("ssss스크랩_bofore drop","${scraps}")
                                         scraps.removeAt(scraps.size - 1)
                                         val scrollToPosition = scraps.size
-                                        Log.d("ssss스크랩_after drop","${scraps}")
+                                          Log.d("ssss스크랩_after drop","${scraps}")
                                         adapter.notifyItemRemoved(scrollToPosition)
 
                                         var categoryId= 4
@@ -175,14 +176,13 @@ class CategoryAdeActivity : AppCompatActivity() {
                                                 // 정상적으로 통신이 성공된 경우
                                                 val result = response.body()
                                                 if(result?.data?.size!! < 12) a=0
-                                                Log.d("ssssa","${a}")
 
                                                 Log.d("ssssscrapsremovebefore","${scraps}")
-                                                if(result!=null)scraps.removeAt(scraps.size-1)
+                                               scraps.removeAt(scraps.size-1)
+                                                Log.d("ssssresultremoveaft","${scraps}")
                                                 val size= result?.data?.size?.minus(1)
                                                 //Log.d("ssssid","${scraps[scraps.size-1].id}")
                                                 Log.d("ssss_받은_result","${result}")
-                                                Log.d("ssssresultremoveaft","${scraps}")
 
 
                                                 for (i: Int in 0..size!!) {
@@ -210,25 +210,18 @@ class CategoryAdeActivity : AppCompatActivity() {
                                             ) {
                                             }
                                         })
-
-
-
-
-
-
-
-
+                                        adapter.notifyDataSetChanged()
+                                        isLoading = false
                                     }
                                     if(a==1) runnable2.run()
-                                    adapter.notifyDataSetChanged()
-                                    isLoading = false
-
-
+                                    if(a==0) adapter.notifyDataSetChanged()
                                 }
 
-                            }
 
-                            isLoading = true
+                                isLoading = true
+
+
+
 
                         }
                     }

@@ -38,62 +38,6 @@ class CategoryBeverageActivity : AppCompatActivity() {
         }
 
         private fun setData() {
-            scraps.add(
-                My_Scrap(
-                    "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                    "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                    12
-                )
-            )
-            scraps.add(
-                My_Scrap(
-                    "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                    "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                    1233
-                )
-            )
-            scraps.add(
-                My_Scrap(
-                    "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                    "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                    124
-                )
-            )
-            scraps.add(
-                My_Scrap(
-                    "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                    "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                    127
-                )
-            )
-            scraps.add(
-                My_Scrap(
-                    "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                    "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                    12222
-                )
-            )
-            scraps.add(
-                My_Scrap(
-                    "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                    "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                    1233
-                )
-            )
-            scraps.add(
-                My_Scrap(
-                    "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                    "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                    121
-                )
-            )
-            scraps.add(
-                My_Scrap(
-                    "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                    "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                    12
-                )
-            )
 
 
         }
