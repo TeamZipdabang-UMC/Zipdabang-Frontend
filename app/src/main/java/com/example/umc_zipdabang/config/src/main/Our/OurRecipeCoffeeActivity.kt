@@ -1,18 +1,21 @@
-package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments
+package com.example.umc_zipdabang.config.src.main.Our
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.Token
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.AllRecipesData
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.BeverageRecipesData
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeInfo
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipes
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageLoadingRVAdapter
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageRecipesRVAdapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.CoffeeLoadingRVAdapter
-import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
+import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
+import com.example.umc_zipdabang.databinding.ActivityOurRecipeCoffeeBinding
+import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeCoffeeBinding
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,20 +24,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Runnable
 
-class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
-    private lateinit var viewBinding: ActivityZipdabangRecipeBeverageBinding
+class OurRecipeCoffeeActivity: AppCompatActivity() {
+    private lateinit var viewBinding: ActivityOurRecipeCoffeeBinding
 
     private var isLoading = false
     var grid = 2
-    val beverageRecipesList: ArrayList<BeverageRecipesData> = arrayListOf()
+    val coffeeRecipesList: ArrayList<CoffeeRecipesData> = arrayListOf()
 
-    private lateinit var beverageRecipesRVAdapter: BeverageLoadingRVAdapter
+    private lateinit var coffeeRecipesRVAdapter: CoffeeOurLoadingRVAdapter
 
     val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewBinding = ActivityZipdabangRecipeBeverageBinding.inflate(layoutInflater)
+        viewBinding = ActivityOurRecipeCoffeeBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
@@ -63,20 +66,26 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 
         val tokenDb = TokenDatabase.getTokenDatabase(this)
 
+        val goToLogin = Intent(this, InitialActivity::class.java)
+
+
+
         lateinit var firstResult: List<RecipeInfo>
 
         GlobalScope.launch(Dispatchers.IO) {
-            val token = tokenDb.tokenDao().getToken()
+            val token: Token = tokenDb.tokenDao().getToken()
+            if (token.token == "") {
+                startActivity(goToLogin)
+            }
             val tokenNum = token.token
             Log.d("토큰 넘버", "${tokenNum}")
-            recipeService.getCategoryRecipes(tokenNum, 2, 0, 1).enqueue(object :
-                Callback<ZipdabangRecipes> {
+            recipeService.getCategoryRecipes(tokenNum, 1, 0, 0).enqueue(object : Callback<ZipdabangRecipes> {
                 override fun onResponse(
                     call: Call<ZipdabangRecipes>,
                     response: Response<ZipdabangRecipes>
                 ) {
                     val result = response.body()
-                    Log.d("Bev. 카테고리 레시피 Get 성공", "${result}")
+                    Log.d("커피 카테고리 레시피 Get 성공", "${result}")
                     var firstResultArray = arrayListOf<RecipeInfo?>()
                     for (i in 0 until result?.data!!.size) {
                         val firstResult = result?.data?.get(i)
@@ -98,19 +107,23 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                         Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
                         Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
                         Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-
-                        beverageRecipesList.add(
-                            BeverageRecipesData(
+                        coffeeRecipesList.add(
+                            CoffeeRecipesData(
                                 firstResultArray[i]?.imageUrl,
                                 firstResultArray[i]?.name,
                                 firstResultArray[i]?.likes
                             )
                         )
                     }
-                    beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this@ZipdabangRecipeBeverageActivity, beverageRecipesList, firstResultIdArray)
-                    layoutManager = GridLayoutManager(this@ZipdabangRecipeBeverageActivity, 2)
-                    viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
-                    viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
+                    Log.d("커피 Id 목록", "${firstResultIdArray}")
+
+                    // 여기 추가해주기.
+                    coffeeRecipesRVAdapter = CoffeeOurLoadingRVAdapter(this@OurRecipeCoffeeActivity, coffeeRecipesList, firstResultIdArray)
+                    layoutManager = GridLayoutManager(this@OurRecipeCoffeeActivity, 2)
+                    // 데이터 클래스 리스트에 값들 추가하고, initAdapter()
+
+                    viewBinding.rvOurRecipeCoffee.setLayoutManager(layoutManager)
+                    viewBinding.rvOurRecipeCoffee.setAdapter(coffeeRecipesRVAdapter)
                     layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
 
@@ -121,7 +134,7 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 
 
                             }
-                            else if ((position % 12 == 0) && position == (beverageRecipesList.size-1))
+                            else if ((position % 12 == 0) && position == (coffeeRecipesList.size-1))
                             {
 
                                 return 2
@@ -134,39 +147,38 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 
                         }
                     })
-
-                    viewBinding.rvZipdabangRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    // 시작
+                    viewBinding.rvOurRecipeCoffee.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                             super.onScrolled(recyclerView, dx, dy)
                             if (!isLoading) {
-                                if (viewBinding.rvZipdabangRecipeBeverage.layoutManager != null && (viewBinding.rvZipdabangRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
+                                if (viewBinding.rvOurRecipeCoffee.layoutManager != null && (viewBinding.rvOurRecipeCoffee.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (coffeeRecipesList.size - 1)) {
                                     //리스트 마지막o
 //                                    moreItems()
 
                                     val runnable = Runnable {
 
-                                        beverageRecipesList.add(BeverageRecipesData(null, null, null))
+                                        coffeeRecipesList.add(CoffeeRecipesData(null, null, null))
                                         Log.d("insert before", "msg")
-                                        beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
+                                        coffeeRecipesRVAdapter.notifyItemInserted(coffeeRecipesList.size - 1)
 
                                     }
 
-                                    viewBinding.rvZipdabangRecipeBeverage.post(runnable)
+                                    viewBinding.rvOurRecipeCoffee.post(runnable)
 
                                     GlobalScope.launch {
                                         delay(2000)
                                         withContext(Dispatchers.Main) {
-                                            beverageRecipesList.removeAt(beverageRecipesList.size - 1)
-                                            val scrollToPosition = beverageRecipesList.size
-                                            beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+                                            coffeeRecipesList.removeAt(coffeeRecipesList.size - 1)
+                                            val scrollToPosition = coffeeRecipesList.size
+                                            coffeeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 
-                                            recipeService.getCategoryRecipesScroll(tokenNum, 2, firstResultIdArray.get(firstResultIdArray.size-1), 0, 1).enqueue(object: Callback<ZipdabangRecipes> {
+                                            recipeService.getCategoryRecipesScroll(tokenNum, 1, firstResultIdArray.get(firstResultIdArray.size-1), 0, 0).enqueue(object: Callback<ZipdabangRecipes> {
                                                 override fun onResponse(
                                                     call: Call<ZipdabangRecipes>,
                                                     response: Response<ZipdabangRecipes>
                                                 ) {
-
                                                     var moreResult = response.body()
                                                     firstResultArray = ArrayList<RecipeInfo?>()
                                                     Log.d("more result 결과", "${moreResult}")
@@ -179,7 +191,6 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 
                                                         Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
                                                         Log.d("다음 배열", "${firstResultArray}")
-
                                                         for (i in 0 until moreResult?.data!!.size) {
                                                             firstResultIdArray.add(firstResultArray[i]?.id)
                                                             firstResultNameArray.add(firstResultArray[i]?.name)
@@ -189,19 +200,19 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                                                             Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
                                                             Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
                                                             Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-                                                            beverageRecipesList.add(
-                                                                BeverageRecipesData(
+                                                            coffeeRecipesList.add(
+                                                                CoffeeRecipesData(
                                                                     firstResultArray[i]?.imageUrl,
                                                                     firstResultArray[i]?.name,
                                                                     firstResultArray[i]?.likes
                                                                 )
                                                             )
                                                             Log.d("아이디 배열 결과", "${firstResultIdArray}")
-                                                            beverageRecipesRVAdapter.notifyDataSetChanged()
+                                                            coffeeRecipesRVAdapter.notifyDataSetChanged()
                                                             isLoading = false
                                                         }
-                                                    }
 
+                                                    }
                                                 }
 
                                                 override fun onFailure(
@@ -214,128 +225,116 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                                         }
                                     }
 
-//                                    CoroutineScope(mainDispatcher).launch {
-//                                        delay(2000)
-//                                        val runnable2 = Runnable {
-//
-//
-//
-//                                        }
-//                                        runnable2.run()
-//
-//                                    }
-
-
                                     isLoading = true
 
                                 }
                             }
                         }
                     })
+                    // 끝
 
-
-
-
-//                    setData()
-//                    initAdapter()
-//                    initScrollListener()
 
                 }
 
                 override fun onFailure(call: Call<ZipdabangRecipes>, t: Throwable) {
-                    Log.d("Bev. 카테고리 레시피 Get", "실패")
+                    Log.d("커피 카테고리 레시피 Get", "실패")
                 }
             })
         }
 
 
+
+
+//        setData()
+//        initAdapter()
+//        initScrollListener()
+
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
-
             finish()
         }
     }
 
 //    private fun setData() {
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        coffeeRecipesList.add(
+//            CoffeeRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
@@ -346,10 +345,10 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 //
 //
 //    private fun initAdapter() {
-//        beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this, beverageRecipesList)
+//        coffeeRecipesRVAdapter = CoffeeLoadingRVAdapter(this, coffeeRecipesList)
 //        layoutManager = GridLayoutManager(this, 2)
-//        viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
-//        viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
+//        viewBinding.rvZipdabangRecipeCoffee.setLayoutManager(layoutManager)
+//        viewBinding.rvZipdabangRecipeCoffee.setAdapter(coffeeRecipesRVAdapter)
 //
 //        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
 //            override fun getSpanSize(position: Int): Int {
@@ -361,7 +360,7 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 //
 //
 //                }
-//                else if ((position % 12 == 0) && position == (beverageRecipesList.size-1))
+//                else if ((position % 12 == 0) && position == (coffeeRecipesList.size-1))
 //                {
 //
 //                    return 2
@@ -378,12 +377,12 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 //
 //    private fun initScrollListener() {
 //
-//        viewBinding.rvZipdabangRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+//        viewBinding.rvZipdabangRecipeCoffee.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 //
 //            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 //                super.onScrolled(recyclerView, dx, dy)
 //                if (!isLoading) {
-//                    if (viewBinding.rvZipdabangRecipeBeverage.layoutManager != null && (viewBinding.rvZipdabangRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
+//                    if (viewBinding.rvZipdabangRecipeCoffee.layoutManager != null && (viewBinding.rvZipdabangRecipeCoffee.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (coffeeRecipesList.size - 1)) {
 //                        //리스트 마지막o
 //                        moreItems()
 //                        isLoading = true
@@ -398,107 +397,107 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 //    private fun moreItems() {
 //        val runnable = Runnable {
 //
-//            beverageRecipesList.add(BeverageRecipesData(null, null, null))
+//            coffeeRecipesList.add(CoffeeRecipesData(null, null, null))
 //
 //            Log.d("insert before", "msg")
 //
-//            beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
+//            coffeeRecipesRVAdapter.notifyItemInserted(coffeeRecipesList.size - 1)
 //
 //
 //
 //
 //
 //        }
-//        viewBinding.rvZipdabangRecipeBeverage.post(runnable)
+//        viewBinding.rvZipdabangRecipeCoffee.post(runnable)
 //
 //        CoroutineScope(mainDispatcher).launch {
 //            delay(2000)
 //            val runnable2 = Runnable {
 //
-//                beverageRecipesList.removeAt(beverageRecipesList.size - 1)
-//                val scrollToPosition = beverageRecipesList.size
-//                beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+//                coffeeRecipesList.removeAt(coffeeRecipesList.size - 1)
+//                val scrollToPosition = coffeeRecipesList.size
+//                coffeeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 //
 //
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                coffeeRecipesList.add(
+//                    CoffeeRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
@@ -506,7 +505,7 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 //                )
 //
 //
-//                beverageRecipesRVAdapter.notifyDataSetChanged()
+//                coffeeRecipesRVAdapter.notifyDataSetChanged()
 //                isLoading = false
 //
 //            }

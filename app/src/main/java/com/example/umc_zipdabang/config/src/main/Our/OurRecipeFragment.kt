@@ -34,7 +34,7 @@ import java.lang.Runnable
 class OurRecipeFragment: Fragment() {
     private lateinit var viewBinding: FragmentOurRecipeBinding
 
-    lateinit var adapter: LoadingRVAdapter
+    lateinit var adapter: LoadingOurRVAdapter
     val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     val allRecipesList: ArrayList<AllRecipesData> = arrayListOf()
     private lateinit var layoutManager: GridLayoutManager
@@ -77,7 +77,7 @@ class OurRecipeFragment: Fragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
 
         val categoriesList: ArrayList<CategoriesData> = arrayListOf()
-        val categoriesRVAdapter = CategoriesRVAdapter(requireContext(), categoriesList)
+        val categoriesRVAdapter = CategoriesOurRVAdapter(requireContext(), categoriesList)
 
         // 카테고리
         categoriesList.apply {
@@ -132,44 +132,50 @@ class OurRecipeFragment: Fragment() {
             val tokenNum = token.token
             Log.d("토큰 넘버", "${tokenNum}")
 
-            recipeService.getAllOurRecipes(tokenNum).enqueue(object : Callback<ZipdabangRecipes> {
+            recipeService.getAllOurRecipes(tokenNum).enqueue(object : Callback<ZipdabangRecipesAll> {
                 override fun onResponse(
-                    call: Call<ZipdabangRecipes>,
-                    response: Response<ZipdabangRecipes>
+                    call: Call<ZipdabangRecipesAll>,
+                    response: Response<ZipdabangRecipesAll>
                 ) {
                     val result = response.body()
-                    Log.d("우리들의 레시피 초기 Get 성공", "${result}")
-                    var firstResultArray = arrayListOf<RecipeInfo?>()
-                    for (i in 0 until result?.data!!.size) {
-                        val firstResult = result?.data?.get(i)
-                        firstResultArray.add(firstResult)
-                        Log.d("첫번째 배열", "${firstResultArray}")
-                    }
 
                     var firstResultIdArray = arrayListOf<Int?>()
                     var firstResultNameArray = arrayListOf<String?>()
                     var firstResultImgUrlArray = ArrayList<String?>()
                     var firstResultLikesArray = ArrayList<Int?>()
 
-                    for (i in 0 until firstResultArray.size) {
-                        firstResultIdArray.add(firstResultArray[i]?.id)
-                        firstResultNameArray.add(firstResultArray[i]?.name)
-                        firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                        firstResultLikesArray.add(firstResultArray[i]?.likes)
-                        Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
-                        Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
-                        Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
-                        Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-                        allRecipesList.add(
-                            AllRecipesData(
-                                firstResultArray[i]?.imageUrl,
-                                firstResultArray[i]?.name,
-                                firstResultArray[i]?.likes
-                            )
-                        )
+                    Log.d("우리들의 레시피 초기 Get 성공", "${result}")
+                    var firstResultArray = arrayListOf<RecipeInfoAll?>()
+
+                    for (i in 0 until result?.data!!.size) {
+                        val firstResult = result?.data?.get(i)
+                        firstResultArray.add(firstResult)
+                        Log.d("첫번째 배열", "${firstResultArray}")
                     }
+
+                    if (firstResultArray != null) {
+                        for (i in 0 until firstResultArray.size) {
+                            firstResultIdArray.add(firstResultArray[i]?.id)
+                            firstResultNameArray.add(firstResultArray[i]?.name)
+                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                            firstResultLikesArray.add(firstResultArray[i]?.likes)
+                            Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                            Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                            Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                            Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                            allRecipesList.add(
+                                AllRecipesData(
+                                    firstResultArray[i]?.imageUrl,
+                                    firstResultArray[i]?.name,
+                                    firstResultArray[i]?.likes
+                                )
+                            )
+                        }
+                    }
+
+
                     Log.d("Id 목록", "${firstResultIdArray}")
-                    adapter = LoadingRVAdapter(
+                    adapter = LoadingOurRVAdapter(
                         activity as HomeMainActivity,
                         allRecipesList,
                         firstResultIdArray
@@ -224,62 +230,65 @@ class OurRecipeFragment: Fragment() {
                                             recipeService.getAllUserRecipesScrolled(
                                                 tokenNum,
                                                 firstResultIdArray.get(firstResultIdArray.size - 1)
-                                            ).enqueue(object : Callback<ZipdabangRecipes> {
+                                            ).enqueue(object : Callback<ZipdabangRecipesAll> {
                                                 override fun onResponse(
-                                                    call: Call<ZipdabangRecipes>,
-                                                    response: Response<ZipdabangRecipes>
+                                                    call: Call<ZipdabangRecipesAll>,
+                                                    response: Response<ZipdabangRecipesAll>
                                                 ) {
                                                     var moreResult = response.body()
-                                                    firstResultArray = ArrayList<RecipeInfo?>()
+                                                    firstResultArray = ArrayList<RecipeInfoAll?>()
                                                     Log.d("more result 결과", "${moreResult}")
-                                                    for (i in 0 until moreResult?.data!!.size) {
-                                                        val moreResultData =
-                                                            moreResult?.data?.get(i)
-                                                        firstResultArray.add(moreResultData)
-                                                    }
 
-                                                    Log.d(
-                                                        "last",
-                                                        "${firstResultIdArray.get(firstResultIdArray.size - 1)}"
-                                                    )
-                                                    Log.d("다음 배열", "${firstResultArray}")
+                                                    if (moreResult != null) {
+                                                        for (i in 0 until moreResult?.data!!.size) {
+                                                            val moreResultData =
+                                                                moreResult?.data?.get(i)
+                                                            firstResultArray.add(moreResultData)
+                                                        }
 
-                                                    for (i in 0 until moreResult?.data!!.size) {
-                                                        firstResultIdArray.add(firstResultArray[i]?.id)
-                                                        firstResultNameArray.add(firstResultArray[i]?.name)
-                                                        firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                                                        firstResultLikesArray.add(firstResultArray[i]?.likes)
                                                         Log.d(
-                                                            "${i}번째 아이디",
-                                                            "${firstResultArray[i]?.id}"
+                                                            "last",
+                                                            "${firstResultIdArray.get(firstResultIdArray.size - 1)}"
                                                         )
-                                                        Log.d(
-                                                            "${i}번째 이름",
-                                                            "${firstResultArray[i]?.name}"
-                                                        )
-                                                        Log.d(
-                                                            "${i}번째 이미지",
-                                                            "${firstResultArray[i]?.imageUrl}"
-                                                        )
-                                                        Log.d(
-                                                            "${i}번째 좋아요",
-                                                            "${firstResultArray[i]?.likes}"
-                                                        )
-                                                        allRecipesList.add(
-                                                            AllRecipesData(
-                                                                firstResultArray[i]?.imageUrl,
-                                                                firstResultArray[i]?.name,
-                                                                firstResultArray[i]?.likes
+                                                        Log.d("다음 배열", "${firstResultArray}")
+
+                                                        for (i in 0 until moreResult?.data!!.size) {
+                                                            firstResultIdArray.add(firstResultArray[i]?.id)
+                                                            firstResultNameArray.add(firstResultArray[i]?.name)
+                                                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                                                            firstResultLikesArray.add(firstResultArray[i]?.likes)
+                                                            Log.d(
+                                                                "${i}번째 아이디",
+                                                                "${firstResultArray[i]?.id}"
                                                             )
-                                                        )
-                                                        Log.d("아이디 배열 결과", "${firstResultIdArray}")
-                                                        adapter.notifyDataSetChanged()
-                                                        isLoading = false
+                                                            Log.d(
+                                                                "${i}번째 이름",
+                                                                "${firstResultArray[i]?.name}"
+                                                            )
+                                                            Log.d(
+                                                                "${i}번째 이미지",
+                                                                "${firstResultArray[i]?.imageUrl}"
+                                                            )
+                                                            Log.d(
+                                                                "${i}번째 좋아요",
+                                                                "${firstResultArray[i]?.likes}"
+                                                            )
+                                                            allRecipesList.add(
+                                                                AllRecipesData(
+                                                                    firstResultArray[i]?.imageUrl,
+                                                                    firstResultArray[i]?.name,
+                                                                    firstResultArray[i]?.likes
+                                                                )
+                                                            )
+                                                            Log.d("아이디 배열 결과", "${firstResultIdArray}")
+                                                            adapter.notifyDataSetChanged()
+                                                            isLoading = false
+                                                        }
                                                     }
                                                 }
 
                                                 override fun onFailure(
-                                                    call: Call<ZipdabangRecipes>,
+                                                    call: Call<ZipdabangRecipesAll>,
                                                     t: Throwable
                                                 ) {
                                                     Log.d("추가 레시피 불러오기", "실패")
@@ -298,7 +307,7 @@ class OurRecipeFragment: Fragment() {
                     })
                 }
 
-                override fun onFailure(call: Call<ZipdabangRecipes>, t: Throwable) {
+                override fun onFailure(call: Call<ZipdabangRecipesAll>, t: Throwable) {
                     Log.d("전체 카테고리 레시피 Get", "실패")
                 }
 

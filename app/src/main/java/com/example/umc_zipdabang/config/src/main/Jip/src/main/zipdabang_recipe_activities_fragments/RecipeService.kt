@@ -43,14 +43,14 @@ interface RecipeService {
     @GET ("/recipes/user-recipe")
     fun getAllOurRecipes(
         @Header("x-access-token") token: String?,
-    ): Call<ZipdabangRecipes>
+    ): Call<ZipdabangRecipesAll>
 
     // 우리들의 레시피 전체 불러오기 - 스크롤
     @GET ("/recipes/user-recipe")
     fun getAllUserRecipesScrolled(
         @Header("x-access-token") token: String?,
         @Query("last") last: Int?
-    ): Call<ZipdabangRecipes>
+    ): Call<ZipdabangRecipesAll>
 
 
     // 개별 레시피 get

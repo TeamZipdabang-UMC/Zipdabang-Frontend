@@ -1,4 +1,4 @@
-package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments
+package com.example.umc_zipdabang.config.src.main.Our
 
 import android.os.Bundle
 import android.util.Log
@@ -6,13 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.AllRecipesData
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.BeverageRecipesData
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageLoadingRVAdapter
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageRecipesRVAdapter
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.CoffeeLoadingRVAdapter
-import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeInfo
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipes
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.TeaRecipesData
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.TeaLoadingRVAdapter
+import com.example.umc_zipdabang.databinding.ActivityOurRecipeTeaBinding
+import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeTeaBinding
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,40 +21,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Runnable
 
-class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
-    private lateinit var viewBinding: ActivityZipdabangRecipeBeverageBinding
+class OurRecipeTeaActivity: AppCompatActivity() {
+    private lateinit var viewBinding: ActivityOurRecipeTeaBinding
 
     private var isLoading = false
     var grid = 2
-    val beverageRecipesList: ArrayList<BeverageRecipesData> = arrayListOf()
+    val teaRecipesList: ArrayList<TeaRecipesData> = arrayListOf()
 
-    private lateinit var beverageRecipesRVAdapter: BeverageLoadingRVAdapter
+    private lateinit var teaRecipesRVAdapter: TeaOurLoadingRVAdapter
 
-    val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+    // private 맞는지 확인 필요
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewBinding = ActivityZipdabangRecipeBeverageBinding.inflate(layoutInflater)
+        viewBinding = ActivityOurRecipeTeaBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-
-//        val beverageRecipesList: ArrayList<BeverageRecipesData> = arrayListOf()
-//        beverageRecipesList.apply {
-//            // add(AllRecipesData(사진, 커피명, 좋아요 수)
-//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465847-c47c7299-a045-43f1-8a27-4599222aca50.png", "아메리카노", 150))
-//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465911-3fb5bba0-b2d3-4d76-95c1-b043780b5178.png", "카라멜마끼아또", 2000))
-//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465847-c47c7299-a045-43f1-8a27-4599222aca50.png", "아메리카노", 150))
-//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465911-3fb5bba0-b2d3-4d76-95c1-b043780b5178.png", "카라멜마끼아또", 2000))
-//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465847-c47c7299-a045-43f1-8a27-4599222aca50.png", "아메리카노", 150))
-//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465911-3fb5bba0-b2d3-4d76-95c1-b043780b5178.png", "카라멜마끼아또", 2000))
-//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465847-c47c7299-a045-43f1-8a27-4599222aca50.png", "아메리카노", 150))
-//            add(BeverageRecipesData("https://user-images.githubusercontent.com/101035437/212465911-3fb5bba0-b2d3-4d76-95c1-b043780b5178.png", "카라멜마끼아또", 2000))
-//        }
-//
-//        val beverageRecipesRVAdapter = BeverageRecipesRVAdapter(beverageRecipesList)
-//
-//        viewBinding.rvZipdabangRecipeBeverage.adapter = beverageRecipesRVAdapter
-//        viewBinding.rvZipdabangRecipeBeverage.layoutManager = GridLayoutManager(this, 2)
 
         val recipeRetrofit = Retrofit.Builder()
             .baseUrl("http://zipdabang.store:3000")
@@ -69,14 +52,14 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
             val token = tokenDb.tokenDao().getToken()
             val tokenNum = token.token
             Log.d("토큰 넘버", "${tokenNum}")
-            recipeService.getCategoryRecipes(tokenNum, 2, 0, 1).enqueue(object :
+            recipeService.getCategoryRecipes(tokenNum, 3, 0, 0).enqueue(object :
                 Callback<ZipdabangRecipes> {
                 override fun onResponse(
                     call: Call<ZipdabangRecipes>,
                     response: Response<ZipdabangRecipes>
                 ) {
                     val result = response.body()
-                    Log.d("Bev. 카테고리 레시피 Get 성공", "${result}")
+                    Log.d("Tea 카테고리 레시피 Get 성공", "${result}")
                     var firstResultArray = arrayListOf<RecipeInfo?>()
                     for (i in 0 until result?.data!!.size) {
                         val firstResult = result?.data?.get(i)
@@ -98,19 +81,20 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                         Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
                         Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
                         Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-
-                        beverageRecipesList.add(
-                            BeverageRecipesData(
+                        teaRecipesList.add(
+                            TeaRecipesData(
                                 firstResultArray[i]?.imageUrl,
                                 firstResultArray[i]?.name,
                                 firstResultArray[i]?.likes
                             )
                         )
+
                     }
-                    beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this@ZipdabangRecipeBeverageActivity, beverageRecipesList, firstResultIdArray)
-                    layoutManager = GridLayoutManager(this@ZipdabangRecipeBeverageActivity, 2)
-                    viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
-                    viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
+                    teaRecipesRVAdapter = TeaOurLoadingRVAdapter(this@OurRecipeTeaActivity, teaRecipesList, firstResultIdArray)
+                    layoutManager = GridLayoutManager(this@OurRecipeTeaActivity, 2)
+
+                    viewBinding.rvOurRecipeTea.setLayoutManager(layoutManager)
+                    viewBinding.rvOurRecipeTea.setAdapter(teaRecipesRVAdapter)
                     layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
 
@@ -121,7 +105,7 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 
 
                             }
-                            else if ((position % 12 == 0) && position == (beverageRecipesList.size-1))
+                            else if ((position % 12 == 0) && position == (teaRecipesList.size-1))
                             {
 
                                 return 2
@@ -135,33 +119,34 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                         }
                     })
 
-                    viewBinding.rvZipdabangRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    // 시작
+                    viewBinding.rvOurRecipeTea.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                             super.onScrolled(recyclerView, dx, dy)
                             if (!isLoading) {
-                                if (viewBinding.rvZipdabangRecipeBeverage.layoutManager != null && (viewBinding.rvZipdabangRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
+                                if (viewBinding.rvOurRecipeTea.layoutManager != null && (viewBinding.rvOurRecipeTea.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (teaRecipesList.size - 1)) {
                                     //리스트 마지막o
 //                                    moreItems()
 
                                     val runnable = Runnable {
 
-                                        beverageRecipesList.add(BeverageRecipesData(null, null, null))
+                                        teaRecipesList.add(TeaRecipesData(null, null, null))
                                         Log.d("insert before", "msg")
-                                        beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
+                                        teaRecipesRVAdapter.notifyItemInserted(teaRecipesList.size - 1)
 
                                     }
 
-                                    viewBinding.rvZipdabangRecipeBeverage.post(runnable)
+                                    viewBinding.rvOurRecipeTea.post(runnable)
 
                                     GlobalScope.launch {
                                         delay(2000)
                                         withContext(Dispatchers.Main) {
-                                            beverageRecipesList.removeAt(beverageRecipesList.size - 1)
-                                            val scrollToPosition = beverageRecipesList.size
-                                            beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+                                            teaRecipesList.removeAt(teaRecipesList.size - 1)
+                                            val scrollToPosition = teaRecipesList.size
+                                            teaRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 
-                                            recipeService.getCategoryRecipesScroll(tokenNum, 2, firstResultIdArray.get(firstResultIdArray.size-1), 0, 1).enqueue(object: Callback<ZipdabangRecipes> {
+                                            recipeService.getCategoryRecipesScroll(tokenNum, 3,firstResultIdArray.get(firstResultIdArray.size-1), 0, 0).enqueue(object: Callback<ZipdabangRecipes> {
                                                 override fun onResponse(
                                                     call: Call<ZipdabangRecipes>,
                                                     response: Response<ZipdabangRecipes>
@@ -189,15 +174,15 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                                                             Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
                                                             Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
                                                             Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-                                                            beverageRecipesList.add(
-                                                                BeverageRecipesData(
+                                                            teaRecipesList.add(
+                                                                TeaRecipesData(
                                                                     firstResultArray[i]?.imageUrl,
                                                                     firstResultArray[i]?.name,
                                                                     firstResultArray[i]?.likes
                                                                 )
                                                             )
                                                             Log.d("아이디 배열 결과", "${firstResultIdArray}")
-                                                            beverageRecipesRVAdapter.notifyDataSetChanged()
+                                                            teaRecipesRVAdapter.notifyDataSetChanged()
                                                             isLoading = false
                                                         }
                                                     }
@@ -214,304 +199,268 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                                         }
                                     }
 
-//                                    CoroutineScope(mainDispatcher).launch {
-//                                        delay(2000)
-//                                        val runnable2 = Runnable {
-//
-//
-//
-//                                        }
-//                                        runnable2.run()
-//
-//                                    }
-
-
                                     isLoading = true
 
                                 }
                             }
                         }
                     })
-
-
-
+                    // 끝
 
 //                    setData()
 //                    initAdapter()
 //                    initScrollListener()
-
                 }
 
                 override fun onFailure(call: Call<ZipdabangRecipes>, t: Throwable) {
-                    Log.d("Bev. 카테고리 레시피 Get", "실패")
+                    Log.d("Tea 카테고리 레시피 Get", "실패")
                 }
             })
         }
 
 
+//        setData()
+//        initAdapter()
+//        initScrollListener()
+
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
 
-            finish()
+            viewBinding.toolbarBackarrow.setOnClickListener{
+                // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
+                finish()
+            }
         }
     }
 
+
 //    private fun setData() {
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//        beverageRecipesList.add(
-//            BeverageRecipesData(
+//        teaRecipesList.add(
+//            TeaRecipesData(
 //                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                12
 //            )
 //        )
-//
 //    }
 //
-//
 //    private fun initAdapter() {
-//        beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this, beverageRecipesList)
+//        teaRecipesRVAdapter = TeaLoadingRVAdapter(this, teaRecipesList)
 //        layoutManager = GridLayoutManager(this, 2)
-//        viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
-//        viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
+//        viewBinding.rvZipdabangRecipeTea.layoutManager = layoutManager
+//        viewBinding.rvZipdabangRecipeTea.adapter = teaRecipesRVAdapter
 //
-//        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+//        layoutManager.setSpanSizeLookup(object: GridLayoutManager.SpanSizeLookup() {
 //            override fun getSpanSize(position: Int): Int {
-//
-//                if (position == 0)
-//                {
-//
+//                if (position == 0) {
 //                    return 1
-//
-//
 //                }
-//                else if ((position % 12 == 0) && position == (beverageRecipesList.size-1))
-//                {
-//
+//                else if ((position % 12 == 0) && position == (teaRecipesList.size-1)) {
 //                    return 2
 //                }
-//                else
-//                {
-//
+//                else {
 //                    return 1
 //                }
-//
 //            }
 //        })
 //    }
 //
 //    private fun initScrollListener() {
-//
-//        viewBinding.rvZipdabangRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-//
+//        viewBinding.rvZipdabangRecipeTea.setOnScrollListener(object: RecyclerView.OnScrollListener() {
 //            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 //                super.onScrolled(recyclerView, dx, dy)
 //                if (!isLoading) {
-//                    if (viewBinding.rvZipdabangRecipeBeverage.layoutManager != null && (viewBinding.rvZipdabangRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
-//                        //리스트 마지막o
+//                    if (viewBinding.rvZipdabangRecipeTea.layoutManager != null && (viewBinding.rvZipdabangRecipeTea.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (teaRecipesList.size-1)) {
 //                        moreItems()
 //                        isLoading = true
-//
 //                    }
 //                }
 //            }
 //        })
 //    }
 //
-//
 //    private fun moreItems() {
 //        val runnable = Runnable {
-//
-//            beverageRecipesList.add(BeverageRecipesData(null, null, null))
-//
+//            teaRecipesList.add(TeaRecipesData(null, null, null))
 //            Log.d("insert before", "msg")
-//
-//            beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
-//
-//
-//
-//
+//            teaRecipesRVAdapter.notifyItemInserted(teaRecipesList.size - 1)
 //
 //        }
-//        viewBinding.rvZipdabangRecipeBeverage.post(runnable)
+//        viewBinding.rvZipdabangRecipeTea.post(runnable)
 //
 //        CoroutineScope(mainDispatcher).launch {
 //            delay(2000)
 //            val runnable2 = Runnable {
+//                teaRecipesList.removeAt(teaRecipesList.size-1)
+//                val scrollToPosition = teaRecipesList.size
+//                teaRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 //
-//                beverageRecipesList.removeAt(beverageRecipesList.size - 1)
-//                val scrollToPosition = beverageRecipesList.size
-//                beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
-//
-//
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
-//                beverageRecipesList.add(
-//                    BeverageRecipesData(
+//                teaRecipesList.add(
+//                    TeaRecipesData(
 //                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
 //                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
 //                        12
 //                    )
 //                )
 //
-//
-//                beverageRecipesRVAdapter.notifyDataSetChanged()
+//                teaRecipesRVAdapter.notifyDataSetChanged()
 //                isLoading = false
-//
 //            }
 //            runnable2.run()
 //        }
 //    }
-
 }

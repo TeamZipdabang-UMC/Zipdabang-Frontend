@@ -1,4 +1,4 @@
-package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments
+package com.example.umc_zipdabang.config.src.main.Our
 
 import android.os.Bundle
 import android.util.Log
@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.AllRecipesData
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeInfo
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipes
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.BeverageRecipesData
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageLoadingRVAdapter
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageRecipesRVAdapter
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.CoffeeLoadingRVAdapter
+import com.example.umc_zipdabang.databinding.ActivityOurRecipeBeverageBinding
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
 import kotlinx.coroutines.*
 import retrofit2.Call
@@ -21,20 +21,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Runnable
 
-class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
-    private lateinit var viewBinding: ActivityZipdabangRecipeBeverageBinding
+class OurRecipeBeverageActivity: AppCompatActivity() {
+    private lateinit var viewBinding: ActivityOurRecipeBeverageBinding
 
     private var isLoading = false
     var grid = 2
     val beverageRecipesList: ArrayList<BeverageRecipesData> = arrayListOf()
 
-    private lateinit var beverageRecipesRVAdapter: BeverageLoadingRVAdapter
+    private lateinit var beverageRecipesRVAdapter: BeverageOurLoadingRVAdapter
 
     val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewBinding = ActivityZipdabangRecipeBeverageBinding.inflate(layoutInflater)
+        viewBinding = ActivityOurRecipeBeverageBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
@@ -65,11 +65,16 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 
         lateinit var firstResult: List<RecipeInfo>
 
+        val firstResultIdArray = arrayListOf<Int?>()
+        val firstResultNameArray = arrayListOf<String?>()
+        val firstResultImgUrlArray = ArrayList<String?>()
+        val firstResultLikesArray = ArrayList<Int?>()
+
         GlobalScope.launch(Dispatchers.IO) {
             val token = tokenDb.tokenDao().getToken()
             val tokenNum = token.token
             Log.d("토큰 넘버", "${tokenNum}")
-            recipeService.getCategoryRecipes(tokenNum, 2, 0, 1).enqueue(object :
+            recipeService.getCategoryRecipes(tokenNum, 2, 0, 0).enqueue(object :
                 Callback<ZipdabangRecipes> {
                 override fun onResponse(
                     call: Call<ZipdabangRecipes>,
@@ -84,33 +89,33 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                         Log.d("첫번째 배열", "${firstResultArray}")
                     }
 
-                    val firstResultIdArray = arrayListOf<Int?>()
-                    val firstResultNameArray = arrayListOf<String?>()
-                    val firstResultImgUrlArray = ArrayList<String?>()
-                    val firstResultLikesArray = ArrayList<Int?>()
+                    if (firstResultArray != null) {
+                        for (i in 0 until firstResultArray.size) {
+                            firstResultIdArray.add(firstResultArray[i]?.id)
+                            firstResultNameArray.add(firstResultArray[i]?.name)
+                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                            firstResultLikesArray.add(firstResultArray[i]?.likes)
+                            Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                            Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                            Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                            Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
 
-                    for (i in 0 until firstResultArray.size) {
-                        firstResultIdArray.add(firstResultArray[i]?.id)
-                        firstResultNameArray.add(firstResultArray[i]?.name)
-                        firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                        firstResultLikesArray.add(firstResultArray[i]?.likes)
-                        Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
-                        Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
-                        Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
-                        Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-
-                        beverageRecipesList.add(
-                            BeverageRecipesData(
-                                firstResultArray[i]?.imageUrl,
-                                firstResultArray[i]?.name,
-                                firstResultArray[i]?.likes
+                            beverageRecipesList.add(
+                                BeverageRecipesData(
+                                    firstResultArray[i]?.imageUrl,
+                                    firstResultArray[i]?.name,
+                                    firstResultArray[i]?.likes
+                                )
                             )
-                        )
+                        }
                     }
-                    beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this@ZipdabangRecipeBeverageActivity, beverageRecipesList, firstResultIdArray)
-                    layoutManager = GridLayoutManager(this@ZipdabangRecipeBeverageActivity, 2)
-                    viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
-                    viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
+
+
+
+                    beverageRecipesRVAdapter = BeverageOurLoadingRVAdapter(this@OurRecipeBeverageActivity, beverageRecipesList, firstResultIdArray)
+                    layoutManager = GridLayoutManager(this@OurRecipeBeverageActivity, 2)
+                    viewBinding.rvOurRecipeBeverage.setLayoutManager(layoutManager)
+                    viewBinding.rvOurRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
                     layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
 
@@ -135,12 +140,12 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                         }
                     })
 
-                    viewBinding.rvZipdabangRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    viewBinding.rvOurRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
                         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                             super.onScrolled(recyclerView, dx, dy)
                             if (!isLoading) {
-                                if (viewBinding.rvZipdabangRecipeBeverage.layoutManager != null && (viewBinding.rvZipdabangRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
+                                if (viewBinding.rvOurRecipeBeverage.layoutManager != null && (viewBinding.rvOurRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
                                     //리스트 마지막o
 //                                    moreItems()
 
@@ -152,7 +157,7 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
 
                                     }
 
-                                    viewBinding.rvZipdabangRecipeBeverage.post(runnable)
+                                    viewBinding.rvOurRecipeBeverage.post(runnable)
 
                                     GlobalScope.launch {
                                         delay(2000)
@@ -161,7 +166,7 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                                             val scrollToPosition = beverageRecipesList.size
                                             beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 
-                                            recipeService.getCategoryRecipesScroll(tokenNum, 2, firstResultIdArray.get(firstResultIdArray.size-1), 0, 1).enqueue(object: Callback<ZipdabangRecipes> {
+                                            recipeService.getCategoryRecipesScroll(tokenNum, 2, firstResultIdArray.get(firstResultIdArray.size-1), 0, 0).enqueue(object: Callback<ZipdabangRecipes> {
                                                 override fun onResponse(
                                                     call: Call<ZipdabangRecipes>,
                                                     response: Response<ZipdabangRecipes>
