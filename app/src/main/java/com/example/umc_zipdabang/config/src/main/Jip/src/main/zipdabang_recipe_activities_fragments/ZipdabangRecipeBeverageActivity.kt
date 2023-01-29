@@ -10,6 +10,7 @@ import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_d
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.BeverageRecipesData
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.CoffeeRecipesData
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageLoadingRVAdapter
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.BeverageRecipesRVAdapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.CoffeeLoadingRVAdapter
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeBeverageBinding
 import kotlinx.coroutines.*
@@ -63,8 +64,6 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
         val tokenDb = TokenDatabase.getTokenDatabase(this)
 
         lateinit var firstResult: List<RecipeInfo>
-        beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this, beverageRecipesList)
-        layoutManager = GridLayoutManager(this, 2)
 
         GlobalScope.launch(Dispatchers.IO) {
             val token = tokenDb.tokenDao().getToken()
@@ -108,7 +107,8 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
                             )
                         )
                     }
-
+                    beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this@ZipdabangRecipeBeverageActivity, beverageRecipesList, firstResultIdArray)
+                    layoutManager = GridLayoutManager(this@ZipdabangRecipeBeverageActivity, 2)
                     viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
                     viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
                     layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
@@ -252,262 +252,262 @@ class ZipdabangRecipeBeverageActivity: AppCompatActivity() {
         }
     }
 
-    private fun setData() {
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        beverageRecipesList.add(
-            BeverageRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-
-    }
-
-
-    private fun initAdapter() {
-        beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this, beverageRecipesList)
-        layoutManager = GridLayoutManager(this, 2)
-        viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
-        viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
-
-        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-
-                if (position == 0)
-                {
-
-                    return 1
-
-
-                }
-                else if ((position % 12 == 0) && position == (beverageRecipesList.size-1))
-                {
-
-                    return 2
-                }
-                else
-                {
-
-                    return 1
-                }
-
-            }
-        })
-    }
-
-    private fun initScrollListener() {
-
-        viewBinding.rvZipdabangRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading) {
-                    if (viewBinding.rvZipdabangRecipeBeverage.layoutManager != null && (viewBinding.rvZipdabangRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
-                        //리스트 마지막o
-                        moreItems()
-                        isLoading = true
-
-                    }
-                }
-            }
-        })
-    }
-
-
-    private fun moreItems() {
-        val runnable = Runnable {
-
-            beverageRecipesList.add(BeverageRecipesData(null, null, null))
-
-            Log.d("insert before", "msg")
-
-            beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
-
-
-
-
-
-        }
-        viewBinding.rvZipdabangRecipeBeverage.post(runnable)
-
-        CoroutineScope(mainDispatcher).launch {
-            delay(2000)
-            val runnable2 = Runnable {
-
-                beverageRecipesList.removeAt(beverageRecipesList.size - 1)
-                val scrollToPosition = beverageRecipesList.size
-                beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
-
-
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                beverageRecipesList.add(
-                    BeverageRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-
-
-                beverageRecipesRVAdapter.notifyDataSetChanged()
-                isLoading = false
-
-            }
-            runnable2.run()
-        }
-    }
+//    private fun setData() {
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        beverageRecipesList.add(
+//            BeverageRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//
+//    }
+//
+//
+//    private fun initAdapter() {
+//        beverageRecipesRVAdapter = BeverageLoadingRVAdapter(this, beverageRecipesList)
+//        layoutManager = GridLayoutManager(this, 2)
+//        viewBinding.rvZipdabangRecipeBeverage.setLayoutManager(layoutManager)
+//        viewBinding.rvZipdabangRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
+//
+//        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+//            override fun getSpanSize(position: Int): Int {
+//
+//                if (position == 0)
+//                {
+//
+//                    return 1
+//
+//
+//                }
+//                else if ((position % 12 == 0) && position == (beverageRecipesList.size-1))
+//                {
+//
+//                    return 2
+//                }
+//                else
+//                {
+//
+//                    return 1
+//                }
+//
+//            }
+//        })
+//    }
+//
+//    private fun initScrollListener() {
+//
+//        viewBinding.rvZipdabangRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+//
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                if (!isLoading) {
+//                    if (viewBinding.rvZipdabangRecipeBeverage.layoutManager != null && (viewBinding.rvZipdabangRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
+//                        //리스트 마지막o
+//                        moreItems()
+//                        isLoading = true
+//
+//                    }
+//                }
+//            }
+//        })
+//    }
+//
+//
+//    private fun moreItems() {
+//        val runnable = Runnable {
+//
+//            beverageRecipesList.add(BeverageRecipesData(null, null, null))
+//
+//            Log.d("insert before", "msg")
+//
+//            beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
+//
+//
+//
+//
+//
+//        }
+//        viewBinding.rvZipdabangRecipeBeverage.post(runnable)
+//
+//        CoroutineScope(mainDispatcher).launch {
+//            delay(2000)
+//            val runnable2 = Runnable {
+//
+//                beverageRecipesList.removeAt(beverageRecipesList.size - 1)
+//                val scrollToPosition = beverageRecipesList.size
+//                beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+//
+//
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                beverageRecipesList.add(
+//                    BeverageRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//
+//
+//                beverageRecipesRVAdapter.notifyDataSetChanged()
+//                isLoading = false
+//
+//            }
+//            runnable2.run()
+//        }
+//    }
 
 }

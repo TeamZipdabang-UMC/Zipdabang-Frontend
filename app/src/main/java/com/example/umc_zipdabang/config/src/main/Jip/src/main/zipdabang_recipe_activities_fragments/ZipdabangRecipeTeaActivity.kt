@@ -46,8 +46,6 @@ class ZipdabangRecipeTeaActivity: AppCompatActivity() {
         val tokenDb = TokenDatabase.getTokenDatabase(this)
 
         lateinit var firstResult: List<RecipeInfo>
-        teaRecipesRVAdapter = TeaLoadingRVAdapter(this, teaRecipesList)
-        layoutManager = GridLayoutManager(this, 2)
 
         GlobalScope.launch(Dispatchers.IO) {
             val token = tokenDb.tokenDao().getToken()
@@ -91,6 +89,9 @@ class ZipdabangRecipeTeaActivity: AppCompatActivity() {
                         )
 
                     }
+                    teaRecipesRVAdapter = TeaLoadingRVAdapter(this@ZipdabangRecipeTeaActivity, teaRecipesList, firstResultIdArray)
+                    layoutManager = GridLayoutManager(this@ZipdabangRecipeTeaActivity, 2)
+
                     viewBinding.rvZipdabangRecipeTea.setLayoutManager(layoutManager)
                     viewBinding.rvZipdabangRecipeTea.setAdapter(teaRecipesRVAdapter)
                     layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
@@ -228,233 +229,233 @@ class ZipdabangRecipeTeaActivity: AppCompatActivity() {
     }
 
 
-    private fun setData() {
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        teaRecipesList.add(
-            TeaRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-    }
-
-    private fun initAdapter() {
-        teaRecipesRVAdapter = TeaLoadingRVAdapter(this, teaRecipesList)
-        layoutManager = GridLayoutManager(this, 2)
-        viewBinding.rvZipdabangRecipeTea.layoutManager = layoutManager
-        viewBinding.rvZipdabangRecipeTea.adapter = teaRecipesRVAdapter
-
-        layoutManager.setSpanSizeLookup(object: GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                if (position == 0) {
-                    return 1
-                }
-                else if ((position % 12 == 0) && position == (teaRecipesList.size-1)) {
-                    return 2
-                }
-                else {
-                    return 1
-                }
-            }
-        })
-    }
-
-    private fun initScrollListener() {
-        viewBinding.rvZipdabangRecipeTea.setOnScrollListener(object: RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading) {
-                    if (viewBinding.rvZipdabangRecipeTea.layoutManager != null && (viewBinding.rvZipdabangRecipeTea.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (teaRecipesList.size-1)) {
-                        moreItems()
-                        isLoading = true
-                    }
-                }
-            }
-        })
-    }
-
-    private fun moreItems() {
-        val runnable = Runnable {
-            teaRecipesList.add(TeaRecipesData(null, null, null))
-            Log.d("insert before", "msg")
-            teaRecipesRVAdapter.notifyItemInserted(teaRecipesList.size - 1)
-
-        }
-        viewBinding.rvZipdabangRecipeTea.post(runnable)
-
-        CoroutineScope(mainDispatcher).launch {
-            delay(2000)
-            val runnable2 = Runnable {
-                teaRecipesList.removeAt(teaRecipesList.size-1)
-                val scrollToPosition = teaRecipesList.size
-                teaRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
-
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                teaRecipesList.add(
-                    TeaRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-
-                teaRecipesRVAdapter.notifyDataSetChanged()
-                isLoading = false
-            }
-            runnable2.run()
-        }
-    }
+//    private fun setData() {
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        teaRecipesList.add(
+//            TeaRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//    }
+//
+//    private fun initAdapter() {
+//        teaRecipesRVAdapter = TeaLoadingRVAdapter(this, teaRecipesList)
+//        layoutManager = GridLayoutManager(this, 2)
+//        viewBinding.rvZipdabangRecipeTea.layoutManager = layoutManager
+//        viewBinding.rvZipdabangRecipeTea.adapter = teaRecipesRVAdapter
+//
+//        layoutManager.setSpanSizeLookup(object: GridLayoutManager.SpanSizeLookup() {
+//            override fun getSpanSize(position: Int): Int {
+//                if (position == 0) {
+//                    return 1
+//                }
+//                else if ((position % 12 == 0) && position == (teaRecipesList.size-1)) {
+//                    return 2
+//                }
+//                else {
+//                    return 1
+//                }
+//            }
+//        })
+//    }
+//
+//    private fun initScrollListener() {
+//        viewBinding.rvZipdabangRecipeTea.setOnScrollListener(object: RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                if (!isLoading) {
+//                    if (viewBinding.rvZipdabangRecipeTea.layoutManager != null && (viewBinding.rvZipdabangRecipeTea.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (teaRecipesList.size-1)) {
+//                        moreItems()
+//                        isLoading = true
+//                    }
+//                }
+//            }
+//        })
+//    }
+//
+//    private fun moreItems() {
+//        val runnable = Runnable {
+//            teaRecipesList.add(TeaRecipesData(null, null, null))
+//            Log.d("insert before", "msg")
+//            teaRecipesRVAdapter.notifyItemInserted(teaRecipesList.size - 1)
+//
+//        }
+//        viewBinding.rvZipdabangRecipeTea.post(runnable)
+//
+//        CoroutineScope(mainDispatcher).launch {
+//            delay(2000)
+//            val runnable2 = Runnable {
+//                teaRecipesList.removeAt(teaRecipesList.size-1)
+//                val scrollToPosition = teaRecipesList.size
+//                teaRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+//
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                teaRecipesList.add(
+//                    TeaRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//
+//                teaRecipesRVAdapter.notifyDataSetChanged()
+//                isLoading = false
+//            }
+//            runnable2.run()
+//        }
+//    }
 }

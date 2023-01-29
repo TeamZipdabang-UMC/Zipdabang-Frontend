@@ -46,8 +46,12 @@ class ZipdabangRecipeAdeActivity: AppCompatActivity() {
 
         lateinit var firstResult: List<RecipeInfo>
 
-        adeRecipesRVAdapter = AdeLoadingRVAdapter(this, adeRecipesList)
-        layoutManager = GridLayoutManager(this, 2)
+        val firstResultIdArray = arrayListOf<Int?>()
+        val firstResultNameArray = arrayListOf<String?>()
+        val firstResultImgUrlArray = ArrayList<String?>()
+        val firstResultLikesArray = ArrayList<Int?>()
+
+
 
         GlobalScope.launch(Dispatchers.IO) {
             val token = tokenDb.tokenDao().getToken()
@@ -68,10 +72,7 @@ class ZipdabangRecipeAdeActivity: AppCompatActivity() {
                         Log.d("첫번째 배열", "${firstResultArray}")
                     }
 
-                    val firstResultIdArray = arrayListOf<Int?>()
-                    val firstResultNameArray = arrayListOf<String?>()
-                    val firstResultImgUrlArray = ArrayList<String?>()
-                    val firstResultLikesArray = ArrayList<Int?>()
+
 
                     for (i in 0 until firstResultArray.size) {
                         firstResultIdArray.add(firstResultArray[i]?.id)
@@ -89,8 +90,12 @@ class ZipdabangRecipeAdeActivity: AppCompatActivity() {
                                 firstResultArray[i]?.likes
                             )
                         )
-                    }
 
+
+                    }
+                    Log.d("Id 목록", "${firstResultIdArray}")
+                    adeRecipesRVAdapter = AdeLoadingRVAdapter(this@ZipdabangRecipeAdeActivity, adeRecipesList, firstResultIdArray)
+                    layoutManager = GridLayoutManager(this@ZipdabangRecipeAdeActivity, 2)
                     viewBinding.rvZipdabangRecipeAde.setLayoutManager(layoutManager)
                     viewBinding.rvZipdabangRecipeAde.setAdapter(adeRecipesRVAdapter)
                     layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
@@ -237,259 +242,259 @@ class ZipdabangRecipeAdeActivity: AppCompatActivity() {
         }
     }
 
-    private fun setData() {
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-        adeRecipesList.add(
-            AdeRecipesData(
-                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                12
-            )
-        )
-    }
-
-
-    private fun initAdapter() {
-        adeRecipesRVAdapter = AdeLoadingRVAdapter(this, adeRecipesList)
-        layoutManager = GridLayoutManager(this, 2)
-        viewBinding.rvZipdabangRecipeAde.setLayoutManager(layoutManager)
-        viewBinding.rvZipdabangRecipeAde.setAdapter(adeRecipesRVAdapter)
-
-        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-
-                if (position == 0)
-                {
-
-                    return 1
-
-
-                }
-                else if ((position % 12 == 0) && position == (adeRecipesList.size-1))
-                {
-
-                    return 2
-                }
-                else
-                {
-
-                    return 1
-                }
-
-            }
-        })
-    }
-
-    private fun initScrollListener() {
-
-        viewBinding.rvZipdabangRecipeAde.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading) {
-                    if (viewBinding.rvZipdabangRecipeAde.layoutManager != null && (viewBinding.rvZipdabangRecipeAde.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (adeRecipesList.size - 1)) {
-                        //리스트 마지막o
-                        moreItems()
-                        isLoading = true
-
-                    }
-                }
-            }
-        })
-    }
-
-
-    private fun moreItems() {
-        val runnable = Runnable {
-
-            adeRecipesList.add(AdeRecipesData(null, null, null))
-
-            Log.d("insert before", "msg")
-
-            adeRecipesRVAdapter.notifyItemInserted(adeRecipesList.size - 1)
-
-
-
-
-
-        }
-        viewBinding.rvZipdabangRecipeAde.post(runnable)
-
-        CoroutineScope(mainDispatcher).launch {
-            delay(2000)
-            val runnable2 = Runnable {
-
-                adeRecipesList.removeAt(adeRecipesList.size - 1)
-                val scrollToPosition = adeRecipesList.size
-                adeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
-
-
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-                adeRecipesList.add(
-                    AdeRecipesData(
-                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                        12
-                    )
-                )
-
-                adeRecipesRVAdapter.notifyDataSetChanged()
-                isLoading = false
-
-            }
-            runnable2.run()
-        }
-    }
+//    private fun setData() {
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//        adeRecipesList.add(
+//            AdeRecipesData(
+//                "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                12
+//            )
+//        )
+//    }
+//
+//
+//    private fun initAdapter() {
+//        adeRecipesRVAdapter = AdeLoadingRVAdapter(this, adeRecipesList, )
+//        layoutManager = GridLayoutManager(this, 2)
+//        viewBinding.rvZipdabangRecipeAde.setLayoutManager(layoutManager)
+//        viewBinding.rvZipdabangRecipeAde.setAdapter(adeRecipesRVAdapter)
+//
+//        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+//            override fun getSpanSize(position: Int): Int {
+//
+//                if (position == 0)
+//                {
+//
+//                    return 1
+//
+//
+//                }
+//                else if ((position % 12 == 0) && position == (adeRecipesList.size-1))
+//                {
+//
+//                    return 2
+//                }
+//                else
+//                {
+//
+//                    return 1
+//                }
+//
+//            }
+//        })
+//    }
+//
+//    private fun initScrollListener() {
+//
+//        viewBinding.rvZipdabangRecipeAde.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+//
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                if (!isLoading) {
+//                    if (viewBinding.rvZipdabangRecipeAde.layoutManager != null && (viewBinding.rvZipdabangRecipeAde.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (adeRecipesList.size - 1)) {
+//                        //리스트 마지막o
+//                        moreItems()
+//                        isLoading = true
+//
+//                    }
+//                }
+//            }
+//        })
+//    }
+//
+//
+//    private fun moreItems() {
+//        val runnable = Runnable {
+//
+//            adeRecipesList.add(AdeRecipesData(null, null, null))
+//
+//            Log.d("insert before", "msg")
+//
+//            adeRecipesRVAdapter.notifyItemInserted(adeRecipesList.size - 1)
+//
+//
+//
+//
+//
+//        }
+//        viewBinding.rvZipdabangRecipeAde.post(runnable)
+//
+//        CoroutineScope(mainDispatcher).launch {
+//            delay(2000)
+//            val runnable2 = Runnable {
+//
+//                adeRecipesList.removeAt(adeRecipesList.size - 1)
+//                val scrollToPosition = adeRecipesList.size
+//                adeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+//
+//
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//                adeRecipesList.add(
+//                    AdeRecipesData(
+//                        "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
+//                        "어르신도 좋아하실만한 담백한 블루베리 요거트",
+//                        12
+//                    )
+//                )
+//
+//                adeRecipesRVAdapter.notifyDataSetChanged()
+//                isLoading = false
+//
+//            }
+//            runnable2.run()
+//        }
+//    }
 }

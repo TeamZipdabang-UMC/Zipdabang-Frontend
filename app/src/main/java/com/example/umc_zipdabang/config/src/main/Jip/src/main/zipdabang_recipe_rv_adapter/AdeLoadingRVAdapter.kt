@@ -3,19 +3,26 @@ package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeAdeActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.AdeRecipesData
 import com.example.umc_zipdabang.databinding.ItemLoadingBinding
 import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.NonDisposableHandle.parent
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.converter.gson.GsonConverterFactory
 
-class AdeLoadingRVAdapter(private val context: ZipdabangRecipeAdeActivity, private var dataList: ArrayList<AdeRecipesData>) :
+class AdeLoadingRVAdapter(private val context: ZipdabangRecipeAdeActivity, private var dataList: ArrayList<AdeRecipesData>, private var idList: ArrayList<Int?>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun update(list : ArrayList<AdeRecipesData>){
@@ -29,7 +36,7 @@ class AdeLoadingRVAdapter(private val context: ZipdabangRecipeAdeActivity, priva
 
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(context: Context, item: AdeRecipesData) {
+        fun bind(context: Context, item: AdeRecipesData, idList: ArrayList<Int?>) {
 
             binding.tvRecipePreview.text= item.ade
             binding.tvLikes.text=item.likes.toString()
@@ -39,8 +46,20 @@ class AdeLoadingRVAdapter(private val context: ZipdabangRecipeAdeActivity, priva
             binding.ivRecipePreview.clipToOutline = true
 
             itemView.setOnClickListener {
-                val intent = Intent(itemView.context, ZipdabangRecipeDetailActivity::class.java)
-                intent.run { itemView.context.startActivity(this)}
+                GlobalScope.launch(Dispatchers.IO) {
+                    val recipeSelectRetrofit = retrofit2.Retrofit.Builder()
+                        .baseUrl("http://zipdabang.store:3000")
+                        .addConverterFactory(GsonConverterFactory.create()).build()
+                    val recipeSelectService = recipeSelectRetrofit.create(RecipeService::class.java)
+                    withContext(Dispatchers.Main) {
+                        val recipeLocation = adapterPosition
+                        val selectedRecipeCommentId = idList[adapterPosition]
+                        Log.d("클릭된 레시피의 Id", "${selectedRecipeCommentId}")
+                        val sendIntent = Intent(itemView.context, ZipdabangRecipeDetailActivity::class.java)
+                        sendIntent.putExtra("recipeId", "${selectedRecipeCommentId?.toString()}")
+                        sendIntent.run { itemView.context.startActivity(this)}
+                    }
+                }
             }
 
         }
@@ -61,7 +80,7 @@ class AdeLoadingRVAdapter(private val context: ZipdabangRecipeAdeActivity, priva
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (holder is ItemViewHolder) {
-            holder.bind(context, dataList[position])
+            holder.bind(context, dataList[position], idList)
         } else if (holder is LoadingViewHolder) {
             holder.bind(context, dataList[position])
         }

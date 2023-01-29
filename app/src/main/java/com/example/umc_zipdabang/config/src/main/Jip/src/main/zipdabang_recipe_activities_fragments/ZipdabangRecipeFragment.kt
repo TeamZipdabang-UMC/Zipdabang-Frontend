@@ -131,14 +131,28 @@ class ZipdabangRecipeFragment: Fragment() {
             }
             val tokenNum = token.token
             Log.d("토큰 넘버", "${tokenNum}")
-            recipeService.getAllZipdabangRecipes(tokenNum).enqueue(object :Callback<ZipdabangRecipes> {
+//            recipeService.getAllZipdabangRecipes(tokenNum).enqueue(object : Callback<ZipdabangRecipesAll> {
+//                override fun onResponse(
+//                    call: Call<ZipdabangRecipesAll>,
+//                    response: Response<ZipdabangRecipesAll>
+//                ) {
+//                    TODO("Not yet implemented")
+//                }
+//
+//                override fun onFailure(call: Call<ZipdabangRecipesAll>, t: Throwable) {
+//                    TODO("Not yet implemented")
+//                }
+//
+//            })
+
+            recipeService.getAllZipdabangRecipes(tokenNum).enqueue(object : Callback<ZipdabangRecipesAll> {
                 override fun onResponse(
-                    call: Call<ZipdabangRecipes>,
-                    response: Response<ZipdabangRecipes>
+                    call: Call<ZipdabangRecipesAll>,
+                    response: Response<ZipdabangRecipesAll>
                 ) {
                     val result = response.body()
                     Log.d("집다방 레시피 초기 Get 성공", "${result}")
-                    var firstResultArray = arrayListOf<RecipeInfo?>()
+                    var firstResultArray = arrayListOf<RecipeInfoAll?>()
                     for (i in 0 until result?.data!!.size) {
                         val firstResult = result?.data?.get(i)
                         firstResultArray.add(firstResult)
@@ -215,15 +229,13 @@ class ZipdabangRecipeFragment: Fragment() {
                                             allRecipesList.removeAt(allRecipesList.size - 1)
                                             val scrollToPosition = allRecipesList.size
                                             adapter.notifyItemRemoved(scrollToPosition)
-
-                                            recipeService.getAllZipdabangRecipesScrolled(tokenNum, firstResultIdArray.get(firstResultIdArray.size-1)).enqueue(object: Callback<ZipdabangRecipes> {
+                                            recipeService.getAllZipdabangRecipesScrolled(tokenNum, firstResultIdArray.get(firstResultIdArray.size-1)).enqueue(object: Callback<ZipdabangRecipesAll> {
                                                 override fun onResponse(
-                                                    call: Call<ZipdabangRecipes>,
-                                                    response: Response<ZipdabangRecipes>
+                                                    call: Call<ZipdabangRecipesAll>,
+                                                    response: Response<ZipdabangRecipesAll>
                                                 ) {
-
                                                     var moreResult = response.body()
-                                                    firstResultArray = ArrayList<RecipeInfo?>()
+                                                    firstResultArray = ArrayList<RecipeInfoAll?>()
                                                     Log.d("more result 결과", "${moreResult}")
                                                     for (i in 0 until moreResult?.data!!.size) {
                                                         val moreResultData = moreResult?.data?.get(i)
@@ -256,12 +268,14 @@ class ZipdabangRecipeFragment: Fragment() {
                                                 }
 
                                                 override fun onFailure(
-                                                    call: Call<ZipdabangRecipes>,
+                                                    call: Call<ZipdabangRecipesAll>,
                                                     t: Throwable
                                                 ) {
                                                     Log.d("추가 레시피 불러오기", "실패")
                                                 }
+
                                             })
+
                                         }
                                     }
 
@@ -285,9 +299,10 @@ class ZipdabangRecipeFragment: Fragment() {
                     })
                 }
 
-                override fun onFailure(call: Call<ZipdabangRecipes>, t: Throwable) {
+                override fun onFailure(call: Call<ZipdabangRecipesAll>, t: Throwable) {
                     Log.d("전체 카테고리 레시피 Get", "실패")
                 }
+
             })
         }
 

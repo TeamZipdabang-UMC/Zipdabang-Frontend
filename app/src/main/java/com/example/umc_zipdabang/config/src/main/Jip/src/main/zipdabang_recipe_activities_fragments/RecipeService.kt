@@ -29,14 +29,14 @@ interface RecipeService {
     @GET ("/recipes/official-recipe")
     fun getAllZipdabangRecipes(
         @Header("x-access-token") token: String?,
-    ): Call<ZipdabangRecipes>
+    ): Call<ZipdabangRecipesAll>
 
     // 집다방 레시피 전체 불러오기 - 스크롤
     @GET ("/recipes/official-recipe")
     fun getAllZipdabangRecipesScrolled(
         @Header("x-access-token") token: String?,
         @Query("last") last: Int?
-    ): Call<ZipdabangRecipes>
+    ): Call<ZipdabangRecipesAll>
 
     // 우리들의 레시피 전체 불러오기
     @GET ("/recipes/user-recipe")
