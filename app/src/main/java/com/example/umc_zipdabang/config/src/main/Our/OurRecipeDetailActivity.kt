@@ -44,8 +44,8 @@ class OurRecipeDetailActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityOurRecipeDetailBinding
     private lateinit var viewPager2: ViewPager2
     // 사용자에 따라 달라짐
-    private var like: Boolean = false
-    private var scrap: Boolean = false
+    private var like: Boolean? = false
+    private var scrap: Boolean? = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityOurRecipeDetailBinding.inflate(layoutInflater)
@@ -71,7 +71,7 @@ class OurRecipeDetailActivity: AppCompatActivity() {
         }
 
         viewBinding.ivOurRecipeLike.setOnClickListener {
-            if (!like) {
+            if (!like!!) {
                 like = true
                 viewBinding.ivOurRecipeLike.setImageResource(R.drawable.ic_heart_filled)
 
@@ -104,31 +104,30 @@ class OurRecipeDetailActivity: AppCompatActivity() {
             }
         }
 
-        viewBinding.ivOurRecipeScrap.setOnClickListener {
-            if (!scrap) {
-                scrap = true
-                viewBinding.ivOurRecipeScrap.setImageResource(R.drawable.ic_scrap_filled)
-                var newScrapNum = viewBinding.tvOurRecipeScrapNum.text.toString().toInt() + 1
-                viewBinding.tvOurRecipeScrapNum.text = newScrapNum.toString()
-                showScrapToast()
+        viewBinding.ivOurRecipeScrapUnfilled.setOnClickListener {
+            viewBinding.ivOurRecipeScrapUnfilled.visibility = View.GONE
+            viewBinding.ivOurRecipeScrapFilled.visibility = View.VISIBLE
 
-                GlobalScope.launch(Dispatchers.IO) {
-                    val recipeId = idInt
-                    val token: Token = tokenDb.tokenDao().getToken()
-                    recipeService.pressScrap(token.token, recipeId).enqueue(object: Callback<PressScrapResponse> {
-                        override fun onResponse(
-                            call: Call<PressScrapResponse>,
-                            response: Response<PressScrapResponse>
-                        ) {
-                            Log.d("스크랩 누르기 성공", "${response.body()}")
-                        }
+            var newScrapNum = viewBinding.tvOurRecipeScrapNum.text.toString().toInt() + 1
+            viewBinding.tvOurRecipeScrapNum.text = newScrapNum.toString()
+            showScrapToast()
 
-                        override fun onFailure(call: Call<PressScrapResponse>, t: Throwable) {
-                            Log.d("스크랩 누르기", "실패")
-                        }
+            // 이거 고치기
+            GlobalScope.launch(Dispatchers.IO) {
+                val token: Token = tokenDb.tokenDao().getToken()
+                recipeService.pressScrap(token.token, idInt).enqueue(object: Callback<PressScrapResponse> {
+                    override fun onResponse(
+                        call: Call<PressScrapResponse>,
+                        response: Response<PressScrapResponse>
+                    ) {
+                        Log.d("스크랩 누르기 성공", "${response.body()}")
+                    }
 
-                    })
-                }
+                    override fun onFailure(call: Call<PressScrapResponse>, t: Throwable) {
+                        Log.d("스크랩 누르기 실패", "${t.message}")
+                    }
+                })
+
             }
             // 이거 고치기
 
@@ -188,12 +187,16 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                         viewBinding.ivOurRecipeLike.setImageResource(R.drawable.ic_heart_unfilled)
                     }
 
+                    scrap = scrapped
+
                     if (scrapped == true) {
                         scrap = true
-                        viewBinding.ivOurRecipeScrap.setImageResource(R.drawable.ic_scrap_filled)
+                        viewBinding.ivOurRecipeScrapFilled.visibility = View.VISIBLE
+                        viewBinding.ivOurRecipeScrapUnfilled.visibility = View.INVISIBLE
                     } else {
                         scrap = false
-                        viewBinding.ivOurRecipeScrap.setImageResource(R.drawable.ic_scrap_unfilled)
+                        viewBinding.ivOurRecipeScrapFilled.visibility = View.INVISIBLE
+                        viewBinding.ivOurRecipeScrapUnfilled.visibility = View.VISIBLE
                     }
 
                     if (challengeStatus == 0) {
