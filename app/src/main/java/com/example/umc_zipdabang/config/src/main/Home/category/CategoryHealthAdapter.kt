@@ -7,14 +7,14 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrap
+import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrapp
 import com.example.umc_zipdabang.databinding.ItemInfinteBinding
 import com.example.umc_zipdabang.databinding.ItemLoadingBinding
-import com.example.umc_zipdabang.databinding.ItemMyscrapBeforeEditBinding
 
-class CategoryHealthAdapter(private val context: CategoryHealthActivity, private var dataList: ArrayList<My_Scrap>) :
+class CategoryHealthAdapter(private val context: CategoryHealthActivity, private var dataList: ArrayList<My_Scrapp>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    fun update(list : ArrayList<My_Scrap>){
+    fun update(list : ArrayList<My_Scrapp>){
         this.dataList= list
     }
 
@@ -25,7 +25,7 @@ class CategoryHealthAdapter(private val context: CategoryHealthActivity, private
 
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(context: Context, item: My_Scrap) {
+        fun bind(context: Context, item: My_Scrapp) {
 
             binding.homeTvCategory1.text= item.title
             binding.homeTvHeart1.text=item.heart.toString()
@@ -40,7 +40,7 @@ class CategoryHealthAdapter(private val context: CategoryHealthActivity, private
 
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(context: Context, item: My_Scrap) {
+        fun bind(context: Context, item: My_Scrapp) {
 
 
         }

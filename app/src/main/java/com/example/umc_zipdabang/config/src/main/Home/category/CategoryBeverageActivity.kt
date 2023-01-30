@@ -5,73 +5,128 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrap
+import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrapp
+import com.example.umc_zipdabang.config.src.main.Retrofit.DTO_Scroll_Response
+import com.example.umc_zipdabang.config.src.main.Retrofit.DTO_Scroll_Response2
+import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
 import com.example.umc_zipdabang.databinding.ActivityCategory1Binding
-import com.example.umc_zipdabang.databinding.ActivityCategoryBinding
+import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
 import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.lang.Runnable
 
 class CategoryBeverageActivity : AppCompatActivity() {
 
         private lateinit var binding: ActivityCategory1Binding
-        private var isLoading = false
-        private var scraps: ArrayList<My_Scrap> = arrayListOf()
-        private lateinit var adapter: CategoryBeverageAdapter
-        val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
-        private lateinit var layoutManager: GridLayoutManager
+    var token1: String? = null
+    val service = com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit.retrofit.create(
+        RetrofitMainService::class.java
+    )
 
+    var a=1
+    private var isLoading = false
+    private var scraps: ArrayList<My_Scrapp> = arrayListOf()
+    private lateinit var adapter: CategoryBeverageAdapter
+    val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
+    private lateinit var layoutManager: GridLayoutManager
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-            setData()
-            initAdapter()
-            initScrollListener()
-            binding.tvCategory.text="beverage"
+        binding = ActivityCategory1Binding.inflate(layoutInflater)
+        binding.tvCategory.text="Beverage"
+        setContentView(binding.root)
 
-            binding.myscrapIvBack.setOnClickListener{
+        binding.myscrapIvBack.setOnClickListener{
 
-                onBackPressed()
-
-            }
-
-        }
-
-        private fun setData() {
-
+            onBackPressed()
 
         }
 
 
-        private fun initAdapter() {
-            binding = ActivityCategory1Binding.inflate(layoutInflater)
-            setContentView(binding.root)
-            adapter = CategoryBeverageAdapter(this, scraps)
-            layoutManager = GridLayoutManager(this, 2)
-            binding.categoryRv.setLayoutManager(layoutManager)
-            binding.categoryRv.setAdapter(adapter)
-
-            layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-
-                    if (position == 0) {
-
-                        return 1
+        GlobalScope.launch(Dispatchers.IO){
 
 
-                    } else if ((position % 8 == 0) && position == (scraps.size - 1)) {
 
-                        return 2
-                    } else {
+            val tokenDb = TokenDatabase.getTokenDatabase(this@CategoryBeverageActivity)
+            token1 = tokenDb.tokenDao().getToken().token.toString()
 
-                        return 1
+            var categoryId = 2
+            var is_Main = 1
+            var is_Official = 0
+
+            service.get_Category(categoryId, is_Main, is_Official, token1)?.enqueue(object :
+                Callback<DTO_Scroll_Response> {
+
+                override fun onResponse(
+                    call: Call<DTO_Scroll_Response>,
+                    response: Response<DTO_Scroll_Response>
+
+                ) {
+                    // 정상적으로 통신이 성공된 경우
+                    val result = response.body()
+                    Log.d("마지막", "${result}")
+                    val first_size= result?.data?.size
+                    if (first_size != null) {
+                        if(first_size<12) a=0
+                    }
+                    for (i: Int in 0..first_size!!-1) {
+
+                        scraps.add(
+                            My_Scrapp(
+                                result?.data?.get(i)?.recipeid,
+                                result?.data?.get(i)?.likes,
+                                result?.data?.get(i)?.image,
+                                result?.data?.get(i)?.name
+                            )
+                        )
+
                     }
 
+
+                    adapter = CategoryBeverageAdapter(this@CategoryBeverageActivity, scraps)
+                    layoutManager = GridLayoutManager(this@CategoryBeverageActivity, 2)
+                    binding.categoryRv.setLayoutManager(layoutManager)
+                    binding.categoryRv.setAdapter(adapter)
+
+
+                    layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+
+                            if (position == 0)
+                            {
+
+                                return 1
+
+
+                            }
+                            else if ((position % 12 == 0) && position == (scraps.size-1))
+                            {
+
+                                return 2
+                            }
+                            else
+                            {
+
+                                return 1
+                            }
+
+                        }
+                    })
+                }
+
+
+                override fun onFailure(
+                    call: Call<DTO_Scroll_Response>,
+                    t: Throwable
+                ) {
                 }
             })
-        }
 
-        private fun initScrollListener() {
+
+
 
             binding.categoryRv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
@@ -80,106 +135,87 @@ class CategoryBeverageActivity : AppCompatActivity() {
                     if (!isLoading) {
                         if (binding.categoryRv.layoutManager != null && (binding.categoryRv.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (scraps.size - 1)) {
                             //리스트 마지막o
-                            moreItems()
-                            isLoading = true
+                            if(a==1) {
+                                //     val runnable = Runnable {
+                                Log.d("ssssnull", "??")
+                                Log.d("ssssnull", "${isLoading}")
+                                scraps.add(My_Scrapp(null, null, null, null))
+                                adapter.notifyItemInserted(scraps.size - 1)
+                                isLoading = true
+                            }
+
+                            //  binding.categoryRv.post(runnable)
+                            //
+
+                            CoroutineScope(mainDispatcher).launch {
+                                delay(1000)
+                                val runnable2 = Runnable {
+                                    Log.d("ssss스크랩_bofore drop","${scraps}")
+
+                                    val scrollToPosition = scraps.size
+                                    Log.d("ssss스크랩_after drop","${scraps}")
+                                    //           adapter.notifyItemRemoved(scrollToPosition)
+
+                                    var categoryId= 2
+                                    var is_Main=1
+                                    var is_Official=0
+                                    Log.d("ssss전송 id","${scraps[scraps.size-1].id}")
+                                    service.get_Scroll_Category(categoryId,scraps[scraps.size-2].id,is_Main,is_Official,token1)?.enqueue(object :
+                                        Callback<DTO_Scroll_Response2> {
+
+                                        override fun onResponse(
+                                            call: Call<DTO_Scroll_Response2>,
+                                            response: Response<DTO_Scroll_Response2>
+
+                                        ) {
+                                            // 정상적으로 통신이 성공된 경우
+                                            val result = response.body()
+                                            if(result?.data?.size!! < 12) a=0
+                                            Log.d("ssssscrapsremovebefore","${scraps}")
+                                            scraps.removeAt(scraps.size-1)
+                                            adapter.notifyItemRemoved(scrollToPosition)
+                                            Log.d("ssssresultremoveaft","${scraps}")
+                                            val size= result?.data?.size?.minus(1)
+                                            Log.d("ssss_받은_result","${result}")
+                                            //      scraps.removeAt(scraps.size - 1)
+
+                                            for (i: Int in 0..size!!) {
+                                                scraps.add(
+                                                    My_Scrapp(
+                                                        result?.data?.get(i)?.recipeid,
+                                                        result?.data?.get(i)?.likes,
+                                                        result?.data?.get(i)?.image,
+                                                        result?.data?.get(i)?.name
+                                                    )
+                                                )
+
+                                            }
+                                            Log.d("ssssresultaft2","${scraps}")
+                                            Log.d("ssss######","----------------")
+
+
+
+                                        }
+
+
+                                        override fun onFailure(
+                                            call: Call<DTO_Scroll_Response2>,
+                                            t: Throwable
+                                        ) {
+                                        }
+                                    })
+                                    adapter.notifyDataSetChanged()
+                                    isLoading = false
+                                }
+                                if(a==1)  runnable2.run()
+
+                            }
 
                         }
                     }
                 }
             })
         }
-
-
-        fun moreItems() {
-            val runnable = Runnable {
-
-                scraps.add(My_Scrap(null, null, null))
-
-                Log.d("insert before", "msg")
-
-                adapter.notifyItemInserted(scraps.size - 1)
-
-
-            }
-            binding.categoryRv.post(runnable)
-
-            CoroutineScope(mainDispatcher).launch {
-                delay(2000)
-                val runnable2 = Runnable {
-
-                    scraps.removeAt(scraps.size - 1)
-                    val scrollToPosition = scraps.size
-                    adapter.notifyItemRemoved(scrollToPosition)
-
-
-                    scraps.add(
-                        My_Scrap(
-                            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                            12
-                        )
-                    )
-                    scraps.add(
-                        My_Scrap(
-                            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                            12
-                        )
-                    )
-                    scraps.add(
-                        My_Scrap(
-                            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                            12
-                        )
-                    )
-                    scraps.add(
-                        My_Scrap(
-                            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                            12
-                        )
-                    )
-                    scraps.add(
-                        My_Scrap(
-                            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                            12
-                        )
-                    )
-                    scraps.add(
-                        My_Scrap(
-                            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                            12
-                        )
-                    )
-                    scraps.add(
-                        My_Scrap(
-                            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                            12
-                        )
-                    )
-                    scraps.add(
-                        My_Scrap(
-                            "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg",
-                            "어르신도 좋아하실만한 담백한 블루베리 요거트",
-                            12
-                        )
-                    )
-                    Log.d("change before", "msg")
-
-
-                    adapter.notifyDataSetChanged()
-                    isLoading = false
-
-
-                }
-                runnable2.run()
-
-            }
-
-        }
+    }
     }
 

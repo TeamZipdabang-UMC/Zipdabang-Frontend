@@ -137,35 +137,32 @@ class CategoryAdeActivity : AppCompatActivity() {
                     if (!isLoading) {
                         if (binding.categoryRv.layoutManager != null && (binding.categoryRv.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (scraps.size - 1)) {
                             //리스트 마지막o
-                            Log.d("ssssaa","$a")
-                            if(a==1) {
-                                val runnable = Runnable {
+                           if(a==1) {
+                       //     val runnable = Runnable {
                                     Log.d("ssssnull", "??")
-
+                                     Log.d("ssssnull", "${isLoading}")
                                     scraps.add(My_Scrapp(null, null, null, null))
-
                                     adapter.notifyItemInserted(scraps.size - 1)
+                                    isLoading = true
+                              }
 
-
-                                }
-
-                                binding.categoryRv.post(runnable)
-                            }
+                           //  binding.categoryRv.post(runnable)
+                      //
 
                                 CoroutineScope(mainDispatcher).launch {
-                                    delay(300)
+                                    delay(1000)
                                     val runnable2 = Runnable {
                                         Log.d("ssss스크랩_bofore drop","${scraps}")
-                                        scraps.removeAt(scraps.size - 1)
+
                                         val scrollToPosition = scraps.size
                                           Log.d("ssss스크랩_after drop","${scraps}")
-                                        adapter.notifyItemRemoved(scrollToPosition)
+                             //           adapter.notifyItemRemoved(scrollToPosition)
 
                                         var categoryId= 4
                                         var is_Main=1
                                         var is_Official=0
                                         Log.d("ssss전송 id","${scraps[scraps.size-1].id}")
-                                        service.get_Scroll_Category(categoryId,scraps[scraps.size-1].id,is_Main,is_Official,token1)?.enqueue(object :
+                                        service.get_Scroll_Category(categoryId,scraps[scraps.size-2].id,is_Main,is_Official,token1)?.enqueue(object :
                                             Callback<DTO_Scroll_Response2> {
 
                                             override fun onResponse(
@@ -176,14 +173,13 @@ class CategoryAdeActivity : AppCompatActivity() {
                                                 // 정상적으로 통신이 성공된 경우
                                                 val result = response.body()
                                                 if(result?.data?.size!! < 12) a=0
-
                                                 Log.d("ssssscrapsremovebefore","${scraps}")
                                                scraps.removeAt(scraps.size-1)
+                                                adapter.notifyItemRemoved(scrollToPosition)
                                                 Log.d("ssssresultremoveaft","${scraps}")
                                                 val size= result?.data?.size?.minus(1)
-                                                //Log.d("ssssid","${scraps[scraps.size-1].id}")
                                                 Log.d("ssss_받은_result","${result}")
-
+                                          //      scraps.removeAt(scraps.size - 1)
 
                                                 for (i: Int in 0..size!!) {
                                                     scraps.add(
@@ -213,15 +209,9 @@ class CategoryAdeActivity : AppCompatActivity() {
                                         adapter.notifyDataSetChanged()
                                         isLoading = false
                                     }
-                                    if(a==1) runnable2.run()
-                                    if(a==0) adapter.notifyDataSetChanged()
+                                   if(a==1)  runnable2.run()
+
                                 }
-
-
-                                isLoading = true
-
-
-
 
                         }
                     }
