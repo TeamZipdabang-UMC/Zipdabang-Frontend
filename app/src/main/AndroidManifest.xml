@@ -54,6 +54,14 @@
         <activity android:name=".src.my.MyMyrecipeEditActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".src.setting.MyNoticeActivity" android:exported="true"/>
+        <activity android:name=".src.setting.NoticeDetailActivity" android:exported="true"/>
+        <activity android:name=".src.setting.ActvityTos" android:exported="true"/>
+        <activity android:name=".src.setting.FirstQuestionActivity" android:exported="true"/>
+        <activity android:name=".src.setting.QuestionDetailActivity" android:exported="true"/>
+        <activity android:name=".src.setting.QuestionLookupActivity" android:exported="true"/>
+        <activity android:name=".src.setting.QuitActivity" android:exported="true"/>
+        <activity android:name=".src.setting.MyFAQActivity" android:exported="true"/>
     </application>
 
 </manifest>
