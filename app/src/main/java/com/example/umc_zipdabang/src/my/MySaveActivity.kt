@@ -874,8 +874,8 @@ class MySaveActivity:AppCompatActivity() {
                     }
 
                 })
-
                 dialog_save.dismiss()
+                CustomToast.createToast(applicationContext, "작성 중인 레시피를 임시저장하였어요")?.show()
                 finish()
             }
             dialog_save.show()

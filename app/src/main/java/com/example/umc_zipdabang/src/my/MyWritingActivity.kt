@@ -4,6 +4,7 @@ package com.example.umc_zipdabang.src.my
 import android.Manifest
 import android.Manifest.permission.CAMERA
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -44,9 +45,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -62,20 +61,17 @@ class MyWritingActivity:AppCompatActivity() {
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
     private var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
 
-    //uri 변수명
-    lateinit var photoURI: Uri
 
     //////카테고리 버튼 누르는거 다시
-    //////이미지 지울때 x버튼 미리 안나타나게..x버튼 누르면 이미지 지워지게 ㄱㄱ
 
     //api 업로드한 레시피 보러가기-> 병합후 하자
     //핸드폰 번호 길이->병합후 하자
 
 
+    //이미지 돌아가는 경우 //임시저장 step1 사진
 
-    //recyclerview 터치하면 그 화면으로 이동하는거 해야함->기문이형이랑 ㄱㄱ
-    //업로드 버튼 다썼을때 활성화되게 하기->기문이형이랑 ㄱㄱ
-
+    //사진 손보자
+    //업로드 버튼 다썼을때 활성화되게 하기
 
     ///임시저장 해둔게 있으면 글쓰기 전에 dialog 띄우기
     ///뒤로가기 했을때 dialog 띄우기 & toast 띄우기
@@ -2022,8 +2018,7 @@ class MyWritingActivity:AppCompatActivity() {
 
         return result!!
     }
-
-    private fun getRealPathFromURI(contentURI: Uri): String? {
+   /* private fun getRealPathFromURI(contentURI: Uri): String? {
         val result: String?
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         Log.d("카메라 projection 확인", proj.toString())
@@ -2038,7 +2033,7 @@ class MyWritingActivity:AppCompatActivity() {
             cursor.close()
         }
         return result
-    }
+    }*/
 
 
     private var REQUEST_THUMBNAIL = 1
@@ -2075,7 +2070,7 @@ class MyWritingActivity:AppCompatActivity() {
             Log.i("syTest", "Created File AbsolutePath : $absolutePath")
         }
     }
-
+    //file 생성하고, 생성된 file로부터 uri 생성
     fun getPictureIntent_App_Specific(context: Context): Intent {
         val fullSizeCaptureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         
@@ -2105,7 +2100,33 @@ class MyWritingActivity:AppCompatActivity() {
         }
         return fullSizeCaptureIntent
     }
+    // 절대경로 파악할 때 사용된 메소드
+    fun createCopyAndReturnRealPath(context: Context, uri: Uri): String? {
+        val contentResolver: ContentResolver = context.getContentResolver() ?: return null
 
+        // 파일 경로를 만듬
+        val filePath: String = (context.getApplicationInfo().dataDir + File.separator
+                + System.currentTimeMillis())
+        val file = File(filePath)
+        try {
+            // 매개변수로 받은 uri 를 통해  이미지에 필요한 데이터를 불러 들인다.
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+            // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+            val outputStream: OutputStream = FileOutputStream(file)
+            val buf = ByteArray(1024)
+            var len: Int
+            while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+            outputStream.close()
+            inputStream.close()
+        } catch (ignore: IOException) {
+            return null
+        }
+        return file.getAbsolutePath()
+    }
+
+
+    //uri 변수명
+    lateinit var photoURI: Uri
 
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -2117,21 +2138,31 @@ class MyWritingActivity:AppCompatActivity() {
         if( resultCode == Activity.RESULT_OK) {
             if( requestCode == REQUEST_THUMBNAIL)
             {
-                val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
-                viewBinding.myImage.setImageBitmap(imageBitmap)
-                editor2.putString("thumbnail", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
-
-
                 val imageUri = photoURI
+                val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
+
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
+
+
                 Log.d("카메라 확인","${imageUri}")
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
-                val file = File(getRealPathFromURI(imageUri))
+                val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
                 //maltipart.Part로 변환해준다.
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
                 // thumbnail post
                 retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
@@ -2141,9 +2172,29 @@ class MyWritingActivity:AppCompatActivity() {
 
                             val result = response.body()
                             val data = result?.image?.image
+
                             list.set(0, data.toString())
-                            Log.d("통신",data.toString())
-                            Log.d("통신 리스트", list.get(1))
+                            Log.d("통신", list[0])
+
+                            /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                            Glide.with(this)
+                                .load(imageBitmap)
+                                .centerCrop()
+                                .apply(
+                                    RequestOptions()
+                                        .signature(ObjectKey(System.currentTimeMillis()))
+                                        .skipMemoryCache(true)
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                )
+                                .into(viewBinding.myImage)*/
+
+                            /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
+                            viewBinding.myImage.setImageBitmap(imageBitmap)*/
+
+                             Glide.with(this@MyWritingActivity)
+                                .load(list[0])
+                                .centerCrop()
+                                .into(viewBinding.myImage)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2153,6 +2204,15 @@ class MyWritingActivity:AppCompatActivity() {
                         Log.d("통신",t.message.toString())
                     }
                 })
+
+                /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
+                viewBinding.myImage.setImageBitmap(imageBitmap)
+                editor2.putString("thumbnail", imageBitmap.toString())
+                editor2.apply()
+                sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }*/
+
+
+
             } else if(requestCode == REQUEST_STEP1)
             {
                 val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
@@ -2166,9 +2226,6 @@ class MyWritingActivity:AppCompatActivity() {
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                     )
                     .into(viewBinding.myRecipeRealimageStep)
-                editor2.putString("step1_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step1_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
                 val imageUri :Uri? = data?.data
                 Log.d("확인용1","${imageUri}")
@@ -2196,6 +2253,9 @@ class MyWritingActivity:AppCompatActivity() {
                         Log.d("통신",t.message.toString())
                     }
                 })
+
+
+
             } else if(requestCode == REQUEST_STEP2)
             {
                 val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
@@ -2678,4 +2738,5 @@ class MyWritingActivity:AppCompatActivity() {
         }
         dialog_reallynotsave.show()
     }*/
-}
+    }
+
