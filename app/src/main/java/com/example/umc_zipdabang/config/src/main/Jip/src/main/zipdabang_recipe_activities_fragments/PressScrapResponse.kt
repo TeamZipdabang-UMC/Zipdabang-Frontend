@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class PressScrapResponse(
     @SerializedName("success") val success: Boolean?,
     @SerializedName("data") val data: Any?,
-    @SerializedName("error") val error: String?
+    @SerializedName("error") val error: Any?
 )

@@ -22,13 +22,10 @@ import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.Token
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.*
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.Ingredient
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.RecipeOrder
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.IngredientsRVAdapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.RecipeDetailCommentRVAdapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.RecipeOrderRVAdapter
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBinding
-import com.google.android.gms.auth.TokenData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,8 +38,8 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeDetailBinding
     private lateinit var viewPager2: ViewPager2
     // 사용자에 따라 달라짐
-    private var like: Boolean = false
-    private var scrap: Boolean = false
+    private var like: Boolean? = false
+    private var scrap: Boolean? = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityZipdabangRecipeDetailBinding.inflate(layoutInflater)
@@ -68,13 +65,18 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         }
 
         viewBinding.ivZipdabangRecipeLike.setOnClickListener {
-            if (!like) {
+            if (!like!!) {
                 like = true
                 viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_filled)
+                var newLikeNum = viewBinding.tvZipdabangRecipeLikeNum.text.toString().toInt() + 1
+                viewBinding.tvZipdabangRecipeLikeNum.setText(newLikeNum.toString())
+
                 showLikeToast()
             } else {
                 like = false
                 viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_unfilled)
+                var newLikeNum = viewBinding.tvZipdabangRecipeLikeNum.text.toString().toInt() - 1
+                viewBinding.tvZipdabangRecipeLikeNum.setText(newLikeNum.toString())
                 showLikeCancelToast()
             }
             GlobalScope.launch(Dispatchers.IO) {
@@ -95,17 +97,19 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             }
         }
 
-        viewBinding.ivZipdabangRecipeScrap.setOnClickListener {
-            if (!scrap) {
-                scrap = true
-                viewBinding.ivZipdabangRecipeScrap.setImageResource(R.drawable.ic_scrap_filled)
-                showScrapToast()
-            }
+        viewBinding.ivZipdabangRecipeScrapUnfilled.setOnClickListener {
+
+            viewBinding.ivZipdabangRecipeScrapUnfilled.visibility = View.GONE
+            viewBinding.ivZipdabangRecipeScrapFilled.visibility = View.VISIBLE
+
+            var newScrapNum = viewBinding.tvZipdabangRecipeScrapNum.text.toString().toInt() + 1
+            viewBinding.tvZipdabangRecipeScrapNum.text = newScrapNum.toString()
+            showScrapToast()
+
             // 이거 고치기
             GlobalScope.launch(Dispatchers.IO) {
-                val recipeId = idInt
                 val token: Token = tokenDb.tokenDao().getToken()
-                recipeService.pressScrap(token.token, recipeId).enqueue(object: Callback<PressScrapResponse> {
+                recipeService.pressScrap(token.token, idInt).enqueue(object: Callback<PressScrapResponse> {
                     override fun onResponse(
                         call: Call<PressScrapResponse>,
                         response: Response<PressScrapResponse>
@@ -114,10 +118,11 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<PressScrapResponse>, t: Throwable) {
-                        Log.d("스크랩 누르기", "실패")
+                        Log.d("스크랩 누르기 실패", "${t.message}")
                     }
                 })
             }
+
         }
 
 
@@ -143,6 +148,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     for (i in 0 until ingredients!!.size) {
                         ingredientsList.add(IngredientDetail(ingredients?.get(i)?.name.toString(), ingredients?.get(i)?.quantity.toString()))
                     }
+
 
                     val ingredientsRVAdapter = IngredientsRVAdapter(ingredientsList)
                     viewBinding.rvZipdabangRecipeDetailIngredients.layoutManager = LinearLayoutManager(this@ZipdabangRecipeDetailActivity)
@@ -175,12 +181,16 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                         viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_unfilled)
                     }
 
+                    scrap = scrapped
+
                     if (scrapped == true) {
                         scrap = true
-                        viewBinding.ivZipdabangRecipeScrap.setImageResource(R.drawable.ic_scrap_filled)
+                        viewBinding.ivZipdabangRecipeScrapFilled.visibility = View.VISIBLE
+                        viewBinding.ivZipdabangRecipeScrapUnfilled.visibility = View.GONE
                     } else {
                         scrap = false
-                        viewBinding.ivZipdabangRecipeScrap.setImageResource(R.drawable.ic_scrap_unfilled)
+                        viewBinding.ivZipdabangRecipeScrapFilled.visibility = View.GONE
+                        viewBinding.ivZipdabangRecipeScrapUnfilled.visibility = View.VISIBLE
                     }
 
                     if (challengeStatus == 0) {
@@ -310,11 +320,12 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 val recipeId: Int? = idInt
                 GlobalScope.launch(Dispatchers.IO) {
 
+                    val token: Token = tokenDb.tokenDao().getToken()
                     val commentRetrofit = retrofit2.Retrofit.Builder()
                         .baseUrl("http://zipdabang.store:3000")
                         .addConverterFactory(GsonConverterFactory.create()).build()
                     val commentService = commentRetrofit.create(RecipeService::class.java)
-                    val tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
+                    val tempToken = token.token.toString()
                     withContext(Dispatchers.Main) {
                         commentService.addComment(tempToken, CommentAddBody(recipeId, commentBody)).enqueue(object: Callback<CommentAddResponse> {
                             override fun onResponse(

@@ -346,8 +346,8 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                 // 이거는 나중에 고쳐줘야함!!!
 //                val recipeId: Int = 49
                 GlobalScope.launch(Dispatchers.IO) {
-
-                    val tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
+                    val token: Token = tokenDb.tokenDao().getToken()
+                    val tempToken = token.token.toString()
                     withContext(Dispatchers.Main) {
                         commentService.addComment(tempToken, CommentAddBody(idInt, commentBody)).enqueue(object: Callback<CommentAddResponse> {
                             override fun onResponse(

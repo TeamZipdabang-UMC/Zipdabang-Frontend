@@ -74,10 +74,16 @@ class OurRecipeDetailActivity: AppCompatActivity() {
             if (!like) {
                 like = true
                 viewBinding.ivOurRecipeLike.setImageResource(R.drawable.ic_heart_filled)
+
+                var newLikeNum = viewBinding.tvOurRecipeLikeNum.text.toString().toInt() + 1
+                viewBinding.tvOurRecipeLikeNum.setText(newLikeNum.toString())
                 showLikeToast()
             } else {
                 like = false
                 viewBinding.ivOurRecipeLike.setImageResource(R.drawable.ic_heart_unfilled)
+
+                var newLikeNum = viewBinding.tvOurRecipeLikeNum.text.toString().toInt() - 1
+                viewBinding.tvOurRecipeLikeNum.setText(newLikeNum.toString())
                 showLikeCancelToast()
             }
             GlobalScope.launch(Dispatchers.IO) {
@@ -102,26 +108,30 @@ class OurRecipeDetailActivity: AppCompatActivity() {
             if (!scrap) {
                 scrap = true
                 viewBinding.ivOurRecipeScrap.setImageResource(R.drawable.ic_scrap_filled)
+                var newScrapNum = viewBinding.tvOurRecipeScrapNum.text.toString().toInt() + 1
+                viewBinding.tvOurRecipeScrapNum.text = newScrapNum.toString()
                 showScrapToast()
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    val recipeId = idInt
+                    val token: Token = tokenDb.tokenDao().getToken()
+                    recipeService.pressScrap(token.token, recipeId).enqueue(object: Callback<PressScrapResponse> {
+                        override fun onResponse(
+                            call: Call<PressScrapResponse>,
+                            response: Response<PressScrapResponse>
+                        ) {
+                            Log.d("스크랩 누르기 성공", "${response.body()}")
+                        }
+
+                        override fun onFailure(call: Call<PressScrapResponse>, t: Throwable) {
+                            Log.d("스크랩 누르기", "실패")
+                        }
+
+                    })
+                }
             }
             // 이거 고치기
-            GlobalScope.launch(Dispatchers.IO) {
-                val recipeId = idInt
-                val token: Token = tokenDb.tokenDao().getToken()
-                recipeService.pressScrap(token.token, recipeId).enqueue(object: Callback<PressScrapResponse> {
-                    override fun onResponse(
-                        call: Call<PressScrapResponse>,
-                        response: Response<PressScrapResponse>
-                    ) {
-                        Log.d("스크랩 누르기 성공", "${response.body()}")
-                    }
 
-                    override fun onFailure(call: Call<PressScrapResponse>, t: Throwable) {
-                        Log.d("스크랩 누르기", "실패")
-                    }
-
-                })
-            }
         }
 
 
@@ -210,7 +220,7 @@ class OurRecipeDetailActivity: AppCompatActivity() {
 //                        .into(dialogImageView)
 
                     viewBinding.tvOurRecipeDetailTitle.text = recipeInfo?.name
-                    viewBinding.tvOurRecipeDetailNickname.text = "집다방 레시피"
+                    viewBinding.tvOurRecipeDetailNickname.text = "우리들의 레시피"
                     viewBinding.tvOurRecipeDetailNum.text = recipeInfo?.takeTime.toString()
                     viewBinding.tvOurRecipeDetailDescription.text = recipeInfo?.intro
                     viewBinding.tvOurRecipeDetailTipContent.text = recipeInfo?.review
@@ -314,11 +324,12 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                 val recipeId: Int? = idInt
                 GlobalScope.launch(Dispatchers.IO) {
 
+                    val token: Token = tokenDb.tokenDao().getToken()
                     val commentRetrofit = retrofit2.Retrofit.Builder()
                         .baseUrl("http://zipdabang.store:3000")
                         .addConverterFactory(GsonConverterFactory.create()).build()
                     val commentService = commentRetrofit.create(RecipeService::class.java)
-                    val tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
+                    val tempToken = token.token.toString()
                     withContext(Dispatchers.Main) {
                         commentService.addComment(tempToken, CommentAddBody(recipeId, commentBody)).enqueue(object: Callback<CommentAddResponse> {
                             override fun onResponse(
