@@ -69,6 +69,7 @@ class MyWritingActivity:AppCompatActivity() {
     //////이미지 지울때 x버튼 미리 안나타나게..x버튼 누르면 이미지 지워지게 ㄱㄱ
 
     //api 업로드한 레시피 보러가기-> 병합후 하자
+    //핸드폰 번호 길이->병합후 하자
 
 
 
@@ -2012,6 +2013,7 @@ class MyWritingActivity:AppCompatActivity() {
     }
     fun absolutelyPath(path: Uri?, context : Context): String {
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        Log.d("갤러리 projection 확인", proj.toString())
         var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
         var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         c?.moveToFirst()
@@ -2024,12 +2026,13 @@ class MyWritingActivity:AppCompatActivity() {
     private fun getRealPathFromURI(contentURI: Uri): String? {
         val result: String?
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        Log.d("카메라 projection 확인", proj.toString())
         val cursor = contentResolver.query(contentURI, proj, null, null, null)
         if (cursor == null) { // Source is Dropbox or other similar local file path
             result = contentURI.path
         } else {
             cursor.moveToFirst()
-            cursor.moveToNext()
+            //cursor.moveToNext()
             val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
             result = cursor.getString(idx)
             cursor.close()
@@ -2123,8 +2126,11 @@ class MyWritingActivity:AppCompatActivity() {
 
                 val imageUri = photoURI
                 Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val file = File(getRealPathFromURI(imageUri))
+                //requestbody 객체로 변환한다.
                 val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+                //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
                 // thumbnail post

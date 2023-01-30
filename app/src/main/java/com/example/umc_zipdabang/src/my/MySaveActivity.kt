@@ -800,52 +800,6 @@ class MySaveActivity:AppCompatActivity() {
                 editor.apply()
             }
 
-            /*sharedPreference.getString("category", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("time", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("aftertip", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient1_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient1_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient2_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient2_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient3_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient3_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient4_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient4_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient5_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient5_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient6_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient6_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient7_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient7_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient8_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient8_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient9_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient9_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient10_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient10_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step1_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step2_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step3_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step4_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step5_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step6_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step7_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step8_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step9_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step10_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step1_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step2_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step3_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step4_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step5_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step6_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step7_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step8_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step9_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step10_image", "@")?.let { Log.e(ContentValues.TAG, it) }*/
-
             //임시저장 dialog 띄우기
             binding_save = DialogSaveBinding.inflate(layoutInflater)
             val dialog_save_builder = AlertDialog.Builder(this).setView(binding_save.root)
@@ -1180,10 +1134,6 @@ class MySaveActivity:AppCompatActivity() {
                         t.message?.let { it1 -> Log.d("통신", it1) }
                     }
                 })
-                editor.clear()
-                editor.apply()
-                editor2.clear()
-                editor2.apply()
 
                 //업로드 성공되었습니다 dialog 띄우기
                 dialog_upload.dismiss()
@@ -1198,12 +1148,17 @@ class MySaveActivity:AppCompatActivity() {
                 dialog_uploadsuccess.setCancelable(false)
 
                 sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
-                //여기서 잘안됨
+
                 Glide.with(this)
                     .asBitmap()
                     .load(sharedPreference2.getString("thumbnail",""))
                     .centerCrop()
                     .into(binding_uploadsuccess.myUploadimg)
+
+                editor.clear()
+                editor.apply()
+                editor2.clear()
+                editor2.apply()
 
                 //업로드 레시피 보러가기 눌렀을때
                 binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
