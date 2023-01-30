@@ -155,7 +155,10 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                     val steps = recipeDetailResult?.recipeDataClass?.steps
                     for (i in 0 until ingredients!!.size) {
                         ingredientsList.add(IngredientDetail(ingredients?.get(i)?.name.toString(), ingredients?.get(i)?.quantity.toString()))
+                        Log.d("얻어온 재료", "${ingredients?.get(i)?.name.toString()}")
+                        Log.d("얻어온 재료", "${ingredients?.get(i)?.quantity.toString()}")
                     }
+                    Log.d("재료 리스트", "${ingredientsList}")
 
                     val ingredientsRVAdapter = IngredientsRVAdapter(ingredientsList)
                     viewBinding.rvOurRecipeDetailIngredients.layoutManager = LinearLayoutManager(this@OurRecipeDetailActivity)
