@@ -344,6 +344,61 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                             ) {
                                 val addCommentResult = response.body()
                                 Log.d("레시피 댓글 추가 성공", "${addCommentResult}")
+                                commentService.getThreeComments(tempToken, recipeId).enqueue(object: Callback<ThreeCommentsResponse> {
+                                    override fun onResponse(
+                                        call: Call<ThreeCommentsResponse>,
+                                        response: Response<ThreeCommentsResponse>
+                                    ) {
+                                        var threeCommentsLoadResult = response.body()
+                                        Log.d("상세 레시피 댓글 3개 가져오기 성공", "${threeCommentsLoadResult}")
+                                        var threeLoadComments = threeCommentsLoadResult?.data?.comments
+                                        val threeLoadCommentsList = arrayListOf<ThreeComments?>()
+                                        for (i in 0 until threeLoadComments!!.size) {
+                                            threeLoadCommentsList.add(threeLoadComments?.get(i))
+                                        }
+
+                                        val threeCommentsProfile = arrayListOf<String?>()
+                                        val threeCommentsDateTime = arrayListOf<String?>()
+                                        val threeCommentsNickname = arrayListOf<String?>()
+                                        val threeCommentsContent = arrayListOf<String?>()
+
+                                        var recipeDetailCommentLoadList: ArrayList<Comment> = arrayListOf()
+
+                                        for (i in 0 until threeLoadComments.size) {
+                                            threeCommentsProfile.add(threeLoadCommentsList[i]?.profile)
+                                            val dateTimeArray = threeLoadCommentsList[i]?.createdAt?.split('T')
+                                            val date = dateTimeArray?.get(0)
+                                            val time = dateTimeArray?.get(1)
+
+
+
+
+                                            recipeDetailCommentLoadList.apply {
+                                                add(Comment(
+                                                    threeLoadCommentsList[i]?.profile,
+                                                    threeLoadCommentsList[i]?.nickname,
+                                                    date,
+                                                    time,
+                                                    threeLoadCommentsList[i]?.body,
+                                                    null,
+                                                    null
+                                                )
+                                                )
+                                            }
+                                        }
+                                        val recipeDetailCommentLoadRVAdapter = RecipeDetailCommentRVAdapter(recipeDetailCommentLoadList)
+                                        viewBinding.rvZipdabangRecipeComments.layoutManager = LinearLayoutManager(this@ZipdabangRecipeDetailActivity)
+                                        viewBinding.rvZipdabangRecipeComments.adapter = recipeDetailCommentLoadRVAdapter
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<ThreeCommentsResponse>,
+                                        t: Throwable
+                                    ) {
+                                        Log.d("댓글 반영 실패", "${t.message}")
+                                    }
+
+                                })
 
                             }
 

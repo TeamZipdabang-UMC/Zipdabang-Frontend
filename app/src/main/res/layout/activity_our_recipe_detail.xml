@@ -444,6 +444,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="52dp"
                             android:hint="댓글을 입력하세요."
+                            android:textColorHint="@color/jipdabang_sign_text_gray"
+                            android:textColor="@color/jipdabaing_black"
                             app:layout_constraintTop_toTopOf="@id/view_write_comment"
                             app:layout_constraintBottom_toBottomOf="@id/view_write_comment"
                             app:layout_constraintStart_toStartOf="@id/view_write_comment"
