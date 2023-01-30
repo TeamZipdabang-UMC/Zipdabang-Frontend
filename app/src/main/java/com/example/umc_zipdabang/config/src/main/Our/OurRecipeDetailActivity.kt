@@ -344,7 +344,6 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                             ) {
                                 val addCommentResult = response.body()
                                 Log.d("레시피 댓글 추가 성공", "${addCommentResult}")
-
                             }
 
                             override fun onFailure(call: Call<CommentAddResponse>, t: Throwable) {

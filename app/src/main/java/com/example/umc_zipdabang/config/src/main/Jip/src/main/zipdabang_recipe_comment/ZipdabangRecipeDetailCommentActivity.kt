@@ -368,6 +368,8 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                 }
 
 
+
+
                 Toast(this).apply {
                     duration = Toast.LENGTH_SHORT
                     setGravity(Gravity.BOTTOM, 0, 0)
@@ -432,8 +434,8 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
 
                     val commentPopupExitButton =
                         commentEditDeleteDialogView.findViewById<ImageView>(R.id.btn_comment_control_exit)
-                    val commentPopupEditButton =
-                        commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_edit)
+//                    val commentPopupEditButton =
+//                        commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_edit)
                     val commentPopupDeleteButton =
                         commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_delete)
 
@@ -442,53 +444,53 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                     }
 
                     // 댓글 수정 선택 시
-                    commentPopupEditButton.setOnClickListener {
-                        val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList)
-
-                        val commentEditTokenDb = TokenDatabase.getTokenDatabase(context)
-
-                        val commentEditRetrofit = retrofit2.Retrofit.Builder()
-                            .baseUrl("http://zipdabang.store:3000")
-                            .addConverterFactory(GsonConverterFactory.create()).build()
-                        val commentEditService = commentEditRetrofit.create(RecipeService::class.java)
-                        GlobalScope.launch(Dispatchers.IO) {
-
-                            val commentEditLocation = adapterPosition
-                            val selectedEditComment = commentNumList[adapterPosition]
-                            val selectedEditommentId = selectedEditComment.commentId
-                            val selectedEditCommentOwner = selectedEditComment.commentOwner
-                            val editComment = viewbinding.editTextComment.text.toString()
-
-//                            withContext(Dispatchers.Main) {
-//                                val editToken = commentEditTokenDb.tokenDao().getToken().token
-//                                // 시험용 토큰 넣음. 나중에 바꾸기. editToken으로 바꿀것.
-//                                commentEditService.editComment("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", CommentEditBody(selectedEditCommentOwner, selectedEditommentId, editComment)).enqueue(object : Callback<CommentEditResponse> {
-//                                    override fun onResponse(
-//                                        call: Call<CommentEditResponse>,
-//                                        response: Response<CommentEditResponse>
-//                                    ) {
-//                                        if (response.code() == 200) {
-//                                            Log.d("댓글 수정 가능", "${response.body()}")
-//                                            // 리사이클러뷰에 알리기
+//                    commentPopupEditButton.setOnClickListener {
+//                        val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList)
 //
-//                                            commentInfiniteRVAdapter.notifyItemChanged(adapterPosition)
-//                                        }
-//                                        else if (response.code() == 400) {
-//                                            Log.d("댓글 수정 불가능", "다른 사용자")
-//                                        }
-//                                    }
+//                        val commentEditTokenDb = TokenDatabase.getTokenDatabase(context)
 //
-//                                    override fun onFailure(
-//                                        call: Call<CommentEditResponse>,
-//                                        t: Throwable
-//                                    ) {
-//                                        Log.d("댓글 수정 실패", ":통신 실패")
-//                                    }
-//                                })
-//                            }
-                        }
-
-                    }
+//                        val commentEditRetrofit = retrofit2.Retrofit.Builder()
+//                            .baseUrl("http://zipdabang.store:3000")
+//                            .addConverterFactory(GsonConverterFactory.create()).build()
+//                        val commentEditService = commentEditRetrofit.create(RecipeService::class.java)
+//                        GlobalScope.launch(Dispatchers.IO) {
+//
+//                            val commentEditLocation = adapterPosition
+//                            val selectedEditComment = commentNumList[adapterPosition]
+//                            val selectedEditommentId = selectedEditComment.commentId
+//                            val selectedEditCommentOwner = selectedEditComment.commentOwner
+//                            val editComment = viewbinding.editTextComment.text.toString()
+//
+////                            withContext(Dispatchers.Main) {
+////                                val editToken = commentEditTokenDb.tokenDao().getToken().token
+////                                // 시험용 토큰 넣음. 나중에 바꾸기. editToken으로 바꿀것.
+////                                commentEditService.editComment("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0", CommentEditBody(selectedEditCommentOwner, selectedEditommentId, editComment)).enqueue(object : Callback<CommentEditResponse> {
+////                                    override fun onResponse(
+////                                        call: Call<CommentEditResponse>,
+////                                        response: Response<CommentEditResponse>
+////                                    ) {
+////                                        if (response.code() == 200) {
+////                                            Log.d("댓글 수정 가능", "${response.body()}")
+////                                            // 리사이클러뷰에 알리기
+////
+////                                            commentInfiniteRVAdapter.notifyItemChanged(adapterPosition)
+////                                        }
+////                                        else if (response.code() == 400) {
+////                                            Log.d("댓글 수정 불가능", "다른 사용자")
+////                                        }
+////                                    }
+////
+////                                    override fun onFailure(
+////                                        call: Call<CommentEditResponse>,
+////                                        t: Throwable
+////                                    ) {
+////                                        Log.d("댓글 수정 실패", ":통신 실패")
+////                                    }
+////                                })
+////                            }
+//                        }
+//
+//                    }
 
                     // 댓글 삭제 선택 시
                     commentPopupDeleteButton.setOnClickListener {
@@ -532,7 +534,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                     val selectedDeleteComment = commentNumList[adapterPosition]
                                     val selectedDeleteCommentId = selectedDeleteComment.commentId
                                     val selectedDeleteCommentOwner = selectedDeleteComment.commentOwner
-                                    val tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
+                                    val tempToken = deleteToken.toString()
 
                                     commentDeleteService.deleteComment(tempToken, CommentDeleteBody(selectedDeleteCommentOwner, selectedDeleteCommentId)).enqueue(object : Callback<CommentEditResponse> {
                                         override fun onResponse(
@@ -543,9 +545,22 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                             if (response.code() == 200) {
                                                 val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList)
                                                 Log.d("레시피 댓글 Delete 성공", "${deleteResult}")
-
-                                                commentNumList.removeAt(adapterPosition)
-                                                // 삭제되었어요 토스트 필요
+//
+//                                                commentNumList.removeAt(adapterPosition)
+//                                                // 삭제되었어요 토스트 필요
+//                                                if (response.body()?.error != null) {
+//                                                    Toast(context).apply {
+//                                                        duration = Toast.LENGTH_SHORT
+//                                                        setGravity(Gravity.BOTTOM, 0, 0)
+//                                                        val layout: View = layoutInflater.inflate(
+//                                                            R.layout.toast_comment_delete_layout,
+//                                                            findViewById(R.id.toast_delete)
+//                                                        )
+//                                                        view = layout
+//                                                    }.show()
+//                                                } else {
+//
+//                                                }
 
                                                 commentDeleteDialog.dismiss()
 

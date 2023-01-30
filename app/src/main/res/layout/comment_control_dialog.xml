@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="160dp"
     android:background="@drawable/comment_control_popup">
 
     <ImageView
@@ -16,20 +16,6 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"/>
 
-    <TextView
-        android:id="@+id/btn_comment_edit"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@drawable/btn_delete_or_edit"
-        android:fontFamily="@font/noto_sans"
-        android:gravity="center"
-        android:text="댓글 수정"
-        android:textColor="@color/jipdabaing_black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_comment_control_exit"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp"/>
 
     <TextView
         android:id="@+id/btn_comment_delete"
@@ -41,9 +27,9 @@
         android:text="댓글 삭제"
         android:textColor="#FF0000"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@id/btn_comment_edit"
-        app:layout_constraintStart_toStartOf="@id/btn_comment_edit"
-        app:layout_constraintTop_toBottomOf="@id/btn_comment_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_comment_control_exit"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="12dp"/>
 
