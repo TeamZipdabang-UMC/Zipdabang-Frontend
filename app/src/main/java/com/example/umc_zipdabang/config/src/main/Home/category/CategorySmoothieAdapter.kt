@@ -40,8 +40,8 @@ class CategorySmoothieAdapter(private val context: CategorySmoothieActivity, pri
 
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(context: Context, item: My_Scrapp) {
 
+        fun bind(context: Context, item: My_Scrapp) {
 
         }
 

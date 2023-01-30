@@ -29,7 +29,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class EditScrapActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditscrapBinding
@@ -41,7 +40,6 @@ class EditScrapActivity : AppCompatActivity() {
     )
     private var deletelist: ArrayList<Int> = arrayListOf()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,8 +47,6 @@ class EditScrapActivity : AppCompatActivity() {
         binding = ActivityEditscrapBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-
-
 
         GlobalScope.launch(Dispatchers.IO) {
 
@@ -207,7 +203,4 @@ class EditScrapActivity : AppCompatActivity() {
 
 
     }
-
-
-
 

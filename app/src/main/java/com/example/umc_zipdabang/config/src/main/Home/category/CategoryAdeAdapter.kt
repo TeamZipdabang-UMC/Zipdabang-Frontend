@@ -36,6 +36,7 @@ class CategoryAdeAdapter(private val context: CategoryAdeActivity, private var d
 
         RecyclerView.ViewHolder(binding.root) {
 
+
         fun bind(context: Context, item: My_Scrapp) {
 
 

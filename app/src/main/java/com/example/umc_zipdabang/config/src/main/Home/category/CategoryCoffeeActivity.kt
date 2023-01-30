@@ -20,7 +20,7 @@ import retrofit2.Response
 import java.lang.Runnable
 
 class CategoryCoffeeActivity : AppCompatActivity() {
-        private lateinit var binding: ActivityCategory1Binding
+    private lateinit var binding: ActivityCategory1Binding
     var token1: String? = null
     val service = com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit.retrofit.create(
         RetrofitMainService::class.java
@@ -43,7 +43,6 @@ class CategoryCoffeeActivity : AppCompatActivity() {
         binding.myscrapIvBack.setOnClickListener{
 
             onBackPressed()
-
         }
 
 
@@ -125,8 +124,6 @@ class CategoryCoffeeActivity : AppCompatActivity() {
                 ) {
                 }
             })
-
-
 
 
             binding.categoryRv.setOnScrollListener(object : RecyclerView.OnScrollListener() {

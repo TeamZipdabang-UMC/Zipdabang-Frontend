@@ -16,6 +16,7 @@ class CategoryCoffeeAdapter(private val context: CategoryCoffeeActivity, private
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun update(list : ArrayList<My_Scrapp>){
+
         this.dataList= list
     }
 
@@ -26,7 +27,9 @@ class CategoryCoffeeAdapter(private val context: CategoryCoffeeActivity, private
 
         RecyclerView.ViewHolder(binding.root) {
 
+
         fun bind(context: Context, item: My_Scrapp) {
+
 
             binding.homeTvCategory1.text= item.title
             binding.homeTvHeart1.text=item.heart.toString()
@@ -41,8 +44,8 @@ class CategoryCoffeeAdapter(private val context: CategoryCoffeeActivity, private
 
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(context: Context, item: My_Scrapp) {
 
+        fun bind(context: Context, item: My_Scrapp) {
 
         }
 

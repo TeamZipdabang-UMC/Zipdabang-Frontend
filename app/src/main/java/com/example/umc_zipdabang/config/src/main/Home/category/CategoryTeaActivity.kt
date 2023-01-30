@@ -32,6 +32,7 @@ class CategoryTeaActivity : AppCompatActivity() {
     val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     private lateinit var layoutManager: GridLayoutManager
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,13 +40,12 @@ class CategoryTeaActivity : AppCompatActivity() {
         binding.tvCategory.text="건강 음료"
         setContentView(binding.root)
 
+
         binding.myscrapIvBack.setOnClickListener{
 
             onBackPressed()
 
         }
-
-
         GlobalScope.launch(Dispatchers.IO){
 
 

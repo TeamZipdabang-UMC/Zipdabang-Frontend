@@ -28,7 +28,6 @@ import retrofit2.Response
 
 class HomeFragment : Fragment() {
 
-
     val service = Retrofit.retrofit.create(RetrofitMainService::class.java)
 
     private  var scraps: ArrayList<Main_Scrap> = arrayListOf()
@@ -49,6 +48,7 @@ class HomeFragment : Fragment() {
     //   )
 
     /*   private var coffee : ArrayList<Main_Scrap> = arrayListOf( Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","어르신도 좋아하실만한 담백한 블루베리 요거트",1),
+
         Main_Scrap("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pq7ZzXFO-oPP1bf-rcnsFAVbTIRQgyNwfDQHwvBn2CHmVVNfHD9EgaP2ChFlzdQc1ds&usqp=CAU","맛있게 만들자",12)
     )
 

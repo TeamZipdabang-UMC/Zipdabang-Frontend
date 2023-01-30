@@ -19,7 +19,7 @@ import java.lang.Runnable
 
 class CategoryBeverageActivity : AppCompatActivity() {
 
-        private lateinit var binding: ActivityCategory1Binding
+    private lateinit var binding: ActivityCategory1Binding
     var token1: String? = null
     val service = com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit.retrofit.create(
         RetrofitMainService::class.java
@@ -44,7 +44,6 @@ class CategoryBeverageActivity : AppCompatActivity() {
             onBackPressed()
 
         }
-
 
         GlobalScope.launch(Dispatchers.IO){
 
@@ -124,7 +123,6 @@ class CategoryBeverageActivity : AppCompatActivity() {
                 ) {
                 }
             })
-
 
 
 
@@ -216,6 +214,8 @@ class CategoryBeverageActivity : AppCompatActivity() {
                 }
             })
         }
+
     }
+
     }
 

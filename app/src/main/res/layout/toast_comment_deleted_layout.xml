@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    android:id="@+id/toast_like_cancel">
+
+    <TextView
+        android:id="@+id/toast_like_cancel_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="댓글을 삭제했어요"
+        android:fontFamily="@font/noto_sans"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:background="@drawable/toast_message"
+        android:maxLines="1"/>
+
+</LinearLayout>

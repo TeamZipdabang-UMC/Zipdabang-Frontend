@@ -35,8 +35,6 @@ class MainScrapAdapter(private val context: HomeMainActivity, private val dataLi
 
 
 
-
-
         }
 
     }

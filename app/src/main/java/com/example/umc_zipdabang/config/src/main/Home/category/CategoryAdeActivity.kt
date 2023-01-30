@@ -47,7 +47,6 @@ class CategoryAdeActivity : AppCompatActivity() {
 
             }
 
-
             GlobalScope.launch(Dispatchers.IO){
 
 
@@ -126,8 +125,6 @@ class CategoryAdeActivity : AppCompatActivity() {
                     ) {
                     }
                 })
-
-
 
 
             binding.categoryRv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -212,12 +209,11 @@ class CategoryAdeActivity : AppCompatActivity() {
                                    if(a==1)  runnable2.run()
 
                                 }
-
                         }
                     }
                 }
             })
         }
         }
-
 }
+

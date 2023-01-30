@@ -38,13 +38,12 @@ class CategoryHealthActivity : AppCompatActivity() {
         binding.tvCategory.text="건강 음료"
         setContentView(binding.root)
 
+
         binding.myscrapIvBack.setOnClickListener{
 
             onBackPressed()
 
         }
-
-
         GlobalScope.launch(Dispatchers.IO){
 
 

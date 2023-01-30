@@ -21,12 +21,10 @@ import retrofit2.Response
 
 class MyScapActivity : AppCompatActivity() {
 
-
     private var scraps: ArrayList<My_Scrapp> = arrayListOf()
 
     val service = Retrofit.retrofit.create(RetrofitMainService::class.java)
     var token1: String? = null
-
 
     private lateinit var binding: ActivityMyscrapBinding
 
@@ -35,7 +33,6 @@ class MyScapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMyscrapBinding.inflate(layoutInflater)
-
 
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -115,8 +112,3 @@ class MyScapActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 }
-
-
-
-
-

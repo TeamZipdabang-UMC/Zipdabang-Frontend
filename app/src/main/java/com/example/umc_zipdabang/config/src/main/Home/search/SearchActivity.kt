@@ -253,6 +253,5 @@ class SearchActivity: AppCompatActivity() {
 
 
 
-
     }
 }

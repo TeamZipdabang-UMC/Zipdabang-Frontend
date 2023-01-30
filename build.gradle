@@ -19,5 +19,5 @@ plugins {
 }
 
 ext {
-    navVersion = '2.5.1'
+    navVersion = '2.5.3'
 }
