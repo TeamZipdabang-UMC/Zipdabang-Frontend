@@ -26,6 +26,7 @@ import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_r
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.RecipeDetailCommentRVAdapter
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.RecipeOrderRVAdapter
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBinding
+import com.example.umc_zipdabang.databinding.RecipeSuccessDialogBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,6 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class ZipdabangRecipeDetailActivity: AppCompatActivity() {
+    private lateinit var dialogBinding: RecipeSuccessDialogBinding
     private lateinit var viewBinding: ActivityZipdabangRecipeDetailBinding
     private lateinit var viewPager2: ViewPager2
     // 사용자에 따라 달라짐
@@ -50,6 +52,8 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         val selectedRecipeId = intent.getStringExtra("recipeId")
         Log.d("선택된 레시피의 Id", "${selectedRecipeId}")
         val idInt = selectedRecipeId?.toInt()
+
+        var mainImageUrl: String? = ""
 
         // 리사이클러뷰에 활용할 배열 및 자료구조들
 
@@ -174,6 +178,8 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     val challengersNum = recipeDetailResult?.recipeDataClass?.challenger
                     val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
                     val challengeStatus = recipeDetailResult?.recipeDataClass?.isChallenge
+
+                    mainImageUrl = recipeImageUrl.toString()
 
 //                    mainImageUrl = recipeImageUrl
 
@@ -427,9 +433,10 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 })
             }
 
+            dialogBinding = RecipeSuccessDialogBinding.inflate(layoutInflater)
             val successDialogView = LayoutInflater.from(this).inflate(R.layout.recipe_success_dialog, null)
             val successDialogBuilder = AlertDialog.Builder(this)
-                .setView(successDialogView)
+                .setView(dialogBinding.root)
 
             val successDialog = successDialogBuilder.create()
             successDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -448,12 +455,14 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
 //            Glide.with(this).load(mainImageUrl)
 //                .into(findViewById(R.id.iv_popup_recipe_image))
 
-            exitButton.setOnClickListener {
+            Glide.with(this).load(mainImageUrl)
+                .into(dialogBinding.ivPopupRecipeImage)
+            dialogBinding.ivExitPopup.setOnClickListener {
                 // 없애는 작업
                 successDialog.dismiss()
             }
 
-            commentButton.setOnClickListener {
+            dialogBinding.btnPopupComment.setOnClickListener {
                 // 없애는 작업
                 successDialog.dismiss()
 
@@ -463,7 +472,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 startActivity(commentIntent)
             }
 
-            laterButton.setOnClickListener {
+            dialogBinding.tvPopupCommentLater.setOnClickListener {
                 // 없애는 작업
                 successDialog.dismiss()
             }

@@ -31,6 +31,7 @@ import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_r
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.RecipeOrderRVAdapter
 import com.example.umc_zipdabang.databinding.ActivityOurRecipeDetailBinding
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBinding
+import com.example.umc_zipdabang.databinding.RecipeSuccessDialogBinding
 import com.google.android.gms.auth.TokenData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -41,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class OurRecipeDetailActivity: AppCompatActivity() {
+    private lateinit var dialogBinding: RecipeSuccessDialogBinding
     private lateinit var viewBinding: ActivityOurRecipeDetailBinding
     private lateinit var viewPager2: ViewPager2
     // 사용자에 따라 달라짐
@@ -57,7 +59,7 @@ class OurRecipeDetailActivity: AppCompatActivity() {
         Log.d("선택된 레시피의 Id", "${selectedRecipeId}")
         val idInt = selectedRecipeId?.toInt()
 
-//        var mainImageUrl: String? = ""
+        var mainImageUrl: String? = ""
 
         // 리사이클러뷰에 활용할 배열 및 자료구조들
 
@@ -184,7 +186,9 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                     val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
                     val challengeStatus = recipeDetailResult?.recipeDataClass?.isChallenge
 
-//                    mainImageUrl = recipeImageUrl
+                    mainImageUrl = recipeImageUrl.toString()
+                    Log.d("레시피 메인 이미지 url", "${mainImageUrl}")
+
 
                     if (likeOrNot == true) {
                         like = true
@@ -436,10 +440,9 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                 })
             }
 
+            dialogBinding = RecipeSuccessDialogBinding.inflate(layoutInflater)
             val successDialogView = LayoutInflater.from(this).inflate(R.layout.recipe_success_dialog, null)
-            val successDialogBuilder = AlertDialog.Builder(this)
-                .setView(successDialogView)
-
+            val successDialogBuilder = AlertDialog.Builder(this).setView(dialogBinding.root)
             val successDialog = successDialogBuilder.create()
             successDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             successDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -455,15 +458,16 @@ class OurRecipeDetailActivity: AppCompatActivity() {
             val commentButton = successDialogView.findViewById<TextView>(R.id.btn_popup_comment)
             val laterButton = successDialogView.findViewById<TextView>(R.id.tv_popup_comment_later)
 
-//            Glide.with(this).load(mainImageUrl)
-//                .into(findViewById(R.id.iv_popup_recipe_image))
+            Log.d("팝업 레시피 메인 이미지 url", "${mainImageUrl}")
+            Glide.with(this).load(mainImageUrl)
+                .into(dialogBinding.ivPopupRecipeImage)
 
-            exitButton.setOnClickListener {
+            dialogBinding.ivExitPopup.setOnClickListener {
                 // 없애는 작업
                 successDialog.dismiss()
             }
 
-            commentButton.setOnClickListener {
+            dialogBinding.btnPopupComment.setOnClickListener {
                 // 없애는 작업
                 successDialog.dismiss()
 
@@ -473,7 +477,7 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                 startActivity(commentIntent)
             }
 
-            laterButton.setOnClickListener {
+            dialogBinding.tvPopupCommentLater.setOnClickListener {
                 // 없애는 작업
                 successDialog.dismiss()
             }
