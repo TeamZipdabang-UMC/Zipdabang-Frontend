@@ -103,39 +103,23 @@ class MySaveActivity:AppCompatActivity() {
                 var data = result?.data
 
                 var thumb = data?.thumb
+                var steps = data?.stepImg
+                var step_size = data?.step_size
+
                 list_save[0] = thumb
+                Log.d("통신 tkdlwm",step_size.toString())
 
-                var steps = data?.steps
-                var step_num =steps?.size
-
-                if(step_num != null){
-                    num2 = step_num
-                }
-
-                if(step_num == 0){
-                    for(i: Int in 0..10){
-                        list_save[i]=""
-                    }
+                if(step_size == null){
+                    num2 = 0
                 }else{
-                    for(i : Int in 1..10){
-                        if(steps?.get(i-1)?.image == "null"){
-                            list_save[i] = ""
+                    num2 = step_size
+                    for(i : Int in 0..step_size-1){
+                        list_save[i+1] = steps?.get(i)?.toString()
+                        if(steps?.get(i)?.toString() == "null"){
+                            list_save[i+1] = ""
                         }
-                        list_save[i] = steps?.get(i)?.image
                     }
                 }
-                list_save[0]?.let { Log.d("통신 리스트", it) }
-                list_save[1]?.let { Log.d("통신 리스트", it) }
-                list_save[2]?.let { Log.d("통신 리스트", it) }
-                list_save[3]?.let { Log.d("통신 리스트", it) }
-                list_save[4]?.let { Log.d("통신 리스트", it) }
-                list_save[5]?.let { Log.d("통신 리스트", it) }
-                list_save[6]?.let { Log.d("통신 리스트", it) }
-                list_save[7]?.let { Log.d("통신 리스트", it) }
-                list_save[8]?.let { Log.d("통신 리스트", it) }
-                list_save[9]?.let { Log.d("통신 리스트", it) }
-                list_save[10]?.let { Log.d("통신 리스트", it) }
-
 
                 for(i : Int in 0..10){
                     list[i] = list_save[i].toString()
@@ -151,20 +135,170 @@ class MySaveActivity:AppCompatActivity() {
                 Log.d("통신 리스트",list[8])
                 Log.d("통신 리스트",list[9])
                 Log.d("통신 리스트",list[10])
+
+                //스텝 view들 띄우기
+                if(num2 ==2){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                }else if(num2==3){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                    viewBinding.myStep3.visibility = View.VISIBLE
+                }else if(num2==4){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                    viewBinding.myStep3.visibility = View.VISIBLE
+                    viewBinding.myStep4.visibility = View.VISIBLE
+                }else if(num2==5){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                    viewBinding.myStep3.visibility = View.VISIBLE
+                    viewBinding.myStep4.visibility = View.VISIBLE
+                    viewBinding.myStep5.visibility = View.VISIBLE
+                }else if(num2==6){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                    viewBinding.myStep3.visibility = View.VISIBLE
+                    viewBinding.myStep4.visibility = View.VISIBLE
+                    viewBinding.myStep5.visibility = View.VISIBLE
+                    viewBinding.myStep6.visibility = View.VISIBLE
+                }else if(num2==7){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                    viewBinding.myStep3.visibility = View.VISIBLE
+                    viewBinding.myStep4.visibility = View.VISIBLE
+                    viewBinding.myStep5.visibility = View.VISIBLE
+                    viewBinding.myStep6.visibility = View.VISIBLE
+                    viewBinding.myStep7.visibility = View.VISIBLE
+                }else if(num2==8){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                    viewBinding.myStep3.visibility = View.VISIBLE
+                    viewBinding.myStep4.visibility = View.VISIBLE
+                    viewBinding.myStep5.visibility = View.VISIBLE
+                    viewBinding.myStep6.visibility = View.VISIBLE
+                    viewBinding.myStep7.visibility = View.VISIBLE
+                    viewBinding.myStep8.visibility = View.VISIBLE
+                }else if(num2==9){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                    viewBinding.myStep3.visibility = View.VISIBLE
+                    viewBinding.myStep4.visibility = View.VISIBLE
+                    viewBinding.myStep5.visibility = View.VISIBLE
+                    viewBinding.myStep6.visibility = View.VISIBLE
+                    viewBinding.myStep7.visibility = View.VISIBLE
+                    viewBinding.myStep8.visibility = View.VISIBLE
+                    viewBinding.myStep9.visibility = View.VISIBLE
+                }else if(num2==10){
+                    viewBinding.myStep2.visibility = View.VISIBLE
+                    viewBinding.myStep3.visibility = View.VISIBLE
+                    viewBinding.myStep4.visibility = View.VISIBLE
+                    viewBinding.myStep5.visibility = View.VISIBLE
+                    viewBinding.myStep6.visibility = View.VISIBLE
+                    viewBinding.myStep7.visibility = View.VISIBLE
+                    viewBinding.myStep8.visibility = View.VISIBLE
+                    viewBinding.myStep9.visibility = View.VISIBLE
+                    viewBinding.myStep10.visibility = View.VISIBLE
+                }
+
+                if(list[0] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[0])
+                        .centerCrop()
+                        .into(viewBinding.myImage)
+                    viewBinding.myImage.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn.bringToFront()
+                    Log.d("통신 확인","wpeofh tlfgoddms ehoTsmsep")
+                }
+                if(list[1] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[1])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep)
+                    viewBinding.myRecipeRealimageStep.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn.bringToFront()
+                }
+                if(list[2] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[2])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep2)
+                    viewBinding.myRecipeRealimageStep2.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn2.bringToFront()
+                }
+                if(list[3] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[3])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep3)
+                    viewBinding.myRecipeRealimageStep3.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn3.bringToFront()
+                }
+                if(list[4] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[4])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep4)
+                    viewBinding.myRecipeRealimageStep4.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn4.bringToFront()
+                }
+                if(list[5] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[5])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep5)
+                    viewBinding.myRecipeRealimageStep5.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn5.bringToFront()
+                }
+                if(list[6] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[6])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep6)
+                    viewBinding.myRecipeRealimageStep6.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn6.bringToFront()
+                }
+                if(list[7] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[7])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep7)
+                    viewBinding.myRecipeRealimageStep7.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn7.bringToFront()
+                }
+                if(list[8] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[8])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep8)
+                    viewBinding.myRecipeRealimageStep8.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn8.bringToFront()
+                }
+                if(list[9] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[9])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep9)
+                    viewBinding.myRecipeRealimageStep9.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn9.bringToFront()
+                }
+                if(list[10] != ""){
+                    Glide.with(this@MySaveActivity)
+                        .load(list[10])
+                        .centerCrop()
+                        .into(viewBinding.myRecipeRealimageStep10)
+                    viewBinding.myRecipeRealimageStep10.bringToFront()
+                    viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
+                    viewBinding.myRecipeRealimageXbtn10.bringToFront()
+                }
             }
             override fun onFailure(call: Call<GetNewRecipeSaveImageResponse>, t: Throwable) {
                 Log.d("통신","통신 실패")
             }
 
         })
-
-
-        //임시저장한 이미지 불러오기
-        /* Glide.with(this)
-             .load()
-             .centerCrop()
-             .into(viewBinding.myImage)
-         viewBinding.myImage.bringToFront()*/
 
 
         //임시저장했던 정보들 불러오기 위한 sp
@@ -388,62 +522,7 @@ class MySaveActivity:AppCompatActivity() {
             viewBinding.myLinearIngredient9User.visibility = View.VISIBLE
             viewBinding.myLinearIngredient10User.visibility = View.VISIBLE
         }
-        //스텝 view들 띄우기
-        if(num2 ==2){
-            viewBinding.myStep2.visibility = View.VISIBLE
-        }else if(num2==3){
-            viewBinding.myStep2.visibility = View.VISIBLE
-            viewBinding.myStep3.visibility = View.VISIBLE
-        }else if(num2==4){
-            viewBinding.myStep2.visibility = View.VISIBLE
-            viewBinding.myStep3.visibility = View.VISIBLE
-            viewBinding.myStep4.visibility = View.VISIBLE
-        }else if(num2==5){
-            viewBinding.myStep2.visibility = View.VISIBLE
-            viewBinding.myStep3.visibility = View.VISIBLE
-            viewBinding.myStep4.visibility = View.VISIBLE
-            viewBinding.myStep5.visibility = View.VISIBLE
-        }else if(num2==6){
-            viewBinding.myStep2.visibility = View.VISIBLE
-            viewBinding.myStep3.visibility = View.VISIBLE
-            viewBinding.myStep4.visibility = View.VISIBLE
-            viewBinding.myStep5.visibility = View.VISIBLE
-            viewBinding.myStep6.visibility = View.VISIBLE
-        }else if(num2==7){
-            viewBinding.myStep2.visibility = View.VISIBLE
-            viewBinding.myStep3.visibility = View.VISIBLE
-            viewBinding.myStep4.visibility = View.VISIBLE
-            viewBinding.myStep5.visibility = View.VISIBLE
-            viewBinding.myStep6.visibility = View.VISIBLE
-            viewBinding.myStep7.visibility = View.VISIBLE
-        }else if(num2==8){
-            viewBinding.myStep2.visibility = View.VISIBLE
-            viewBinding.myStep3.visibility = View.VISIBLE
-            viewBinding.myStep4.visibility = View.VISIBLE
-            viewBinding.myStep5.visibility = View.VISIBLE
-            viewBinding.myStep6.visibility = View.VISIBLE
-            viewBinding.myStep7.visibility = View.VISIBLE
-            viewBinding.myStep8.visibility = View.VISIBLE
-        }else if(num2==9){
-            viewBinding.myStep2.visibility = View.VISIBLE
-            viewBinding.myStep3.visibility = View.VISIBLE
-            viewBinding.myStep4.visibility = View.VISIBLE
-            viewBinding.myStep5.visibility = View.VISIBLE
-            viewBinding.myStep6.visibility = View.VISIBLE
-            viewBinding.myStep7.visibility = View.VISIBLE
-            viewBinding.myStep8.visibility = View.VISIBLE
-            viewBinding.myStep9.visibility = View.VISIBLE
-        }else if(num2==10){
-            viewBinding.myStep2.visibility = View.VISIBLE
-            viewBinding.myStep3.visibility = View.VISIBLE
-            viewBinding.myStep4.visibility = View.VISIBLE
-            viewBinding.myStep5.visibility = View.VISIBLE
-            viewBinding.myStep6.visibility = View.VISIBLE
-            viewBinding.myStep7.visibility = View.VISIBLE
-            viewBinding.myStep8.visibility = View.VISIBLE
-            viewBinding.myStep9.visibility = View.VISIBLE
-            viewBinding.myStep10.visibility = View.VISIBLE
-        }
+
         //재료 + 버튼 눌렀을때
         num= ingredient_sp
         viewBinding.myIngredientPlusbtn.setOnClickListener {

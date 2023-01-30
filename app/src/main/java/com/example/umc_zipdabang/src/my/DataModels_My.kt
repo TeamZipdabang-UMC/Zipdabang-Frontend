@@ -37,14 +37,12 @@ data class PostNewRecipeBodyResponse(
 data class GetNewRecipeSaveImageResponse(
     @SerializedName("success") var success : Boolean,
     @SerializedName("data") var data : GetNewRecipeImages,
+    @SerializedName("error") var error : String?
 )
 data class GetNewRecipeImages(
     @SerializedName("thumb") var thumb : String?,
-    @SerializedName("steps") var steps : ArrayList<GetNewRecipeImagesStep>,
-)
-data class GetNewRecipeImagesStep(
-    @SerializedName("stepNum") var stepNum : Int?,
-    @SerializedName("image") var image : String?,
+    @SerializedName("step_size") var step_size : Int,
+    @SerializedName("stepImg") var stepImg : ArrayList<String>,
 )
 
 data class PostNewRecipeSaveImage(

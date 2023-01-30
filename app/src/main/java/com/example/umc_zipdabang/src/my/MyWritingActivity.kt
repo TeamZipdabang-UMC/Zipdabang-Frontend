@@ -12,8 +12,10 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.ImageDecoder
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -26,6 +28,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
@@ -65,17 +68,16 @@ class MyWritingActivity:AppCompatActivity() {
     //////카테고리 버튼 누르는거 다시
     //////이미지 지울때 x버튼 미리 안나타나게..x버튼 누르면 이미지 지워지게 ㄱㄱ
 
+    //api 업로드한 레시피 보러가기-> 병합후 하자
 
 
-    //api 실험 !!! 임시저장 get, 업로드한 레시피 보러가기, 카메라 실험하자
-    //업로드 완료후 이미지 안보임 실험해보자
-    //recyclerview 터치하면 그 화면으로 이동하는거 해야함
-    //업로드 버튼 다썼을때 활성화되게 하기
+
+    //recyclerview 터치하면 그 화면으로 이동하는거 해야함->기문이형이랑 ㄱㄱ
+    //업로드 버튼 다썼을때 활성화되게 하기->기문이형이랑 ㄱㄱ
 
 
     ///임시저장 해둔게 있으면 글쓰기 전에 dialog 띄우기
-    ///뒤로가기 했을때 dialog 띄우기
-    ///toast 띄우기
+    ///뒤로가기 했을때 dialog 띄우기 & toast 띄우기
 
 
     //api post 위한 이미지 url 리스트
@@ -831,10 +833,7 @@ class MyWritingActivity:AppCompatActivity() {
                             t.message?.let { it1 -> Log.d("통신", it1) }
                         }
                     })
-                editor.clear()
-                editor.apply()
-                editor2.clear()
-                editor2.apply()
+
 
                 //업로드 성공되었습니다 dialog 띄우기
                 dialog_upload.dismiss()
@@ -849,12 +848,16 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_uploadsuccess.setCancelable(false)
 
                 sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
-                //여기서 잘안됨
                 Glide.with(this)
                     .asBitmap()
                     .centerCrop()
                     .load(list[0])
                     .into(binding_uploadsuccess.myUploadimg)
+
+                editor.clear()
+                editor.apply()
+                editor2.clear()
+                editor2.apply()
 
                 //업로드 레시피 보러가기 눌렀을때
                 binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
@@ -902,7 +905,6 @@ class MyWritingActivity:AppCompatActivity() {
 
             //카메라에서 가져오기
             binding_camera.myCameraFrame.setOnClickListener{
-
                 REQUEST_THUMBNAIL = 1
                 if(checkPermission()){
                     photoURI = Uri.EMPTY
@@ -2021,12 +2023,12 @@ class MyWritingActivity:AppCompatActivity() {
 
     private fun getRealPathFromURI(contentURI: Uri): String? {
         val result: String?
-        val cursor = contentResolver.query(contentURI, null, null, null, null)
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(contentURI, proj, null, null, null)
         if (cursor == null) { // Source is Dropbox or other similar local file path
             result = contentURI.path
         } else {
             cursor.moveToFirst()
-            cursor.moveToNext()
             cursor.moveToNext()
             val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
             result = cursor.getString(idx)
@@ -2080,6 +2082,7 @@ class MyWritingActivity:AppCompatActivity() {
             createImageFile(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         } catch (ex: IOException) {
             // Error occurred while creating the File
+            Log.d("확인용", "파일 생성 오류뜸")
             ex.printStackTrace()
             null
         }
@@ -2092,6 +2095,7 @@ class MyWritingActivity:AppCompatActivity() {
                 BuildConfig.APPLICATION_ID + ".fileprovider",
                 it
             )
+            Log.d("확인 생성된 file로부터 uri 생성", photoURI.toString())
 
             //3) 생성된 Uri를 Intent에 Put
             fullSizeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
@@ -2390,7 +2394,7 @@ class MyWritingActivity:AppCompatActivity() {
                         Log.d("통신",t.message.toString())
                     }
                 })
-                
+
             }else if(requestCode == REQUEST_STEP7)
             {
                 val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
@@ -2556,6 +2560,88 @@ class MyWritingActivity:AppCompatActivity() {
             }
         }
     }
+
+
+    /*
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if( resultCode == Activity.RESULT_OK) {
+            if( requestCode == REQUEST_THUMBNAIL)
+            {
+                    // 카메라로부터 받은 데이터가 있을경우에만
+
+                val currentPhotoPath
+                val file = File(currentPhotoPath)
+                    if (Build.VERSION.SDK_INT < 28) {
+                        val bitmap = MediaStore.Images.Media
+                                .getBitmap(contentResolver, Uri.fromFile(file))  //Deprecated
+                        viewBinding.myImage.setImageBitmap(bitmap)
+                    }
+                    else{
+                        val decode = ImageDecoder.createSource(this.contentResolver,
+                                Uri.fromFile(file))
+                        val bitmap = ImageDecoder.decodeBitmap(decode)
+                        viewBinding.myImage.setImageBitmap(bitmap)
+                    }
+                }
+            }
+        }
+    }
+
+
+    val REQUEST_IMAGE_CAPTURE = 1
+
+    // 카메라 권한 체크
+    private fun checkPersmission(): Boolean {
+        return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+    }
+
+
+    // 카메라 열기
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            if (takePictureIntent.resolveActivity(this.packageManager) != null) {
+                // 찍은 사진을 그림파일로 만들기
+                val photoFile: File? =
+                    try {
+                        createImageFile()
+                    } catch (ex: IOException) {
+                        Log.d("TAG", "그림파일 만드는도중 에러생김")
+                        null
+                    }
+
+                // 그림파일을 성공적으로 만들었다면 onActivityForResult로 보내기
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this, "com.example.cameraonly.fileprovider", it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
+        }
+    }
+
+
+    // 카메라로 촬영한 이미지를 파일로 저장해준다
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+*/
 
 
 
