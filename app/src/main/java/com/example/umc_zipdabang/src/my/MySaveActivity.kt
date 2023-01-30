@@ -2,6 +2,7 @@ package com.example.umc_zipdabang.src.my
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -16,6 +17,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.PersistableBundle
 import android.provider.MediaStore
 import android.util.Base64
@@ -28,12 +30,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
+import com.example.umc_zipdabang.BuildConfig
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.*
 import okhttp3.MediaType
@@ -42,9 +46,10 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
-import java.io.File
+import java.io.*
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MySaveActivity:AppCompatActivity() {
     private lateinit var viewBinding: ActivityMySaveBinding
@@ -300,12 +305,13 @@ class MySaveActivity:AppCompatActivity() {
 
         })
 
-
         //임시저장했던 정보들 불러오기 위한 sp
         val sharedPreference = getSharedPreferences("writing", 0)
         val editor = sharedPreference.edit() //제목, 카테고리, 시간, 한줄소개, 재료이름, 재료갯수, 스텝설명, 후기, 재료스탭 갯수
         val sharedPreference2 = getSharedPreferences("writing_image", 0)
         val editor2 = sharedPreference2.edit() //이미지의 url을 담음 //썸네일, stp1사진, step2사진, ...
+        editor2.clear()
+        editor2.apply()
 
         var ingredient_sp :Int = sharedPreference.getInt("ingredient",0)
         var step_sp : Int = sharedPreference.getInt("step", 0)
@@ -335,25 +341,15 @@ class MySaveActivity:AppCompatActivity() {
         var ingredient9_quan_sp = sharedPreference.getString("ingredient9_quan","")
         var ingredient10_title_sp = sharedPreference.getString("ingredient10_title","")
         var ingredient10_quan_sp = sharedPreference.getString("ingredient10_quan","")
-        var step1_image_sp = sharedPreference2.getString("step1_image","")
         var step1_describe_sp = sharedPreference.getString("step1_describe","")
-        var step2_image_sp = sharedPreference2.getString("step2_image","")
         var step2_describe_sp = sharedPreference.getString("step2_describe","")
-        var step3_image_sp = sharedPreference2.getString("step3_image","")
         var step3_describe_sp = sharedPreference.getString("step3_describe","")
-        var step4_image_sp = sharedPreference2.getString("step4_image","")
         var step4_describe_sp = sharedPreference.getString("step4_describe","")
-        var step5_image_sp = sharedPreference2.getString("step5_image","")
         var step5_describe_sp = sharedPreference.getString("step5_describe","")
-        var step6_image_sp = sharedPreference2.getString("step6_image","")
         var step6_describe_sp = sharedPreference.getString("step6_describe","")
-        var step7_image_sp = sharedPreference2.getString("step7_image","")
         var step7_describe_sp = sharedPreference.getString("step7_describe","")
-        var step8_image_sp = sharedPreference2.getString("step8_image","")
         var step8_describe_sp = sharedPreference.getString("step8_describe","")
-        var step9_image_sp = sharedPreference2.getString("step9_image","")
         var step9_describe_sp = sharedPreference.getString("step9_describe","")
-        var step10_image_sp = sharedPreference2.getString("step10_image","")
         var step10_describe_sp = sharedPreference.getString("step10_describe","")
 
 
@@ -883,7 +879,6 @@ class MySaveActivity:AppCompatActivity() {
 
         //업로드 버튼 눌렀을때
         viewBinding.myUploadbtn.setOnClickListener {
-            //업로드 할때 sp 필요없음 sp2는 api에서 필요함
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
@@ -945,52 +940,6 @@ class MySaveActivity:AppCompatActivity() {
                 editor.putInt("category", 0)
                 editor.apply()
             }
-
-
-            /*sharedPreference.getString("title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("time", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("aftertip", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient1_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient1_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient2_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient2_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient3_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient3_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient4_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient4_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient5_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient5_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient6_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient6_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient7_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient7_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient8_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient8_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient9_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient9_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient10_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient10_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step1_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step2_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step3_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step4_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step5_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step6_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step7_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step8_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step9_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step10_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step1_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step2_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step3_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step4_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step5_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step6_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step7_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step8_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step9_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step10_image", "@")?.let { Log.e(ContentValues.TAG, it) }*/
 
             //업로드하시겠습니까? 다이얼로그 띄우기
             binding_upload = DialogUploadBinding.inflate(layoutInflater)
@@ -1157,8 +1106,7 @@ class MySaveActivity:AppCompatActivity() {
 
                 editor.clear()
                 editor.apply()
-                editor2.clear()
-                editor2.apply()
+
 
                 //업로드 레시피 보러가기 눌렀을때
                 binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
@@ -1208,10 +1156,10 @@ class MySaveActivity:AppCompatActivity() {
             binding_camera.myCameraFrame.setOnClickListener{
                 REQUEST_THUMBNAIL = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_THUMBNAIL)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_THUMBNAIL)
                     }
                     viewBinding.myImage.bringToFront()
                 }else{
@@ -1245,10 +1193,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_THUMBNAIL = 0
                 REQUEST_STEP1 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP1)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP1)
                     }
                     viewBinding.myRecipeRealimageStep.bringToFront()
                     viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
@@ -1285,10 +1233,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP1 = 0
                 REQUEST_STEP2 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP2)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP2)
                     }
                     viewBinding.myRecipeRealimageStep2.bringToFront()
                     viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
@@ -1327,10 +1275,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP2 = 0
                 REQUEST_STEP3 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP3)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP3)
                     }
                     viewBinding.myRecipeRealimageStep3.bringToFront()
                     viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
@@ -1371,10 +1319,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP3 = 0
                 REQUEST_STEP4 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP4)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP4)
                     }
                     viewBinding.myRecipeRealimageStep4.bringToFront()
                     viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
@@ -1417,10 +1365,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP4 = 0
                 REQUEST_STEP5 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP5)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP5)
                     }
                     viewBinding.myRecipeRealimageStep5.bringToFront()
                     viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
@@ -1465,10 +1413,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP5 = 0
                 REQUEST_STEP6 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP6)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP6)
                     }
                     viewBinding.myRecipeRealimageStep6.bringToFront()
                     viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
@@ -1515,10 +1463,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP6 = 0
                 REQUEST_STEP7 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP7)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP7)
                     }
                     viewBinding.myRecipeRealimageStep7.bringToFront()
                     viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
@@ -1567,10 +1515,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP7 = 0
                 REQUEST_STEP8 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP8)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP8)
                     }
                     viewBinding.myRecipeRealimageStep8.bringToFront()
                     viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
@@ -1621,10 +1569,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP8 = 0
                 REQUEST_STEP9 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP9)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP9)
                     }
                     viewBinding.myRecipeRealimageStep9.bringToFront()
                     viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
@@ -1677,10 +1625,10 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP9 = 0
                 REQUEST_STEP10 = 1
                 if(checkPermission()){
-                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                        takePictureIntent.resolveActivity(packageManager)?.also {
-                            startActivityForResult(takePictureIntent, REQUEST_STEP10)
-                        }
+                    photoURI = Uri.EMPTY
+                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
+                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP10)
                     }
                     viewBinding.myRecipeRealimageStep10.bringToFront()
                     viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
@@ -1714,14 +1662,15 @@ class MySaveActivity:AppCompatActivity() {
 
     private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
+
             val imageUri = result.data?.data ?: return@registerForActivityResult
-            Log.d("확인용","${imageUri}")
+            Log.d("갤러리 확인","${imageUri}")
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+
             //썸네일 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -1742,13 +1691,6 @@ class MySaveActivity:AppCompatActivity() {
             })
 
             //val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,imageUri)
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("thumbnail", imageUri.toString())
-            editor2.apply()
-            sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -1761,30 +1703,31 @@ class MySaveActivity:AppCompatActivity() {
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                 )
                 .into(viewBinding.myImage)
-            /*object : CustomTarget<Bitmap>() {
-                        override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
-                        ) {
-                            val layout = viewBinding.myImage
-                            layout.background = BitmapDrawable(resources, resource)
-                        }
-                        override fun onLoadCleared(placeholder: Drawable?) {
 
-                        }
-                    }*/
+            /*object : CustomTarget<Bitmap>() {
+                     override fun onResourceReady(
+                         resource: Bitmap,
+                         transition: Transition<in Bitmap>?
+                     ) {
+                         val layout = viewBinding.myImage
+                         layout.background = BitmapDrawable(resources, resource)
+                     }
+                     override fun onLoadCleared(placeholder: Drawable?) {
+
+                     }
+                 }*/
         }
     }
     private val imageResult1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val imageUri = result.data?.data ?: return@registerForActivityResult
 
+            val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+
             // step1 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -1804,14 +1747,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step1_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step1_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-
             Glide.with(this)
                 .asBitmap()
                 .centerCrop()
@@ -1828,14 +1763,12 @@ class MySaveActivity:AppCompatActivity() {
     private val imageResult2 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
-
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step2 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -1855,13 +1788,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step2_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step2_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -1879,14 +1805,12 @@ class MySaveActivity:AppCompatActivity() {
     private val imageResult3 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
-
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+
             // step3 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -1895,7 +1819,6 @@ class MySaveActivity:AppCompatActivity() {
                         val data = result?.image?.image
                         list[3] = data.toString()
                         Log.d("통신",data.toString())
-                        Log.d("통신 리스트", list[3])
 
                     }else{
                         Log.d("통신","이미지 전송 실패")
@@ -1905,14 +1828,6 @@ class MySaveActivity:AppCompatActivity() {
                     Log.d("통신",t.message.toString())
                 }
             })
-
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step3_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step3_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -1930,14 +1845,12 @@ class MySaveActivity:AppCompatActivity() {
     private val imageResult4 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
-
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+
             // step4 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -1956,13 +1869,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step4_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step4_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -1984,10 +1890,9 @@ class MySaveActivity:AppCompatActivity() {
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+
             // step5 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -2006,13 +1911,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step5_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step5_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -2030,14 +1928,12 @@ class MySaveActivity:AppCompatActivity() {
     private val imageResult6 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
-
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+
             // step6 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -2056,13 +1952,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step6_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step6_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -2080,14 +1969,12 @@ class MySaveActivity:AppCompatActivity() {
     private val imageResult7 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
-
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage
+
             // step7 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -2106,13 +1993,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step7_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step7_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -2130,14 +2010,12 @@ class MySaveActivity:AppCompatActivity() {
     private val imageResult8 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
-
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+
             // step8 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -2156,13 +2034,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step8_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step8_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -2180,14 +2051,12 @@ class MySaveActivity:AppCompatActivity() {
     private val imageResult9 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
-
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+
             // step9 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -2206,14 +2075,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step9_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step9_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-
             Glide.with(this)
                 .asBitmap()
                 .load(imageUri)
@@ -2230,14 +2091,12 @@ class MySaveActivity:AppCompatActivity() {
     private val imageResult10 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
-
             val file = File(absolutelyPath(imageUri, this))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-            //sendImage(body)
+
             // step10 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object:
-                Callback<PostNewRecipeImageBodyResponse> {
+            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                 override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                     if(response.isSuccessful){
                         Log.d("통신","이미지 전송 성공")
@@ -2256,13 +2115,6 @@ class MySaveActivity:AppCompatActivity() {
                 }
             })
 
-            Log.d("테스트", file.name)
-
-            val sharedPreference2 = getSharedPreferences("writing_image", 0)
-            val editor2 = sharedPreference2.edit()
-            editor2.putString("step10_image", file.name)
-            editor2.apply()
-            sharedPreference2.getString("step10_image", "@")?.let { Log.e(ContentValues.TAG, it) }
 
             Glide.with(this)
                 .asBitmap()
@@ -2323,6 +2175,7 @@ class MySaveActivity:AppCompatActivity() {
     }
     fun absolutelyPath(path: Uri?, context : Context): String {
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        Log.d("갤러리 projection 확인", proj.toString())
         var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
         var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         c?.moveToFirst()
@@ -2331,6 +2184,22 @@ class MySaveActivity:AppCompatActivity() {
 
         return result!!
     }
+    /* private fun getRealPathFromURI(contentURI: Uri): String? {
+         val result: String?
+         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+         Log.d("카메라 projection 확인", proj.toString())
+         val cursor = contentResolver.query(contentURI, proj, null, null, null)
+         if (cursor == null) { // Source is Dropbox or other similar local file path
+             result = contentURI.path
+         } else {
+             cursor.moveToFirst()
+             //cursor.moveToNext()
+             val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+             result = cursor.getString(idx)
+             cursor.close()
+         }
+         return result
+     }*/
 
 
     private var REQUEST_THUMBNAIL = 1
@@ -2356,51 +2225,160 @@ class MySaveActivity:AppCompatActivity() {
                 == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
             Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
     }
+    //빈파일 생성
+    @Throws(IOException::class)
+    fun createImageFile(storageDir: File?): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            Log.i("syTest", "Created File AbsolutePath : $absolutePath")
+        }
+    }
+    //file 생성하고, 생성된 file로부터 uri 생성
+    fun getPictureIntent_App_Specific(context: Context): Intent {
+        val fullSizeCaptureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        //1) File 생성 - 촬영 사진이 저장 될
+        //photoFile 경로 = /storage/emulated/0/Android/data/패키지명/files/Pictures/
+        val photoFile: File? = try {
+            createImageFile(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        } catch (ex: IOException) {
+            // Error occurred while creating the File
+            Log.d("확인용", "파일 생성 오류뜸")
+            ex.printStackTrace()
+            null
+        }
+
+        photoFile?.also {
+            //2) 생성된 File로 부터 Uri 생성 (by FileProvider)
+            //URI 형식 EX) content://com.example.img.fileprovider/cameraImg/JPEG_20211124_202832_6573897384086993610.jpg
+            photoURI = FileProvider.getUriForFile(
+                context,
+                BuildConfig.APPLICATION_ID + ".fileprovider",
+                it
+            )
+            Log.d("확인 생성된 file로부터 uri 생성", photoURI.toString())
+
+            //3) 생성된 Uri를 Intent에 Put
+            fullSizeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+        }
+        return fullSizeCaptureIntent
+    }
+    // 절대경로 파악할 때 사용된 메소드
+    fun createCopyAndReturnRealPath(context: Context, uri: Uri): String? {
+        val contentResolver: ContentResolver = context.getContentResolver() ?: return null
+
+        // 파일 경로를 만듬
+        val filePath: String = (context.getApplicationInfo().dataDir + File.separator
+                + System.currentTimeMillis())
+        val file = File(filePath)
+        try {
+            // 매개변수로 받은 uri 를 통해  이미지에 필요한 데이터를 불러 들인다.
+            val inputStream = contentResolver.openInputStream(uri) ?: return null
+            // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+            val outputStream: OutputStream = FileOutputStream(file)
+            val buf = ByteArray(1024)
+            var len: Int
+            while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+            outputStream.close()
+            inputStream.close()
+        } catch (ignore: IOException) {
+            return null
+        }
+        return file.getAbsolutePath()
+    }
+
+
+    //uri 변수명
+    lateinit var photoURI: Uri
+
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val sharedPreference2 = getSharedPreferences("writing_image", 0)
-        val editor2 = sharedPreference2.edit()
-
         if( resultCode == Activity.RESULT_OK) {
             if( requestCode == REQUEST_THUMBNAIL)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
+
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
+
+
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
+                // thumbnail post
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
+                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
+                        if(response.isSuccessful){
+                            Log.d("통신","이미지 전송 성공")
+
+                            val result = response.body()
+                            val data = result?.image?.image
+
+                            list.set(0, data.toString())
+                            Log.d("통신", list[0])
+
+                            /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                            Glide.with(this)
+                                .load(imageBitmap)
+                                .centerCrop()
+                                .apply(
+                                    RequestOptions()
+                                        .signature(ObjectKey(System.currentTimeMillis()))
+                                        .skipMemoryCache(true)
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                )
+                                .into(viewBinding.myImage)*/
+
+                            /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
+                            viewBinding.myImage.setImageBitmap(imageBitmap)*/
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[0])
+                                .centerCrop()
+                                .into(viewBinding.myImage)
+
+                        }else{
+                            Log.d("통신","이미지 전송 실패")
+                        }
+                    }
+                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
+                        Log.d("통신",t.message.toString())
+                    }
+                })
+
+                /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
                 viewBinding.myImage.setImageBitmap(imageBitmap)
                 editor2.putString("thumbnail", imageBitmap.toString())
                 editor2.apply()
-                sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }
+                sharedPreference2.getString("thumbnail", "@")?.let { Log.e(ContentValues.TAG, it) }*/
 
-                val imageUri = data?.data
-                Log.d("확인용1","${imageUri}")
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-                // thumbnail post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
-
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(0, data.toString())
-                            Log.d("통신",data.toString())
-                            Log.d("통신 리스트", list.get(1))
-
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
             } else if(requestCode == REQUEST_STEP1)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
                 Glide.with(this)
                     .load(imageBitmap)
                     .centerCrop()
@@ -2410,29 +2388,49 @@ class MySaveActivity:AppCompatActivity() {
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                     )
-                    .into(viewBinding.myRecipeRealimageStep)
-                editor2.putString("step1_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step1_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+                    .into(viewBinding.myRecipeRealimageStep)*/
 
-                val imageUri :Uri? = data?.data
-                Log.d("확인용1","${imageUri}")
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
-                Log.d("확인용2","${body}")
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                // step1 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
+
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
+                // thumbnail post
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
 
                             val result = response.body()
                             val data = result?.image?.image
+
                             list.set(1, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신", list[1])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[1])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2442,9 +2440,11 @@ class MySaveActivity:AppCompatActivity() {
                         Log.d("통신",t.message.toString())
                     }
                 })
+
+
             } else if(requestCode == REQUEST_STEP2)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
                 Glide.with(this)
                     .load(imageBitmap)
                     .centerCrop()
@@ -2454,18 +2454,33 @@ class MySaveActivity:AppCompatActivity() {
                             .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                     )
-                    .into(viewBinding.myRecipeRealimageStep2)
-                editor2.putString("step2_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step2_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+                    .into(viewBinding.myRecipeRealimageStep2)*/
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
+
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
                 // step2 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2473,7 +2488,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(2, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신",list[2])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[2])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep2)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2483,31 +2503,36 @@ class MySaveActivity:AppCompatActivity() {
                         Log.d("통신",t.message.toString())
                     }
                 })
+
             }else if(requestCode == REQUEST_STEP3)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep3)
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                editor2.putString("step3_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step3_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
 
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
                 // step3 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2515,7 +2540,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(3, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신",list[3])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[3])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep3)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2527,29 +2557,34 @@ class MySaveActivity:AppCompatActivity() {
                 })
             }else if(requestCode == REQUEST_STEP4)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep4)
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                editor2.putString("step4_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step4_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
 
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
+
                 // step4 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2557,7 +2592,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(4, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신",list[4])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[4])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep4)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2569,29 +2609,34 @@ class MySaveActivity:AppCompatActivity() {
                 })
             }else if(requestCode == REQUEST_STEP5)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep5)
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                editor2.putString("step5_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step5_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
 
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
+
                 // step5 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2599,7 +2644,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(5, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신", list[5])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[5])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep5)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2611,29 +2661,33 @@ class MySaveActivity:AppCompatActivity() {
                 })
             }else if(requestCode == REQUEST_STEP6)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep6)
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                editor2.putString("step6_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step6_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
 
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
                 // step6 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2641,7 +2695,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(6, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신", list[6])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[6])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep6)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2654,29 +2713,33 @@ class MySaveActivity:AppCompatActivity() {
 
             }else if(requestCode == REQUEST_STEP7)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep7)
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                editor2.putString("step7_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step7_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
 
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
                 // step7 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2684,7 +2747,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(7, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신", list[7])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[7])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep7)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2696,28 +2764,34 @@ class MySaveActivity:AppCompatActivity() {
                 })
             }else if(requestCode == REQUEST_STEP8)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep8)
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                editor2.putString("step8_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step8_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
+
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
+
                 // step8 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2725,7 +2799,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(8, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신",list[8])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[8])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep8)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2737,28 +2816,33 @@ class MySaveActivity:AppCompatActivity() {
                 })
             }else if(requestCode == REQUEST_STEP9)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep9)
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                editor2.putString("step9_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step9_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
+
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
                 // step9 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2766,8 +2850,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(9, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신", list[9])
 
+                            Glide.with(this@MySaveActivity)
+                                .load(list[9])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep9)
                         }else{
                             Log.d("통신","이미지 전송 실패")
                         }
@@ -2778,29 +2866,33 @@ class MySaveActivity:AppCompatActivity() {
                 })
             }else if(requestCode == REQUEST_STEP10)
             {
-                val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep10)
+                val imageUri = photoURI
+                val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
+                        + System.currentTimeMillis())
+                val file = File(filePath)
 
-                editor2.putString("step10_image", imageBitmap.toString())
-                editor2.apply()
-                sharedPreference2.getString("step10_image", "@")?.let { Log.e(ContentValues.TAG, it) }
+                // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
+                val inputStream = contentResolver.openInputStream(imageUri)
+                // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+                val outputStream: OutputStream = FileOutputStream(file)
+                val buf = ByteArray(1024)
+                var len: Int
+                if (inputStream != null) {
+                    while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+                }
+                outputStream.close()
+                inputStream?.close()
 
-                val imageUri :Uri? = data?.data
-                val file = File(absolutelyPath(imageUri, this))
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-                val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
+                Log.d("카메라 확인","${imageUri}")
+                //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
+                val filee = File(file.getAbsolutePath())
+                //requestbody 객체로 변환한다.
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                //maltipart.Part로 변환해준다.
+                val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
                 // step10 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object:
-                    Callback<PostNewRecipeImageBodyResponse> {
+                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
                             Log.d("통신","이미지 전송 성공")
@@ -2808,7 +2900,12 @@ class MySaveActivity:AppCompatActivity() {
                             val result = response.body()
                             val data = result?.image?.image
                             list.set(10, data.toString())
-                            Log.d("통신",data.toString())
+                            Log.d("통신",list[10])
+
+                            Glide.with(this@MySaveActivity)
+                                .load(list[10])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep10)
 
                         }else{
                             Log.d("통신","이미지 전송 실패")
@@ -2822,5 +2919,114 @@ class MySaveActivity:AppCompatActivity() {
         }
     }
 
-    lateinit var photoURI: Uri
+
+    /*
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if( resultCode == Activity.RESULT_OK) {
+            if( requestCode == REQUEST_THUMBNAIL)
+            {
+                    // 카메라로부터 받은 데이터가 있을경우에만
+
+                val currentPhotoPath
+                val file = File(currentPhotoPath)
+                    if (Build.VERSION.SDK_INT < 28) {
+                        val bitmap = MediaStore.Images.Media
+                                .getBitmap(contentResolver, Uri.fromFile(file))  //Deprecated
+                        viewBinding.myImage.setImageBitmap(bitmap)
+                    }
+                    else{
+                        val decode = ImageDecoder.createSource(this.contentResolver,
+                                Uri.fromFile(file))
+                        val bitmap = ImageDecoder.decodeBitmap(decode)
+                        viewBinding.myImage.setImageBitmap(bitmap)
+                    }
+                }
+            }
+        }
+    }
+
+
+    val REQUEST_IMAGE_CAPTURE = 1
+
+    // 카메라 권한 체크
+    private fun checkPersmission(): Boolean {
+        return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+    }
+
+
+    // 카메라 열기
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            if (takePictureIntent.resolveActivity(this.packageManager) != null) {
+                // 찍은 사진을 그림파일로 만들기
+                val photoFile: File? =
+                    try {
+                        createImageFile()
+                    } catch (ex: IOException) {
+                        Log.d("TAG", "그림파일 만드는도중 에러생김")
+                        null
+                    }
+
+                // 그림파일을 성공적으로 만들었다면 onActivityForResult로 보내기
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this, "com.example.cameraonly.fileprovider", it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
+        }
+    }
+
+
+    // 카메라로 촬영한 이미지를 파일로 저장해준다
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+*/
+
+
+    /*override fun onBackPressed() {
+         val sharedPreference = getSharedPreferences("writing", 0)
+         val editor = sharedPreference.edit()
+
+         binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
+         val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
+         val dialog_reallynotsave = dialog_reallynotsave_builder.create()
+
+         dialog_reallynotsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+         dialog_reallynotsave.setCanceledOnTouchOutside(true)
+         dialog_reallynotsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+         dialog_reallynotsave.window?.setGravity(Gravity.BOTTOM)
+         dialog_reallynotsave.setCancelable(true)
+
+         binding_reallynotsave.myDeletebtn.setOnClickListener{
+             dialog_reallynotsave.dismiss()
+             finish()
+         }
+         binding_reallynotsave.mySavebtn.setOnClickListener{
+
+         }
+         binding_reallynotsave.myCancelbtn.setOnClickListener {
+             dialog_reallynotsave.dismiss()
+             finish()
+         }
+         dialog_reallynotsave.show()
+     }*/
 }

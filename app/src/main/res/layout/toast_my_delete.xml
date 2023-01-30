@@ -18,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="52dp"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="2dp"
             android:text="작성 중인 레시피를 임시저장하였어요"
             android:fontFamily="@font/notosanskrregular"
             android:textColor="@android:color/white"
