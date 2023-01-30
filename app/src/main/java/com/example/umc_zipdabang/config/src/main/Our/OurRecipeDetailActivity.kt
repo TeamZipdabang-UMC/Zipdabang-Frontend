@@ -296,6 +296,7 @@ class OurRecipeDetailActivity: AppCompatActivity() {
 
         viewBinding.tvOurRecipeCommentViewDetail.setOnClickListener {
             val intent = Intent(this, ZipdabangRecipeDetailCommentActivity::class.java)
+            intent.putExtra("recipeId", idInt.toString())
             startActivity(intent)
         }
 

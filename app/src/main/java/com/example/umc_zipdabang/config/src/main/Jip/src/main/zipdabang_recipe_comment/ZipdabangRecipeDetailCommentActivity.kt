@@ -95,11 +95,14 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                         val result = response.body()
                         Log.d("레시피 댓글 Get 성공", "${result}")
                         var firstResultArray = arrayListOf<AllComments?>()
+
                         for (i in 0 until result?.data!!.comments.size) {
                             val firstResult = result?.data?.comments?.get(i)
                             firstResultArray.add(firstResult)
                             Log.d("첫번째 배열 요소", "${firstResultArray}")
                         }
+
+
 
                         val commentIdArray = arrayListOf<Int?>()
                         val commentOwnerArray = arrayListOf<Int?>()
