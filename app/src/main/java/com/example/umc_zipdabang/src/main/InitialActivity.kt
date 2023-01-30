@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_zipdabang.databinding.ActivityInitialBinding
+import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
 import com.kakao.sdk.common.util.Utility
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,11 +20,18 @@ class InitialActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
+        val tokenDb = TokenDatabase.getTokenDatabase(this)
+        val token = tokenDb.tokenDao().getToken()
+        val tokenNum = token.token.toString()
+
+     //  GlobalScope.launch(Dispatchers.IO) {
+       //  tokenDb.tokenDao().deleteAll()
+        //}
         viewBinding.btnSignIn.setOnClickListener {
             val intent = Intent(this, JoinInitialActivity::class.java)
             startActivity(intent)
-
         }
+
         // 카카오 키 해시값 확인 목적
         Log.d(ContentValues.TAG, "keyhash:${Utility.getKeyHash(this)}")
 

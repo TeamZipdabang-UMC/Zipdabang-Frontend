@@ -1,12 +1,16 @@
 package com.example.umc_zipdabang.config.src.main.Home.category
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrap
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrapp
+import com.example.umc_zipdabang.config.src.main.Home.reciepe.ReceipeAdapter
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Retrofit.DTO_Scroll_Response
 import com.example.umc_zipdabang.config.src.main.Retrofit.DTO_Scroll_Response2
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
@@ -26,7 +30,6 @@ class CategoryAdeActivity : AppCompatActivity() {
     val service = com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit.retrofit.create(
         RetrofitMainService::class.java
     )
-
         var a=1
         private var isLoading = false
         private var scraps: ArrayList<My_Scrapp> = arrayListOf()
@@ -91,8 +94,6 @@ class CategoryAdeActivity : AppCompatActivity() {
                         layoutManager = GridLayoutManager(this@CategoryAdeActivity, 2)
                         binding.categoryRv.setLayoutManager(layoutManager)
                         binding.categoryRv.setAdapter(adapter)
-
-
                         layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
                             override fun getSpanSize(position: Int): Int {
 
@@ -116,16 +117,31 @@ class CategoryAdeActivity : AppCompatActivity() {
 
                             }
                         })
+
+
+
+                    adapter.setOnItemClickListener(object : CategoryAdeAdapter.OnItemClickListener {
+
+
+                            override fun onItemClick(v: View?, pos: Int) {
+                                var intent = Intent(
+                                    applicationContext,
+                                    ZipdabangRecipeDetailActivity::class.java
+                                )
+                                intent.putExtra("recipeId", scraps[pos].id.toString())
+                                startActivity(intent)
+                            }
+                        })
+
                     }
-
-
                     override fun onFailure(
                         call: Call<DTO_Scroll_Response>,
                         t: Throwable
                     ) {
-                    }
-                })
 
+                    }
+
+            })
 
             binding.categoryRv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
@@ -205,15 +221,32 @@ class CategoryAdeActivity : AppCompatActivity() {
                                         })
                                         adapter.notifyDataSetChanged()
                                         isLoading = false
-                                    }
-                                   if(a==1)  runnable2.run()
 
-                                }
+                                        adapter.setOnItemClickListener(object : CategoryAdeAdapter.OnItemClickListener {
+                                            override fun onItemClick(v: View?, pos: Int) {
+                                                var intent= Intent(applicationContext, ZipdabangRecipeDetailActivity :: class.java )
+                                                intent.putExtra("recipeId",scraps[pos].id.toString())
+                                                startActivity(intent)
+                                            }
+
+
+                                    })
+                                    }
+                                   if(a==1) runnable2.run()
+
+
                         }
                     }
                 }
-            })
+            }
+
+
+
+
+        })
+                }
+
+            }
         }
-        }
-}
+
 
