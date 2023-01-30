@@ -734,6 +734,7 @@ class MySaveActivity:AppCompatActivity() {
 
         //임시저장 버튼 눌렀을때
         viewBinding.mySavebtn.setOnClickListener {
+            editor.putString("filled","1")
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
@@ -879,6 +880,7 @@ class MySaveActivity:AppCompatActivity() {
 
         //업로드 버튼 눌렀을때
         viewBinding.myUploadbtn.setOnClickListener {
+            editor.putString("filled","0")
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())

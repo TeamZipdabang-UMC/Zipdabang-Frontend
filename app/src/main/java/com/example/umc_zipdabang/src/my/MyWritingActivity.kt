@@ -55,6 +55,7 @@ class MyWritingActivity:AppCompatActivity() {
     private lateinit var binding_uploadsuccess : DialogUploadsuccessBinding
     private lateinit var binding_camera : DialogCameraBinding
     private lateinit var binding_save : DialogSaveBinding
+    private lateinit var binding_save_warning : DialogSaveWarningBinding
     private lateinit var binding_toast_save : ToastSaveBinding
     private lateinit var binding_toast_delete : ToastDeleteBinding
 
@@ -67,15 +68,18 @@ class MyWritingActivity:AppCompatActivity() {
     //핸드폰 번호 길이->병합후 하자
     //취향조사 이미지 변경시키자
 
-    ///이미지 회전하는 경우
+    ///이미지 회전하는 경우????
     //임시저장 step1 사진 xbtn!!!!
     //썸네일 업로드할때 안뜬다!!!!
+    //카테고리 버튼 누르는거 다시->고민해보자
+
 
 
     //업로드 버튼 활성화!!!!
     //뒤로가기 했을때랑 뒤로가기 버튼눌렀을때 dialog & toast 띄우기
-    //임시저장 해둔게 있으면 글쓰기 전에 dialog 띄우기
-    //////카테고리 버튼 누르는거 다시
+    //임시저장 때에 맞게 띄우기
+
+
 
     //임시저장 post 위한 리스트
     var list = arrayOf<String>("","","","","","","","","","","")
@@ -110,8 +114,6 @@ class MyWritingActivity:AppCompatActivity() {
         val editor = sharedPreference.edit() //제목, 카테고리, 시간, 한줄소개, 재료이름, 재료갯수, 스텝설명, 후기, 재료스탭 갯수
         val sharedPreference2 = getSharedPreferences("writing_image", 0)
         val editor2 = sharedPreference2.edit() //이미지의 url을 담음 //썸네일, stp1사진, step2사진, ...
-        editor2.clear()
-        editor2.apply()
 
 
         //카테고리 선택 버튼
@@ -374,6 +376,9 @@ class MyWritingActivity:AppCompatActivity() {
             Log.d("TAG","${num2}")
         }
 
+        //업로드 버튼 활성화하게 하기
+
+
 
         //뒤로가기 할때
         viewBinding.myBackbtn.setOnClickListener {
@@ -386,6 +391,7 @@ class MyWritingActivity:AppCompatActivity() {
 
         //임시저장 버튼 눌렀을때
         viewBinding.mySavebtn.setOnClickListener {
+            editor.putString("filled","1")
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
@@ -494,85 +500,169 @@ class MyWritingActivity:AppCompatActivity() {
             sharedPreference2.getString("step9_image", "@")?.let { Log.e(ContentValues.TAG, it) }
             sharedPreference2.getString("step10_image", "@")?.let { Log.e(ContentValues.TAG, it) }*/
 
-            //임시저장 dialog 띄우기
-            binding_save = DialogSaveBinding.inflate(layoutInflater)
-            val dialog_save_builder = AlertDialog.Builder(this).setView(binding_save.root)
-            val dialog_save = dialog_save_builder.create()
+            if(sharedPreference.getString("filled","") =="1"){
+                //임시저장 주의 dialog 띄우기
+                binding_save_warning = DialogSaveWarningBinding.inflate(layoutInflater)
+                val dialog_save_warning_builder = AlertDialog.Builder(this).setView(binding_save_warning.root)
+                val dialog_save_warning = dialog_save_warning_builder.create()
 
-            dialog_save.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog_save.setCanceledOnTouchOutside(true)
-            dialog_save.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog_save.window?.setGravity(Gravity.BOTTOM)
-            dialog_save.setCancelable(true)
+                dialog_save_warning.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                dialog_save_warning.setCanceledOnTouchOutside(true)
+                dialog_save_warning.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog_save_warning.window?.setGravity(Gravity.BOTTOM)
+                dialog_save_warning.setCancelable(true)
 
-            binding_save.myCancelbtn.setOnClickListener{
-                editor.clear()
-                editor.apply()
-                dialog_save.onBackPressed()
-            }
-            binding_save.mySavebtn.setOnClickListener{
-                //api호출하기기
-                Log.d("통신 리스트", list[0])
-                Log.d("통신 리스트", list[1])
-                Log.d("통신 리스트", list[2])
-                Log.d("통신 리스트", list[3])
-                Log.d("통신 리스트", list[4])
-                Log.d("통신 리스트", list[5])
-                Log.d("통신 리스트", list[6])
-                Log.d("통신 리스트", list[7])
-                Log.d("통신 리스트", list[8])
-                Log.d("통신 리스트", list[9])
-                Log.d("통신 리스트", list[10])
-
-                for(i in 0..num2){
-                    if(list[i] =="")
-                        list[i] = "null"
+                binding_save_warning.myCancelbtn.setOnClickListener{
+                    editor.clear()
+                    editor.apply()
+                    dialog_save_warning.onBackPressed()
                 }
+                binding_save_warning.mySavebtn.setOnClickListener{
+                    //api호출하기기
+                    Log.d("통신 리스트", list[0])
+                    Log.d("통신 리스트", list[1])
+                    Log.d("통신 리스트", list[2])
+                    Log.d("통신 리스트", list[3])
+                    Log.d("통신 리스트", list[4])
+                    Log.d("통신 리스트", list[5])
+                    Log.d("통신 리스트", list[6])
+                    Log.d("통신 리스트", list[7])
+                    Log.d("통신 리스트", list[8])
+                    Log.d("통신 리스트", list[9])
+                    Log.d("통신 리스트", list[10])
 
-                var body2 = arrayListOf<PostNewRecipeStepsImage>(
-                    PostNewRecipeStepsImage("","",list[1]),
-                    PostNewRecipeStepsImage("","",list[2]),
-                    PostNewRecipeStepsImage("","",list[3]),
-                    PostNewRecipeStepsImage("","",list[4]),
-                    PostNewRecipeStepsImage("","",list[5]),
-                    PostNewRecipeStepsImage("","",list[6]),
-                    PostNewRecipeStepsImage("","",list[7]),
-                    PostNewRecipeStepsImage("","",list[8]),
-                    PostNewRecipeStepsImage("","",list[9]),
-                    PostNewRecipeStepsImage(
-                        "", "", list[10],
+                    for(i in 0..num2){
+                        if(list[i] =="")
+                            list[i] = "null"
+                    }
+
+                    var body2 = arrayListOf<PostNewRecipeStepsImage>(
+                        PostNewRecipeStepsImage("","",list[1]),
+                        PostNewRecipeStepsImage("","",list[2]),
+                        PostNewRecipeStepsImage("","",list[3]),
+                        PostNewRecipeStepsImage("","",list[4]),
+                        PostNewRecipeStepsImage("","",list[5]),
+                        PostNewRecipeStepsImage("","",list[6]),
+                        PostNewRecipeStepsImage("","",list[7]),
+                        PostNewRecipeStepsImage("","",list[8]),
+                        PostNewRecipeStepsImage("","",list[9]),
+                        PostNewRecipeStepsImage(
+                            "", "", list[10],
+                        )
                     )
-                )
 
-                //var step_num = num2
-                var body = PostNewRecipeSaveImage(
-                    list[0],
-                    body2,
-                    num2
-                )
+                    //var step_num = num2
+                    var body = PostNewRecipeSaveImage(
+                        list[0],
+                        body2,
+                        num2
+                    )
 
-                retrofit.post_newrecipe_saveimage(token, body).enqueue(object: Callback<PostNewRecipeBodyResponse>{
-                    override fun onResponse(
-                        call: Call<PostNewRecipeBodyResponse>,
-                        response: Response<PostNewRecipeBodyResponse>
-                    ) {
-                        Log.d("통신", "통신은 성공임")
-                        var result = response.body()
-                        var isSuccess = result?.success
-                        Log.d("통신", isSuccess.toString())
+                    retrofit.post_newrecipe_saveimage(token, body).enqueue(object: Callback<PostNewRecipeBodyResponse>{
+                        override fun onResponse(
+                            call: Call<PostNewRecipeBodyResponse>,
+                            response: Response<PostNewRecipeBodyResponse>
+                        ) {
+                            Log.d("통신", "통신은 성공임")
+                            var result = response.body()
+                            var isSuccess = result?.success
+                            Log.d("통신", isSuccess.toString())
+                        }
+
+                        override fun onFailure(call: Call<PostNewRecipeBodyResponse>, t: Throwable) {
+                            t.message?.let { it1 -> Log.d("통신", it1) }
+                        }
+
+                    })
+
+                    dialog_save_warning.dismiss()
+                    CustomToast.createToast(applicationContext, "작성 중인 레시피를 임시저장하였어요")?.show()
+                    finish()
+                }
+                dialog_save_warning.show()
+
+            }else{
+                //임시저장 dialog 띄우기
+                binding_save = DialogSaveBinding.inflate(layoutInflater)
+                val dialog_save_builder = AlertDialog.Builder(this).setView(binding_save.root)
+                val dialog_save = dialog_save_builder.create()
+
+                dialog_save.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                dialog_save.setCanceledOnTouchOutside(true)
+                dialog_save.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog_save.window?.setGravity(Gravity.BOTTOM)
+                dialog_save.setCancelable(true)
+
+                binding_save.myCancelbtn.setOnClickListener{
+                    editor.clear()
+                    editor.apply()
+                    dialog_save.onBackPressed()
+                }
+                binding_save.mySavebtn.setOnClickListener{
+                    //api호출하기기
+                    Log.d("통신 리스트", list[0])
+                    Log.d("통신 리스트", list[1])
+                    Log.d("통신 리스트", list[2])
+                    Log.d("통신 리스트", list[3])
+                    Log.d("통신 리스트", list[4])
+                    Log.d("통신 리스트", list[5])
+                    Log.d("통신 리스트", list[6])
+                    Log.d("통신 리스트", list[7])
+                    Log.d("통신 리스트", list[8])
+                    Log.d("통신 리스트", list[9])
+                    Log.d("통신 리스트", list[10])
+
+                    for(i in 0..num2){
+                        if(list[i] =="")
+                            list[i] = "null"
                     }
 
-                    override fun onFailure(call: Call<PostNewRecipeBodyResponse>, t: Throwable) {
-                        t.message?.let { it1 -> Log.d("통신", it1) }
-                    }
+                    var body2 = arrayListOf<PostNewRecipeStepsImage>(
+                        PostNewRecipeStepsImage("","",list[1]),
+                        PostNewRecipeStepsImage("","",list[2]),
+                        PostNewRecipeStepsImage("","",list[3]),
+                        PostNewRecipeStepsImage("","",list[4]),
+                        PostNewRecipeStepsImage("","",list[5]),
+                        PostNewRecipeStepsImage("","",list[6]),
+                        PostNewRecipeStepsImage("","",list[7]),
+                        PostNewRecipeStepsImage("","",list[8]),
+                        PostNewRecipeStepsImage("","",list[9]),
+                        PostNewRecipeStepsImage(
+                            "", "", list[10],
+                        )
+                    )
 
-                })
+                    //var step_num = num2
+                    var body = PostNewRecipeSaveImage(
+                        list[0],
+                        body2,
+                        num2
+                    )
 
-                dialog_save.dismiss()
-                CustomToast.createToast(applicationContext, "작성 중인 레시피를 임시저장하였어요")?.show()
-                finish()
+                    retrofit.post_newrecipe_saveimage(token, body).enqueue(object: Callback<PostNewRecipeBodyResponse>{
+                        override fun onResponse(
+                            call: Call<PostNewRecipeBodyResponse>,
+                            response: Response<PostNewRecipeBodyResponse>
+                        ) {
+                            Log.d("통신", "통신은 성공임")
+                            var result = response.body()
+                            var isSuccess = result?.success
+                            Log.d("통신", isSuccess.toString())
+                        }
+
+                        override fun onFailure(call: Call<PostNewRecipeBodyResponse>, t: Throwable) {
+                            t.message?.let { it1 -> Log.d("통신", it1) }
+                        }
+
+                    })
+
+                    dialog_save.dismiss()
+                    CustomToast.createToast(applicationContext, "작성 중인 레시피를 임시저장하였어요")?.show()
+                    finish()
+                }
+                dialog_save.show()
             }
-            dialog_save.show()
+
         }
 
         //업로드 버튼 눌렀을때

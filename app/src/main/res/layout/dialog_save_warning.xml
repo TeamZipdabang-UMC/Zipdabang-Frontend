@@ -52,7 +52,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.2" />
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/my_deletebtn"
+                android:id="@+id/my_savebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="52dp"
                 android:layout_marginEnd="24dp"
