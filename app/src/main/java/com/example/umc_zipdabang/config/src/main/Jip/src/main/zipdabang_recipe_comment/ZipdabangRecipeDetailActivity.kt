@@ -116,7 +116,6 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     override fun onFailure(call: Call<PressScrapResponse>, t: Throwable) {
                         Log.d("스크랩 누르기", "실패")
                     }
-
                 })
             }
         }
@@ -293,6 +292,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
 
         viewBinding.tvZipdabangRecipeCommentViewDetail.setOnClickListener {
             val intent = Intent(this, ZipdabangRecipeDetailCommentActivity::class.java)
+            intent.putExtra("recipeId", idInt.toString())
             startActivity(intent)
         }
 

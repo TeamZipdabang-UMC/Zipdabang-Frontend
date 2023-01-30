@@ -62,6 +62,10 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
+        val selectedRecipeId = intent.getStringExtra("recipeId")
+        Log.d("댓글 레시피 아이디 가져오기 성공", "${selectedRecipeId}")
+        val idInt = selectedRecipeId?.toInt()
+
         progressBar = viewBinding.progressBar
 
         layoutManager = LinearLayoutManager(this)
@@ -82,7 +86,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
             }
             val tokenNum = token.token
             Log.d("토큰 넘버", "${tokenNum}")
-            commentService.getRecipeComments(tokenNum, 49)
+            commentService.getRecipeComments(tokenNum, idInt)
                 .enqueue(object : Callback<CommentsResponse> {
                     override fun onResponse(
                         call: Call<CommentsResponse>,
@@ -196,7 +200,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                                 withContext(Dispatchers.Main) {
                                                     commentService.getMoreRecipeComments(
                                                         tokenNum,
-                                                        49,
+                                                        idInt,
                                                         commentIdArray.get(commentIdArray.size - 1)
                                                     ).enqueue(object : Callback<CommentsResponse> {
                                                         override fun onResponse(
@@ -337,12 +341,12 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
             if (viewBinding.editTextComment.text != null) {
                 val commentBody: String = viewBinding.editTextComment.text.toString()
                 // 이거는 나중에 고쳐줘야함!!!
-                val recipeId: Int = 49
+//                val recipeId: Int = 49
                 GlobalScope.launch(Dispatchers.IO) {
 
                     val tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
                     withContext(Dispatchers.Main) {
-                        commentService.addComment(tempToken, CommentAddBody(49, commentBody)).enqueue(object: Callback<CommentAddResponse> {
+                        commentService.addComment(tempToken, CommentAddBody(idInt, commentBody)).enqueue(object: Callback<CommentAddResponse> {
                             override fun onResponse(
                                 call: Call<CommentAddResponse>,
                                 response: Response<CommentAddResponse>

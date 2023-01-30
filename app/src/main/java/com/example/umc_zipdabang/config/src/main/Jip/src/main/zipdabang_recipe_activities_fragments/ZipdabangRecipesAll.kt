@@ -14,6 +14,4 @@ data class RecipeInfoAll(
     @SerializedName("likes") val likes: Int,
     @SerializedName("image_url") val imageUrl: String,
     @SerializedName("name") val name: String
-
-
 )
