@@ -14,6 +14,7 @@ import com.example.umc_zipdabang.src.my.data.IntroChallengedoneRVAdapter
 import com.example.umc_zipdabang.src.my.data.IntroChallengingRVAdapter
 import com.example.umc_zipdabang.src.my.data.ItemRecipeData
 import com.example.umc_zipdabang.src.my.data.ItemRecipeRVAdapter
+import com.example.umc_zipdabang.src.setting.MySettingActivity
 
 class MyFragment : Fragment(){
 

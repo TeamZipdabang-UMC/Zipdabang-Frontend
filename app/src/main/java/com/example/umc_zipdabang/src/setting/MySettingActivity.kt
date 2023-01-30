@@ -1,6 +1,7 @@
 package com.example.umc_zipdabang.src.setting
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -22,6 +23,7 @@ class MySettingActivity :AppCompatActivity(){
 
         //공지사항 이동
         viewBinding.ivToNotice.setOnClickListener {
+            Log.d("이동","?")
 
             val intent = Intent(this,MyNoticeActivity::class.java)
             startActivity(intent)
