@@ -1,6 +1,5 @@
 package com.example.umc_zipdabang.src.my
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,29 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.R
-import com.example.umc_zipdabang.databinding.ActivityMainBinding
 import com.example.umc_zipdabang.databinding.FragmentMyMyrecipeBinding
-import com.example.umc_zipdabang.src.main.MainActivity
+import com.example.umc_zipdabang.src.my.data.ItemRecipeChallengeData
 import com.example.umc_zipdabang.src.my.data.ItemRecipeData
+import com.example.umc_zipdabang.src.my.data.MyChallengingRVAdapter
 import com.example.umc_zipdabang.src.my.data.MyMyrecipeRVAdapter
-import kotlinx.coroutines.*
-import java.lang.Runnable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MyMyrecipeFragment : Fragment(){
     lateinit var viewBinding: FragmentMyMyrecipeBinding
+    private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
+    private var scraps: ArrayList<ItemRecipeChallengeData> = arrayListOf()
 
-    lateinit var adapter: MyMyrecipeRVAdapter
-    val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
-    val allRecipesList: ArrayList<ItemRecipeData> = arrayListOf()
-    var isLoading = false
-
-    lateinit var mainActivity: MainActivity
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = context as MainActivity
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,124 +46,66 @@ class MyMyrecipeFragment : Fragment(){
                 .commit()
         }
         viewBinding.myToolbar.bringToFront()
-        setData()
-        initAdapter()
-        initScrollListener()
 
-        viewBinding.myFixbtn.setOnClickListener {
-            val intent = Intent(activity, MyMyrecipeEditActivity::class.java)
-            startActivity(intent)
-        }
 
-       //viewBinding.myTvv.setText(allRecipesList.size.toString())
-    }
+        val myRecipeItemList: ArrayList<ItemRecipeChallengeData> = arrayListOf()
+        val myRecipeRVAdapter = MyMyrecipeRVAdapter(myRecipeItemList)
 
-    private fun setData() {
-        allRecipesList.add(
-           ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-        )
-        allRecipesList.add(
-            ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-        )
-        allRecipesList.add(
-            ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-        )
-        allRecipesList.add(
-            ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-        )
-        allRecipesList.add(
-            ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-        )
-        allRecipesList.add(
-            ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-        )
-        allRecipesList.add(
-            ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-        )
-        allRecipesList.add(
-            ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-        )
-    }
+        GlobalScope.launch(Dispatchers.IO) {
 
-    private fun initAdapter(){
-        adapter = MyMyrecipeRVAdapter(activity as MainActivity, allRecipesList)
-        val layoutManager = GridLayoutManager(activity as MainActivity, 2)
-        viewBinding.myRv.layoutManager=layoutManager
-        viewBinding.myRv.adapter = adapter
+            //val tokenDb = TokenDatabase.getTokenDatabase(this)
+            //       token1 = tokenDb.tokenDao().getToken().token.toString()
+            var token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
+            //통신
+            retrofit.get_myrecipe(token1).enqueue(object:
+                Callback<GetMyRecipeResponse> {
+                override fun onResponse(
+                    call: Call<GetMyRecipeResponse>,
+                    response: Response<GetMyRecipeResponse>
+                ) {
+                    val result = response.body()
+                    var i = 0
 
-        layoutManager.setSpanSizeLookup(object: GridLayoutManager.SpanSizeLookup(){
-            override fun getSpanSize(position: Int):Int{
-                if (position == 0) {
-                    return 1
-                } else if ((position % 8 == 0) && position == (allRecipesList.size-1)) {
-                    return 2
-                } else {
-                    return 1
-                }
-            }
-        })
-    }
+                    Log.d("통신","${result}")
 
-    private fun initScrollListener(){
-        viewBinding.myRv.setOnScrollListener(object:RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading) {
-                    if (viewBinding.myRv.layoutManager != null && (viewBinding.myRv.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (allRecipesList.size - 1)) {
-                        //리스트 마지막o
-                        moreItems()
-                        isLoading = true
-
+                    while (true) {
+                        if (scraps.size == result?.data?.size)
+                            break
+                        scraps.add(
+                            ItemRecipeChallengeData(
+                                result?.data?.get(i)?.recipeId,
+                                result?.data?.get(i)?.likes,
+                                result?.data?.get(i)?.image,
+                                result?.data?.get(i)?.name
+                            )
+                        )
+                        i++
                     }
+                    viewBinding.myTvv.text = scraps.size.toString()
+                    viewBinding.myRv.layoutManager = GridLayoutManager(context, 2)
+                    val adapter = MyChallengingRVAdapter(scraps)
+                    viewBinding.myRv.adapter = adapter
+                    adapter.notifyDataSetChanged()
                 }
+
+                override fun onFailure(call: Call<GetMyRecipeResponse>, t: Throwable) {
+
+                }
+            })
+
+            viewBinding.myFixbtn.setOnClickListener {
+                val intent = Intent(activity, MyMyrecipeEditActivity::class.java)
+                intent.putExtra("array", scraps)
+                startActivity(intent)
             }
-        })
+        }
+
+//        viewBinding.myRv.adapter = myRecipeRVAdapter
+//        viewBinding.myRv.layoutManager = GridLayoutManager(requireContext(),2)
+//
+//        viewBinding.myTvv.setText(myRecipeItemList.size.toString())
+
+
     }
 
-    private fun moreItems(){
-        val runnable = Runnable{
-            allRecipesList.add(ItemRecipeData(null,null,null))
-            Log.d("insert before","msg")
-            adapter.notifyItemInserted(allRecipesList.size-1)
-        }
-        viewBinding.myRv.post(runnable)
-
-        CoroutineScope(mainDispatcher).launch{
-            delay(2000)
-            val runnable2 = Runnable{
-                allRecipesList.removeAt(allRecipesList.size-1)
-                val scrollToPosition = allRecipesList.size
-                adapter.notifyItemRemoved(scrollToPosition)
-
-                allRecipesList.add(
-                    ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-                )
-                allRecipesList.add(
-                    ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-                )
-                allRecipesList.add(
-                    ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-                )
-                allRecipesList.add(
-                    ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-                )
-                allRecipesList.add(
-                    ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-                )
-                allRecipesList.add(
-                    ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-                )
-                allRecipesList.add(
-                    ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-                )
-                allRecipesList.add(
-                    ItemRecipeData("https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788946473478.jpg", "어르신도 좋아하실만한 담백한 블루베리 요거트", 12)
-                )
-
-                adapter.notifyDataSetChanged()
-                isLoading = false
-            }
-            runnable2.run()
-        }
-    }
 }

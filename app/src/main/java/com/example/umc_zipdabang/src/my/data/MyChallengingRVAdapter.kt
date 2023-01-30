@@ -7,20 +7,20 @@ import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.databinding.ItemRecipeBinding
 
 
-class MyChallengingRVAdapter(private val dataList: ArrayList<ItemRecipeData>)
+class MyChallengingRVAdapter(private val dataList: ArrayList<ItemRecipeChallengeData>)
     : RecyclerView.Adapter<MyChallengingRVAdapter.challengingItemViewHolder>(){
 
     private lateinit var binding: ItemRecipeBinding
 
     //viewholder 객체
     inner class challengingItemViewHolder(private val viewBinding: ItemRecipeBinding) :RecyclerView.ViewHolder(viewBinding.root){
-        fun bind(ItemRecipeData: ItemRecipeData){
-            val url = ItemRecipeData.picUrl
+        fun bind(ItemRecipeChallengeData: ItemRecipeChallengeData){
+            val url = ItemRecipeChallengeData.image
             Glide.with(itemView)
                 .load(url)
                 .into(viewBinding.myRecipeImg)
-            viewBinding.myRecipeTital.text = ItemRecipeData.tital
-            viewBinding.myRecipeHeart.text = ItemRecipeData.likes.toString()
+            viewBinding.myRecipeTital.text = ItemRecipeChallengeData.name
+            viewBinding.myRecipeHeart.text = ItemRecipeChallengeData.likes.toString()
         }
     }
 

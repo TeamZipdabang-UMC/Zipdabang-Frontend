@@ -14,18 +14,24 @@ class DeleteDialog(context: AppCompatActivity):Dialog(context) {
 
     private var binding: DialogDeleteBinding = DialogDeleteBinding.inflate(context.layoutInflater)
 
-    private var onClickListener: ButtonClickListener ?=null
+
+    private var onClickListener: ButtonClickListener?= null
+
     interface ButtonClickListener{
         fun onClicked()
     }
 
-    val dialog = Dialog(context)
+    val dialog= Dialog(context)
 
-    fun setOnCLickListener(listener: ButtonClickListener){
+
+
+    fun setOnClickListener(listener: ButtonClickListener){
         onClickListener = listener
     }
 
-    fun showDialog(){
+    fun showDialog()
+    {
+
         dialog.setContentView(binding.root)
 
         dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
@@ -34,15 +40,23 @@ class DeleteDialog(context: AppCompatActivity):Dialog(context) {
         dialog.window?.setGravity(Gravity.BOTTOM)
         dialog.setCancelable(true)
 
-        binding.myCancelbtn.setOnClickListener(object: View.OnClickListener{
-            override fun onClick(p0:View?){
+
+        binding.myCancelbtn.setOnClickListener(object  : View.OnClickListener {
+            override fun onClick(p0: View?) {
                 dialog.dismiss()
             }
+
+
         })
-        binding.myDeletebtn.setOnClickListener{
+
+
+        binding.myDeletebtn.setOnClickListener {
             onClickListener?.onClicked()
             dialog.dismiss()
         }
+
         dialog.show()
+
+
     }
 }
