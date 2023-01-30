@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/jipdabang_white">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="#00000000">-->
-
-
-<!--        -->
-
 
 <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
@@ -602,8 +594,6 @@
                     android:visibility="gone"/>
 
             </FrameLayout>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
