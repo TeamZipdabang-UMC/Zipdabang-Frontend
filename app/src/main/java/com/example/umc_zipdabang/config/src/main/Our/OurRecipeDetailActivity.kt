@@ -57,6 +57,8 @@ class OurRecipeDetailActivity: AppCompatActivity() {
         Log.d("선택된 레시피의 Id", "${selectedRecipeId}")
         val idInt = selectedRecipeId?.toInt()
 
+//        var mainImageUrl: String? = ""
+
         // 리사이클러뷰에 활용할 배열 및 자료구조들
 
         val tokenDb = TokenDatabase.getTokenDatabase(this)
@@ -181,6 +183,8 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                     val challengersNum = recipeDetailResult?.recipeDataClass?.challenger
                     val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
                     val challengeStatus = recipeDetailResult?.recipeDataClass?.isChallenge
+
+//                    mainImageUrl = recipeImageUrl
 
                     if (likeOrNot == true) {
                         like = true
@@ -451,6 +455,9 @@ class OurRecipeDetailActivity: AppCompatActivity() {
             val commentButton = successDialogView.findViewById<TextView>(R.id.btn_popup_comment)
             val laterButton = successDialogView.findViewById<TextView>(R.id.tv_popup_comment_later)
 
+//            Glide.with(this).load(mainImageUrl)
+//                .into(findViewById(R.id.iv_popup_recipe_image))
+
             exitButton.setOnClickListener {
                 // 없애는 작업
                 successDialog.dismiss()
@@ -462,6 +469,7 @@ class OurRecipeDetailActivity: AppCompatActivity() {
 
                 // 액티비티마다 아래 도착 액티비티 수정 필요!!
                 val commentIntent = Intent(this, ZipdabangRecipeDetailCommentActivity::class.java)
+                commentIntent.putExtra("recipeId", idInt.toString())
                 startActivity(commentIntent)
             }
 

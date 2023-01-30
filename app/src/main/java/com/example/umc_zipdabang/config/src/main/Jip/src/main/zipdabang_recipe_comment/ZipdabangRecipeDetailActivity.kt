@@ -59,6 +59,8 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create()).build()
         val recipeService = recipeRetrofit.create(RecipeService::class.java)
 
+//        var mainImageUrl: String? = ""
+
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
             finish()
@@ -172,6 +174,8 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     val challengersNum = recipeDetailResult?.recipeDataClass?.challenger
                     val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
                     val challengeStatus = recipeDetailResult?.recipeDataClass?.isChallenge
+
+//                    mainImageUrl = recipeImageUrl
 
                     if (likeOrNot == true) {
                         like = true
@@ -441,6 +445,8 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             val exitButton = successDialogView.findViewById<ImageView>(R.id.iv_exit_popup)
             val commentButton = successDialogView.findViewById<TextView>(R.id.btn_popup_comment)
             val laterButton = successDialogView.findViewById<TextView>(R.id.tv_popup_comment_later)
+//            Glide.with(this).load(mainImageUrl)
+//                .into(findViewById(R.id.iv_popup_recipe_image))
 
             exitButton.setOnClickListener {
                 // 없애는 작업
@@ -453,6 +459,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
 
                 // 액티비티마다 아래 도착 액티비티 수정 필요!!
                 val commentIntent = Intent(this, ZipdabangRecipeDetailCommentActivity::class.java)
+                commentIntent.putExtra("recipeId", idInt.toString())
                 startActivity(commentIntent)
             }
 
