@@ -185,11 +185,6 @@ class EditScrapActivity : AppCompatActivity() {
         }
 
 
-
-
-
-
-
             binding.cancelCompleteBt.setOnClickListener()
             {
                 val intent = Intent(applicationContext, MyScapActivity::class.java)

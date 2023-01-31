@@ -35,6 +35,7 @@ class MyScrapAdapter(private val context: MyScapActivity, private val dataList: 
                 binding.homeTvHeart1.text = item.heart.toString()
                 Glide.with(context).load(item.ImageUrl).into(binding.homeIvCategory1)
                 binding.homeIvCategory1.clipToOutline = true
+                binding.homeTvHeart1.visibility=View.VISIBLE
 
                 binding.homeIvCategory1.setOnClickListener(object : View.OnClickListener{
                     override fun onClick(p0: View?) {

@@ -41,6 +41,8 @@ class MainScrapAdapter(private val context: HomeMainActivity, private val dataLi
                 binding.homeTvHeart1.text = item[0].heart.toString()
                 Glide.with(context).load(item[0].ImageUrl).into(binding.homeIvCategory1)
                 binding.homeIvCategory1.clipToOutline = true
+                binding.homeHeartIv1.visibility=View.VISIBLE
+
                 binding.homeIvCategory1.setOnClickListener(object : View.OnClickListener{
                     override fun onClick(p0: View?) {
                         val pos=getAdapterPosition()
@@ -58,6 +60,8 @@ class MainScrapAdapter(private val context: HomeMainActivity, private val dataLi
                     binding.homeTvCategory2.text = item[1].title
                     Glide.with(context).load(item[1].ImageUrl).into(binding.homeIvCategory2)
                     binding.homeIvCategory2.clipToOutline = true
+                    binding.homeHeartIv1.visibility=View.VISIBLE
+
 
 
 
