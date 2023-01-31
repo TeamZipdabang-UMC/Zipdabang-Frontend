@@ -1311,6 +1311,7 @@ class MyWritingActivity:AppCompatActivity() {
                 }else{
                     requestPermission()
                 }
+                
                 dialog_camera.dismiss()
             }
 
