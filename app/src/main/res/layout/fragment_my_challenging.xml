@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskrregular"
                     android:gravity="center_horizontal|end"
-                    android:text="6"
+                    android:text=" "
                     android:textColor="#999999"
                     android:textSize="16dp" />
             </LinearLayout>

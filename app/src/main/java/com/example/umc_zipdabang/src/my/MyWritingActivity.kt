@@ -32,6 +32,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -56,6 +57,8 @@ class MyWritingActivity:AppCompatActivity() {
     private lateinit var binding_camera : DialogCameraBinding
     private lateinit var binding_save : DialogSaveBinding
     private lateinit var binding_save_warning : DialogSaveWarningBinding
+    private lateinit var binding_reallynotsave : DialogReallynotsaveBinding
+    private lateinit var binding_notsave : DialogNotsaveBinding
     private lateinit var binding_toast_save : ToastSaveBinding
     private lateinit var binding_toast_delete : ToastDeleteBinding
 
@@ -64,18 +67,14 @@ class MyWritingActivity:AppCompatActivity() {
 
 
 
+
     //api 업로드한 레시피 보러가기-> 병합후 하자
     //핸드폰 번호 길이->병합후 하자
     //취향조사 이미지 변경시키자
 
-    ///이미지 회전하는 경우????
-    //임시저장 step1 사진 xbtn!!!!
-    //썸네일 업로드할때 안뜬다!!!!
-    //카테고리 버튼 누르는거 다시->고민해보자
 
-
-    //업로드 버튼 활성화!!!!
-    //뒤로가기 했을때랑 뒤로가기 버튼눌렀을때 dialog & toast 띄우기
+    //임시저장 멘트가 이상함
+    //카테고리 버튼 되면하고 아님 말고
 
 
     //임시저장 post 위한 리스트
@@ -113,6 +112,42 @@ class MyWritingActivity:AppCompatActivity() {
         val editor2 = sharedPreference2.edit() //이미지의 url을 담음 //썸네일, stp1사진, step2사진, ...
         val sharedPreference3 = getSharedPreferences("writing_save",0)
         val editor3= sharedPreference3.edit()
+
+        //업로드 버튼 활성화를 위한 변수들
+        var title= viewBinding.myRecipeEdtTital
+        var time = viewBinding.myRecipeEdtTime
+        var describe = viewBinding.myRecipeEdtDescribe
+        var aftertip = viewBinding.myRecipeEdtAftertip
+        var ingredient1_title = viewBinding.myRecipeEdtIngredientname
+        var ingredient1_quan = viewBinding.myRecipeEdtIngredientqun
+        var ingredient2_title = viewBinding.myRecipeEdtIngredient2name
+        var ingredient2_quan = viewBinding.myRecipeEdtIngredient2qun
+        var ingredient3_title = viewBinding.myRecipeEdtIngredient3name
+        var ingredient3_quan = viewBinding.myRecipeEdtIngredient3qun
+        var ingredient4_title = viewBinding.myRecipeEdtIngredient4name
+        var ingredient4_quan = viewBinding.myRecipeEdtIngredient4qun
+        var ingredient5_title = viewBinding.myRecipeEdtIngredient5name
+        var ingredient5_quan = viewBinding.myRecipeEdtIngredient5qun
+        var ingredient6_title = viewBinding.myRecipeEdtIngredient6name
+        var ingredient6_quan = viewBinding.myRecipeEdtIngredient6qun
+        var ingredient7_title = viewBinding.myRecipeEdtIngredient7name
+        var ingredient7_quan = viewBinding.myRecipeEdtIngredient7qun
+        var ingredient8_title = viewBinding.myRecipeEdtIngredient8name
+        var ingredient8_quan = viewBinding.myRecipeEdtIngredient8qun
+        var ingredient9_title = viewBinding.myRecipeEdtIngredient9name
+        var ingredient9_quan = viewBinding.myRecipeEdtIngredient9qun
+        var ingredient10_title = viewBinding.myRecipeEdtIngredient10name
+        var ingredient10_quan = viewBinding.myRecipeEdtIngredient10qun
+        var step1_describe = viewBinding.myRecipeEdtStep
+        var step2_describe = viewBinding.myRecipeEdtStep2
+        var step3_describe = viewBinding.myRecipeEdtStep3
+        var step4_describe = viewBinding.myRecipeEdtStep4
+        var step5_describe = viewBinding.myRecipeEdtStep5
+        var step6_describe = viewBinding.myRecipeEdtStep6
+        var step7_describe = viewBinding.myRecipeEdtStep7
+        var step8_describe = viewBinding.myRecipeEdtStep8
+        var step9_describe = viewBinding.myRecipeEdtStep9
+        var step10_describe = viewBinding.myRecipeEdtStep10
 
 
         //카테고리 선택 버튼
@@ -203,6 +238,7 @@ class MyWritingActivity:AppCompatActivity() {
                 }
             }
         }
+
 
 
         //재료 + 버튼 눌렀을때
@@ -375,22 +411,95 @@ class MyWritingActivity:AppCompatActivity() {
             Log.d("TAG","${num2}")
         }
 
-        //업로드 버튼 활성화하게 하기
 
-
-
-        //뒤로가기 할때
+        //뒤로가기 버튼 눌렀을때
         viewBinding.myBackbtn.setOnClickListener {
-            //onbackpressed 누를때랑 똑같이 복붙
-            editor.clear()
-            editor.apply()
-            finish()
-        }
+            var category_check = false
+            if(viewBinding.myCoffee.isSelected ==false
+                && viewBinding.myAde.isSelected  ==false
+                && viewBinding.myTea.isSelected ==false
+                && viewBinding.myBeverage.isSelected  ==false
+                && viewBinding.mySmudi.isSelected ==false
+                && viewBinding.myHealth.isSelected ==false){
+                category_check = false
+            }else{
+                category_check = true
+            }
 
+            if(title.text.toString().length ==0 && time.text.toString().length ==0
+                && describe.text.toString().length ==0 && aftertip.text.toString().length ==0
+                && ingredient1_quan.text.toString().length ==0 && ingredient1_title.text.toString().length ==0
+                && ingredient2_quan.text.toString().length ==0 && ingredient2_title.text.toString().length ==0
+                && ingredient3_quan.text.toString().length ==0 && ingredient3_title.text.toString().length ==0
+                && ingredient4_quan.text.toString().length ==0 && ingredient4_title.text.toString().length ==0
+                && ingredient5_quan.text.toString().length ==0 && ingredient5_title.text.toString().length ==0
+                && ingredient6_quan.text.toString().length ==0 && ingredient6_title.text.toString().length ==0
+                && ingredient7_quan.text.toString().length ==0 && ingredient7_title.text.toString().length ==0
+                && ingredient8_quan.text.toString().length ==0 && ingredient8_title.text.toString().length ==0
+                && ingredient9_quan.text.toString().length ==0 && ingredient9_title.text.toString().length ==0
+                && ingredient10_quan.text.toString().length ==0 && ingredient10_title.text.toString().length ==0
+                && step1_describe.text.toString().length ==0 && list[1]==""
+                && step2_describe.text.toString().length ==0 && list[2]==""
+                && step3_describe.text.toString().length ==0 && list[3]==""
+                && step4_describe.text.toString().length ==0 && list[4]==""
+                && step5_describe.text.toString().length ==0 && list[5]==""
+                && step6_describe.text.toString().length ==0 && list[6]==""
+                && step7_describe.text.toString().length ==0 && list[7]==""
+                && step8_describe.text.toString().length ==0 && list[8]==""
+                && step9_describe.text.toString().length ==0 && list[9]==""
+                && step10_describe.text.toString().length ==0 && list[10]==""
+                && list[0] =="" && category_check == false){
+
+                finish()
+            }
+            else{
+                binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
+                val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
+                val dialog_reallynotsave = dialog_reallynotsave_builder.create()
+
+                dialog_reallynotsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                dialog_reallynotsave.setCanceledOnTouchOutside(true)
+                dialog_reallynotsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog_reallynotsave.window?.setGravity(Gravity.BOTTOM)
+                dialog_reallynotsave.setCancelable(true)
+
+                //레시피 쓰던거 삭제하겠다
+                binding_reallynotsave.myDeletebtn.setOnClickListener{
+                    dialog_reallynotsave.dismiss()
+
+                    binding_notsave = DialogNotsaveBinding.inflate(layoutInflater)
+                    val dialog_notsave_builder = AlertDialog.Builder(this).setView(binding_notsave.root)
+                    val dialog_notsave = dialog_notsave_builder.create()
+
+                    dialog_notsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                    dialog_notsave.setCanceledOnTouchOutside(true)
+                    dialog_notsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    dialog_notsave.window?.setGravity(Gravity.BOTTOM)
+                    dialog_notsave.setCancelable(true)
+
+                    //취소 버튼 눌렀을때
+                    binding_notsave.myCancelbtn.setOnClickListener{
+                        dialog_notsave.onBackPressed()
+                    }
+                    //삭제하기 버튼 눌렀을때
+                    binding_notsave.myDeletebtn.setOnClickListener{
+                        CustomToast.createToast(applicationContext, "작성 중인 레시피를 삭제하였어요")?.show()
+                        finish()
+                    }
+                    dialog_notsave.show()
+                }
+                //레시피 쓰던거 삭제안할거임
+                binding_reallynotsave.myCancelbtn.setOnClickListener {
+                    dialog_reallynotsave.onBackPressed()
+                }
+
+                dialog_reallynotsave.show()
+            }
+        }
 
         //임시저장 버튼 눌렀을때
         viewBinding.mySavebtn.setOnClickListener {
-            editor3.putString("filled","1")
+
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
@@ -428,6 +537,7 @@ class MyWritingActivity:AppCompatActivity() {
             editor.putString("step9_describe",viewBinding.myRecipeEdtStep9.text.toString())
             editor.putString("step10_describe",viewBinding.myRecipeEdtStep10.text.toString())
             editor.apply()
+
 
             //카테고리 선택
             if (viewBinding.myCoffee.isSelected) {
@@ -512,11 +622,16 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_save_warning.setCancelable(true)
 
                 binding_save_warning.myCancelbtn.setOnClickListener{
+                    editor3.putString("filled","0")
+                    editor3.apply()
                     editor.clear()
                     editor.apply()
                     dialog_save_warning.onBackPressed()
                 }
                 binding_save_warning.mySavebtn.setOnClickListener{
+                    editor3.putString("filled","1")
+                    editor3.apply()
+
                     //api호출하기기
                     Log.d("통신 리스트", list[0])
                     Log.d("통신 리스트", list[1])
@@ -593,11 +708,15 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_save.setCancelable(true)
 
                 binding_save.myCancelbtn.setOnClickListener{
+                    editor3.putString("filled","0")
+                    editor3.apply()
                     editor.clear()
                     editor.apply()
                     dialog_save.onBackPressed()
                 }
                 binding_save.mySavebtn.setOnClickListener{
+                    editor3.putString("filled","1")
+                    editor3.apply()
                     //api호출하기기
                     Log.d("통신 리스트", list[0])
                     Log.d("통신 리스트", list[1])
@@ -666,308 +785,476 @@ class MyWritingActivity:AppCompatActivity() {
 
         //업로드 버튼 눌렀을때
         viewBinding.myUploadbtn.setOnClickListener {
-            editor3.putString("filled","0")
-            editor.putInt("ingredient",num)
-            editor.putInt("step",num2)
-            editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
-            editor.putString("time", viewBinding.myRecipeEdtTime.text.toString())
-            editor.putString("describe", viewBinding.myRecipeEdtDescribe.text.toString())
-            editor.putString("aftertip", viewBinding.myRecipeEdtAftertip.text.toString())
-            editor.putString("ingredient1_title",viewBinding.myRecipeEdtIngredientname.text.toString())
-            editor.putString("ingredient1_quan",viewBinding.myRecipeEdtIngredientqun.text.toString())
-            editor.putString("ingredient2_title",viewBinding.myRecipeEdtIngredient2name.text.toString())
-            editor.putString("ingredient2_quan",viewBinding.myRecipeEdtIngredient2qun.text.toString())
-            editor.putString("ingredient3_title",viewBinding.myRecipeEdtIngredient3name.text.toString())
-            editor.putString("ingredient3_quan",viewBinding.myRecipeEdtIngredient3qun.text.toString())
-            editor.putString("ingredient4_title",viewBinding.myRecipeEdtIngredient4name.text.toString())
-            editor.putString("ingredient4_quan",viewBinding.myRecipeEdtIngredient4qun.text.toString())
-            editor.putString("ingredient5_title",viewBinding.myRecipeEdtIngredient5name.text.toString())
-            editor.putString("ingredient5_quan",viewBinding.myRecipeEdtIngredient5qun.text.toString())
-            editor.putString("ingredient6_title",viewBinding.myRecipeEdtIngredient6name.text.toString())
-            editor.putString("ingredient6_quan",viewBinding.myRecipeEdtIngredient6qun.text.toString())
-            editor.putString("ingredient7_title",viewBinding.myRecipeEdtIngredient7name.text.toString())
-            editor.putString("ingredient7_quan",viewBinding.myRecipeEdtIngredient7qun.text.toString())
-            editor.putString("ingredient8_title",viewBinding.myRecipeEdtIngredient8name.text.toString())
-            editor.putString("ingredient8_quan",viewBinding.myRecipeEdtIngredient8qun.text.toString())
-            editor.putString("ingredient9_title",viewBinding.myRecipeEdtIngredient9name.text.toString())
-            editor.putString("ingredient9_quan",viewBinding.myRecipeEdtIngredient9qun.text.toString())
-            editor.putString("ingredient10_title",viewBinding.myRecipeEdtIngredient10name.text.toString())
-            editor.putString("ingredient10_quan",viewBinding.myRecipeEdtIngredient10qun.text.toString())
-            editor.putString("step1_describe",viewBinding.myRecipeEdtStep.text.toString())
-            editor.putString("step2_describe",viewBinding.myRecipeEdtStep2.text.toString())
-            editor.putString("step3_describe",viewBinding.myRecipeEdtStep3.text.toString())
-            editor.putString("step4_describe",viewBinding.myRecipeEdtStep4.text.toString())
-            editor.putString("step5_describe",viewBinding.myRecipeEdtStep5.text.toString())
-            editor.putString("step6_describe",viewBinding.myRecipeEdtStep6.text.toString())
-            editor.putString("step7_describe",viewBinding.myRecipeEdtStep7.text.toString())
-            editor.putString("step8_describe",viewBinding.myRecipeEdtStep8.text.toString())
-            editor.putString("step9_describe",viewBinding.myRecipeEdtStep9.text.toString())
-            editor.putString("step10_describe",viewBinding.myRecipeEdtStep10.text.toString())
-            editor.apply()
-
-            //카테고리 선택
-            if (viewBinding.myCoffee.isSelected) {
-                editor.putInt("category", 1)
-                editor.apply()
-            } else if (viewBinding.myBeverage.isSelected) {
-                editor.putInt("category", 2)
-                editor.apply()
-            } else if (viewBinding.myTea.isSelected) {
-                editor.putInt("category", 3)
-                editor.apply()
-            } else if (viewBinding.myAde.isSelected) {
-                editor.putInt("category", 4)
-                editor.apply()
-            } else if (viewBinding.mySmudi.isSelected) {
-                editor.putInt("category", 5)
-                editor.apply()
-            } else if (viewBinding.myHealth.isSelected) {
-                editor.putInt("category", 6)
-                editor.apply()
-            } else {
-                editor.putInt("category", 0)
-                editor.apply()
+            //카테고리 체크를 위한 변수
+           var category_check = false
+            if(viewBinding.myCoffee.isSelected ==false
+                && viewBinding.myAde.isSelected  ==false
+                && viewBinding.myTea.isSelected ==false
+                && viewBinding.myBeverage.isSelected  ==false
+                && viewBinding.mySmudi.isSelected ==false
+                && viewBinding.myHealth.isSelected ==false){
+                category_check = false
+            }else{
+                category_check = true
             }
 
+            var check = "nonempty"
+            if(title.text.toString().length >0 && time.text.toString().length >0
+                && describe.text.toString().length >0 && aftertip.text.toString().length >0
+                && ingredient1_quan.text.toString().length >0 && ingredient1_title.text.toString().length >0
+                && step1_describe.text.toString().length >0 && list[1]!=""
+                && list[0] !="" && category_check == true){
 
-            /*sharedPreference.getString("title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("time", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("aftertip", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient1_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient1_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient2_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient2_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient3_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient3_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient4_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient4_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient5_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient5_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient6_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient6_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient7_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient7_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient8_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient8_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient9_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient9_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient10_title", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("ingredient10_quan", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step1_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step2_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step3_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step4_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step5_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step6_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step7_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step8_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step9_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference.getString("step10_describe", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step1_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step2_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step3_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step4_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step5_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step6_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step7_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step8_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step9_image", "@")?.let { Log.e(ContentValues.TAG, it) }
-            sharedPreference2.getString("step10_image", "@")?.let { Log.e(ContentValues.TAG, it) }*/
+                if(ingredient2_title.text.toString().length ==0)
+                    if(num >= 2){
+                        check = "empty"
+                        Log.d("버튼","dho xhtmxm dksEMsi")
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient2_quan.text.toString().length ==0)
+                    if(num >= 2){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient3_title.text.toString().length ==0)
+                    if(num >= 3){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient3_quan.text.toString().length ==0)
+                    if(num >= 3){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient4_title.text.toString().length ==0)
+                    if(num >= 4){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient4_quan.text.toString().length ==0)
+                    if(num >= 4){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient5_title.text.toString().length ==0)
+                    if(num >= 5){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient5_quan.text.toString().length ==0)
+                    if(num >= 5){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient6_title.text.toString().length ==0)
+                    if(num >= 6){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient6_quan.text.toString().length ==0)
+                    if(num >= 6){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient7_title.text.toString().length ==0)
+                    if(num >= 7){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient7_quan.text.toString().length ==0)
+                    if(num >= 7){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient8_title.text.toString().length ==0)
+                    if(num >= 8){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient8_quan.text.toString().length ==0)
+                    if(num >= 8){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient9_title.text.toString().length ==0)
+                    if(num >= 9){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient9_quan.text.toString().length ==0)
+                    if(num >= 9){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient10_title.text.toString().length ==0)
+                    if(num >= 10){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(ingredient10_quan.text.toString().length ==0)
+                    if(num >= 10){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step1_describe.text.toString().length ==0)
+                    if(num2 >= 1){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step2_describe.text.toString().length ==0)
+                    if(num2 >= 2){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step3_describe.text.toString().length ==0)
+                    if(num2 >= 3){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step4_describe.text.toString().length ==0)
+                    if(num2 >= 4){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step5_describe.text.toString().length ==0)
+                    if(num2 >= 5){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step6_describe.text.toString().length ==0)
+                    if(num2 >= 6){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step7_describe.text.toString().length ==0)
+                    if(num2 >= 7){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step8_describe.text.toString().length ==0)
+                    if(num2 >= 8){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step9_describe.text.toString().length ==0)
+                    if(num2 >= 9){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(step10_describe.text.toString().length ==0)
+                    if(num2 >= 10){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[2]=="")
+                    if(num2 >= 2){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[3]=="")
+                    if(num2 >= 3){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[4]=="")
+                    if(num2 >= 4){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[5]=="")
+                    if(num2 >= 5){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[6]=="")
+                    if(num2 >= 6){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[7]=="")
+                    if(num2 >= 7){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[8]=="")
+                    if(num2 >= 8){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[9]=="")
+                    if(num2 >= 9){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
+                if(list[10]=="")
+                    if(num2 >= 10){
+                        check = "empty"
+                        CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
+                    }
 
-            //업로드하시겠습니까? 다이얼로그 띄우기
-            binding_upload = DialogUploadBinding.inflate(layoutInflater)
-            val dialog_upload_builder = AlertDialog.Builder(this).setView(binding_upload.root)
-            val dialog_upload = dialog_upload_builder.create()
+                //다 채웠을때 업로드 활성화!
+                if(check=="nonempty"){
+                    editor.putInt("ingredient",num)
+                    editor.putInt("step",num2)
+                    editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
+                    editor.putString("time", viewBinding.myRecipeEdtTime.text.toString())
+                    editor.putString("describe", viewBinding.myRecipeEdtDescribe.text.toString())
+                    editor.putString("aftertip", viewBinding.myRecipeEdtAftertip.text.toString())
+                    editor.putString("ingredient1_title",viewBinding.myRecipeEdtIngredientname.text.toString())
+                    editor.putString("ingredient1_quan",viewBinding.myRecipeEdtIngredientqun.text.toString())
+                    editor.putString("ingredient2_title",viewBinding.myRecipeEdtIngredient2name.text.toString())
+                    editor.putString("ingredient2_quan",viewBinding.myRecipeEdtIngredient2qun.text.toString())
+                    editor.putString("ingredient3_title",viewBinding.myRecipeEdtIngredient3name.text.toString())
+                    editor.putString("ingredient3_quan",viewBinding.myRecipeEdtIngredient3qun.text.toString())
+                    editor.putString("ingredient4_title",viewBinding.myRecipeEdtIngredient4name.text.toString())
+                    editor.putString("ingredient4_quan",viewBinding.myRecipeEdtIngredient4qun.text.toString())
+                    editor.putString("ingredient5_title",viewBinding.myRecipeEdtIngredient5name.text.toString())
+                    editor.putString("ingredient5_quan",viewBinding.myRecipeEdtIngredient5qun.text.toString())
+                    editor.putString("ingredient6_title",viewBinding.myRecipeEdtIngredient6name.text.toString())
+                    editor.putString("ingredient6_quan",viewBinding.myRecipeEdtIngredient6qun.text.toString())
+                    editor.putString("ingredient7_title",viewBinding.myRecipeEdtIngredient7name.text.toString())
+                    editor.putString("ingredient7_quan",viewBinding.myRecipeEdtIngredient7qun.text.toString())
+                    editor.putString("ingredient8_title",viewBinding.myRecipeEdtIngredient8name.text.toString())
+                    editor.putString("ingredient8_quan",viewBinding.myRecipeEdtIngredient8qun.text.toString())
+                    editor.putString("ingredient9_title",viewBinding.myRecipeEdtIngredient9name.text.toString())
+                    editor.putString("ingredient9_quan",viewBinding.myRecipeEdtIngredient9qun.text.toString())
+                    editor.putString("ingredient10_title",viewBinding.myRecipeEdtIngredient10name.text.toString())
+                    editor.putString("ingredient10_quan",viewBinding.myRecipeEdtIngredient10qun.text.toString())
+                    editor.putString("step1_describe",viewBinding.myRecipeEdtStep.text.toString())
+                    editor.putString("step2_describe",viewBinding.myRecipeEdtStep2.text.toString())
+                    editor.putString("step3_describe",viewBinding.myRecipeEdtStep3.text.toString())
+                    editor.putString("step4_describe",viewBinding.myRecipeEdtStep4.text.toString())
+                    editor.putString("step5_describe",viewBinding.myRecipeEdtStep5.text.toString())
+                    editor.putString("step6_describe",viewBinding.myRecipeEdtStep6.text.toString())
+                    editor.putString("step7_describe",viewBinding.myRecipeEdtStep7.text.toString())
+                    editor.putString("step8_describe",viewBinding.myRecipeEdtStep8.text.toString())
+                    editor.putString("step9_describe",viewBinding.myRecipeEdtStep9.text.toString())
+                    editor.putString("step10_describe",viewBinding.myRecipeEdtStep10.text.toString())
+                    editor.apply()
 
-            //dialog_uploadcategory.window?.setFeatureDrawableResource(ColorDrawable(Color.parseColor()))
-            dialog_upload.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog_upload.setCanceledOnTouchOutside(true)
-            dialog_upload.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog_upload.window?.setGravity(Gravity.BOTTOM)
-            dialog_upload.setCancelable(true)
 
-            //업로드 하겠습니다 버튼 눌렀을때
-            binding_upload.myUploadbtn.setOnClickListener {
+                    //카테고리 선택
+                    if (viewBinding.myCoffee.isSelected) {
+                        editor.putInt("category", 1)
+                        editor.apply()
+                    } else if (viewBinding.myBeverage.isSelected) {
+                        editor.putInt("category", 2)
+                        editor.apply()
+                    } else if (viewBinding.myTea.isSelected) {
+                        editor.putInt("category", 3)
+                        editor.apply()
+                    } else if (viewBinding.myAde.isSelected) {
+                        editor.putInt("category", 4)
+                        editor.apply()
+                    } else if (viewBinding.mySmudi.isSelected) {
+                        editor.putInt("category", 5)
+                        editor.apply()
+                    } else if (viewBinding.myHealth.isSelected) {
+                        editor.putInt("category", 6)
+                        editor.apply()
+                    } else {
+                        editor.putInt("category", 0)
+                        editor.apply()
+                    }
 
-                //여기서 api 호출
-                val recipe_list = PostNewRecipeList(
-                    sharedPreference.getInt("category", 0),
-                    sharedPreference.getString("title", ""),
-                    sharedPreference.getString("describe", ""),
-                    sharedPreference.getString("aftertip", ""),
-                    sharedPreference.getString("time", ""),
-                    list[0],
-                    sharedPreference.getInt("step",1),
-                    sharedPreference.getInt("ingredient",1)
-                )
 
-                val ingredient_list = arrayListOf<PostNewRecipeIngredient>(
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient1_title", ""),
-                        sharedPreference.getString("ingredient1_quan", "")
-                    ),
-                    PostNewRecipeIngredient(
-                            sharedPreference.getString("ingredient2_title", ""),
-                    sharedPreference.getString("ingredient2_quan", "")
-                ),
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient3_title", ""),
-                        sharedPreference.getString("ingredient3_quan", "")
-                    ),
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient4_title", ""),
-                        sharedPreference.getString("ingredient4_quan", "")
-                    ),
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient5_title", ""),
-                        sharedPreference.getString("ingredient5_quan", "")
-                    ),
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient6_title", ""),
-                        sharedPreference.getString("ingredient6_quan", "")
-                    ),
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient7_title", ""),
-                        sharedPreference.getString("ingredient7_quan", "")
-                    ),
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient8_title", ""),
-                        sharedPreference.getString("ingredient8_quan", "")
-                    ),
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient9_title", ""),
-                        sharedPreference.getString("ingredient9_quan", "")
-                    ),
-                    PostNewRecipeIngredient(
-                        sharedPreference.getString("ingredient10_title", ""),
-                        sharedPreference.getString("ingredient10_quan", "")
-                    )
-                )
+                    //업로드하시겠습니까? 다이얼로그 띄우기
+                    binding_upload = DialogUploadBinding.inflate(layoutInflater)
+                    val dialog_upload_builder = AlertDialog.Builder(this).setView(binding_upload.root)
+                    val dialog_upload = dialog_upload_builder.create()
 
-                val steps_list = arrayListOf<PostNewRecipeSteps>(
-                    PostNewRecipeSteps(
-                        1,
-                        sharedPreference.getString("step1_describe", ""),
-                        list[1]
-                    ),
-                    PostNewRecipeSteps(
-                        2,
-                        sharedPreference.getString("step2_describe", ""),
-                        list[2]
-                    ),
-                    PostNewRecipeSteps(
-                        3,
-                        sharedPreference.getString("step3_describe", ""),
-                        list[3]
-                    ),
-                    PostNewRecipeSteps(
-                        4,
-                        sharedPreference.getString("step4_describe", ""),
-                        list[4]
-                    ),
-                    PostNewRecipeSteps(
-                        5,
-                        sharedPreference.getString("step5_describe", ""),
-                        list[5]
-                    ),
-                    PostNewRecipeSteps(
-                        6,
-                        sharedPreference.getString("step6_describe", ""),
-                        list[6]
-                    ),
-                    PostNewRecipeSteps(
-                        7,
-                        sharedPreference.getString("step7_describe", ""),
-                        list[7]
-                    ),
-                    PostNewRecipeSteps(
-                        8,
-                        sharedPreference.getString("step8_describe", ""),
-                        list[8]
-                    ),
-                    PostNewRecipeSteps(
-                        9,
-                        sharedPreference.getString("step9_describe", ""),
-                        list[9]
-                    ),
-                    PostNewRecipeSteps(
-                        10,
-                        sharedPreference.getString("step10_describe", ""),
-                        list[10]
-                    )
-                )
+                    //dialog_uploadcategory.window?.setFeatureDrawableResource(ColorDrawable(Color.parseColor()))
+                    dialog_upload.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                    dialog_upload.setCanceledOnTouchOutside(true)
+                    dialog_upload.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    dialog_upload.window?.setGravity(Gravity.BOTTOM)
+                    dialog_upload.setCancelable(true)
 
-                val body = PostNewRecipeBody(recipe_list, ingredient_list, steps_list)
-                retrofit.post_newrecipe(token, body).enqueue(object : Callback<PostNewRecipeBodyResponse> {
-                        override fun onResponse(
-                            call: Call<PostNewRecipeBodyResponse>,
-                            response: Response<PostNewRecipeBodyResponse>
-                        ) {
-                            Log.d("통신", "통신은 성공임")
-                            var result = response.body()
-                            var isSuccess = result?.success
-                            Log.d("통신", isSuccess.toString())
+                    //업로드 하겠습니다 버튼 눌렀을때
+                    binding_upload.myUploadbtn.setOnClickListener {
+                        //여기서 api 호출
+                        val recipe_list = PostNewRecipeList(
+                            sharedPreference.getInt("category", 0),
+                            sharedPreference.getString("title", ""),
+                            sharedPreference.getString("describe", ""),
+                            sharedPreference.getString("aftertip", ""),
+                            sharedPreference.getString("time", ""),
+                            list[0],
+                            sharedPreference.getInt("step",1),
+                            sharedPreference.getInt("ingredient",1)
+                        )
 
+                        val ingredient_list = arrayListOf<PostNewRecipeIngredient>(
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient1_title", ""),
+                                sharedPreference.getString("ingredient1_quan", "")
+                            ),
+                            PostNewRecipeIngredient(
+                                    sharedPreference.getString("ingredient2_title", ""),
+                            sharedPreference.getString("ingredient2_quan", "")
+                        ),
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient3_title", ""),
+                                sharedPreference.getString("ingredient3_quan", "")
+                            ),
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient4_title", ""),
+                                sharedPreference.getString("ingredient4_quan", "")
+                            ),
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient5_title", ""),
+                                sharedPreference.getString("ingredient5_quan", "")
+                            ),
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient6_title", ""),
+                                sharedPreference.getString("ingredient6_quan", "")
+                            ),
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient7_title", ""),
+                                sharedPreference.getString("ingredient7_quan", "")
+                            ),
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient8_title", ""),
+                                sharedPreference.getString("ingredient8_quan", "")
+                            ),
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient9_title", ""),
+                                sharedPreference.getString("ingredient9_quan", "")
+                            ),
+                            PostNewRecipeIngredient(
+                                sharedPreference.getString("ingredient10_title", ""),
+                                sharedPreference.getString("ingredient10_quan", "")
+                            )
+                        )
+
+                        val steps_list = arrayListOf<PostNewRecipeSteps>(
+                            PostNewRecipeSteps(
+                                1,
+                                sharedPreference.getString("step1_describe", ""),
+                                list[1]
+                            ),
+                            PostNewRecipeSteps(
+                                2,
+                                sharedPreference.getString("step2_describe", ""),
+                                list[2]
+                            ),
+                            PostNewRecipeSteps(
+                                3,
+                                sharedPreference.getString("step3_describe", ""),
+                                list[3]
+                            ),
+                            PostNewRecipeSteps(
+                                4,
+                                sharedPreference.getString("step4_describe", ""),
+                                list[4]
+                            ),
+                            PostNewRecipeSteps(
+                                5,
+                                sharedPreference.getString("step5_describe", ""),
+                                list[5]
+                            ),
+                            PostNewRecipeSteps(
+                                6,
+                                sharedPreference.getString("step6_describe", ""),
+                                list[6]
+                            ),
+                            PostNewRecipeSteps(
+                                7,
+                                sharedPreference.getString("step7_describe", ""),
+                                list[7]
+                            ),
+                            PostNewRecipeSteps(
+                                8,
+                                sharedPreference.getString("step8_describe", ""),
+                                list[8]
+                            ),
+                            PostNewRecipeSteps(
+                                9,
+                                sharedPreference.getString("step9_describe", ""),
+                                list[9]
+                            ),
+                            PostNewRecipeSteps(
+                                10,
+                                sharedPreference.getString("step10_describe", ""),
+                                list[10]
+                            )
+                        )
+
+                        val body = PostNewRecipeBody(recipe_list, ingredient_list, steps_list)
+                        retrofit.post_newrecipe(token, body).enqueue(object : Callback<PostNewRecipeBodyResponse> {
+                                override fun onResponse(
+                                    call: Call<PostNewRecipeBodyResponse>,
+                                    response: Response<PostNewRecipeBodyResponse>
+                                ) {
+                                    Log.d("통신", "통신은 성공임")
+                                    var result = response.body()
+                                    var isSuccess = result?.success
+                                    Log.d("통신", isSuccess.toString())
+
+                                }
+
+                                override fun onFailure(
+                                    call: Call<PostNewRecipeBodyResponse>,
+                                    t: Throwable
+                                ) {
+                                    t.message?.let { it1 -> Log.d("통신", it1) }
+                                }
+                            })
+
+                        //업로드 성공되었습니다 dialog 띄우기
+                        dialog_upload.dismiss()
+                        binding_uploadsuccess = DialogUploadsuccessBinding.inflate(layoutInflater)
+                        val dialog_uploadsuccess_builder = AlertDialog.Builder(this).setView(binding_uploadsuccess.root)
+                        val dialog_uploadsuccess = dialog_uploadsuccess_builder.create()
+
+                        dialog_uploadsuccess.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                        dialog_uploadsuccess.setCanceledOnTouchOutside(true)
+                        dialog_uploadsuccess.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        dialog_uploadsuccess.window?.setGravity(Gravity.BOTTOM)
+                        dialog_uploadsuccess.setCancelable(false)
+
+                        Glide.with(this@MyWritingActivity)
+                            .asBitmap()
+                            .centerCrop()
+                            .load(list[0])
+                            .into(binding_uploadsuccess.myUploadimg)
+                        Log.d("통신 사진",list[0])
+
+                        editor.clear()
+                        editor.apply()
+
+                        //업로드 레시피 보러가기 눌렀을때
+                        binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
+                            dialog_uploadsuccess.dismiss()
+                            finish()
+                            //여기서 상세페이지 넘어가야함!!!!!
                         }
-
-                        override fun onFailure(
-                            call: Call<PostNewRecipeBodyResponse>,
-                            t: Throwable
-                        ) {
-                            t.message?.let { it1 -> Log.d("통신", it1) }
+                        //나중에 보기 눌렀을때
+                        binding_uploadsuccess.myUploadseelaterbtn.setOnClickListener {
+                            dialog_uploadsuccess.dismiss()
+                            finish()
                         }
-                    })
+                        //x버튼 눌렀을때
+                        binding_uploadsuccess.myXbtn.setOnClickListener {
+                            dialog_uploadsuccess.dismiss()
+                            finish()
+                        }
+                        dialog_uploadsuccess.show()
+                    }
 
+                    //업로드 안하겠습니다 버튼 눌렀을때
+                    binding_upload.myCancelbtn.setOnClickListener {
+                        editor.clear()
+                        editor.apply()
+                        dialog_upload.dismiss()
+                    }
 
-                //업로드 성공되었습니다 dialog 띄우기
-                dialog_upload.dismiss()
-                binding_uploadsuccess = DialogUploadsuccessBinding.inflate(layoutInflater)
-                val dialog_uploadsuccess_builder = AlertDialog.Builder(this).setView(binding_uploadsuccess.root)
-                val dialog_uploadsuccess = dialog_uploadsuccess_builder.create()
-
-                dialog_uploadsuccess.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-                dialog_uploadsuccess.setCanceledOnTouchOutside(true)
-                dialog_uploadsuccess.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog_uploadsuccess.window?.setGravity(Gravity.BOTTOM)
-                dialog_uploadsuccess.setCancelable(false)
-
-                Glide.with(this)
-                    .asBitmap()
-                    .centerCrop()
-                    .load(list[0])
-                    .into(binding_uploadsuccess.myUploadimg)
-
-                editor.clear()
-                editor.apply()
-
-                //업로드 레시피 보러가기 눌렀을때
-                binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
-                    dialog_uploadsuccess.dismiss()
-                    finish()
-                    //여기서 상세페이지 넘어가야함!!!!!
+                    dialog_upload.show()
                 }
-                //나중에 보기 눌렀을때
-                binding_uploadsuccess.myUploadseelaterbtn.setOnClickListener {
-                    dialog_uploadsuccess.dismiss()
-                    finish()
-                }
-                //x버튼 눌렀을때
-                binding_uploadsuccess.myXbtn.setOnClickListener {
-                    dialog_uploadsuccess.dismiss()
-                    finish()
-                }
-                dialog_uploadsuccess.show()
+            }else{
+                //btn 눌러도 아무런 것도 동작하지 않음
+                CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
             }
-
-            //업로드 안하겠습니다 버튼 눌렀을때
-            binding_upload.myCancelbtn.setOnClickListener {
-                editor.clear()
-                editor.apply()
-                dialog_upload.dismiss()
-            }
-
-            dialog_upload.show()
         }
 
 
@@ -2832,32 +3119,49 @@ class MyWritingActivity:AppCompatActivity() {
 
 
 
-   /*override fun onBackPressed() {
-        val sharedPreference = getSharedPreferences("writing", 0)
-        val editor = sharedPreference.edit()
+   override fun onBackPressed() {
+           binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
+           val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
+           val dialog_reallynotsave = dialog_reallynotsave_builder.create()
 
-        binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
-        val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
-        val dialog_reallynotsave = dialog_reallynotsave_builder.create()
+           dialog_reallynotsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+           dialog_reallynotsave.setCanceledOnTouchOutside(true)
+           dialog_reallynotsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+           dialog_reallynotsave.window?.setGravity(Gravity.BOTTOM)
+           dialog_reallynotsave.setCancelable(true)
 
-        dialog_reallynotsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog_reallynotsave.setCanceledOnTouchOutside(true)
-        dialog_reallynotsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog_reallynotsave.window?.setGravity(Gravity.BOTTOM)
-        dialog_reallynotsave.setCancelable(true)
+           //레시피 쓰던거 삭제하겠다
+           binding_reallynotsave.myDeletebtn.setOnClickListener{
+               dialog_reallynotsave.dismiss()
 
-        binding_reallynotsave.myDeletebtn.setOnClickListener{
-            dialog_reallynotsave.dismiss()
-            finish()
-        }
-        binding_reallynotsave.mySavebtn.setOnClickListener{
+               binding_notsave = DialogNotsaveBinding.inflate(layoutInflater)
+               val dialog_notsave_builder = AlertDialog.Builder(this).setView(binding_notsave.root)
+               val dialog_notsave = dialog_notsave_builder.create()
 
-        }
-        binding_reallynotsave.myCancelbtn.setOnClickListener {
-            dialog_reallynotsave.dismiss()
-            finish()
-        }
-        dialog_reallynotsave.show()
-    }*/
-    }
+               dialog_notsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+               dialog_notsave.setCanceledOnTouchOutside(true)
+               dialog_notsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+               dialog_notsave.window?.setGravity(Gravity.BOTTOM)
+               dialog_notsave.setCancelable(true)
+
+               //취소 버튼 눌렀을때
+               binding_notsave.myCancelbtn.setOnClickListener{
+                   dialog_notsave.onBackPressed()
+               }
+               //삭제하기 버튼 눌렀을때
+               binding_notsave.myDeletebtn.setOnClickListener{
+                   CustomToast.createToast(applicationContext, "작성 중인 레시피를 삭제하였어요")?.show()
+                   finish()
+               }
+               dialog_notsave.show()
+           }
+           //레시피 쓰던거 삭제안할거임
+           binding_reallynotsave.myCancelbtn.setOnClickListener {
+               dialog_reallynotsave.onBackPressed()
+           }
+
+           dialog_reallynotsave.show()
+   }
+
+}
 
