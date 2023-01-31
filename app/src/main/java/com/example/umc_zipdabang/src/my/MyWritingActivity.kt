@@ -74,11 +74,8 @@ class MyWritingActivity:AppCompatActivity() {
     //카테고리 버튼 누르는거 다시->고민해보자
 
 
-
     //업로드 버튼 활성화!!!!
     //뒤로가기 했을때랑 뒤로가기 버튼눌렀을때 dialog & toast 띄우기
-    //임시저장 때에 맞게 띄우기
-
 
 
     //임시저장 post 위한 리스트
@@ -114,6 +111,8 @@ class MyWritingActivity:AppCompatActivity() {
         val editor = sharedPreference.edit() //제목, 카테고리, 시간, 한줄소개, 재료이름, 재료갯수, 스텝설명, 후기, 재료스탭 갯수
         val sharedPreference2 = getSharedPreferences("writing_image", 0)
         val editor2 = sharedPreference2.edit() //이미지의 url을 담음 //썸네일, stp1사진, step2사진, ...
+        val sharedPreference3 = getSharedPreferences("writing_save",0)
+        val editor3= sharedPreference3.edit()
 
 
         //카테고리 선택 버튼
@@ -391,7 +390,7 @@ class MyWritingActivity:AppCompatActivity() {
 
         //임시저장 버튼 눌렀을때
         viewBinding.mySavebtn.setOnClickListener {
-            editor.putString("filled","1")
+            editor3.putString("filled","1")
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
@@ -500,7 +499,7 @@ class MyWritingActivity:AppCompatActivity() {
             sharedPreference2.getString("step9_image", "@")?.let { Log.e(ContentValues.TAG, it) }
             sharedPreference2.getString("step10_image", "@")?.let { Log.e(ContentValues.TAG, it) }*/
 
-            if(sharedPreference.getString("filled","") =="1"){
+            if(sharedPreference3.getString("filled","") =="1"){
                 //임시저장 주의 dialog 띄우기
                 binding_save_warning = DialogSaveWarningBinding.inflate(layoutInflater)
                 val dialog_save_warning_builder = AlertDialog.Builder(this).setView(binding_save_warning.root)
@@ -667,6 +666,7 @@ class MyWritingActivity:AppCompatActivity() {
 
         //업로드 버튼 눌렀을때
         viewBinding.myUploadbtn.setOnClickListener {
+            editor3.putString("filled","0")
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())

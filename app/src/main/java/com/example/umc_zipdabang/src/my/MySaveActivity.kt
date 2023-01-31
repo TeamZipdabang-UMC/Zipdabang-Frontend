@@ -310,6 +310,8 @@ class MySaveActivity:AppCompatActivity() {
         val editor = sharedPreference.edit() //제목, 카테고리, 시간, 한줄소개, 재료이름, 재료갯수, 스텝설명, 후기, 재료스탭 갯수
         val sharedPreference2 = getSharedPreferences("writing_image", 0)
         val editor2 = sharedPreference2.edit() //이미지의 url을 담음 //썸네일, stp1사진, step2사진, ...
+        val sharedPreference3 = getSharedPreferences("writing_save",0)
+        val editor3= sharedPreference3.edit()
         editor2.clear()
         editor2.apply()
 
@@ -734,7 +736,7 @@ class MySaveActivity:AppCompatActivity() {
 
         //임시저장 버튼 눌렀을때
         viewBinding.mySavebtn.setOnClickListener {
-            editor.putString("filled","1")
+            editor3.putString("filled","1")
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())
@@ -880,7 +882,7 @@ class MySaveActivity:AppCompatActivity() {
 
         //업로드 버튼 눌렀을때
         viewBinding.myUploadbtn.setOnClickListener {
-            editor.putString("filled","0")
+            editor3.putString("filled","0")
             editor.putInt("ingredient",num)
             editor.putInt("step",num2)
             editor.putString("title", viewBinding.myRecipeEdtTital.text.toString())

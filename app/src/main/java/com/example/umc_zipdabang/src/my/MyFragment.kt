@@ -77,8 +77,6 @@ class MyFragment : Fragment(){
             startActivity(intent)
         }*/
 
-        val sharedPreference = this.getActivity()?.getSharedPreferences("writing",0)
-        val editor = sharedPreference?.edit() //제목, 카테고리, 시간, 한줄소개, 재료이름, 재료갯수, 스텝설명, 후기, 재료스탭 갯수
 
         viewBinding.myBtnIcon1.setOnClickListener {
             val intent = Intent(activity, MyWritingActivity::class.java)
