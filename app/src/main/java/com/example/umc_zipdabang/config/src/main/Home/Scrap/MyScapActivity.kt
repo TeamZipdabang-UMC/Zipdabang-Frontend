@@ -6,15 +6,13 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.umc_zipdabang.config.src.main.Home.category.CategorySmoothieAdapter
 import com.example.umc_zipdabang.config.src.main.Home.edit.EditScrapActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
 import com.example.umc_zipdabang.config.src.main.Retrofit.Scrap_Response
-import com.example.umc_zipdabang.config.src.main.Retrofit.Search_Response
 import com.example.umc_zipdabang.databinding.ActivityMyscrapBinding
-import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

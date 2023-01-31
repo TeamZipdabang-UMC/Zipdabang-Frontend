@@ -5,7 +5,6 @@ import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -13,15 +12,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Home.CustomDialogDialog
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity
-import com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScrapAdapter
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrapp
 import com.example.umc_zipdabang.config.src.main.Home.custom_toast
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Retrofit.Delete
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
 import com.example.umc_zipdabang.config.src.main.Retrofit.Scrap_Delete_Response
-import com.example.umc_zipdabang.config.src.main.Retrofit.Scrap_Response
 import com.example.umc_zipdabang.databinding.ActivityEditscrapBinding
-import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -13,14 +13,12 @@ import com.example.umc_zipdabang.config.src.main.Home.category.*
 import com.example.umc_zipdabang.config.src.main.Home.reciepe.Home_receipe
 import com.example.umc_zipdabang.config.src.main.Home.reciepe.ReceipeAdapter
 import com.example.umc_zipdabang.config.src.main.Home.search.SearchActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Retrofit.Main_Response
 import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
 import com.example.umc_zipdabang.databinding.FragmentHomeBinding
-import com.example.umc_zipdabang.src.main.JoinInitialActivity
-import com.example.umc_zipdabang.src.main.roomDb.Token
-import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
