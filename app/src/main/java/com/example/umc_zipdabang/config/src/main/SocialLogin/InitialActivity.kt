@@ -26,7 +26,7 @@ class InitialActivity: AppCompatActivity() {
 
         }
 
-        val tokenDb = TokenDatabase.getTokenDatabase(this)
+        //       val tokenDb = TokenDatabase.getTokenDatabase(this)
 //        GlobalScope.launch(Dispatchers.IO) {
 //            tokenDb.tokenDao().deleteAll()
 //        }

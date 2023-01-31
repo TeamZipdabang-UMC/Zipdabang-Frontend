@@ -71,7 +71,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         }
 
         viewBinding.ivZipdabangRecipeLike.setOnClickListener {
-            if (!like!!) {
+            if (!like!!)
                 like = true
                 viewBinding.ivZipdabangRecipeLike.setImageResource(R.drawable.ic_heart_filled)
                 var newLikeNum = viewBinding.tvZipdabangRecipeLikeNum.text.toString().toInt() + 1
