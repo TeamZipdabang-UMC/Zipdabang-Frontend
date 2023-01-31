@@ -77,6 +77,7 @@ class MyWritingActivity:AppCompatActivity() {
     //임시저장 멘트가 이상함?
     //카테고리 버튼 되면하고 아님 말고
     //도전 중 완료 마이스크랩 하면 그 화면으로 이동하기 연결!!!
+    //토스트 글자 위치!!!
 
 
     //임시저장 post 위한 리스트
