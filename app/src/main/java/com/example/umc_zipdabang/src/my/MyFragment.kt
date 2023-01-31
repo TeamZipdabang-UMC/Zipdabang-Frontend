@@ -144,7 +144,7 @@ class MyFragment : Fragment(){
 
 
                     viewBinding.myRvChallenging.layoutManager = GridLayoutManager(context, 2)
-                    val adapter1 = IntroChallengedoneRVAdapter(challenging)
+                    val adapter1 = IntroChallengingRVAdapter(challenging)
                     viewBinding.myRvChallenging.adapter = adapter1
                     adapter1.notifyDataSetChanged()
 
@@ -154,10 +154,12 @@ class MyFragment : Fragment(){
                     adapter2.notifyDataSetChanged()
 
                     viewBinding.myRvMyscrap.layoutManager = GridLayoutManager(context, 2)
-                    val adapter3 = ItemRecipeRVAdapter(complete)
+                    val adapter3 = ItemRecipeRVAdapter(scrap)
                     viewBinding.myRvMyscrap.adapter = adapter3
                     adapter3.notifyDataSetChanged()
 
+
+                   // adapter1.setOnItemClickListener1(object: IntroChallengingRVAdapter)
 
                 }
 
@@ -167,6 +169,10 @@ class MyFragment : Fragment(){
             })
         }
 
+
+
+
+        
 
         viewBinding.myBtnChallenging.setOnClickListener {
             parentFragmentManager.beginTransaction()
