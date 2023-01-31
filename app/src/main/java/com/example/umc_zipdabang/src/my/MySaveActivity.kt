@@ -41,6 +41,7 @@ import com.example.umc_zipdabang.BuildConfig
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.*
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -1898,7 +1899,7 @@ class MySaveActivity:AppCompatActivity() {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             Log.d("갤러리 확인","${imageUri}")
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             //썸네일 post
@@ -1955,7 +1956,7 @@ class MySaveActivity:AppCompatActivity() {
 
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step1 post
@@ -1996,7 +1997,7 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step2 post
@@ -2038,7 +2039,7 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step3 post
@@ -2078,7 +2079,7 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step4 post
@@ -2120,7 +2121,7 @@ class MySaveActivity:AppCompatActivity() {
             val imageUri = result.data?.data ?: return@registerForActivityResult
 
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step5 post
@@ -2161,7 +2162,7 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step6 post
@@ -2202,7 +2203,7 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step7 post
@@ -2243,7 +2244,7 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step8 post
@@ -2284,7 +2285,7 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step9 post
@@ -2324,7 +2325,7 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step10 post
@@ -2557,7 +2558,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -2643,7 +2644,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -2708,7 +2709,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
                 // step2 post
@@ -2759,7 +2760,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -2810,7 +2811,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -2862,7 +2863,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -2914,7 +2915,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -2966,7 +2967,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -3017,7 +3018,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -3069,7 +3070,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
@@ -3119,7 +3120,7 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create(MediaType.parse("image/*"), filee)
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 

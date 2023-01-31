@@ -9,7 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.ActivityMyEditQuestionBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -98,9 +102,19 @@ class QuestionDetailActivity  :  AppCompatActivity(){
                     dialog.showDialog()
                     }
                 }
-            var token1  =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
-            val service = Retrofit.retrofit.create(RetrofitQuestService::class.java)
+
+
+            //      var token1  =
+        //        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
+
+
+            GlobalScope.launch(Dispatchers.IO) {
+
+                var token1: String? = null
+                val tokenDb = TokenDatabase.getTokenDatabase(this@QuestionDetailActivity)
+                token1 = tokenDb.tokenDao().getToken().token.toString()
+
+                val service = Retrofit.retrofit.create(RetrofitQuestService::class.java)
 
 
 
@@ -154,4 +168,5 @@ class QuestionDetailActivity  :  AppCompatActivity(){
     }
         }
     }
+}
 }

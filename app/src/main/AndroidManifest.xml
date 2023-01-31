@@ -6,11 +6,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+   <uses-sdk android:minSdkVersion="5"/>
 
     <application
-        android:usesCleartextTraffic="true"
+        android:name=".config.src.main.SocialLogin.KakaoApplication"
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -19,6 +22,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Zipdabang_android"
         tools:targetApi="31">
+
+        <activity android:name=".config.src.main.SocialLogin.InitialActivity"
+                   android:screenOrientation="portrait"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -30,37 +44,250 @@
         </provider>
         <activity
             android:name=".src.main.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
+            android:screenOrientation="portrait"
+            >
         </activity>
+
         <activity android:name=".src.my.MyWritingActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
         </activity>
         <activity android:name=".src.setting.MySettingActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
         </activity>
         <activity android:name=".src.my.MySaveActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
         </activity>
         <activity android:name=".src.my.MyMyrecipeEditActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
         </activity>
-        <activity android:name=".src.setting.MyNoticeActivity" android:exported="true"/>
-        <activity android:name=".src.setting.NoticeDetailActivity" android:exported="true"/>
-        <activity android:name=".src.setting.ActvityTos" android:exported="true"/>
-        <activity android:name=".src.setting.FirstQuestionActivity" android:exported="true"/>
-        <activity android:name=".src.setting.QuestionDetailActivity" android:exported="true"/>
-        <activity android:name=".src.setting.QuestionLookupActivity" android:exported="true"/>
-        <activity android:name=".src.setting.QuitActivity" android:exported="true"/>
-        <activity android:name=".src.setting.MyFAQActivity" android:exported="true"/>
-    </application>
+        <activity android:name=".src.setting.MyNoticeActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.setting.NoticeDetailActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.setting.ActvityTos" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.setting.FirstQuestionActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.setting.QuestionDetailActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.setting.QuestionLookupActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.setting.QuitActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.setting.MyFAQActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeCoffeeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeBeverageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeTeaActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeAdeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeSmoothieActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeWellbeingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCoffeeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailAdeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailTeaActivity"
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailBeverageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailSmoothieActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailWellbeingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentAdeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentBeverageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentCoffeeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentSmoothieActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentTeaActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentWellbeingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Our.OurRecipeCoffeeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Our.OurRecipeAdeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Our.OurRecipeBeverageActivity"
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name=".config.src.main.Our.OurRecipeSmoothieActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Our.OurRecipeTeaActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Our.OurRecipeWellbeingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Our.OurRecipeDetailActivity"
+            android:screenOrientation="portrait"
+
+            />
+
+        <activity
+            android:name=".config.src.main.Jip.src.main.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            >
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
+    </activity>
+
+        <activity
+            android:name="com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            >
+
+        </activity>
+
+
+        <activity android:name=".config.src.main.signup.SignupCameraagreeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.signup.SignupFirstActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.signup.SignupResearchActivity"
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name=".config.src.main.signup.SignupSecondActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.signup.SignupServiceagreeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.signup.SignupServiceagreeChoice1Activity"
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name=".config.src.main.signup.SignupServiceagreeChoice2Activity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.signup.SignupServiceagreeMust1Activity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.signup.SignupServiceagreeMust2Activity"
+            android:screenOrientation="portrait"
+            />
+
+
+        <activity android:name=".config.src.main.SocialLogin.JoinInitialActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:launchMode="singleTask"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
+                <data android:host="oauth"
+                    android:scheme="kakao8300d879d66a5f65861ac2de40a4234c" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.edit.EditScrapActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.search.SearchActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryAdeActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryBeverageActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryCoffeeActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategorySmoothieActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryHealthActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.example.umc_zipdabang.config.src.main.Home.category.CategoryTeaActivity"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+</application>
 
 </manifest>

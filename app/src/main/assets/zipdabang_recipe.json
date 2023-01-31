@@ -1,0 +1,43 @@
+{
+  "zipdabang_recipe_image_url": {
+    "image_url": "https://user-images.githubusercontent.com/101035437/212384488-69ab5314-81b1-4561-8e6e-f8e88f89f5a1.png"
+  },
+  "title": {
+    "text": "XX님, 이런 상품\n어때요?",
+    "icon_url": "https://user-images.githubusercontent.com/101035437/210738699-6dc254c9-8d7a-4ef4-9be6-00c8b8732974.png"
+  },
+  "top_banners": [
+    {
+      "background_image_url": "https://user-images.githubusercontent.com/101035437/210738849-da0910fb-1730-4066-9ee3-e49910807362.png",
+      "badge": {
+        "label": "기획전",
+        "background_color": "#52514d"
+      },
+      "label": "따스한 겨울\n준비하기",
+      "product_detail": {
+        "brand_name": "twg.official",
+        "label": "캐시미어 100%",
+        "discount_rate": 9,
+        "price": 102000,
+        "thumbnail_image_url": "https://user-images.githubusercontent.com/101035437/210738858-6c3ad867-b46a-4579-ad4f-9f5fb08276af.png",
+        "product_id": "FW-twg-sweater-1"
+      }
+    },
+    {
+      "background_image_url": "https://user-images.githubusercontent.com/101035437/210738852-11962e07-69b0-4a6f-8291-8c050e8c8f55.png",
+      "badge": {
+        "label": "기획전",
+        "background_color": "#967a6d"
+      },
+      "label": "나만의\n홈 오피스",
+      "product_detail": {
+        "brand_name": "Desk",
+        "label": "슬림 데스크 800",
+        "discount_rate": 16,
+        "price": 160000,
+        "thumbnail_image_url": "https://user-images.githubusercontent.com/101035437/210738855-8739b1d2-499b-42e0-866a-1831f2937387.png",
+        "product_id": "desk-1"
+      }
+    }
+  ]
+}

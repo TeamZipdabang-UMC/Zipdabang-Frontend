@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.databinding.FragmentMyMyrecipeBinding
 import com.example.umc_zipdabang.src.my.data.ItemRecipeChallengeData
 import com.example.umc_zipdabang.src.my.data.ItemRecipeData
@@ -49,7 +50,7 @@ class MyMyrecipeFragment : Fragment(){
 
 
         val myRecipeItemList: ArrayList<ItemRecipeChallengeData> = arrayListOf()
-        val myRecipeRVAdapter = MyMyrecipeRVAdapter(myRecipeItemList)
+        val myRecipeRVAdapter = MyMyrecipeRVAdapter(HomeMainActivity(), myRecipeItemList)
 
         GlobalScope.launch(Dispatchers.IO) {
 
@@ -83,7 +84,7 @@ class MyMyrecipeFragment : Fragment(){
                     }
                     viewBinding.myTvv.text = scraps.size.toString()
                     viewBinding.myRv.layoutManager = GridLayoutManager(context, 2)
-                    val adapter = MyMyrecipeRVAdapter(scraps)
+                    val adapter = MyMyrecipeRVAdapter(HomeMainActivity(),scraps)
                     viewBinding.myRv.adapter = adapter
                     adapter.notifyDataSetChanged()
                 }

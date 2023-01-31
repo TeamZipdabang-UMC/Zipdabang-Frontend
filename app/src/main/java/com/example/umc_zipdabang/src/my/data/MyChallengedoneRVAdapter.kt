@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.databinding.ItemRecipeBinding
 import com.example.umc_zipdabang.src.my.MyChallengedoneFragment
 import kotlinx.coroutines.Dispatchers
@@ -55,7 +57,7 @@ class MyChallengedoneRVAdapter(private val context: HomeMainActivity, private va
 
 
     override fun onBindViewHolder(holder: MyChallengedoneRVAdapter.challengedoneItemViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(context, dataList[position])
 
     }
 

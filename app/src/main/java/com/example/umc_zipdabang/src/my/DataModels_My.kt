@@ -30,7 +30,7 @@ data class PostNewRecipeSteps(
 )
 data class PostNewRecipeBodyResponse(
     @SerializedName("success") var success : Boolean,
-    @SerializedName("data") var data : String,
+    @SerializedName("data") var data : Int,
     @SerializedName("error") var error : String
 )
 

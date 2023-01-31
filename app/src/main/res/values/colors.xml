@@ -7,16 +7,25 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#99999999</color>
+    <color name="jipdabaing_black">#191919</color>
     <color name="jipdabang_black">#191919</color>
+    <color name="jipdabang_brown">#7C614D</color>
     <color name="jipdabang_login_edit_gray">#F5F5F5</color>
-    <color name="jipdabang_login_bt_gray">#EDEDED</color>
-    <color name="jipdabang_login_tv_gray">#999999</color>
     <color name="jipdabang_light_yellow">#FEFBC5</color>
     <color name="jipdabang_yellow">#FBEF65</color>
+    <color name="jipdabang_main_yellow">#FDEC65</color>
     <color name="jipdabang_main_">#E4DFDF</color>
+    <color name="jipdabang_bt_gray">#EDEDED</color>
+    <color name="jipdabang_dialog_tv">#767676</color>
     <color name="jipdabang_sign_button_gray">#EDEDED</color>
     <color name="jipdabang_login_edt_gray">#F5F5F5</color>
+    <color name="jipdabang_login_tv_gray">#F5F5F5</color>
+    <color name="jipdabang_login_btn_gray">#F5F5F5</color>
+    <color name="jipdabang_login_bt_gray">#F5F5F5</color>
     <color name="jipdabang_sign_text_gray">#999999</color>
     <color name="jipdabang_white">#FFFFFF</color>
     <color name="jipdabang_signup_text_gray">#767676</color>
+
+
 </resources>

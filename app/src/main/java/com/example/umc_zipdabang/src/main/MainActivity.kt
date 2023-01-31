@@ -16,11 +16,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
-        viewBinding.myBtn.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.mainfragmentcontainer, MyFragment())
-                .commitAllowingStateLoss()
-        }
+  //           viewBinding.myBtn.setOnClickListener {
+ //           supportFragmentManager.beginTransaction()
+   //             .replace(R.id.mainfragmentcontainer, MyFragment())
+   //             .commitAllowingStateLoss()
+   //     }
     }
 
 }

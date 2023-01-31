@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/tab_home"
+        android:icon="@drawable/main_bottom_home"
+        android:title="@string/tab_home"
+        />
+
+    <item android:id="@+id/tab_jip_receipe"
+        android:icon="@drawable/main_bottom_jipreceipe"
+        android:enabled="true"
+        android:title="@string/tab_jip_receiepe"/>
+
+    <item android:id="@+id/tab_our_receipe"
+        android:icon="@drawable/main_bottom_ourreceipe"
+        android:enabled="true"
+        android:title="@string/tap_our_receipe"/>
+
+    <item android:id="@+id/tab_user"
+        android:icon="@drawable/main_bottom_user"
+        android:enabled="true"
+        android:title="@string/tab_user"/>
+
+</menu>

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity
 import com.example.umc_zipdabang.databinding.FragmentMyBinding
 
 import com.example.umc_zipdabang.src.my.data.IntroChallengedoneRVAdapter
@@ -84,6 +85,7 @@ class MyFragment : Fragment(){
                     var scrap: ArrayList<ItemRecipeChallengeData> = arrayListOf()
 
                     val result = response.body()
+
 
                     //도전중
                     if(result?.data?.myChallengingOverView?.size != 0){
@@ -182,9 +184,6 @@ class MyFragment : Fragment(){
 
 
 
-
-        
-
         viewBinding.myBtnChallenging.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.mainfragmentcontainer, MyChallengingFragment())
@@ -198,7 +197,7 @@ class MyFragment : Fragment(){
                 .commit()
         }
         viewBinding.myBtnMyscrap.setOnClickListener {
-            val intent = Intent(activity, MySettingActivity::class.java)
+            val intent = Intent(activity, MyScapActivity::class.java)
             startActivity(intent)
         }
 
