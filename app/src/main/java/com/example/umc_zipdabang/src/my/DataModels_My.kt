@@ -125,3 +125,33 @@ data class Scrap_Delete_Response (
     @SerializedName("error")
     var error: Any?
 )
+
+data class GetRecipeTwoResponse(
+    @SerializedName("success") var success : Boolean,
+    @SerializedName("data") var data : GetRecipe,
+    @SerializedName("error") var error : String
+)
+data class GetRecipe(
+    @SerializedName("myScrapOverView") var myScrapOverView : ArrayList<GetScrap>,
+    @SerializedName("myChallengingOverView") var myChallengingOverView : ArrayList<GetChallenging>,
+    @SerializedName("myCompleteOverView") var myCompleteOverView : ArrayList<GetChallengedone>
+)
+data class GetScrap(
+    @SerializedName("recipeId") var recipeId : Int,
+    @SerializedName("likes") var likes : Int,
+    @SerializedName("image") var image : String,
+    @SerializedName("name") var name : String,
+)
+data class GetChallenging(
+    @SerializedName("recipeId") var recipeId : Int,
+    @SerializedName("likes") var likes : Int,
+    @SerializedName("image") var image : String,
+    @SerializedName("name") var name : String,
+)
+data class GetChallengedone(
+    @SerializedName("recipeId") var recipeId : Int,
+    @SerializedName("likes") var likes : Int,
+    @SerializedName("image") var image : String,
+    @SerializedName("name") var name : String,
+)
+

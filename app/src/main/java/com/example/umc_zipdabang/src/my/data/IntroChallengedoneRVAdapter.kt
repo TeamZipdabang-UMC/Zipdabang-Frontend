@@ -10,22 +10,18 @@ import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ItemRecipeBinding
 import com.example.umc_zipdabang.src.my.MyChallengedoneFragment
 
-class IntroChallengedoneRVAdapter(private val ItemRecipeList: ArrayList<ItemRecipeData>):
+class IntroChallengedoneRVAdapter(private val ItemRecipeList: ArrayList<ItemRecipeChallengeData>):
     RecyclerView.Adapter<IntroChallengedoneRVAdapter.ItemRecipeDataViewHolder>(){
 
     inner class ItemRecipeDataViewHolder(private val viewBinding: ItemRecipeBinding): RecyclerView.ViewHolder(viewBinding.root){
-        fun bind(ItemRecipeData: ItemRecipeData){
-            val url = ItemRecipeData.picUrl
+        fun bind(ItemRecipeData: ItemRecipeChallengeData){
+            val url = ItemRecipeData.image
             Glide.with(itemView)
                 .load(url)
                 .into(viewBinding.myRecipeImg)
-            viewBinding.myRecipeTital.text = ItemRecipeData.tital
+            viewBinding.myRecipeTital.text = ItemRecipeData.name
             viewBinding.myRecipeHeart.text = ItemRecipeData.likes.toString()
 
-            //클릭하면 fragment로 이동
-//            var fragment: Fragment = SelectPostFrag()
-//            var bundle: Bundle = Bundle()
-//            fragment.arguments = bundle
         }
     }
 
@@ -40,7 +36,5 @@ class IntroChallengedoneRVAdapter(private val ItemRecipeList: ArrayList<ItemReci
 
     override fun getItemCount(): Int = ItemRecipeList.size
 
-  /*  override fun getItemViewType(position: Int): Int {
-        return super.getItemViewType(position)
-    }*/
+
 }
