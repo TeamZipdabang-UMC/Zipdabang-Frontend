@@ -40,7 +40,7 @@
 
             <ImageView
                 android:id="@+id/iv_zipdabang_recipe_banner"
-                android:background="@color/jipdabang_login_bt_gray"
+                android:background="@color/jipdabang_login_btn_gray"
                 android:layout_width="0dp"
                 android:layout_height="240dp"
                 app:layout_constraintEnd_toEndOf="parent"
