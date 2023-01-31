@@ -7,12 +7,11 @@ plugins {
 
 android {
     namespace 'com.example.umc_zipdabang'
-    compileSdk 32
-
+    compileSdk 33
     defaultConfig {
         applicationId "com.example.umc_zipdabang"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         ndk {
@@ -31,9 +30,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+
     viewBinding{
         enabled true
     }

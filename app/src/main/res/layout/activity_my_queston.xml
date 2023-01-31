@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
+        android:id="@+id/my_frame"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@drawable/my_round"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/my_backbtn"
+            android:layout_width="15.5dp"
+            android:layout_height="15.2dp"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:src="@drawable/my_backbtn2"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="30dp"
+            android:layout_gravity="center_vertical|start"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1:1 문의"
+            android:textSize="20dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/jipdabang_black"
+            android:fontFamily="@font/notosanskrbold"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/quest_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="문의내역"
+        android:textSize="18sp"
+        android:fontFamily="@font/notosanskrfont"
+        android:textStyle="bold"
+        android:paddingStart="10dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/my_frame"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/quest_rv"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DBDBDB"
+        app:layout_constraintTop_toTopOf="@id/quest_rv"
+        app:layout_constraintBottom_toTopOf="@id/quest_rv"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/quest_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="5"
+        app:layout_constraintBottom_toTopOf="@id/tv_1_1"
+        app:layout_constraintTop_toBottomOf="@id/quest_title"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DBDBDB"
+        app:layout_constraintTop_toTopOf="@id/tv_1_1"
+        app:layout_constraintBottom_toTopOf="@id/tv_1_1"/>
+
+
+    <TextView
+    android:id="@+id/tv_1_1"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+        android:text="1:1 문의하기"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/notosanskrfont"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        app:layout_constraintVertical_weight="1"
+      app:layout_constraintBottom_toTopOf="@id/ct_bt"
+        app:layout_constraintTop_toBottomOf="@id/quest_rv"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DBDBDB"
+        app:layout_constraintTop_toTopOf="@id/ct_bt"
+        app:layout_constraintBottom_toTopOf="@id/ct_bt"/>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ct_bt"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_1_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_weight="3">
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bt_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:background="@drawable/quest_bg_bt"
+            android:text="문의하기"
+            android:fontFamily="@font/notosanskrfont"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

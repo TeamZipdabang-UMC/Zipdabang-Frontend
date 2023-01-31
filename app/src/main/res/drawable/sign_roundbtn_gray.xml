@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            android:shape="oval">
+            <padding
+                android:bottom="1dp"
+                android:left="0.2dp"
+                android:right="0.2dp"
+                android:top="0dp"/>
+
+            <solid android:color="#F5F5F5" />
+        </shape>
+    </item>
+    <item>
+        <shape
+            android:shape="oval">
+            <padding
+                android:bottom="1dp"
+                android:left="0.2dp"
+                android:right="0.2dp"
+                android:top="0dp"/>
+
+            <solid android:color="#DCDCDC" />
+        </shape>
+    </item>
+    <item>
+        <shape
+            android:shape="oval">
+            <padding
+                android:bottom="1dp"
+                android:left="0.2dp"
+                android:right="0.2dp"
+                android:top="0dp"/>
+
+            <solid android:color="#D3D3D3" />
+        </shape>
+    </item>
+    <item>
+        <shape
+            android:shape="oval">
+            <padding
+                android:bottom="1dp"
+                android:left="0.2dp"
+                android:right="0.2dp"
+                android:top="0dp"/>
+
+            <solid android:color="#D3D3D3" />
+        </shape>
+    </item>
+    <item>
+        <shape
+            android:shape="oval"
+            android:src="@drawable/sign_checkbtn">
+            <solid android:color="#EDEDED"></solid>
+
+            <stroke
+                android:width="3dp"
+                android:color="#EDEDED"></stroke>
+        </shape>
+    </item>
+</layer-list>

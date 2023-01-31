@@ -11,6 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.FragmentMyBinding
+
+import com.example.umc_zipdabang.src.my.data.IntroChallengedoneRVAdapter
+import com.example.umc_zipdabang.src.my.data.IntroChallengingRVAdapter
+import com.example.umc_zipdabang.src.my.data.ItemRecipeData
+import com.example.umc_zipdabang.src.my.data.ItemRecipeRVAdapter
+import com.example.umc_zipdabang.src.setting.MySettingActivity
+
 import com.example.umc_zipdabang.src.my.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -18,6 +25,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class MyFragment : Fragment(){
 
@@ -186,11 +194,10 @@ class MyFragment : Fragment(){
                 .addToBackStack(null)
                 .commit()
         }
-/*      //Myscrap 버튼 눌렀을때 리스너->하현과 연결!
         viewBinding.myBtnMyscrap.setOnClickListener {
-            val intent = Intent(activity, //activity이름::class.java)
+            val intent = Intent(activity, MySettingActivity::class.java)
             startActivity(intent)
-        }*/
+        }
 
 
         viewBinding.myBtnIcon1.setOnClickListener {
