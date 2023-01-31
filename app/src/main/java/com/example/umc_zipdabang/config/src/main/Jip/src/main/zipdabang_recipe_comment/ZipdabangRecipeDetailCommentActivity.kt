@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout.VERTICAL
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -21,6 +22,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.decoration.AdapterDecoration
@@ -36,6 +39,7 @@ import com.example.umc_zipdabang.databinding.ItemCommentBinding
 import kotlinx.android.synthetic.main.activity_zipdabang_recipe_detail.*
 import kotlinx.android.synthetic.main.item_loading.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.NonDisposableHandle.parent
 import okhttp3.internal.notify
 import retrofit2.Call
 import retrofit2.Callback
@@ -629,6 +633,15 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
 
 
     }
+    class upadte(val list : ArrayList<Comment>){
+
+
+
+
+
+
+
+    }
 
     class CommentInfiniteRVAdapter(
         val activity: ZipdabangRecipeDetailCommentActivity,
@@ -800,11 +813,17 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                               //      handler.postDelayed(object:java.lang.Runnable{
                                                 //        override fun run() {
                                                             Log.d("순서","${commentNumList}")
-                                                            val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList)
-                                                            viewbinding.rvZipdabangRecipeDetailComment.adapter = commentInfiniteRVAdapter
-                                                         //   val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList)
+                                                Log.d("순서","1111")
+                                                val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList)
+                                                           val layoutManager= LinearLayoutManager(ZipdabangRecipeDetailCommentActivity(),LinearLayoutManager.VERTICAL,false)
+
+
+                                                          viewbinding.rvZipdabangRecipeDetailComment.layoutManager =layoutManager
+                                                          viewbinding.rvZipdabangRecipeDetailComment.adapter = commentInfiniteRVAdapter
+
+                                                       //   val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList)
                                                              Log.d("순서","1111")
-                                                            commentInfiniteRVAdapter.notifyDataSetChanged()
+                                                          commentInfiniteRVAdapter.notifyDataSetChanged()
 
                                                       //  }
 
@@ -883,6 +902,8 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
         ): ZipdabangRecipeDetailCommentActivity.CommentInfiniteRVAdapter.CommentInfiniteViewHolder {
             val viewBinding_viewholder =
                 ItemCommentBinding.inflate(LayoutInflater.from(parent.context))
+            Log.d("순서create","?????")
+
             return CommentInfiniteRVAdapter.CommentInfiniteViewHolder(viewBinding_viewholder)
 
 

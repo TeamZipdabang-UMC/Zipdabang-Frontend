@@ -60,7 +60,7 @@ class MainScrapAdapter(private val context: HomeMainActivity, private val dataLi
                     binding.homeTvCategory2.text = item[1].title
                     Glide.with(context).load(item[1].ImageUrl).into(binding.homeIvCategory2)
                     binding.homeIvCategory2.clipToOutline = true
-                    binding.homeHeartIv1.visibility=View.VISIBLE
+                    binding.homeHeartIv2.visibility=View.VISIBLE
 
 
 
