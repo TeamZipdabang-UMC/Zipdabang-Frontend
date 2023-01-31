@@ -63,4 +63,10 @@ interface APIS_My {
         @Header("x-access-token") token: String?,
         @Body target: Delete
     ): Call<Scrap_Delete_Response>
+
+    //내 스크랩 도전중 도전완료 2개씩 보여줌
+    @GET("/users/my-page")
+    fun get_recipe_two(
+        @Header("x-access-token") token: String?,
+    ) : Call<GetRecipeTwoResponse>
 }

@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.databinding.ItemRecipeBinding
 
-class IntroChallengingRVAdapter(private val ItemRecipeList: ArrayList<ItemRecipeData>):
+class IntroChallengingRVAdapter(private val ItemRecipeList: ArrayList<ItemRecipeChallengeData>):
     RecyclerView.Adapter<IntroChallengingRVAdapter.ItemRecipeDataViewHolder>(){
 
     inner class ItemRecipeDataViewHolder(private val viewBinding: ItemRecipeBinding): RecyclerView.ViewHolder(viewBinding.root){
-        fun bind(ItemRecipeData: ItemRecipeData){
-            val url = ItemRecipeData.picUrl
+        fun bind(ItemRecipeData: ItemRecipeChallengeData){
+            val url = ItemRecipeData.image
             Glide.with(itemView)
                 .load(url)
                 .into(viewBinding.myRecipeImg)
-            viewBinding.myRecipeTital.text = ItemRecipeData.tital
+            viewBinding.myRecipeTital.text = ItemRecipeData.name
             viewBinding.myRecipeHeart.text = ItemRecipeData.likes.toString()
 
             //클릭하면 fragment로 이동
