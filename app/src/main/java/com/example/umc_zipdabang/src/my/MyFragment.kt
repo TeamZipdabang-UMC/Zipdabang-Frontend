@@ -158,7 +158,7 @@ class MyFragment : Fragment(){
                     viewBinding.myRvMyscrap.adapter = adapter3
                     adapter3.notifyDataSetChanged()
 
-
+                        /////
                    // adapter1.setOnItemClickListener1(object: IntroChallengingRVAdapter)
 
                 }
