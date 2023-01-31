@@ -2448,7 +2448,7 @@ class MyWritingActivity:AppCompatActivity() {
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
-                // thumbnail post
+                // thumbnail postt
                 retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){

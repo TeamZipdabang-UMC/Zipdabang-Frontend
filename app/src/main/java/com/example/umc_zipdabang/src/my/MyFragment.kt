@@ -41,9 +41,7 @@ class MyFragment : Fragment(){
     }
 
 
-    private  var challenging: ArrayList<ItemRecipeChallengeData> = arrayListOf()
-    private  var complete: ArrayList<ItemRecipeChallengeData> = arrayListOf()
-    private  var scrap: ArrayList<ItemRecipeChallengeData> = arrayListOf()
+
 
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
     private var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
@@ -80,6 +78,11 @@ class MyFragment : Fragment(){
                     response: Response<GetRecipeTwoResponse>
                 ) {
                     Log.d("통신", "통신 성공")
+
+                    var challenging: ArrayList<ItemRecipeChallengeData> = arrayListOf()
+                    var complete: ArrayList<ItemRecipeChallengeData> = arrayListOf()
+                    var scrap: ArrayList<ItemRecipeChallengeData> = arrayListOf()
+
                     val result = response.body()
 
                     //도전중

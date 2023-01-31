@@ -83,7 +83,7 @@ class MyMyrecipeFragment : Fragment(){
                     }
                     viewBinding.myTvv.text = scraps.size.toString()
                     viewBinding.myRv.layoutManager = GridLayoutManager(context, 2)
-                    val adapter = MyChallengingRVAdapter(scraps)
+                    val adapter = MyMyrecipeRVAdapter(scraps)
                     viewBinding.myRv.adapter = adapter
                     adapter.notifyDataSetChanged()
                 }
