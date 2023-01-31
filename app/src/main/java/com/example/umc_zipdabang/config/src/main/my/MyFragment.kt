@@ -1,4 +1,4 @@
-package com.example.umc_zipdabang.config.src.main.User
+package com.example.umc_zipdabang.config.src.main.my
 
 import android.os.Bundle
 import android.view.LayoutInflater

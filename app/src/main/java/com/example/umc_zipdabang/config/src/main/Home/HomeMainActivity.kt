@@ -6,11 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import com.example.umc_zipdabang.R
-import com.example.umc_zipdabang.config.src.main.Our.OurFragment
-import com.example.umc_zipdabang.config.src.main.Jip.JipFragment
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeFragment
 import com.example.umc_zipdabang.config.src.main.Our.OurRecipeFragment
-import com.example.umc_zipdabang.config.src.main.User.MyFragment
+import com.example.umc_zipdabang.config.src.main.my.MyFragment
 import com.example.umc_zipdabang.databinding.ActivityMainBinding
 
 
