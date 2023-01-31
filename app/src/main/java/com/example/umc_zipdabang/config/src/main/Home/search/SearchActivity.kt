@@ -3,18 +3,13 @@ package com.example.umc_zipdabang.config.src.main.Home.search
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
-import com.example.umc_zipdabang.config.src.main.Home.Scrap.Main_Scrap
-import com.example.umc_zipdabang.config.src.main.Home.Scrap.Search
-import com.example.umc_zipdabang.config.src.main.Home.reciepe.Home_receipe
-import com.example.umc_zipdabang.config.src.main.Retrofit.Main_Response
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
 import com.example.umc_zipdabang.config.src.main.Retrofit.Search_Response
@@ -206,6 +201,9 @@ class SearchActivity: AppCompatActivity() {
 
                         val adapter = SearchAdpater_1(this@SearchActivity, category)
                         viewbinding.searchRv.adapter = adapter
+
+
+
 
                         //처음 검색
 

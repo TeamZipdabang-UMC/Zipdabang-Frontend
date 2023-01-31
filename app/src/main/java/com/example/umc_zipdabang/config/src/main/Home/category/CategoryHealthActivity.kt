@@ -44,7 +44,7 @@ class CategoryHealthActivity : AppCompatActivity() {
 
         binding.myscrapIvBack.setOnClickListener{
 
-            onBackPressed()
+            finish()
 
         }
         GlobalScope.launch(Dispatchers.IO){

@@ -12,14 +12,28 @@ import com.example.umc_zipdabang.databinding.ItemReceipeBinding
 class ReceipeAdapter(private val context: HomeMainActivity, private val dataList: ArrayList<Home_receipe>) :
     RecyclerView.Adapter<ReceipeAdapter.ViewHolder>(){
 
-    private var itemClickListener: OnItemClickListener? = null
+    private var itemClickListener1: OnItemClickListener? = null
 
     interface OnItemClickListener {
-        fun onItemClick(v: View?, pos: Int)
+        fun onItemClick(v: View?, pos: Int, category : String)
     }
+    fun setOnItemClickListener1(listener: OnItemClickListener) {
+        itemClickListener1 = listener
+    }
+
+    private var itemClickListener2: OnItemClickListener? = null
+
+    fun setOnItemClickListener2(listener: OnItemClickListener) {
+        itemClickListener2 = listener
+    }
+
     fun setOnItemClickListener(listener: OnItemClickListener) {
         itemClickListener = listener
     }
+
+    private var itemClickListener: OnItemClickListener? = null
+
+
 
 
     inner class ViewHolder(private var binding: ItemReceipeBinding):
@@ -38,13 +52,31 @@ class ReceipeAdapter(private val context: HomeMainActivity, private val dataList
             binding.homeIvCategory1.clipToOutline = true
             binding.homeIvCategory2.clipToOutline = true
 
-
-
             binding.arrowIv.setOnClickListener(object : View.OnClickListener{
                 override fun onClick(p0: View?) {
                     val pos=getAdapterPosition()
                     if (pos != RecyclerView.NO_POSITION) {
-                        itemClickListener?.onItemClick(p0, pos)
+                        itemClickListener?.onItemClick(p0, pos,item.category)
+                    }
+                }
+            })
+
+
+
+            binding.homeIvCategory1.setOnClickListener(object : View.OnClickListener{
+                override fun onClick(p0: View?) {
+                    val pos=getAdapterPosition()
+                    if (pos != RecyclerView.NO_POSITION) {
+                        itemClickListener1?.onItemClick(p0, pos,item.category)
+                    }
+                }
+            })
+
+            binding.homeIvCategory2.setOnClickListener(object : View.OnClickListener{
+                override fun onClick(p0: View?) {
+                    val pos=getAdapterPosition()
+                    if (pos != RecyclerView.NO_POSITION) {
+                        itemClickListener2?.onItemClick(p0, pos,item.category)
                     }
                 }
             })

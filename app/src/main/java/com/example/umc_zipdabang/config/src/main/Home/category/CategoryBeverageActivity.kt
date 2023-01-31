@@ -44,7 +44,7 @@ class CategoryBeverageActivity : AppCompatActivity() {
 
         binding.myscrapIvBack.setOnClickListener{
 
-            onBackPressed()
+            finish()
 
         }
 

@@ -42,10 +42,9 @@ private lateinit var binding: ActivityCategory1Binding
 
         binding.myscrapIvBack.setOnClickListener{
 
-            onBackPressed()
 
+            finish()
         }
-
 
         GlobalScope.launch(Dispatchers.IO){
 

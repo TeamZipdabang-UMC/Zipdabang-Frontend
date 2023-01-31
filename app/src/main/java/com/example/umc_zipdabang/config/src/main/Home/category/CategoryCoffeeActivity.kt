@@ -45,7 +45,7 @@ class CategoryCoffeeActivity : AppCompatActivity() {
 
         binding.myscrapIvBack.setOnClickListener{
 
-            onBackPressed()
+            finish()
         }
 
 

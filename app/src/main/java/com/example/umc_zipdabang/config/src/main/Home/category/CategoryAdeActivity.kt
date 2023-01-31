@@ -46,7 +46,7 @@ class CategoryAdeActivity : AppCompatActivity() {
 
             binding.myscrapIvBack.setOnClickListener{
 
-                onBackPressed()
+                finish()
 
             }
 

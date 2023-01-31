@@ -26,10 +26,10 @@ class InitialActivity: AppCompatActivity() {
 
         }
 
-        val tokenDb = TokenDatabase.getTokenDatabase(this)
-//        GlobalScope.launch(Dispatchers.IO) {
-//            tokenDb.tokenDao().deleteAll()
-//        }
+      //  val tokenDb = TokenDatabase.getTokenDatabase(this)
+     //  GlobalScope.launch(Dispatchers.IO) {
+       //    tokenDb.tokenDao().deleteAll()
+            //   }
 
 
         // 카카오 키 해시값 확인 목적

@@ -13,6 +13,7 @@ import com.example.umc_zipdabang.config.src.main.Home.category.*
 import com.example.umc_zipdabang.config.src.main.Home.reciepe.Home_receipe
 import com.example.umc_zipdabang.config.src.main.Home.reciepe.ReceipeAdapter
 import com.example.umc_zipdabang.config.src.main.Home.search.SearchActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Retrofit.Main_Response
 import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
@@ -107,7 +108,7 @@ class HomeFragment : Fragment() {
                     Log.d("성공", "SUCCESS")
                         // 정상적으로 통신이 성공된 경우
                         val result = response.body()
-                        Log.d("성공", "${result}")
+                        Log.d("오버뷰성공", "${result}")
                         if (result != null) {
             /*                result.data?.myScrapOverView?.get(0)?.recipeid?.let {
                                 result.data?.myScrapOverView?.get(0)?.likes?.let { it1 ->
@@ -141,76 +142,162 @@ class HomeFragment : Fragment() {
                                     it,
                                 )
                             }
+                            */
 
-*/
+                        if(result?.data?.myScrapOverView?.size!=0) {
 
-
-                            coffee.add(Main_Scrap(result.data?.coffeeCategoryOverView?.get(0)?.recipeid,
-                                result.data?.coffeeCategoryOverView?.get(0)?.likes,
-                            result.data?.coffeeCategoryOverView?.get(0)?.image,
-                            result.data?.coffeeCategoryOverView?.get(0)?.name)
+                            scraps.add(
+                                Main_Scrap(
+                                    result.data?.myScrapOverView?.get(0)?.recipeid,
+                                    result.data?.myScrapOverView?.get(0)?.likes,
+                                    result.data?.myScrapOverView?.get(0)?.image,
+                                    result.data?.myScrapOverView?.get(0)?.name
+                                )
                             )
+                            Log.d("성공성공", scraps.size.toString())
+
+                            if (result?.data?.myScrapOverView?.size != 1) {
+                                scraps.add(
+                                    Main_Scrap(
+                                        result.data?.myScrapOverView?.get(1)?.recipeid,
+                                        result.data?.myScrapOverView?.get(1)?.likes,
+                                        result.data?.myScrapOverView?.get(1)?.image,
+                                        result.data?.myScrapOverView?.get(1)?.name
+                                    )
+                                )
+                            }
+                        }
+                            if(result?.data?.coffeeCategoryOverView?.size!=0) {
+                                coffee.add(
+                                    Main_Scrap(
+                                        result.data?.coffeeCategoryOverView?.get(0)?.recipeid,
+                                        result.data?.coffeeCategoryOverView?.get(0)?.likes,
+                                        result.data?.coffeeCategoryOverView?.get(0)?.image,
+                                        result.data?.coffeeCategoryOverView?.get(0)?.name
+                                    )
+                                )
+
+                                Log.d("성공성공", coffee.size.toString())
+
+                                if (result?.data?.coffeeCategoryOverView?.size != 1) {
+                                    coffee.add(
+                                        Main_Scrap(
+                                            result.data?.coffeeCategoryOverView?.get(1)?.recipeid,
+                                            result.data?.coffeeCategoryOverView?.get(1)?.likes,
+                                            result.data?.coffeeCategoryOverView?.get(1)?.image,
+                                            result.data?.coffeeCategoryOverView?.get(1)?.name
+                                        )
+                                    )
+                                }
+                            }
                             Log.d("성공성공",coffee.size.toString())
-
-                            coffee.add(Main_Scrap(result.data?.coffeeCategoryOverView?.get(1)?.recipeid,
-                                result.data?.coffeeCategoryOverView?.get(1)?.likes,
-                                result.data?.coffeeCategoryOverView?.get(1)?.image,
-                                result.data?.coffeeCategoryOverView?.get(1)?.name)
-                            )
-                            Log.d("성공성공",coffee.size.toString())
-                            beverage.add(Main_Scrap(result.data?.beverageCategoryOverView?.get(0)?.recipeid,
-                                result.data?.beverageCategoryOverView?.get(0)?.likes,
-                                result.data?.beverageCategoryOverView?.get(0)?.image,
-                                result.data?.beverageCategoryOverView?.get(0)?.name)
-                            )
-                            beverage.add(Main_Scrap(result.data?.beverageCategoryOverView?.get(0)?.recipeid,
-                                result.data?.beverageCategoryOverView?.get(1)?.likes,
-                                result.data?.beverageCategoryOverView?.get(1)?.image,
-                                result.data?.beverageCategoryOverView?.get(1)?.name)
-                            )
-                            tea.add(Main_Scrap(result.data?.teaCategoryOverView?.get(0)?.recipeid,
-                                result.data?.teaCategoryOverView?.get(0)?.likes,
-                                result.data?.teaCategoryOverView?.get(0)?.image,
-                                result.data?.teaCategoryOverView?.get(0)?.name)
-                            )
-                            tea.add(Main_Scrap(result.data?.teaCategoryOverView?.get(1)?.recipeid,
-                                result.data?.teaCategoryOverView?.get(1)?.likes,
-                                result.data?.teaCategoryOverView?.get(1)?.image,
-                                result.data?.teaCategoryOverView?.get(1)?.name)
-                            )
-                            ade.add(Main_Scrap(result.data?.adeCategoryOverView?.get(0)?.recipeid,
-                                result.data?.adeCategoryOverView?.get(0)?.likes,
-                                result.data?.adeCategoryOverView?.get(0)?.image,
-                                result.data?.adeCategoryOverView?.get(0)?.name)
-                            )
-                            ade.add(Main_Scrap(result.data?.adeCategoryOverView?.get(1)?.recipeid,
-                                result.data?.adeCategoryOverView?.get(1)?.likes,
-                                result.data?.adeCategoryOverView?.get(1)?.image,
-                                result.data?.adeCategoryOverView?.get(1)?.name)
-                            )
-                            smootie_juice.add(Main_Scrap(result.data?.smoothieCategoryOverView?.get(0)?.recipeid,
-                                result.data?.smoothieCategoryOverView?.get(0)?.likes,
-                                result.data?.smoothieCategoryOverView?.get(0)?.image,
-                                result.data?.smoothieCategoryOverView?.get(0)?.name)
-                            )
-                            smootie_juice.add(Main_Scrap(result.data?.smoothieCategoryOverView?.get(1)?.recipeid,
-                                result.data?.smoothieCategoryOverView?.get(1)?.likes,
-                                result.data?.smoothieCategoryOverView?.get(1)?.image,
-                                result.data?.smoothieCategoryOverView?.get(1)?.name)
-                            )
-                            health.add(Main_Scrap(result.data?.healthCategoryOverView?.get(0)?.recipeid,
-                                result.data?.healthCategoryOverView?.get(0)?.likes,
-                                result.data?.healthCategoryOverView?.get(0)?.image,
-                                result.data?.healthCategoryOverView?.get(0)?.name)
-                            )
-                            health.add(Main_Scrap(result.data?.healthCategoryOverView?.get(1)?.recipeid,
-                                result.data?.healthCategoryOverView?.get(1)?.likes,
-                                result.data?.healthCategoryOverView?.get(1)?.image,
-                                result.data?.healthCategoryOverView?.get(1)?.name)
-                            )
+                            if(result?.data?.beverageCategoryOverView?.size!=0) {
 
 
+                                beverage.add(
+                                    Main_Scrap(
+                                        result.data?.beverageCategoryOverView?.get(0)?.recipeid,
+                                        result.data?.beverageCategoryOverView?.get(0)?.likes,
+                                        result.data?.beverageCategoryOverView?.get(0)?.image,
+                                        result.data?.beverageCategoryOverView?.get(0)?.name
+                                    )
+                                )
+                                if (result?.data?.beverageCategoryOverView?.size != 1) {
+                                    beverage.add(
+                                        Main_Scrap(
+                                            result.data?.beverageCategoryOverView?.get(1)?.recipeid,
+                                            result.data?.beverageCategoryOverView?.get(1)?.likes,
+                                            result.data?.beverageCategoryOverView?.get(1)?.image,
+                                            result.data?.beverageCategoryOverView?.get(1)?.name
+                                        )
+                                    )
 
+                                }
+                            }
+
+                            if(result?.data?.teaCategoryOverView?.size!=0) {
+                                tea.add(
+                                    Main_Scrap(
+                                        result.data?.teaCategoryOverView?.get(0)?.recipeid,
+                                        result.data?.teaCategoryOverView?.get(0)?.likes,
+                                        result.data?.teaCategoryOverView?.get(0)?.image,
+                                        result.data?.teaCategoryOverView?.get(0)?.name
+                                    )
+                                )
+                                if(result?.data?.teaCategoryOverView?.size!=1) {
+                                    tea.add(
+                                        Main_Scrap(
+                                            result.data?.teaCategoryOverView?.get(1)?.recipeid,
+                                            result.data?.teaCategoryOverView?.get(1)?.likes,
+                                            result.data?.teaCategoryOverView?.get(1)?.image,
+                                            result.data?.teaCategoryOverView?.get(1)?.name
+                                        )
+                                    )
+                                }
+                            }
+                            Log.d("사이즈",result?.data?.adeCategoryOverView?.size.toString())
+
+                            if(result?.data?.adeCategoryOverView?.size!=0) {
+                                ade.add(
+                                    Main_Scrap(
+                                        result.data?.adeCategoryOverView?.get(0)?.recipeid,
+                                        result.data?.adeCategoryOverView?.get(0)?.likes,
+                                        result.data?.adeCategoryOverView?.get(0)?.image,
+                                        result.data?.adeCategoryOverView?.get(0)?.name
+                                    )
+                                )
+                                if(result?.data?.adeCategoryOverView?.size!=1) {
+
+                                    ade.add(
+                                        Main_Scrap(
+                                            result.data?.adeCategoryOverView?.get(1)?.recipeid,
+                                            result.data?.adeCategoryOverView?.get(1)?.likes,
+                                            result.data?.adeCategoryOverView?.get(1)?.image,
+                                            result.data?.adeCategoryOverView?.get(1)?.name
+                                        )
+                                    )
+                                }
+                            }
+                            if(result?.data?.smoothieCategoryOverView?.size!=0) {
+                                smootie_juice.add(
+                                    Main_Scrap(
+                                        result.data?.smoothieCategoryOverView?.get(0)?.recipeid,
+                                        result.data?.smoothieCategoryOverView?.get(0)?.likes,
+                                        result.data?.smoothieCategoryOverView?.get(0)?.image,
+                                        result.data?.smoothieCategoryOverView?.get(0)?.name
+                                    )
+                                )
+                                if(result?.data?.smoothieCategoryOverView?.size!=1) {
+                                    smootie_juice.add(
+                                        Main_Scrap(
+                                            result.data?.smoothieCategoryOverView?.get(1)?.recipeid,
+                                            result.data?.smoothieCategoryOverView?.get(1)?.likes,
+                                            result.data?.smoothieCategoryOverView?.get(1)?.image,
+                                            result.data?.smoothieCategoryOverView?.get(1)?.name
+                                        )
+                                    )
+                                }
+                            }
+                            if(result?.data?.healthCategoryOverView?.size!=0) {
+                                health.add(
+                                    Main_Scrap(
+                                        result.data?.healthCategoryOverView?.get(0)?.recipeid,
+                                        result.data?.healthCategoryOverView?.get(0)?.likes,
+                                        result.data?.healthCategoryOverView?.get(0)?.image,
+                                        result.data?.healthCategoryOverView?.get(0)?.name
+                                    )
+                                )
+                                if(result?.data?.healthCategoryOverView?.size!=1) {
+                                    health.add(
+                                        Main_Scrap(
+                                            result.data?.healthCategoryOverView?.get(1)?.recipeid,
+                                            result.data?.healthCategoryOverView?.get(1)?.likes,
+                                            result.data?.healthCategoryOverView?.get(1)?.image,
+                                            result.data?.healthCategoryOverView?.get(1)?.name
+                                        )
+                                    )
+                                }
+                            }
                             scraplist.add(scraps)
                             category.add(Home_receipe("커피", coffee))
                             category.add(Home_receipe("beverage", beverage))
@@ -229,6 +316,32 @@ class HomeFragment : Fragment() {
                         viewBinding.homeRvMyScrap.adapter = adapter1
                         Log.d("사이즈", scraps.size.toString())
 
+                    adapter1.setOnItemClickListener1(object :  MainScrapAdapter.OnItemClickListener {
+
+                        override fun onItemClick(v: View?, pos: Int) {
+                            var intent = Intent(
+                                context,
+                                ZipdabangRecipeDetailActivity :: class.java
+                            )
+                            intent.putExtra("recipeId", scraps[0].recipeid.toString())
+                            startActivity(intent)
+                        }
+                    })
+
+                    adapter1.setOnItemClickListener2(object :  MainScrapAdapter.OnItemClickListener {
+
+                        override fun onItemClick(v: View?, pos: Int) {
+                            var intent = Intent(
+                                context,
+                                ZipdabangRecipeDetailActivity :: class.java
+                            )
+                            intent.putExtra("recipeId", scraps[1].recipeid.toString())
+                            startActivity(intent)
+                        }
+                    })
+
+
+
                         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
                         viewBinding.btTomyscrap.setOnClickListener {
@@ -246,9 +359,49 @@ class HomeFragment : Fragment() {
                         adapter2 = ReceipeAdapter(activity as HomeMainActivity, category)
                         viewBinding.homeRvReceipe.adapter = adapter2
                         adapter2.notifyDataSetChanged()
-                        viewBinding.homeRvReceipe.isNestedScrollingEnabled = false
+
+
+
+                    adapter2.setOnItemClickListener1(object : ReceipeAdapter.OnItemClickListener {
+
+                        override fun onItemClick(v: View?, pos: Int, category : String) {
+                            var intent = Intent(
+                                context,
+                                ZipdabangRecipeDetailActivity :: class.java
+                            )
+                            if(category=="커피") intent.putExtra("recipeId",coffee[0].recipeid.toString())
+                            if(category=="beverage") intent.putExtra("recipeId",beverage[0].recipeid.toString())
+                            if(category=="티") intent.putExtra("recipeId",tea[0].recipeid.toString())
+                            if(category=="에이드") intent.putExtra("recipeId",ade[0].recipeid.toString())
+                            if(category=="스무디/주스") intent.putExtra("recipeId",smootie_juice[0].recipeid.toString())
+                            if(category=="건강음료") intent.putExtra("recipeId",health[0].recipeid.toString())
+
+                            startActivity(intent)
+                        }
+                    })
+
+                    adapter2.setOnItemClickListener2(object :  ReceipeAdapter.OnItemClickListener {
+
+                        override fun onItemClick(v: View?, pos: Int,category : String) {
+                            var intent = Intent(
+                                context,
+                                ZipdabangRecipeDetailActivity :: class.java
+                            )
+                            if(category=="커피") intent.putExtra("recipeId",coffee[1].recipeid.toString())
+                            if(category=="beverage") intent.putExtra("recipeId",beverage[1].recipeid.toString())
+                            if(category=="티") intent.putExtra("recipeId",tea[1].recipeid.toString())
+                            if(category=="에이드") intent.putExtra("recipeId",ade[1].recipeid.toString())
+                            if(category=="스무디/주스") intent.putExtra("recipeId",smootie_juice[1].recipeid.toString())
+                            if(category=="건강음료") intent.putExtra("recipeId",health[1].recipeid.toString())
+
+
+                            startActivity(intent)
+                        }
+                    })
+
+                    viewBinding.homeRvReceipe.isNestedScrollingEnabled = false
                         adapter2.setOnItemClickListener(object : ReceipeAdapter.OnItemClickListener {
-                            override fun onItemClick(v: View?, pos: Int) {
+                            override fun onItemClick(v: View?, pos: Int,category : String) {
 
                                 when (pos) {
 
