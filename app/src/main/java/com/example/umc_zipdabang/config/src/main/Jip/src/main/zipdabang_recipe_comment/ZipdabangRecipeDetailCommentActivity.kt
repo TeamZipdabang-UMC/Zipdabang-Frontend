@@ -36,8 +36,7 @@ import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
-import kotlinx.android.synthetic.main.activity_zipdabang_recipe_detail.*
-import kotlinx.android.synthetic.main.item_loading.*
+
 import kotlinx.coroutines.*
 import kotlinx.coroutines.NonDisposableHandle.parent
 import okhttp3.internal.notify
@@ -822,7 +821,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                                           viewbinding.rvZipdabangRecipeDetailComment.adapter = commentInfiniteRVAdapter
 
                                                        //   val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList)
-                                                             Log.d("순서","1111")
+
                                                           commentInfiniteRVAdapter.notifyDataSetChanged()
 
                                                       //  }

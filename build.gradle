@@ -12,6 +12,7 @@ buildscript {
     }
 }
 
+
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false
@@ -19,5 +20,7 @@ plugins {
 }
 
 ext {
+
     navVersion = '2.5.3'
+
 }

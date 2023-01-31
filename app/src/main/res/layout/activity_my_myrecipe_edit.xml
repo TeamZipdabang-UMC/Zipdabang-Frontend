@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <FrameLayout
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:background="@drawable/my_round"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="레시피 선택"
+                android:textSize="20dp"
+                android:textColor="@color/jipdabang_black"
+                android:fontFamily="@font/notosanskrbold"
+                android:layout_gravity="start|center"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/my_cancelbtn"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/my_cancelbtn"
+                android:text="취소"
+                android:textSize="16dp"
+                android:textColor="@color/jipdabang_black"
+                android:fontFamily="@font/notosanskrbold"/>
+        </FrameLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/my_linear_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="88dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.08"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:id="@+id/my_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanskrregular"
+                    android:text="레시피 선택"
+                    android:textColor="#999999"
+                    android:textSize="16dp" />
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_rv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/my_linear_tv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/my_itemdeletebtn"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="52dp"
+        android:layout_margin="16dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@drawable/my_btn_round"
+        android:layout_gravity="bottom"
+        android:text="삭제하기"
+        android:textSize="16dp"
+        android:textColor="#999999"
+        android:fontFamily="@font/notosanskrbold"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

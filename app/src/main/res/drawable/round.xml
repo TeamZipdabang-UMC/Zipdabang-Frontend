@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <stroke android:width="2px"
-        android:color="@color/jipdabang_sign_button_gray"></stroke>
+        android:color="#EDEDED"></stroke>
 
     <solid android:color="#FFFFFF"></solid>
 

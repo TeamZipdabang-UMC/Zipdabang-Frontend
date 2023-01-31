@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="my_recipe_edt_ingredientname2" type="id"/>
+    <item name="my_recipe_edt_ingredientqun2" type="id"/>
+    <item name="my_recipe_edt_ingredientname3" type="id"/>
+    <item name="my_recipe_edt_ingredientqun3" type="id"/>
+    <item name="my_recipe_edt_ingredientname4" type="id"/>
+    <item name="my_recipe_edt_ingredientqun4" type="id"/>
+    <item name="my_recipe_edt_ingredientname5" type="id"/>
+    <item name="my_recipe_edt_ingredientqun5" type="id"/>
+    <item name="my_recipe_edt_ingredientname6" type="id"/>
+    <item name="my_recipe_edt_ingredientqun6" type="id"/>
+    <item name="my_recipe_edt_ingredientname7" type="id"/>
+    <item name="my_recipe_edt_ingredientqun7" type="id"/>
+    <item name="my_recipe_edt_ingredientname8" type="id"/>
+    <item name="my_recipe_edt_ingredientqun8" type="id"/>
+    <item name="my_recipe_edt_ingredientname9" type="id"/>
+    <item name="my_recipe_edt_ingredientqun9" type="id"/>
+    <item name="my_recipe_edt_ingredientname10" type="id"/>
+    <item name="my_recipe_edt_ingredientqun10" type="id"/>
+</resources>

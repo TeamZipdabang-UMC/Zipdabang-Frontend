@@ -14,7 +14,6 @@ import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_a
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.Ingredient
 import com.example.umc_zipdabang.databinding.ItemIngredientsBinding
-import kotlinx.android.synthetic.main.item_ingredients.view.*
 import kotlinx.coroutines.withContext
 
 

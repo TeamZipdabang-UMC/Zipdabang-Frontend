@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
 
@@ -23,7 +22,9 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
+        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 
@@ -60,6 +61,13 @@ android {
     }
 
 
+
+    viewBinding{
+        enabled true
+    }
+    buildFeatures{
+        viewBinding true
+    }
 }
 
 
@@ -87,27 +95,23 @@ dependencies {
     // Retrofit2 및 Okhttp 관련 dependencies
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-    implementation platform("com.squareup.okhttp3:okhttp-bom:4.9.1")
-    implementation "com.squareup.okhttp3:okhttp:4.9.1"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+ //   implementation platform("com.squareup.okhttp3:okhttp-bom:4.9.1")
+//    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+ //   implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
 
     implementation 'io.github.muddz:styleabletoast:2.4.0'
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    kapt 'com.github.bumptech.glide:compiler:4.12.0'
-    tasks.register("prepareKotlinBuildScriptModel"){}
+    tasks.register("prepareKotlinBuildScriptModel") {}
 
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
     implementation 'com.kakao.sdk:v2-user:2.12.0'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
     implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
     implementation 'com.google.firebase:firebase-analytics:21.2.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
@@ -126,13 +130,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
 
     implementation 'com.google.code.gson:gson:2.8.9'
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
     implementation "com.kakao.sdk:v2-all:2.12.0" // 전체 모듈 설치, 2.11.0 버전부터 지원
     implementation "com.kakao.sdk:v2-user:2.12.0" // 카카오 로그인
@@ -150,4 +152,13 @@ dependencies {
 
     // To use Kotlin annotation processing tool (kapt)
 
+
+    //textinputlayout 사용
+    implementation 'com.google.android.material:material:1.2.1'
+    //scroll 관련
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
 }

@@ -12,7 +12,6 @@ import com.example.umc_zipdabang.config.src.main.Jip.src.main.GlideApp
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.Step
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.RecipeOrder
 import com.example.umc_zipdabang.databinding.ItemRecipeOrderBinding
-import kotlinx.android.synthetic.main.item_recipe_order.view.*
 
 class RecipeOrderRVAdapter(private val recipeOrderList: ArrayList<Step>): RecyclerView.Adapter<RecipeOrderRVAdapter.RecipeOrderViewHolder>() {
     inner class RecipeOrderViewHolder(private val viewBinding: ItemRecipeOrderBinding): RecyclerView.ViewHolder(viewBinding.root) {
