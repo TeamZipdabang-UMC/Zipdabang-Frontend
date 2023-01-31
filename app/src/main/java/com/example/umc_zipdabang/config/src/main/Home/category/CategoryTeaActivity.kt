@@ -1,11 +1,14 @@
 package com.example.umc_zipdabang.config.src.main.Home.category
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrapp
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Retrofit.DTO_Scroll_Response
 import com.example.umc_zipdabang.config.src.main.Retrofit.DTO_Scroll_Response2
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
@@ -24,7 +27,6 @@ class CategoryTeaActivity : AppCompatActivity() {
     val service = com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit.retrofit.create(
         RetrofitMainService::class.java
     )
-
     var a=1
     private var isLoading = false
     private var scraps: ArrayList<My_Scrapp> = arrayListOf()
@@ -43,7 +45,7 @@ class CategoryTeaActivity : AppCompatActivity() {
 
         binding.myscrapIvBack.setOnClickListener{
 
-            onBackPressed()
+            finish()
 
         }
         GlobalScope.launch(Dispatchers.IO){
@@ -115,8 +117,17 @@ class CategoryTeaActivity : AppCompatActivity() {
 
                         }
                     })
-                }
 
+                    adapter.setOnItemClickListener(object : CategoryTeaAdapter.OnItemClickListener {
+                        override fun onItemClick(v: View?, pos: Int) {
+                            var intent= Intent(applicationContext, ZipdabangRecipeDetailActivity :: class.java )
+                            intent.putExtra("recipeId",scraps[pos].id.toString())
+                            startActivity(intent)
+                        }
+
+
+                    })
+                }
 
                 override fun onFailure(
                     call: Call<DTO_Scroll_Response>,
@@ -206,7 +217,17 @@ class CategoryTeaActivity : AppCompatActivity() {
                                     })
                                     adapter.notifyDataSetChanged()
                                     isLoading = false
+                                    adapter.setOnItemClickListener(object : CategoryTeaAdapter.OnItemClickListener {
+                                        override fun onItemClick(v: View?, pos: Int) {
+                                            var intent= Intent(applicationContext, ZipdabangRecipeDetailActivity :: class.java )
+                                            intent.putExtra("recipeId",scraps[pos].id.toString())
+                                            startActivity(intent)
+                                        }
+
+
+                                    })
                                 }
+
                                 if(a==1)  runnable2.run()
 
                             }

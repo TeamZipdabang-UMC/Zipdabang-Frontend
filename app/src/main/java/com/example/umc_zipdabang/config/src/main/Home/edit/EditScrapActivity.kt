@@ -52,10 +52,8 @@ class EditScrapActivity : AppCompatActivity() {
 
 
             val tokenDb = TokenDatabase.getTokenDatabase(this@EditScrapActivity)
-            //   token1 = tokenDb.tokenDao().getToken().token.toString()
+            token1 = tokenDb.tokenDao().getToken().token.toString()
 
-            token1 =
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
 
 
             var intent = getIntent()
@@ -104,8 +102,8 @@ class EditScrapActivity : AppCompatActivity() {
             })
 
 
-            val handler : Handler = Handler(Looper.getMainLooper())
-               handler.postDelayed(object: Runnable {
+          val handler : Handler = Handler(Looper.getMainLooper())
+            handler.postDelayed(object: Runnable {
                    override fun run() {
 
 
@@ -183,13 +181,8 @@ class EditScrapActivity : AppCompatActivity() {
 
 
                    }
-                   },0)
+                                                 },0)
         }
-
-
-
-
-
 
 
             binding.cancelCompleteBt.setOnClickListener()

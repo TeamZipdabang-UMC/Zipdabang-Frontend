@@ -74,6 +74,8 @@
             android:exported="true">
 
         </activity>
+
+
         <activity android:name=".config.src.main.signup.SignupCameraagreeActivity"/>
         <activity android:name=".config.src.main.signup.SignupFirstActivity" />
         <activity android:name=".config.src.main.signup.SignupResearchActivity"/>
@@ -83,6 +85,7 @@
         <activity android:name=".config.src.main.signup.SignupServiceagreeChoice2Activity"/>
         <activity android:name=".config.src.main.signup.SignupServiceagreeMust1Activity"/>
         <activity android:name=".config.src.main.signup.SignupServiceagreeMust2Activity"/>
+
 
         <activity android:name=".config.src.main.SocialLogin.JoinInitialActivity"/>
 

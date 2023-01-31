@@ -2,6 +2,7 @@ package com.example.umc_zipdabang.config.src.main.Home.category
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +20,19 @@ class CategoryCoffeeAdapter(private val context: CategoryCoffeeActivity, private
 
         this.dataList= list
     }
+    private var itemClickListener1: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(v: View?, pos: Int)
+    }
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener1 = listener
+    }
 
     private var VIEW_TYPE_ITEM = 0
     private var VIEW_TYPE_LOADING = 1
 
-    class ItemViewHolder(private var binding: ItemInfinteBinding) :
+    inner class ItemViewHolder(private var binding: ItemInfinteBinding) :
 
         RecyclerView.ViewHolder(binding.root) {
 
@@ -36,11 +45,20 @@ class CategoryCoffeeAdapter(private val context: CategoryCoffeeActivity, private
             Glide.with(context).load(item.ImageUrl).into(binding.homeIvCategory1)
             binding.homeIvCategory1.clipToOutline = true
 
+            binding.homeIvCategory1.setOnClickListener(object : View.OnClickListener{
+                override fun onClick(p0: View?) {
+                    val pos=getAdapterPosition()
+                    if (pos != RecyclerView.NO_POSITION) {
+                        itemClickListener1?.onItemClick(p0, pos)
+                    }
+                }
+            })
+
         }
     }
 
 
-    class LoadingViewHolder(private var binding: ItemLoadingBinding) :
+    inner class LoadingViewHolder(private var binding: ItemLoadingBinding) :
 
         RecyclerView.ViewHolder(binding.root) {
 

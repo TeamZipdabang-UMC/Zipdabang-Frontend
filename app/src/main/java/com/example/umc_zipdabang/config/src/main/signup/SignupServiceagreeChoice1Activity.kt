@@ -12,7 +12,6 @@ class SignupServiceagreeChoice1Activity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivitySignupServiceagreeChoice1Binding.inflate((layoutInflater))
         setContentView(viewBinding.root)
-
         viewBinding.signupBackbtn.setOnClickListener {
             val intent = Intent(this, SignupServiceagreeActivity::class.java)
             startActivity(intent)

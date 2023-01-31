@@ -43,6 +43,8 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
             Glide.with(context).load(item.ImageUrl).into(binding.homeIvCategory1)
             binding.homeIvCategory1.clipToOutline = true
 
+            //ADAPTER(,,)
+
             binding.checkIv.setOnClickListener(object : View.OnClickListener{
                 override fun onClick(p0: View?) {
                     val pos=getAdapterPosition()
@@ -62,6 +64,11 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
 
 
                     }
+
+
+
+
+
                 }
             })
 
@@ -80,6 +87,7 @@ class EditScrapAdapter(private val context: EditScrapActivity, private val dataL
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(context, dataList[position],dataList)
+      //  holder.dd()
     }
 
     override fun getItemCount(): Int {

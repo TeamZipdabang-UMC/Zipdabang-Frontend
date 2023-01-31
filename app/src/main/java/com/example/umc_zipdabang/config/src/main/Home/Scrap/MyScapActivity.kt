@@ -3,9 +3,12 @@ package com.example.umc_zipdabang.config.src.main.Home.Scrap
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.umc_zipdabang.config.src.main.Home.category.CategorySmoothieAdapter
 import com.example.umc_zipdabang.config.src.main.Home.edit.EditScrapActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
 import com.example.umc_zipdabang.config.src.main.Retrofit.Scrap_Response
@@ -39,11 +42,9 @@ class MyScapActivity : AppCompatActivity() {
 
 
             val tokenDb = TokenDatabase.getTokenDatabase(this@MyScapActivity)
-     //       token1 = tokenDb.tokenDao().getToken().token.toString()
-            token1="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsQG5hdmVyLmNvbSIsImlhdCI6MTY3NDYyNDA5OCwiZXhwIjoxNjc3MjE2MDk4LCJzdWIiOiJ1c2VySW5mbyJ9.ZEl388-pGKg02xaVO5fq3nVGBtn0QfgTiWEeX3laRl0"
+            token1 = tokenDb.tokenDao().getToken().token.toString()
 
 
-            //통신
             service.get_Scrap_List(token1).enqueue(object :
                 Callback<Scrap_Response> {
 
@@ -79,6 +80,15 @@ class MyScapActivity : AppCompatActivity() {
                     binding.myscrapRv.adapter = adapter
                     binding.scrapSize.text=scraps.size.toString()
                     adapter.notifyDataSetChanged()
+                    adapter.setOnItemClickListener(object : MyScrapAdapter.OnItemClickListener {
+                        override fun onItemClick(v: View?, pos: Int) {
+                            var intent= Intent(applicationContext, ZipdabangRecipeDetailActivity :: class.java )
+                            intent.putExtra("recipeId",scraps[pos].id.toString())
+                            startActivity(intent)
+                        }
+
+
+                    })
 
 
                 }

@@ -1,14 +1,27 @@
 package com.example.umc_zipdabang.config.src.main.Home.search
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.databinding.ItemSearchBinding
 
 class SearchAdpater_1(private val context: SearchActivity, private val dataList: ArrayList<Search_Receipe>) :
     RecyclerView.Adapter<SearchAdpater_1.ViewHolder>(){
+
+    private var itemClickListener1: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(v: View?, pos: Int)
+    }
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener1 = listener
+    }
+
 
 
     class ViewHolder(private var binding: ItemSearchBinding):
@@ -22,16 +35,38 @@ class SearchAdpater_1(private val context: SearchActivity, private val dataList:
                  val adapter = SearchAdapter_2(context as SearchActivity, item.receipe)
                  binding.homeRvSearchCategory.adapter = adapter
                  binding.homeRvSearchCategory.layoutManager = GridLayoutManager(context, 2)
+
+
+                 adapter.setOnItemClickListener(object : SearchAdapter_2.OnItemClickListener {
+
+
+                     override fun onItemClick(v: View?, pos: Int) {
+                         var intent = Intent(
+                             context,
+                             ZipdabangRecipeDetailActivity::class.java
+                         )
+                         intent.putExtra("recipeId",item.receipe[pos].id.toString())
+                         itemView.context.startActivity(intent)
+
+
+
+
+                     }
+                 })
+
+
              }
 
 
 
 
-        }
-
-
 
         }
+
+
+
+        }
+
 
 
 

@@ -1,12 +1,15 @@
 package com.example.umc_zipdabang.config.src.main.Home.category
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrap
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.My_Scrapp
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.config.src.main.Retrofit.DTO_Scroll_Response
 import com.example.umc_zipdabang.config.src.main.Retrofit.DTO_Scroll_Response2
 import com.example.umc_zipdabang.config.src.main.Retrofit.RetrofitMainService
@@ -42,7 +45,7 @@ class CategoryCoffeeActivity : AppCompatActivity() {
 
         binding.myscrapIvBack.setOnClickListener{
 
-            onBackPressed()
+            finish()
         }
 
 
@@ -115,7 +118,17 @@ class CategoryCoffeeActivity : AppCompatActivity() {
 
                         }
                     })
+                    adapter.setOnItemClickListener(object : CategoryCoffeeAdapter.OnItemClickListener {
+                        override fun onItemClick(v: View?, pos: Int) {
+                            var intent= Intent(applicationContext, ZipdabangRecipeDetailActivity :: class.java )
+                            intent.putExtra("recipeId",scraps[pos].id.toString())
+                            startActivity(intent)
+                        }
+
+
+                    })
                 }
+
 
 
                 override fun onFailure(
@@ -204,7 +217,17 @@ class CategoryCoffeeActivity : AppCompatActivity() {
                                     })
                                     adapter.notifyDataSetChanged()
                                     isLoading = false
+                                    adapter.setOnItemClickListener(object : CategoryCoffeeAdapter.OnItemClickListener {
+                                        override fun onItemClick(v: View?, pos: Int) {
+                                            var intent= Intent(applicationContext, ZipdabangRecipeDetailActivity :: class.java )
+                                            intent.putExtra("recipeId",scraps[pos].id.toString())
+                                            startActivity(intent)
+                                        }
+
+
+                                    })
                                 }
+
                                 if(a==1)  runnable2.run()
 
                             }

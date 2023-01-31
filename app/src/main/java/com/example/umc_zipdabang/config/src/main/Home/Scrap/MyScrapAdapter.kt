@@ -2,6 +2,7 @@ package com.example.umc_zipdabang.config.src.main.Home.Scrap
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,7 +12,18 @@ class MyScrapAdapter(private val context: MyScapActivity, private val dataList: 
     RecyclerView.Adapter<MyScrapAdapter.ViewHolder>(){
 
 
-    class ViewHolder(private var binding: ItemMyscrapBeforeEditBinding):
+    private var itemClickListener1: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(v: View?, pos: Int)
+    }
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener1 = listener
+    }
+
+
+
+    inner class ViewHolder(private var binding: ItemMyscrapBeforeEditBinding):
 
         RecyclerView.ViewHolder(binding.root){
 
@@ -23,6 +35,16 @@ class MyScrapAdapter(private val context: MyScapActivity, private val dataList: 
                 binding.homeTvHeart1.text = item.heart.toString()
                 Glide.with(context).load(item.ImageUrl).into(binding.homeIvCategory1)
                 binding.homeIvCategory1.clipToOutline = true
+                binding.homeTvHeart1.visibility=View.VISIBLE
+
+                binding.homeIvCategory1.setOnClickListener(object : View.OnClickListener{
+                    override fun onClick(p0: View?) {
+                        val pos=getAdapterPosition()
+                        if (pos != RecyclerView.NO_POSITION) {
+                            itemClickListener1?.onItemClick(p0, pos)
+                        }
+                    }
+                })
 
             }
         }

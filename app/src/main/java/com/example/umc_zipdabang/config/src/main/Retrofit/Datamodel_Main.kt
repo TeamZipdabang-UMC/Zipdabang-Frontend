@@ -53,7 +53,7 @@ data class DataArray(
 data class Data(
 
 
-    @SerializedName("recipeid")
+    @SerializedName("recipeId")
     var recipeid : Int?,
 
     @SerializedName("likes")
@@ -69,3 +69,4 @@ data class Data(
 
 
     )
+
