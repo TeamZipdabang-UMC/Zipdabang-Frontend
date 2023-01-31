@@ -48,6 +48,7 @@
         android:layout_marginBottom="24dp"
         tools:text="123456"
         android:gravity="center"
+        android:textColor="@color/jipdabang_sign_text_gray"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/jipdabang_white">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="#00000000">-->
-
-
-<!--        -->
-
 
 <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
@@ -444,6 +436,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="52dp"
                             android:hint="댓글을 입력하세요."
+                            android:textColorHint="@color/jipdabang_sign_text_gray"
+                            android:textColor="@color/jipdabaing_black"
                             app:layout_constraintTop_toTopOf="@id/view_write_comment"
                             app:layout_constraintBottom_toBottomOf="@id/view_write_comment"
                             app:layout_constraintStart_toStartOf="@id/view_write_comment"
@@ -600,8 +594,6 @@
                     android:visibility="gone"/>
 
             </FrameLayout>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

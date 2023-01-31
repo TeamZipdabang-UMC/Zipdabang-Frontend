@@ -84,37 +84,37 @@ class OurRecipeFragment: Fragment() {
             // add(CategoriesData(사진, 카테고리명)
             add(
                 CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215327945-2cf69a9c-a97a-46cd-8a06-298ff44b1813.png",
+                    "https://user-images.githubusercontent.com/101035437/215479023-38453832-4704-4f53-b28d-49524b4e446b.png",
                     "커피"
                 )
             )
             add(
                 CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215328104-097040ea-7d75-437e-9f64-57e599c5f2c7.png",
+                    "https://user-images.githubusercontent.com/101035437/215479996-39fd6789-0ea1-470c-a5d6-5cdf8bdd2c6e.png",
                     "Beverage"
                 )
             )
             add(
                 CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215327987-3adfd999-b5ea-494d-892b-544580e8c2ab.png",
+                    "https://user-images.githubusercontent.com/101035437/215480159-ebe3b12e-f0a2-4a6f-b343-f66c3c125b33.png",
                     "티"
                 )
             )
             add(
                 CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215328029-7658292d-2e08-43ea-8e9a-3baae727dfcc.png",
+                    "https://user-images.githubusercontent.com/101035437/215479031-d6d9366d-355b-4449-bde4-ddb0a98327d0.png",
                     "에이드"
                 )
             )
             add(
                 CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215328059-b0d1e4b5-08a1-4867-97c2-571dfe0ed58d.png",
+                    "https://user-images.githubusercontent.com/101035437/215480346-136059e5-98a0-4003-a54f-b6c3ac8a1163.png",
                     "스무디/주스"
                 )
             )
             add(
                 CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215328082-98084379-b54f-43fc-9617-0a38f55ab9a6.png",
+                    "https://user-images.githubusercontent.com/101035437/215479086-0bdee389-123b-4f12-95b0-f918c9667468.png",
                     "건강음료"
                 )
             )

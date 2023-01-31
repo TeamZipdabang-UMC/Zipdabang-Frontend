@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.ActivityInitialBinding
 import com.example.umc_zipdabang.src.main.roomDb.TokenDatabase
 import com.kakao.sdk.common.util.Utility
@@ -26,7 +27,12 @@ class InitialActivity: AppCompatActivity() {
 
      //  GlobalScope.launch(Dispatchers.IO) {
        //  tokenDb.tokenDao().deleteAll()
-        //}
+        //
+//        
+//        }
+
+
+
         viewBinding.btnSignIn.setOnClickListener {
             val intent = Intent(this, JoinInitialActivity::class.java)
             startActivity(intent)

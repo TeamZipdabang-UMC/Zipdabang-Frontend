@@ -1,6 +1,7 @@
 package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.GlideApp
@@ -18,6 +19,7 @@ class RecipeDetailCommentRVAdapter(private val commentsList: ArrayList<com.examp
             viewBinding.tvCommentDate.text = comment.date.toString()
             viewBinding.tvCommentTime.text = comment.time.toString()
             viewBinding.tvCommentContent.text = comment.content
+            viewBinding.ivCommentControl.visibility = View.INVISIBLE
         }
     }
 
