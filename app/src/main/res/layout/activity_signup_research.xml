@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageButton
         android:id="@+id/signup_backbtn"
@@ -74,7 +75,7 @@
                 android:id="@+id/signup_btn_coffee"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/sign_research_coffee"
+                android:src="@drawable/new_coffee"
                 android:background="@drawable/sign_roundimage"
                 android:scaleType="centerCrop"
                 android:clipToOutline="true"/>
@@ -115,7 +116,7 @@
                     android:layout_height="100dp"
                     android:layout_width="100dp"
                     android:id="@+id/signup_btn_noncoffee"
-                    android:src="@drawable/sign_research_noncoffee"
+                    android:src="@drawable/new_lattee"
                     android:background="@drawable/sign_roundimage"
                     android:scaleType="centerCrop"
                     android:clipToOutline="true"/>
@@ -157,7 +158,7 @@
                     android:id="@+id/signup_btn_tea"
                     android:layout_height="100dp"
                     android:layout_width="100dp"
-                    android:src="@drawable/sign_research_tea"
+                    android:src="@drawable/new_tea"
                     android:background="@drawable/sign_roundimage"
                     android:scaleType="centerCrop"
                     android:clipToOutline="true"/>
@@ -199,7 +200,7 @@
                     android:layout_height="100dp"
                     android:layout_width="100dp"
                     android:id="@+id/signup_btn_ade"
-                    android:src="@drawable/sign_research_ade"
+                    android:src="@drawable/new_ade"
                     android:background="@drawable/sign_roundimage"
                     android:scaleType="centerCrop"
                     android:clipToOutline="true"/>
@@ -239,7 +240,7 @@
                 android:layout_height="100dp"
                 android:layout_width="100dp"
                 android:id="@+id/signup_btn_smudi"
-                android:src="@drawable/sign_research_smudi"
+                android:src="@drawable/new_smudi"
                 android:background="@drawable/sign_roundimage"
                 android:scaleType="centerCrop"
                 android:clipToOutline="true"/>
@@ -281,7 +282,7 @@
                 android:layout_height="100dp"
                 android:layout_width="100dp"
                 android:id="@+id/signup_btn_juice"
-                android:src="@drawable/sign_research_juice"
+                android:src="@drawable/new_juice"
                 android:background="@drawable/sign_roundimage"
                 android:scaleType="centerInside"
                 android:clipToOutline="true"/>
@@ -323,7 +324,7 @@
                     android:layout_height="100dp"
                     android:layout_width="100dp"
                     android:id="@+id/signup_btn_health"
-                    android:src="@drawable/sign_research_health"
+                    android:src="@drawable/new_health"
                     android:background="@drawable/sign_roundimage"
                     android:scaleType="centerInside"
                     android:clipToOutline="true"/>
@@ -364,7 +365,7 @@
                     android:layout_width="100dp"
                     android:id="@+id/signup_btn_etc"
                     android:clipToOutline="true"
-                    android:src="@drawable/sign_research_etc"
+                    android:src="@drawable/new_chocolattee"
                     android:background="@drawable/sign_roundimage"
                     android:scaleType="centerCrop"/>
                 <androidx.constraintlayout.utils.widget.ImageFilterView
