@@ -40,6 +40,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 //import com.example.umc_zipdabang.BuildConfig
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.databinding.*
@@ -102,6 +103,16 @@ class MyWritingActivity:AppCompatActivity() {
         val encodeByte = Base64.decode(encodedString, Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
     }
+    lateinit var fullSizePictureIntents : Intent
+    var a : Uri?=null
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("URI",a.toString())
+    }
+
+
+
 
 
     @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
@@ -109,6 +120,14 @@ class MyWritingActivity:AppCompatActivity() {
         viewBinding = ActivityMyWritingBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
+        Log.d("초기화","ㅁ")
+
+        if(savedInstanceState!=null)
+        {
+            a= Uri.parse(savedInstanceState.getString("URI"))
+
+        }
 
         val sharedPreference = getSharedPreferences("writing", 0)
         val editor = sharedPreference.edit() //제목, 카테고리, 시간, 한줄소개, 재료이름, 재료갯수, 스텝설명, 후기, 재료스탭 갯수
@@ -420,6 +439,7 @@ class MyWritingActivity:AppCompatActivity() {
         //뒤로가기 버튼 눌렀을때
         viewBinding.myBackbtn.setOnClickListener {
             var category_check = false
+            Log.d("backk","/")
             if(viewBinding.myCoffee.isSelected ==false
                 && viewBinding.myAde.isSelected  ==false
                 && viewBinding.myTea.isSelected ==false
@@ -455,7 +475,8 @@ class MyWritingActivity:AppCompatActivity() {
                 && step10_describe.text.toString().length ==0 && list[10]==""
                 && list[0] =="" && category_check == false){
 
-                finish()
+               val intent = Intent(this,HomeMainActivity::class.java)
+                startActivity(intent)
             }
             else{
                 binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
@@ -1200,9 +1221,10 @@ class MyWritingActivity:AppCompatActivity() {
             binding_camera.myCameraFrame.setOnClickListener{
                 REQUEST_THUMBNAIL = 1
                 photoURI = Uri.EMPTY
-                val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                    startActivityForResult(fullSizePictureIntent, REQUEST_THUMBNAIL)
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_THUMBNAIL)
                 }
                 Log.d("카메라 되냐","")
                 viewBinding.myImage.bringToFront()
@@ -2440,6 +2462,7 @@ class MyWritingActivity:AppCompatActivity() {
                 "com.example.umc_zipdabang" + ".fileprovider",
                 it
             )
+            a = photoURI
             Log.d("확인 생성된 file로부터 uri 생성", photoURI.toString())
 
             //3) 생성된 Uri를 Intent에 Put
@@ -2486,7 +2509,8 @@ class MyWritingActivity:AppCompatActivity() {
             if( requestCode == REQUEST_THUMBNAIL)
             {
                 Log.d("카메라 확인0", "3")
-                val imageUri = photoURI
+                val imageUri = a
+
                 Log.d("카메라 확인 phtouri","${imageUri}")
 
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
@@ -2496,7 +2520,7 @@ class MyWritingActivity:AppCompatActivity() {
                 Log.d("카메라 확인 2","${file}")
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 Log.d("카메라 확인 3","${inputStream}")
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
@@ -3243,7 +3267,8 @@ class MyWritingActivity:AppCompatActivity() {
         }
     }
 
-
+    }
+}
   
 
    /*override fun onBackPressed() {
@@ -3292,4 +3317,3 @@ class MyWritingActivity:AppCompatActivity() {
            dialog_reallynotsave.show()
    }*/
 
-}
