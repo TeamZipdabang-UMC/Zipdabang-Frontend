@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
+import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityMyQuitBinding
 import com.example.umc_zipdabang.databinding.ActivityMySettingBinding
 import kotlinx.coroutines.Dispatchers
@@ -71,7 +72,23 @@ class MySettingActivity :AppCompatActivity(){
         viewBinding.tvQuit.setOnClickListener {
 
             val intent = Intent(this, QuitActivity::class.java)
+
+
             startActivity(intent)
+
+        }
+
+        viewBinding.tvLogout.setOnClickListener {
+
+            val intent= Intent(this, InitialActivity::class.java)
+
+
+            val tokenDb = TokenDatabase.getTokenDatabase(this)
+            GlobalScope.launch(Dispatchers.IO) {
+                tokenDb.tokenDao().deleteAll()
+            }
+            startActivity(intent)
+
 
         }
 

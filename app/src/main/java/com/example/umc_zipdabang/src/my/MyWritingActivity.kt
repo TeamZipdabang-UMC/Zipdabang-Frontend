@@ -1297,7 +1297,7 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog_camera.window?.setGravity(Gravity.BOTTOM)
             dialog_camera.setCancelable(true)
-            dialog_camera.show()
+
             //카메라에서 가져오기
             binding_camera.myCameraFrame.setOnClickListener{
                 REQUEST_THUMBNAIL = 1
@@ -1311,7 +1311,6 @@ class MyWritingActivity:AppCompatActivity() {
                 }else{
                     requestPermission()
                 }
-                
                 dialog_camera.dismiss()
             }
 
@@ -1322,7 +1321,7 @@ class MyWritingActivity:AppCompatActivity() {
                 dialog_camera.dismiss()
             }
 
-
+            dialog_camera.show()
         }
         //step1 사진 올리기
         viewBinding.myRecipeImageStep.setOnClickListener{
@@ -2525,7 +2524,7 @@ class MyWritingActivity:AppCompatActivity() {
     //file 생성하고, 생성된 file로부터 uri 생성
     fun getPictureIntent_App_Specific(context: Context): Intent {
         val fullSizeCaptureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        
+
         //1) File 생성 - 촬영 사진이 저장 될
         //photoFile 경로 = /storage/emulated/0/Android/data/패키지명/files/Pictures/
         val photoFile: File? = try {
@@ -2583,18 +2582,11 @@ class MyWritingActivity:AppCompatActivity() {
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("카메라 확인 0","1")
+
         if( resultCode == Activity.RESULT_OK) {
-            Log.d("카메라 확인 0","2")
-
             if( requestCode == REQUEST_THUMBNAIL)
-
             {
-                Log.d("카메라 확인 0","3")
-
                 val imageUri = photoURI
-                Log.d("카메라 확인 5","${imageUri}")
-
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
@@ -2617,16 +2609,14 @@ class MyWritingActivity:AppCompatActivity() {
                 inputStream?.close()
 
 
-                Log.d("카메라 확인 5","${imageUri}")
+                Log.d("카메라 확인","${imageUri}")
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
-                Log.d("카메라 확인 6","${filee}")
+                Log.d("카메라 확인 5","${buf}")
                 //requestbody 객체로 변환한다.
                 val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
-                Log.d("카메라 확인 7","${requestFile}")
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
-                Log.d("카메라 확인 8","${body}")
 
                 // thumbnail post
                 GlobalScope.launch(Dispatchers.IO) {
@@ -3229,17 +3219,9 @@ class MyWritingActivity:AppCompatActivity() {
                 })
             }
         }
-
-
-
-
-
     }
 
-    override fun onPause() {
-        super.onPause()
 
-    }
     /*
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
