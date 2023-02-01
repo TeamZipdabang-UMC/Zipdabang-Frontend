@@ -478,7 +478,7 @@ class HomeFragment : Fragment() {
 
         super.onResume()
         GlobalScope.launch(Dispatchers.IO) {
-            delay(1000)
+            delay(100)
             viewBinding.etSearch.setText("")
             val tokenDb = TokenDatabase.getTokenDatabase(activity as HomeMainActivity)
             token1 = tokenDb.tokenDao().getToken().token.toString()
