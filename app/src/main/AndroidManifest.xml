@@ -9,7 +9,6 @@
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
 
-
     <application
         android:name=".config.src.main.SocialLogin.KakaoApplication"
         android:allowBackup="true"

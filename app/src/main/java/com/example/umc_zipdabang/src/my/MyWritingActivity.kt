@@ -44,6 +44,7 @@ import com.example.umc_zipdabang.databinding.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -107,6 +108,36 @@ class MyWritingActivity:AppCompatActivity() {
     fun stringToBitmap(encodedString: String):Bitmap{
         val encodeByte = Base64.decode(encodedString, Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
+    }
+
+    private val Permissions = arrayOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+    )
+
+    private val PICK_STORAGE=1001
+    private val PICK_CAMERA=1000
+    private val PERMISSIONS_REQUEST=100
+
+
+
+    private fun checkPermissions(permissions: Array<String>) : Boolean {
+        val permissionList : MutableList<String> = mutableListOf()
+        for(permission in permissions){
+            val result= ContextCompat.checkSelfPermission(this,permission)
+            if(result != PackageManager.PERMISSION_GRANTED){
+                permissionList.add(permission)
+            }
+        }
+        if(permissionList.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this, permissionList.toTypedArray(), PERMISSIONS_REQUEST
+            )
+            return false
+        }
+
+        return true
     }
 
 
@@ -1300,8 +1331,14 @@ class MyWritingActivity:AppCompatActivity() {
             dialog_camera.show()
             //카메라에서 가져오기
             binding_camera.myCameraFrame.setOnClickListener{
+
+                Log.d("들어가기", "성공1")
+
                 REQUEST_THUMBNAIL = 1
-                if(checkPermission()){
+                Log.d("Request 들어가기", "${REQUEST_THUMBNAIL}")
+
+                if(checkPermissions(Permissions)){
+                    Log.d("들어가기", "성공2")
                     photoURI = Uri.EMPTY
                     val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
                     fullSizePictureIntent.resolveActivity(packageManager)?.also {
@@ -1310,6 +1347,8 @@ class MyWritingActivity:AppCompatActivity() {
                     viewBinding.myImage.bringToFront()
                 }else{
                     requestPermission()
+                    Log.d("들어가기", "성공3")
+
                 }
                 dialog_camera.dismiss()
             }
@@ -2501,13 +2540,14 @@ class MyWritingActivity:AppCompatActivity() {
     //허용안할경우에 재확인..?
     private fun requestPermission(){
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,CAMERA),1)
-    }
-    //카메라 허용이 됐는지 안됐는지 확인
-    private fun checkPermission():Boolean{
-        return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+    }private fun checkPermission():Boolean{ return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
             Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
     }
+
+
+
+
     //빈파일 생성
     @Throws(IOException::class)
     fun createImageFile(storageDir: File?): File {
