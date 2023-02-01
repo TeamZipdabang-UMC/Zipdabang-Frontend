@@ -497,24 +497,110 @@ class HomeFragment : Fragment() {
                     val result = response.body()
                     Log.d("오버뷰성공", "${result}")
                     if (result != null) {
+                        if(result.data?.myScrapOverView?.size==0){
 
-
-                        if (result?.data?.myScrapOverView?.size != 0) {
-
-                            scraps.get(0).recipeid = result.data?.myScrapOverView?.get(0)?.recipeid
-                            scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
-                            scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
-                            scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
-
-                            if (result?.data?.myScrapOverView?.size != 1) {
-                                scraps.get(1).recipeid =
-                                    result.data?.myScrapOverView?.get(1)?.recipeid
-                                scraps.get(1).heart = result.data?.myScrapOverView?.get(1)?.likes
-                                scraps.get(1).ImageUrl = result.data?.myScrapOverView?.get(1)?.image
-                                scraps.get(1).title = result.data?.myScrapOverView?.get(1)?.name
+                            if(scraps.size==1) {
+                                scraps.removeAt(0)
+                            }
+                            if(scraps.size==2) {
+                                scraps.removeAt(1)
+                                scraps.removeAt(0)
                             }
                         }
-                        if (result?.data?.beverageCategoryOverView?.size != 0) {
+
+
+
+                        if(result.data?.myScrapOverView?.size==1) {
+                            if(scraps.size==0) {
+                                scraps.add(
+                                    Main_Scrap(
+                                        result.data?.myScrapOverView?.get(0)?.recipeid,
+                                        result.data?.myScrapOverView?.get(0)?.likes,
+                                        result.data?.myScrapOverView?.get(0)?.image,
+                                        result.data?.myScrapOverView?.get(0)?.name
+                                    )
+                                )
+
+                            }
+
+
+                            else if(scraps.size==1) {
+                                scraps.get(0).recipeid =
+                                    result.data?.myScrapOverView?.get(0)?.recipeid
+                                scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
+                                scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
+                                scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
+
+                            }else {
+                                 scraps.removeAt(1)
+                                scraps.get(0).recipeid =
+                                    result.data?.myScrapOverView?.get(0)?.recipeid
+                                scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
+                                scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
+                                scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
+                            }
+
+
+                        }
+                        if(result.data?.myScrapOverView?.size==2) {
+                            if(scraps.size==0) {
+                                scraps.add(
+                                    Main_Scrap(
+                                        result.data?.myScrapOverView?.get(0)?.recipeid,
+                                        result.data?.myScrapOverView?.get(0)?.likes,
+                                        result.data?.myScrapOverView?.get(0)?.image,
+                                        result.data?.myScrapOverView?.get(0)?.name
+                                    )
+                                )
+                                scraps.add(
+                                    Main_Scrap(
+                                        result.data?.myScrapOverView?.get(1)?.recipeid,
+                                        result.data?.myScrapOverView?.get(1)?.likes,
+                                        result.data?.myScrapOverView?.get(1)?.image,
+                                        result.data?.myScrapOverView?.get(1)?.name
+                                    )
+                                )
+
+                            }
+
+                            if(scraps.size==1) {
+                                scraps.get(0).recipeid =
+                                    result.data?.myScrapOverView?.get(0)?.recipeid
+                                scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
+                                scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
+                                scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
+
+
+                                scraps.add(
+                                    Main_Scrap(
+                                        result.data?.myScrapOverView?.get(1)?.recipeid,
+                                        result.data?.myScrapOverView?.get(1)?.likes,
+                                        result.data?.myScrapOverView?.get(1)?.image,
+                                        result.data?.myScrapOverView?.get(1)?.name
+                                    )
+                                )
+
+                            }else {
+
+                                scraps.get(0).recipeid =
+                                    result.data?.myScrapOverView?.get(0)?.recipeid
+                                scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
+                                scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
+                                scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
+
+                                scraps.get(1).recipeid =
+                                    result.data?.myScrapOverView?.get(1)?.recipeid
+                                scraps.get(1).heart =
+                                    result.data?.myScrapOverView?.get(1)?.likes
+                                scraps.get(1).ImageUrl =
+                                    result.data?.myScrapOverView?.get(1)?.image
+                                scraps.get(1).title = result.data?.myScrapOverView?.get(1)?.name
+                            }
+
+
+                        }
+
+                        if (beverage.size!=0) {
 
                             beverage.get(0).recipeid =
                                 result.data?.beverageCategoryOverView?.get(0)?.recipeid
@@ -537,8 +623,6 @@ class HomeFragment : Fragment() {
                             }
                         }
                         Log.d("성공성공", coffee.size.toString())
-                        if (result?.data?.coffeeCategoryOverView?.size != 0) {
-
 
                             if (result?.data?.coffeeCategoryOverView?.size != 0) {
 
@@ -563,9 +647,6 @@ class HomeFragment : Fragment() {
                                 }
                             }
 
-                            if (result?.data?.teaCategoryOverView?.size != 0) {
-
-
                                 if (result?.data?.teaCategoryOverView?.size != 0) {
 
                                     tea.get(0).recipeid =
@@ -589,8 +670,6 @@ class HomeFragment : Fragment() {
                                     }
                                 }
                                 Log.d("사이즈", result?.data?.adeCategoryOverView?.size.toString())
-                                if (result?.data?.adeCategoryOverView?.size != 0) {
-
 
                                     if (result?.data?.adeCategoryOverView?.size != 0) {
 
@@ -614,8 +693,6 @@ class HomeFragment : Fragment() {
                                                 result.data?.adeCategoryOverView?.get(1)?.name
                                         }
                                     }
-                                    if (result?.data?.smoothieCategoryOverView?.size != 0) {
-
 
                                         if (result?.data?.smoothieCategoryOverView?.size != 0) {
 
@@ -639,8 +716,6 @@ class HomeFragment : Fragment() {
                                                     result.data?.smoothieCategoryOverView?.get(1)?.name
                                             }
                                         }
-                                        if (result?.data?.healthCategoryOverView?.size != 0) {
-
 
                                             if (result?.data?.healthCategoryOverView?.size != 0) {
 
@@ -724,18 +799,6 @@ class HomeFragment : Fragment() {
 
 
                                     }
-
-
-                                }
-
-
-                            }
-
-
-                        }
-                    }
-                }
-
                 override fun onFailure(
                     call: Call<Main_Response>,
                     t: Throwable
@@ -746,12 +809,15 @@ class HomeFragment : Fragment() {
                         "onFailure 에러: " + t.message.toString()
                     );
                 }
-            })
-        }
-    }
-}
+
+                                })
 
 
+                            }
+
+
+                        }
+                    }
 
 
 
