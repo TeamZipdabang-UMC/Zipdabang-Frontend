@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
+import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityMyEditQuestionBinding
 import com.example.umc_zipdabang.databinding.ActivityMyQuitBinding
 import kotlinx.coroutines.Dispatchers
@@ -33,9 +34,19 @@ class QuitActivity  :  AppCompatActivity() {
             if (!agree) {
 
                 viewbinding.agreeBt.setBackgroundResource(R.drawable.sign_roundbtn_yellow)
+                viewbinding.btQuestion.setBackgroundResource(R.drawable.quest_bg_bt)
+                viewbinding.btQuestion.setTextColor(
+                    (ContextCompat.getColor(
+                        applicationContext,
+                        R.color.black
+                    ))
+                )
                 agree = true
             } else {
                 viewbinding.agreeBt.setBackgroundResource(R.drawable.sign_roundbtn_gray)
+                viewbinding.btQuestion.setBackgroundResource(R.drawable.quest_bg_bt_gray)
+                viewbinding.btQuestion.setTextColor((ContextCompat.getColor(applicationContext,R.color.jipdabang_login_edit_gray)))
+
                 agree = false
 
             }
@@ -76,9 +87,15 @@ class QuitActivity  :  AppCompatActivity() {
                                 Log.d("성공", "${result}")
 
                                 if (result?.success == true) {
-                                    //첫화면으로 이동  val intent =
-                                    //     Intent(applicationContext, FirstQuestionActivity::class.java)
-                                    // startActivity(intent)
+
+                                    val tokenDb = TokenDatabase.getTokenDatabase(applicationContext)
+                                    GlobalScope.launch(Dispatchers.IO) {
+                                        tokenDb.tokenDao().deleteAll()
+                                    }
+
+                                    val intent =
+                                         Intent(applicationContext, InitialActivity::class.java)
+                                     startActivity(intent)
 
 
                                 }
