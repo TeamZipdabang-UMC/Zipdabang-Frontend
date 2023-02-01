@@ -30,7 +30,7 @@ data class PostNewRecipeSteps(
 )
 data class PostNewRecipeBodyResponse(
     @SerializedName("success") var success : Boolean,
-    @SerializedName("data") var data : String,
+    @SerializedName("data") var data : Int,
     @SerializedName("error") var error : String
 )
 
@@ -129,7 +129,7 @@ data class Scrap_Delete_Response (
 data class GetRecipeTwoResponse(
     @SerializedName("success") var success : Boolean,
     @SerializedName("data") var data : GetRecipe,
-    @SerializedName("error") var error : String
+    @SerializedName("error") var error : String?
 )
 data class GetRecipe(
     @SerializedName("myScrapOverView") var myScrapOverView : ArrayList<GetScrap>,

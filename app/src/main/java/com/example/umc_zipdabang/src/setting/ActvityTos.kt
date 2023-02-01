@@ -1,6 +1,7 @@
 package com.example.umc_zipdabang.src.setting
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -16,69 +17,18 @@ class ActvityTos: AppCompatActivity(){
         setContentView(binding.root)
 
 
-        binding.layout01.setOnClickListener {
-            if(binding.layoutDetail01.visibility == View.VISIBLE) {
-                binding.layoutDetail01.visibility = View.GONE
-                binding.layoutBtn01.animate().apply {
-                    duration = 300
-                    rotation(0f)
-                }
-            } else {
-                binding.layoutDetail01.visibility = View.VISIBLE
-                binding.layoutBtn01.animate().apply {
-                    duration = 300
-                    rotation(180f)
-                }
-            }
+        binding.myBackbtn.setOnClickListener {
+            onBackPressed()
         }
 
-        binding.layout02.setOnClickListener {
-            if(binding.layoutDetail02.visibility == View.VISIBLE) {
-                binding.layoutDetail02.visibility = View.GONE
-                binding.layoutBtn02.animate().apply {
-                    duration = 300
-                    rotation(0f)
-                }
-            } else {
-                binding.layoutDetail02.visibility = View.VISIBLE
-                binding.layoutBtn02.animate().apply {
-                    duration = 300
-                    rotation(180f)
-                }
-            }
+        binding.layoutBtn01.setOnClickListener {
+            val intent= Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
+            startActivity(intent)
+
+
         }
 
-        binding.layout03.setOnClickListener {
-            if(binding.layoutDetail03.visibility == View.VISIBLE) {
-                binding.layoutDetail03.visibility = View.GONE
-                binding.layoutBtn03.animate().apply {
-                    duration = 300
-                    rotation(0f)
-                }
-            } else {
-                binding.layoutDetail03.visibility = View.VISIBLE
-                binding.layoutBtn03.animate().apply {
-                    duration = 300
-                    rotation(180f)
-                }
-            }
-        }
 
-        binding.layout04.setOnClickListener {
-            if(binding.layoutDetail04.visibility == View.VISIBLE) {
-                binding.layoutDetail04.visibility = View.GONE
-                binding.layoutBtn04.animate().apply {
-                    duration = 300
-                    rotation(0f)
-                }
-            } else {
-                binding.layoutDetail04.visibility = View.VISIBLE
-                binding.layoutBtn04.animate().apply {
-                    duration = 300
-                    rotation(180f)
-                }
-            }
-        }
 
     }
 }

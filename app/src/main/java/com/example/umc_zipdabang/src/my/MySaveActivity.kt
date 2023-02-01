@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
+
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -26,24 +27,32 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
-import com.example.umc_zipdabang.BuildConfig
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.*
+import com.google.firebase.components.BuildConfig
+import com.google.firebase.components.BuildConfig.APPLICATION_ID
+//import com.example.umc_zipdabang.BuildConfig
+import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,8 +71,8 @@ class MySaveActivity:AppCompatActivity() {
     private lateinit var binding_notsave : DialogNotsaveBinding
 
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
-    private var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
-
+    //private var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
+    var token: String = " "
 
     //임시저장 post 위한 이미지 url 리스트
     var list = arrayOf<String>("","","","","","","","","","","")
@@ -81,209 +90,225 @@ class MySaveActivity:AppCompatActivity() {
         var num2: Int = 0
 
         //임시저장한 사진 불러오기
-        retrofit.get_newrecipe_saveimage(token).enqueue(object: Callback<GetNewRecipeSaveImageResponse>{
-            override fun onResponse(
-                call: Call<GetNewRecipeSaveImageResponse>,
-                response: Response<GetNewRecipeSaveImageResponse>
-            ) {
-                Log.d("통신","통신 성공")
-                var result = response.body()
-                var data = result?.data
+        GlobalScope.launch(Dispatchers.IO) {
+            val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+            token = tokenDb.tokenDao().getToken().token.toString()
+            retrofit.get_newrecipe_saveimage(token)
+                .enqueue(object : Callback<GetNewRecipeSaveImageResponse> {
+                    override fun onResponse(
+                        call: Call<GetNewRecipeSaveImageResponse>,
+                        response: Response<GetNewRecipeSaveImageResponse>
+                    ) {
+                        Log.d("통신", "통신 성공")
+                        var result = response.body()
+                        var data = result?.data
 
-                var thumb = data?.thumb
-                var steps = data?.stepImg
-                var step_size = data?.step_size
+                        var thumb = data?.thumb
+                        var steps = data?.stepImg
+                        var step_size = data?.step_size
 
-                list_save[0] = thumb
-                Log.d("통신 tkdlwm",step_size.toString())
 
-                if(step_size == null){
-                    num2 = 0
-                }else{
-                    num2 = step_size
-                    for(i : Int in 0..step_size-1){
-                        list_save[i+1] = steps?.get(i)?.toString()
-                        if(steps?.get(i)?.toString() == "null"){
-                            list_save[i+1] = ""
+                        if(thumb =="null"){
+                            list_save[0]=""
+                        }else{
+                            list_save[0] = thumb
+                        }
+
+                        Log.d("통신 tkdlwm", step_size.toString())
+
+                        if (step_size == null) {
+                            num2 = 0
+                        } else {
+                            num2 = step_size
+                            for (i: Int in 0..step_size - 1) {
+                                list_save[i + 1] = steps?.get(i)?.toString()
+                                if (steps?.get(i)?.toString() == "null") {
+                                    list_save[i + 1] = ""
+                                }
+                            }
+                        }
+
+                        for (i: Int in 0..10) {
+                            list[i] = list_save[i].toString()
+                        }
+                        Log.d("통신 리스트", list[0])
+                        Log.d("통신 리스트", list[1])
+                        Log.d("통신 리스트", list[2])
+                        Log.d("통신 리스트", list[3])
+                        Log.d("통신 리스트", list[4])
+                        Log.d("통신 리스트", list[5])
+                        Log.d("통신 리스트", list[6])
+                        Log.d("통신 리스트", list[7])
+                        Log.d("통신 리스트", list[8])
+                        Log.d("통신 리스트", list[9])
+                        Log.d("통신 리스트", list[10])
+
+                        //스텝 view들 띄우기
+                        if (num2 == 2) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                        } else if (num2 == 3) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                            viewBinding.myStep3.visibility = View.VISIBLE
+                        } else if (num2 == 4) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                            viewBinding.myStep3.visibility = View.VISIBLE
+                            viewBinding.myStep4.visibility = View.VISIBLE
+                        } else if (num2 == 5) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                            viewBinding.myStep3.visibility = View.VISIBLE
+                            viewBinding.myStep4.visibility = View.VISIBLE
+                            viewBinding.myStep5.visibility = View.VISIBLE
+                        } else if (num2 == 6) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                            viewBinding.myStep3.visibility = View.VISIBLE
+                            viewBinding.myStep4.visibility = View.VISIBLE
+                            viewBinding.myStep5.visibility = View.VISIBLE
+                            viewBinding.myStep6.visibility = View.VISIBLE
+                        } else if (num2 == 7) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                            viewBinding.myStep3.visibility = View.VISIBLE
+                            viewBinding.myStep4.visibility = View.VISIBLE
+                            viewBinding.myStep5.visibility = View.VISIBLE
+                            viewBinding.myStep6.visibility = View.VISIBLE
+                            viewBinding.myStep7.visibility = View.VISIBLE
+                        } else if (num2 == 8) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                            viewBinding.myStep3.visibility = View.VISIBLE
+                            viewBinding.myStep4.visibility = View.VISIBLE
+                            viewBinding.myStep5.visibility = View.VISIBLE
+                            viewBinding.myStep6.visibility = View.VISIBLE
+                            viewBinding.myStep7.visibility = View.VISIBLE
+                            viewBinding.myStep8.visibility = View.VISIBLE
+                        } else if (num2 == 9) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                            viewBinding.myStep3.visibility = View.VISIBLE
+                            viewBinding.myStep4.visibility = View.VISIBLE
+                            viewBinding.myStep5.visibility = View.VISIBLE
+                            viewBinding.myStep6.visibility = View.VISIBLE
+                            viewBinding.myStep7.visibility = View.VISIBLE
+                            viewBinding.myStep8.visibility = View.VISIBLE
+                            viewBinding.myStep9.visibility = View.VISIBLE
+                        } else if (num2 == 10) {
+                            viewBinding.myStep2.visibility = View.VISIBLE
+                            viewBinding.myStep3.visibility = View.VISIBLE
+                            viewBinding.myStep4.visibility = View.VISIBLE
+                            viewBinding.myStep5.visibility = View.VISIBLE
+                            viewBinding.myStep6.visibility = View.VISIBLE
+                            viewBinding.myStep7.visibility = View.VISIBLE
+                            viewBinding.myStep8.visibility = View.VISIBLE
+                            viewBinding.myStep9.visibility = View.VISIBLE
+                            viewBinding.myStep10.visibility = View.VISIBLE
+                        }
+
+                        if (list[0] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[0])
+                                .centerCrop()
+                                .into(viewBinding.myImage)
+                            viewBinding.myImage.bringToFront()
+                        }
+                        if (list[1] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[1])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep)
+                            viewBinding.myRecipeRealimageStep.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn.bringToFront()
+                        }
+                        if (list[2] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[2])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep2)
+                            viewBinding.myRecipeRealimageStep2.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn2.bringToFront()
+                        }
+                        if (list[3] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[3])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep3)
+                            viewBinding.myRecipeRealimageStep3.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn3.bringToFront()
+                        }
+                        if (list[4] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[4])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep4)
+                            viewBinding.myRecipeRealimageStep4.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn4.bringToFront()
+                        }
+                        if (list[5] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[5])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep5)
+                            viewBinding.myRecipeRealimageStep5.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn5.bringToFront()
+                        }
+                        if (list[6] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[6])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep6)
+                            viewBinding.myRecipeRealimageStep6.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn6.bringToFront()
+                        }
+                        if (list[7] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[7])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep7)
+                            viewBinding.myRecipeRealimageStep7.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn7.bringToFront()
+                        }
+                        if (list[8] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[8])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep8)
+                            viewBinding.myRecipeRealimageStep8.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn8.bringToFront()
+                        }
+                        if (list[9] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[9])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep9)
+                            viewBinding.myRecipeRealimageStep9.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn9.bringToFront()
+                        }
+                        if (list[10] != "") {
+                            Glide.with(this@MySaveActivity)
+                                .load(list[10])
+                                .centerCrop()
+                                .into(viewBinding.myRecipeRealimageStep10)
+                            viewBinding.myRecipeRealimageStep10.bringToFront()
+                            viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
+                            viewBinding.myRecipeRealimageXbtn10.bringToFront()
                         }
                     }
-                }
 
-                for(i : Int in 0..10){
-                    list[i] = list_save[i].toString()
-                }
-                Log.d("통신 리스트",list[0])
-                Log.d("통신 리스트",list[1])
-                Log.d("통신 리스트",list[2])
-                Log.d("통신 리스트",list[3])
-                Log.d("통신 리스트",list[4])
-                Log.d("통신 리스트",list[5])
-                Log.d("통신 리스트",list[6])
-                Log.d("통신 리스트",list[7])
-                Log.d("통신 리스트",list[8])
-                Log.d("통신 리스트",list[9])
-                Log.d("통신 리스트",list[10])
+                    override fun onFailure(
+                        call: Call<GetNewRecipeSaveImageResponse>,
+                        t: Throwable
+                    ) {
+                        Log.d("통신", "통신 실패")
+                    }
 
-                //스텝 view들 띄우기
-                if(num2 ==2){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                }else if(num2==3){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                    viewBinding.myStep3.visibility = View.VISIBLE
-                }else if(num2==4){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                    viewBinding.myStep3.visibility = View.VISIBLE
-                    viewBinding.myStep4.visibility = View.VISIBLE
-                }else if(num2==5){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                    viewBinding.myStep3.visibility = View.VISIBLE
-                    viewBinding.myStep4.visibility = View.VISIBLE
-                    viewBinding.myStep5.visibility = View.VISIBLE
-                }else if(num2==6){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                    viewBinding.myStep3.visibility = View.VISIBLE
-                    viewBinding.myStep4.visibility = View.VISIBLE
-                    viewBinding.myStep5.visibility = View.VISIBLE
-                    viewBinding.myStep6.visibility = View.VISIBLE
-                }else if(num2==7){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                    viewBinding.myStep3.visibility = View.VISIBLE
-                    viewBinding.myStep4.visibility = View.VISIBLE
-                    viewBinding.myStep5.visibility = View.VISIBLE
-                    viewBinding.myStep6.visibility = View.VISIBLE
-                    viewBinding.myStep7.visibility = View.VISIBLE
-                }else if(num2==8){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                    viewBinding.myStep3.visibility = View.VISIBLE
-                    viewBinding.myStep4.visibility = View.VISIBLE
-                    viewBinding.myStep5.visibility = View.VISIBLE
-                    viewBinding.myStep6.visibility = View.VISIBLE
-                    viewBinding.myStep7.visibility = View.VISIBLE
-                    viewBinding.myStep8.visibility = View.VISIBLE
-                }else if(num2==9){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                    viewBinding.myStep3.visibility = View.VISIBLE
-                    viewBinding.myStep4.visibility = View.VISIBLE
-                    viewBinding.myStep5.visibility = View.VISIBLE
-                    viewBinding.myStep6.visibility = View.VISIBLE
-                    viewBinding.myStep7.visibility = View.VISIBLE
-                    viewBinding.myStep8.visibility = View.VISIBLE
-                    viewBinding.myStep9.visibility = View.VISIBLE
-                }else if(num2==10){
-                    viewBinding.myStep2.visibility = View.VISIBLE
-                    viewBinding.myStep3.visibility = View.VISIBLE
-                    viewBinding.myStep4.visibility = View.VISIBLE
-                    viewBinding.myStep5.visibility = View.VISIBLE
-                    viewBinding.myStep6.visibility = View.VISIBLE
-                    viewBinding.myStep7.visibility = View.VISIBLE
-                    viewBinding.myStep8.visibility = View.VISIBLE
-                    viewBinding.myStep9.visibility = View.VISIBLE
-                    viewBinding.myStep10.visibility = View.VISIBLE
-                }
+                })
+        }
 
-                if(list[0] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[0])
-                        .centerCrop()
-                        .into(viewBinding.myImage)
-                    viewBinding.myImage.bringToFront()
-                }
-                if(list[1] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[1])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep)
-                    viewBinding.myRecipeRealimageStep.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn.bringToFront()
-                }
-                if(list[2] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[2])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep2)
-                    viewBinding.myRecipeRealimageStep2.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn2.bringToFront()
-                }
-                if(list[3] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[3])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep3)
-                    viewBinding.myRecipeRealimageStep3.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn3.bringToFront()
-                }
-                if(list[4] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[4])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep4)
-                    viewBinding.myRecipeRealimageStep4.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn4.bringToFront()
-                }
-                if(list[5] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[5])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep5)
-                    viewBinding.myRecipeRealimageStep5.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn5.bringToFront()
-                }
-                if(list[6] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[6])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep6)
-                    viewBinding.myRecipeRealimageStep6.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn6.bringToFront()
-                }
-                if(list[7] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[7])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep7)
-                    viewBinding.myRecipeRealimageStep7.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn7.bringToFront()
-                }
-                if(list[8] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[8])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep8)
-                    viewBinding.myRecipeRealimageStep8.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn8.bringToFront()
-                }
-                if(list[9] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[9])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep9)
-                    viewBinding.myRecipeRealimageStep9.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn9.bringToFront()
-                }
-                if(list[10] != ""){
-                    Glide.with(this@MySaveActivity)
-                        .load(list[10])
-                        .centerCrop()
-                        .into(viewBinding.myRecipeRealimageStep10)
-                    viewBinding.myRecipeRealimageStep10.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn10.bringToFront()
-                }
-            }
-            override fun onFailure(call: Call<GetNewRecipeSaveImageResponse>, t: Throwable) {
-                Log.d("통신","통신 실패")
-            }
-
-        })
 
         //임시저장했던 정보들 불러오기 위한 sp
         val sharedPreference = getSharedPreferences("writing", 0)
@@ -877,22 +902,30 @@ class MySaveActivity:AppCompatActivity() {
                     num2
                 )
 
-                retrofit.post_newrecipe_saveimage(token, body).enqueue(object: Callback<PostNewRecipeBodyResponse>{
-                    override fun onResponse(
-                        call: Call<PostNewRecipeBodyResponse>,
-                        response: Response<PostNewRecipeBodyResponse>
-                    ) {
-                        Log.d("통신", "통신은 성공임")
-                        var result = response.body()
-                        var isSuccess = result?.success
-                        Log.d("통신", isSuccess.toString())
-                    }
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb =
+                        TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_saveimage(token, body)
+                        .enqueue(object : Callback<PostNewRecipeBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeBodyResponse>,
+                                response: Response<PostNewRecipeBodyResponse>
+                            ) {
+                                Log.d("통신", "통신은 성공임")
+                                var result = response.body()
+                                var isSuccess = result?.success
+                                Log.d("통신", isSuccess.toString())
+                            }
+                            override fun onFailure(
+                                call: Call<PostNewRecipeBodyResponse>,
+                                t: Throwable
+                            ) {
+                                t.message?.let { it1 -> Log.d("통신", it1) }
+                            }
+                        })
+                }
 
-                    override fun onFailure(call: Call<PostNewRecipeBodyResponse>, t: Throwable) {
-                        t.message?.let { it1 -> Log.d("통신", it1) }
-                    }
-
-                })
                 dialog_save.dismiss()
                 CustomToast.createToast(applicationContext, "작성 중인 레시피를 임시저장하였어요")?.show()
                 finish()
@@ -1296,25 +1329,30 @@ class MySaveActivity:AppCompatActivity() {
                         )
 
                         val body = PostNewRecipeBody(recipe_list, ingredient_list, steps_list)
-                        retrofit.post_newrecipe(token, body).enqueue(object : Callback<PostNewRecipeBodyResponse> {
-                            override fun onResponse(
-                                call: Call<PostNewRecipeBodyResponse>,
-                                response: Response<PostNewRecipeBodyResponse>
-                            ) {
-                                Log.d("통신", "통신은 성공임")
-                                var result = response.body()
-                                var isSuccess = result?.success
-                                Log.d("통신", isSuccess.toString())
+                        GlobalScope.launch(Dispatchers.IO) {
+                            val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                            token = tokenDb.tokenDao().getToken().token.toString()
+                            retrofit.post_newrecipe(token, body)
+                                .enqueue(object : Callback<PostNewRecipeBodyResponse> {
+                                    override fun onResponse(
+                                        call: Call<PostNewRecipeBodyResponse>,
+                                        response: Response<PostNewRecipeBodyResponse>
+                                    ) {
+                                        Log.d("통신", "통신은 성공임")
+                                        var result = response.body()
+                                        var isSuccess = result?.success
+                                        Log.d("통신", isSuccess.toString())
 
-                            }
+                                    }
 
-                            override fun onFailure(
-                                call: Call<PostNewRecipeBodyResponse>,
-                                t: Throwable
-                            ) {
-                                t.message?.let { it1 -> Log.d("통신", it1) }
-                            }
-                        })
+                                    override fun onFailure(
+                                        call: Call<PostNewRecipeBodyResponse>,
+                                        t: Throwable
+                                    ) {
+                                        t.message?.let { it1 -> Log.d("통신", it1) }
+                                    }
+                                })
+                        }
 
                         //업로드 성공되었습니다 dialog 띄우기
                         dialog_upload.dismiss()
@@ -1338,17 +1376,6 @@ class MySaveActivity:AppCompatActivity() {
                         editor.clear()
                         editor.apply()
 
-                        //업로드 레시피 보러가기 눌렀을때
-                        binding_uploadsuccess.myUploaddonebtn.setOnClickListener {
-                            dialog_uploadsuccess.dismiss()
-                            finish()
-                            //여기서 상세페이지 넘어가야함!!!!!
-                        }
-                        //나중에 보기 눌렀을때
-                        binding_uploadsuccess.myUploadseelaterbtn.setOnClickListener {
-                            dialog_uploadsuccess.dismiss()
-                            finish()
-                        }
                         //x버튼 눌렀을때
                         binding_uploadsuccess.myXbtn.setOnClickListener {
                             dialog_uploadsuccess.dismiss()
@@ -1892,36 +1919,50 @@ class MySaveActivity:AppCompatActivity() {
         }
     }
 
-
     private val imageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
 
             val imageUri = result.data?.data ?: return@registerForActivityResult
             Log.d("갤러리 확인","${imageUri}")
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             //썸네일 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list[0] = data.toString()
-                        Log.d("통신",data.toString())
-                        Log.d("통신 리스트", list[0])
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
+
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list[0] = data.toString()
+                                Log.d("통신", data.toString())
+                                Log.d("통신 리스트", list[0])
+
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
             //val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,imageUri)
 
@@ -1956,29 +1997,42 @@ class MySaveActivity:AppCompatActivity() {
 
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step1 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list[1] = data.toString()
-                        Log.d("통신",data.toString())
-                        Log.d("통신 리스트", list[1])
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list[1] = data.toString()
+                                Log.d("통신", data.toString())
+                                Log.d("통신 리스트", list[1])
+
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
             Glide.with(this)
                 .asBitmap()
@@ -1997,29 +2051,41 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step2 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list[2] = data.toString()
-                        Log.d("통신",data.toString())
-                        Log.d("통신 리스트", list[2])
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list[2] = data.toString()
+                                Log.d("통신", data.toString())
+                                Log.d("통신 리스트", list[2])
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
 
             Glide.with(this)
@@ -2039,28 +2105,40 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step3 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list[3] = data.toString()
-                        Log.d("통신",data.toString())
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list[3] = data.toString()
+                                Log.d("통신", data.toString())
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
             Glide.with(this)
                 .asBitmap()
@@ -2079,28 +2157,40 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step4 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list.set(4, data.toString())
-                        Log.d("통신",data.toString())
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list.set(4, data.toString())
+                                Log.d("통신", data.toString())
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
 
             Glide.with(this)
@@ -2121,28 +2211,40 @@ class MySaveActivity:AppCompatActivity() {
             val imageUri = result.data?.data ?: return@registerForActivityResult
 
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step5 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list.set(5, data.toString())
-                        Log.d("통신",data.toString())
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list.set(5, data.toString())
+                                Log.d("통신", data.toString())
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
 
             Glide.with(this)
@@ -2162,28 +2264,40 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step6 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list.set(6, data.toString())
-                        Log.d("통신",data.toString())
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list.set(6, data.toString())
+                                Log.d("통신", data.toString())
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
 
             Glide.with(this)
@@ -2203,28 +2317,40 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step7 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list.set(7, data.toString())
-                        Log.d("통신",data.toString())
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list.set(7, data.toString())
+                                Log.d("통신", data.toString())
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
 
             Glide.with(this)
@@ -2244,28 +2370,40 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step8 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list.set(8, data.toString())
-                        Log.d("통신",data.toString())
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list.set(8, data.toString())
+                                Log.d("통신", data.toString())
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
 
             Glide.with(this)
@@ -2285,28 +2423,40 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step9 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list.set(9, data.toString())
-                        Log.d("통신",data.toString())
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list.set(9, data.toString())
+                                Log.d("통신", data.toString())
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
             Glide.with(this)
                 .asBitmap()
@@ -2325,28 +2475,40 @@ class MySaveActivity:AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val imageUri = result.data?.data ?: return@registerForActivityResult
             val file = File(absolutelyPath(imageUri, this))
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
             val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
 
             // step10 post
-            retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                    if(response.isSuccessful){
-                        Log.d("통신","이미지 전송 성공")
+            GlobalScope.launch(Dispatchers.IO) {
+                val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                token = tokenDb.tokenDao().getToken().token.toString()
+                retrofit.post_newrecipe_image(token, body)
+                    .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                        override fun onResponse(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            response: Response<PostNewRecipeImageBodyResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("통신", "이미지 전송 성공")
 
-                        val result = response.body()
-                        val data = result?.image?.image
-                        list.set(10, data.toString())
-                        Log.d("통신",data.toString())
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list.set(10, data.toString())
+                                Log.d("통신", data.toString())
 
-                    }else{
-                        Log.d("통신","이미지 전송 실패")
-                    }
-                }
-                override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                    Log.d("통신",t.message.toString())
-                }
-            })
+                            } else {
+                                Log.d("통신", "이미지 전송 실패")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<PostNewRecipeImageBodyResponse>,
+                            t: Throwable
+                        ) {
+                            Log.d("통신", t.message.toString())
+                        }
+                    })
+            }
 
 
             Glide.with(this)
@@ -2367,41 +2529,43 @@ class MySaveActivity:AppCompatActivity() {
         val writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         val readPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
-        if(writePermission == PackageManager.PERMISSION_DENIED ||
-            readPermission == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
-        }else{
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                "image/*"
-            )
+//        if(writePermission == PackageManager.PERMISSION_DENIED ||
+//            readPermission == PackageManager.PERMISSION_DENIED){
+//            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                Manifest.permission.READ_EXTERNAL_STORAGE), REQ_GALLERY)
+//        }else{
+        Log.d("퍼미션 확인","${writePermission}")
+        Log.d("퍼미션 확인","${readPermission}")
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setDataAndType(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            "image/*"
+        )
 
-            if(num == 1){
-                imageResult1.launch(intent)
-            }else if(num == 2){
-                imageResult2.launch(intent)
-            } else if(num == 3){
-                imageResult3.launch(intent)
-            }else if(num == 4){
-                imageResult4.launch(intent)
-            }else if(num == 5){
-                imageResult5.launch(intent)
-            }else if(num == 6){
-                imageResult6.launch(intent)
-            }else if(num == 7){
-                imageResult7.launch(intent)
-            }else if(num == 8){
-                imageResult8.launch(intent)
-            }else if(num == 9){
-                imageResult9.launch(intent)
-            }else if(num == 10){
-                imageResult10.launch(intent)
-            } else{
-                imageResult.launch(intent)
-            }
+        if(num == 1){
+            imageResult1.launch(intent)
+        }else if(num == 2){
+            imageResult2.launch(intent)
+        } else if(num == 3){
+            imageResult3.launch(intent)
+        }else if(num == 4){
+            imageResult4.launch(intent)
+        }else if(num == 5){
+            imageResult5.launch(intent)
+        }else if(num == 6){
+            imageResult6.launch(intent)
+        }else if(num == 7){
+            imageResult7.launch(intent)
+        }else if(num == 8){
+            imageResult8.launch(intent)
+        }else if(num == 9){
+            imageResult9.launch(intent)
+        }else if(num == 10){
+            imageResult10.launch(intent)
+        } else{
+            imageResult.launch(intent)
         }
+//        }
     }
     companion object{
         const val REQ_GALLERY =1
@@ -2472,6 +2636,7 @@ class MySaveActivity:AppCompatActivity() {
         }
     }
     //file 생성하고, 생성된 file로부터 uri 생성
+    @RequiresApi(Build.VERSION_CODES.FROYO)
     fun getPictureIntent_App_Specific(context: Context): Intent {
         val fullSizeCaptureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -2481,17 +2646,17 @@ class MySaveActivity:AppCompatActivity() {
             createImageFile(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         } catch (ex: IOException) {
             // Error occurred while creating the File
-            Log.d("확인용", "파일 생성 오류뜸")
             ex.printStackTrace()
             null
         }
+        Log.d("확인 file 생성", photoFile.toString())
 
         photoFile?.also {
             //2) 생성된 File로 부터 Uri 생성 (by FileProvider)
             //URI 형식 EX) content://com.example.img.fileprovider/cameraImg/JPEG_20211124_202832_6573897384086993610.jpg
             photoURI = FileProvider.getUriForFile(
                 context,
-                BuildConfig.APPLICATION_ID + ".fileprovider",
+                "com.example.umc_zipdabang" + ".fileprovider",
                 it
             )
             Log.d("확인 생성된 file로부터 uri 생성", photoURI.toString())
@@ -2532,20 +2697,29 @@ class MySaveActivity:AppCompatActivity() {
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        Log.d("카메라 확인0", "1")
         if( resultCode == Activity.RESULT_OK) {
+            Log.d("카메라 확인0", "2")
             if( requestCode == REQUEST_THUMBNAIL)
             {
+                Log.d("카메라 확인0", "3")
                 val imageUri = photoURI
+                Log.d("카메라 확인 phtouri","${imageUri}")
+
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
+                Log.d("카메라 확인 1","${filePath}")
                 val file = File(filePath)
+                Log.d("카메라 확인 2","${file}")
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
                 val inputStream = contentResolver.openInputStream(imageUri)
+                Log.d("카메라 확인 3","${inputStream}")
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
+                Log.d("카메라 확인 4","${outputStream}")
                 val buf = ByteArray(1024)
+                Log.d("카메라 확인 5","${buf}")
                 var len: Int
                 if (inputStream != null) {
                     while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
@@ -2554,27 +2728,39 @@ class MySaveActivity:AppCompatActivity() {
                 inputStream?.close()
 
 
-                Log.d("카메라 확인","${imageUri}")
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
+                Log.d("카메라 확인 5","${filee}")
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
+                Log.d("카메라 확인 6","${requestFile}")
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+                Log.d("카메라 확인 7","${body}")
+
 
                 // thumbnail post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
 
-                            val result = response.body()
-                            val data = result?.image?.image
 
-                            list.set(0, data.toString())
-                            Log.d("통신", list[0])
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
+                                    val result = response.body()
+                                    val data = result?.image?.image
+
+                                    list.set(0, data.toString())
+                                    Log.d("통신", list[0])
+
+                                    /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
                             Glide.with(this)
                                 .load(imageBitmap)
                                 .centerCrop()
@@ -2586,22 +2772,27 @@ class MySaveActivity:AppCompatActivity() {
                                 )
                                 .into(viewBinding.myImage)*/
 
-                            /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
+                                    /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
                             viewBinding.myImage.setImageBitmap(imageBitmap)*/
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[0])
-                                .centerCrop()
-                                .into(viewBinding.myImage)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[0])
+                                        .centerCrop()
+                                        .into(viewBinding.myImage)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
 
                 /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
                 viewBinding.myImage.setImageBitmap(imageBitmap)
@@ -2644,35 +2835,46 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
-                // thumbnail post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
+                                    val result = response.body()
+                                    val data = result?.image?.image
 
-                            list.set(1, data.toString())
-                            Log.d("통신", list[1])
+                                    list.set(1, data.toString())
+                                    Log.d("통신", list[1])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[1])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[1])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
 
 
             } else if(requestCode == REQUEST_STEP2)
@@ -2709,33 +2911,46 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
+
                 // step2 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(2, data.toString())
-                            Log.d("통신",list[2])
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(2, data.toString())
+                                    Log.d("통신", list[2])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[2])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep2)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[2])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep2)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
 
             }else if(requestCode == REQUEST_STEP3)
             {
@@ -2760,34 +2975,48 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
                 // step3 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(3, data.toString())
-                            Log.d("통신",list[3])
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[3])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep3)
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(3, data.toString())
+                                    Log.d("통신", list[3])
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[3])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep3)
+
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+
+                }
             }else if(requestCode == REQUEST_STEP4)
             {
                 val imageUri = photoURI
@@ -2811,35 +3040,47 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
 
                 // step4 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(4, data.toString())
-                            Log.d("통신",list[4])
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(4, data.toString())
+                                    Log.d("통신", list[4])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[4])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep4)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[4])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep4)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
             }else if(requestCode == REQUEST_STEP5)
             {
                 val imageUri = photoURI
@@ -2863,35 +3104,47 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
 
                 // step5 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(5, data.toString())
-                            Log.d("통신", list[5])
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(5, data.toString())
+                                    Log.d("통신", list[5])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[5])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep5)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[5])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep5)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
             }else if(requestCode == REQUEST_STEP6)
             {
                 val imageUri = photoURI
@@ -2915,34 +3168,46 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
                 // step6 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(6, data.toString())
-                            Log.d("통신", list[6])
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(6, data.toString())
+                                    Log.d("통신", list[6])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[6])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep6)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[6])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep6)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
 
             }else if(requestCode == REQUEST_STEP7)
             {
@@ -2967,34 +3232,46 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
                 // step7 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(7, data.toString())
-                            Log.d("통신", list[7])
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(7, data.toString())
+                                    Log.d("통신", list[7])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[7])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep7)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[7])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep7)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
             }else if(requestCode == REQUEST_STEP8)
             {
                 val imageUri = photoURI
@@ -3018,35 +3295,47 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
 
                 // step8 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(8, data.toString())
-                            Log.d("통신",list[8])
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(8, data.toString())
+                                    Log.d("통신", list[8])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[8])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep8)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[8])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep8)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
             }else if(requestCode == REQUEST_STEP9)
             {
                 val imageUri = photoURI
@@ -3070,33 +3359,45 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
                 // step9 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(9, data.toString())
-                            Log.d("통신", list[9])
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(9, data.toString())
+                                    Log.d("통신", list[9])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[9])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep9)
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[9])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep9)
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
+                }
             }else if(requestCode == REQUEST_STEP10)
             {
                 val imageUri = photoURI
@@ -3120,161 +3421,95 @@ class MySaveActivity:AppCompatActivity() {
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
                 //requestbody 객체로 변환한다.
-                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), filee)
+                val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
                 // step10 post
-                retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
-                    override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
-                        if(response.isSuccessful){
-                            Log.d("통신","이미지 전송 성공")
+                GlobalScope.launch(Dispatchers.IO) {
+                    val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
+                    token = tokenDb.tokenDao().getToken().token.toString()
+                    retrofit.post_newrecipe_image(token, body)
+                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
+                            override fun onResponse(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                response: Response<PostNewRecipeImageBodyResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("통신", "이미지 전송 성공")
 
-                            val result = response.body()
-                            val data = result?.image?.image
-                            list.set(10, data.toString())
-                            Log.d("통신",list[10])
+                                    val result = response.body()
+                                    val data = result?.image?.image
+                                    list.set(10, data.toString())
+                                    Log.d("통신", list[10])
 
-                            Glide.with(this@MySaveActivity)
-                                .load(list[10])
-                                .centerCrop()
-                                .into(viewBinding.myRecipeRealimageStep10)
+                                    Glide.with(this@MySaveActivity)
+                                        .load(list[10])
+                                        .centerCrop()
+                                        .into(viewBinding.myRecipeRealimageStep10)
 
-                        }else{
-                            Log.d("통신","이미지 전송 실패")
-                        }
-                    }
-                    override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
-                        Log.d("통신",t.message.toString())
-                    }
-                })
-            }
-        }
-    }
+                                } else {
+                                    Log.d("통신", "이미지 전송 실패")
+                                }
+                            }
 
-
-    /*
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if( resultCode == Activity.RESULT_OK) {
-            if( requestCode == REQUEST_THUMBNAIL)
-            {
-                    // 카메라로부터 받은 데이터가 있을경우에만
-
-                val currentPhotoPath
-                val file = File(currentPhotoPath)
-                    if (Build.VERSION.SDK_INT < 28) {
-                        val bitmap = MediaStore.Images.Media
-                                .getBitmap(contentResolver, Uri.fromFile(file))  //Deprecated
-                        viewBinding.myImage.setImageBitmap(bitmap)
-                    }
-                    else{
-                        val decode = ImageDecoder.createSource(this.contentResolver,
-                                Uri.fromFile(file))
-                        val bitmap = ImageDecoder.decodeBitmap(decode)
-                        viewBinding.myImage.setImageBitmap(bitmap)
-                    }
+                            override fun onFailure(
+                                call: Call<PostNewRecipeImageBodyResponse>,
+                                t: Throwable
+                            ) {
+                                Log.d("통신", t.message.toString())
+                            }
+                        })
                 }
             }
         }
+
     }
 
 
-    val REQUEST_IMAGE_CAPTURE = 1
+    /*override fun onBackPressed() {
+            binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
+            val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
+            val dialog_reallynotsave = dialog_reallynotsave_builder.create()
 
-    // 카메라 권한 체크
-    private fun checkPersmission(): Boolean {
-        return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-    }
+            dialog_reallynotsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            dialog_reallynotsave.setCanceledOnTouchOutside(true)
+            dialog_reallynotsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog_reallynotsave.window?.setGravity(Gravity.BOTTOM)
+            dialog_reallynotsave.setCancelable(true)
 
+            //레시피 쓰던거 삭제하겠다
+            binding_reallynotsave.myDeletebtn.setOnClickListener{
+                dialog_reallynotsave.dismiss()
 
-    // 카메라 열기
-    private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            if (takePictureIntent.resolveActivity(this.packageManager) != null) {
-                // 찍은 사진을 그림파일로 만들기
-                val photoFile: File? =
-                    try {
-                        createImageFile()
-                    } catch (ex: IOException) {
-                        Log.d("TAG", "그림파일 만드는도중 에러생김")
-                        null
-                    }
+                binding_notsave = DialogNotsaveBinding.inflate(layoutInflater)
+                val dialog_notsave_builder = AlertDialog.Builder(this).setView(binding_notsave.root)
+                val dialog_notsave = dialog_notsave_builder.create()
 
-                // 그림파일을 성공적으로 만들었다면 onActivityForResult로 보내기
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this, "com.example.cameraonly.fileprovider", it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                dialog_notsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+                dialog_notsave.setCanceledOnTouchOutside(true)
+                dialog_notsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog_notsave.window?.setGravity(Gravity.BOTTOM)
+                dialog_notsave.setCancelable(true)
+
+                //취소 버튼 눌렀을때
+                binding_notsave.myCancelbtn.setOnClickListener{
+                    dialog_notsave.onBackPressed()
                 }
+                //삭제하기 버튼 눌렀을때
+                binding_notsave.myDeletebtn.setOnClickListener{
+                    CustomToast.createToast(applicationContext, "작성 중인 레시피를 삭제하였어요")?.show()
+
+                    finish()
+                }
+                dialog_notsave.show()
             }
-        }
-    }
-
-
-    // 카메라로 촬영한 이미지를 파일로 저장해준다
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            currentPhotoPath = absolutePath
-        }
-    }
-*/
-
-   /* override fun onBackPressed() {
-        binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
-        val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
-        val dialog_reallynotsave = dialog_reallynotsave_builder.create()
-
-        dialog_reallynotsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog_reallynotsave.setCanceledOnTouchOutside(true)
-        dialog_reallynotsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog_reallynotsave.window?.setGravity(Gravity.BOTTOM)
-        dialog_reallynotsave.setCancelable(true)
-
-        //레시피 쓰던거 삭제하겠다
-        binding_reallynotsave.myDeletebtn.setOnClickListener{
-            dialog_reallynotsave.dismiss()
-
-            binding_notsave = DialogNotsaveBinding.inflate(layoutInflater)
-            val dialog_notsave_builder = AlertDialog.Builder(this).setView(binding_notsave.root)
-            val dialog_notsave = dialog_notsave_builder.create()
-
-            dialog_notsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog_notsave.setCanceledOnTouchOutside(true)
-            dialog_notsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog_notsave.window?.setGravity(Gravity.BOTTOM)
-            dialog_notsave.setCancelable(true)
-
-            //취소 버튼 눌렀을때
-            binding_notsave.myCancelbtn.setOnClickListener{
-                dialog_notsave.onBackPressed()
+            //레시피 쓰던거 삭제안할거임
+            binding_reallynotsave.myCancelbtn.setOnClickListener {
+                dialog_reallynotsave.onBackPressed()
+                dialog_reallynotsave.dismiss()
             }
-            //삭제하기 버튼 눌렀을때
-            binding_notsave.myDeletebtn.setOnClickListener{
-                CustomToast.createToast(applicationContext, "작성 중인 레시피를 삭제하였어요")?.show()
-                finish()
-            }
-            dialog_notsave.show()
-        }
-        //레시피 쓰던거 삭제안할거임
-        binding_reallynotsave.myCancelbtn.setOnClickListener {
-            dialog_reallynotsave.onBackPressed()
-        }
 
-        dialog_reallynotsave.show()
+            dialog_reallynotsave.show()
     }*/
 }

@@ -2,6 +2,7 @@ package com.example.umc_zipdabang.config.src.main.signup
 
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,8 @@ import com.example.umc_zipdabang.databinding.ActivitySignupServiceagreeBinding
 
 class SignupServiceagreeActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupServiceagreeBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -206,20 +209,28 @@ class SignupServiceagreeActivity: AppCompatActivity() {
         }
 
         must1Btn.setOnClickListener {
-            val intent = Intent(this, SignupServiceagreeMust1Activity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, SignupServiceagreeMust1Activity::class.java)
+//            startActivity(intent)
+            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
+            startActivity(agree_intent)
         }
         must2Btn.setOnClickListener {
-            val intent = Intent(this, SignupServiceagreeMust2Activity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, SignupServiceagreeMust2Activity::class.java)
+//            startActivity(intent)
+            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
+            startActivity(agree_intent)
         }
         choice1Btn.setOnClickListener {
-            val intent = Intent(this, SignupServiceagreeChoice1Activity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, SignupServiceagreeChoice1Activity::class.java)
+//            startActivity(intent)
+            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
+            startActivity(agree_intent)
         }
         choice2Btn.setOnClickListener {
-            val intent = Intent(this, SignupServiceagreeChoice2Activity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, SignupServiceagreeChoice2Activity::class.java)
+//            startActivity(intent)
+            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
+            startActivity(agree_intent)
         }
 
         viewBinding.signupBackbtn.setOnClickListener {

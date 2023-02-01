@@ -9,7 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
+import com.example.umc_zipdabang.databinding.ActivityMainBinding
 import com.example.umc_zipdabang.databinding.FragmentMyMyrecipeBinding
+import com.example.umc_zipdabang.src.main.MainActivity
 import com.example.umc_zipdabang.src.my.data.ItemRecipeChallengeData
 import com.example.umc_zipdabang.src.my.data.ItemRecipeData
 import com.example.umc_zipdabang.src.my.data.MyChallengingRVAdapter
@@ -26,6 +30,7 @@ class MyMyrecipeFragment : Fragment(){
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
     private var scraps: ArrayList<ItemRecipeChallengeData> = arrayListOf()
 
+    var token: String = " "
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,15 +54,15 @@ class MyMyrecipeFragment : Fragment(){
 
 
         val myRecipeItemList: ArrayList<ItemRecipeChallengeData> = arrayListOf()
-        val myRecipeRVAdapter = MyMyrecipeRVAdapter(myRecipeItemList)
+        val myRecipeRVAdapter = MyMyrecipeRVAdapter(HomeMainActivity(), myRecipeItemList)
 
         GlobalScope.launch(Dispatchers.IO) {
 
-            //val tokenDb = TokenDatabase.getTokenDatabase(this)
-            //       token1 = tokenDb.tokenDao().getToken().token.toString()
-            var token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
+            val tokenDb = TokenDatabase.getTokenDatabase(activity as HomeMainActivity)
+            token = tokenDb.tokenDao().getToken().token.toString()
+
             //통신
-            retrofit.get_myrecipe(token1).enqueue(object:
+            retrofit.get_myrecipe(token).enqueue(object :
                 Callback<GetMyRecipeResponse> {
                 override fun onResponse(
                     call: Call<GetMyRecipeResponse>,
@@ -66,7 +71,7 @@ class MyMyrecipeFragment : Fragment(){
                     val result = response.body()
                     var i = 0
 
-                    Log.d("통신","${result}")
+                    Log.d("통신", "${result}")
 
                     while (true) {
                         if (scraps.size == result?.data?.size)
@@ -83,7 +88,7 @@ class MyMyrecipeFragment : Fragment(){
                     }
                     viewBinding.myTvv.text = scraps.size.toString()
                     viewBinding.myRv.layoutManager = GridLayoutManager(context, 2)
-                    val adapter = MyChallengingRVAdapter(scraps)
+                    val adapter = MyMyrecipeRVAdapter(HomeMainActivity(), scraps)
                     viewBinding.myRv.adapter = adapter
                     adapter.notifyDataSetChanged()
                 }
@@ -92,6 +97,7 @@ class MyMyrecipeFragment : Fragment(){
 
                 }
             })
+        }
 
             viewBinding.myFixbtn.setOnClickListener {
                 val intent = Intent(activity, MyMyrecipeEditActivity::class.java)
@@ -100,12 +106,5 @@ class MyMyrecipeFragment : Fragment(){
             }
         }
 
-//        viewBinding.myRv.adapter = myRecipeRVAdapter
-//        viewBinding.myRv.layoutManager = GridLayoutManager(requireContext(),2)
-//
-//        viewBinding.myTvv.setText(myRecipeItemList.size.toString())
-
-
-    }
-
 }
+

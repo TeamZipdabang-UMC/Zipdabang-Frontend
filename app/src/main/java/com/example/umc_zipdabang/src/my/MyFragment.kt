@@ -1,5 +1,6 @@
 package com.example.umc_zipdabang.src.my
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils.replace
@@ -10,7 +11,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.FragmentMyBinding
 
 import com.example.umc_zipdabang.src.my.data.IntroChallengedoneRVAdapter
@@ -31,6 +34,14 @@ import retrofit2.Response
 class MyFragment : Fragment(){
 
     lateinit var viewBinding: FragmentMyBinding
+    var token: String = " "
+
+    lateinit var mainActivity: HomeMainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as HomeMainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,49 +52,34 @@ class MyFragment : Fragment(){
         return viewBinding.root
     }
 
-
-
-
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
-    private var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*val challengedoneList: ArrayList<ItemRecipeData> = arrayListOf()
-        val challengedoneRVAdapter = IntroChallengedoneRVAdapter(challengedoneList)
-
-        viewBinding.myRvChallengedone.adapter = challengedoneRVAdapter
-        viewBinding.myRvChallengedone.layoutManager = GridLayoutManager(requireContext(), 2)
-
-        val challengingList: ArrayList<ItemRecipeData> = arrayListOf()
-        val challengingRVAdapter = IntroChallengingRVAdapter(challengingList)
-
-        viewBinding.myRvChallenging.adapter = challengingRVAdapter
-        viewBinding.myRvChallenging.layoutManager = GridLayoutManager(requireContext(),2)
-
-        val itemRecipeList:ArrayList<ItemRecipeData> = arrayListOf()
-        val itemRecipeRVAdapter = ItemRecipeRVAdapter(itemRecipeList)
-
-        viewBinding.myRvMyscrap.adapter = itemRecipeRVAdapter
-        viewBinding.myRvMyscrap.layoutManager = GridLayoutManager(requireContext(),2)*/
-
 
         GlobalScope.launch(Dispatchers.IO){
             //viewBinding.etSearch.setText("")
-
+            val tokenDb = TokenDatabase.getTokenDatabase(activity as HomeMainActivity)
+            token = tokenDb.tokenDao().getToken().token.toString()
 
             retrofit.get_recipe_two(token).enqueue(object: Callback<GetRecipeTwoResponse>{
                 override fun onResponse(
                     call: Call<GetRecipeTwoResponse>,
                     response: Response<GetRecipeTwoResponse>
                 ) {
-                    Log.d("통신", "통신 성공")
-                    val result = response.body()
+
 
                     var challenging: ArrayList<ItemRecipeChallengeData> = arrayListOf()
                     var complete: ArrayList<ItemRecipeChallengeData> = arrayListOf()
                     var scrap: ArrayList<ItemRecipeChallengeData> = arrayListOf()
+
+                    val result = response.body()
+                    Log.d("통신","${result}")
+                    Log.d("통신","${token}")
+
+
 
                     //도전중
                     if(result?.data?.myChallengingOverView?.size != 0){

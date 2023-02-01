@@ -9,6 +9,8 @@
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-sdk android:minSdkVersion="21"/
+
     <application
         android:name=".config.src.main.SocialLogin.KakaoApplication"
         android:allowBackup="true"

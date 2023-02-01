@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.FragmentMyChallengedoneBinding
 import com.example.umc_zipdabang.src.my.data.ItemRecipeChallengeData
 import com.example.umc_zipdabang.src.my.data.ItemRecipeData
@@ -25,6 +27,7 @@ class MyChallengedoneFragment: Fragment() {
 
     lateinit var viewBinding: FragmentMyChallengedoneBinding
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
+    var token: String = " "
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,16 +51,15 @@ class MyChallengedoneFragment: Fragment() {
         viewBinding.myToolbar.bringToFront()
 
         val challengedoneItemList : ArrayList<ItemRecipeChallengeData> = arrayListOf()
-        val challengedoneRVAdapter = MyChallengedoneRVAdapter(challengedoneItemList)
+        val challengedoneRVAdapter = MyChallengedoneRVAdapter(HomeMainActivity(), challengedoneItemList)
 
         GlobalScope.launch(Dispatchers.IO) {
 
-            //val tokenDb = TokenDatabase.getTokenDatabase(this@MyChallengedoneFragment)
-            //       token1 = tokenDb.tokenDao().getToken().token.toString()
-            val token1="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
+            val tokenDb = TokenDatabase.getTokenDatabase(activity as HomeMainActivity)
+            token = tokenDb.tokenDao().getToken().token.toString()
 
             //통신
-            retrofit.get_challengedonerecipe(token1).enqueue(object:
+            retrofit.get_challengedonerecipe(token).enqueue(object:
                 Callback<GetChallengedoneRecipeResponse> {
                 override fun onResponse(
                     call: Call<GetChallengedoneRecipeResponse>,
@@ -83,7 +85,7 @@ class MyChallengedoneFragment: Fragment() {
                     }
                     viewBinding.myTvv.text = challengedoneItemList.size.toString()
                     viewBinding.myRv.layoutManager = GridLayoutManager(context, 2)
-                    val adapter = MyChallengedoneRVAdapter(challengedoneItemList)
+                    val adapter = MyChallengedoneRVAdapter(HomeMainActivity() ,challengedoneItemList)
                     viewBinding.myRv.adapter = adapter
                     adapter.notifyDataSetChanged()
                 }
