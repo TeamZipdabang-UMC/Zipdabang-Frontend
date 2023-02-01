@@ -635,7 +635,7 @@ class HomeFragment : Fragment() {
                                 coffee.get(0).title =
                                     result.data?.coffeeCategoryOverView?.get(0)?.name
 
-                                if (result?.data?.myScrapOverView?.size != 1) {
+                                if (result?.data?.coffeeCategoryOverView?.size != 1) {
                                     coffee.get(1).recipeid =
                                         result.data?.coffeeCategoryOverView?.get(1)?.recipeid
                                     coffee.get(1).heart =

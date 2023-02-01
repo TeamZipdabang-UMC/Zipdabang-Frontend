@@ -2529,7 +2529,6 @@ class MyWritingActivity:AppCompatActivity() {
         //photoFile 경로 = /storage/emulated/0/Android/data/패키지명/files/Pictures/
         val photoFile: File? = try {
             createImageFile(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-
         } catch (ex: IOException) {
             // Error occurred while creating the File
             Log.d("확인용", "파일 생성 오류뜸")
@@ -2610,16 +2609,14 @@ class MyWritingActivity:AppCompatActivity() {
                 inputStream?.close()
 
 
-                Log.d("카메라 확인 5","${imageUri}")
+                Log.d("카메라 확인","${imageUri}")
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
-                Log.d("카메라 확인 6","${filee}")
+                Log.d("카메라 확인 5","${buf}")
                 //requestbody 객체로 변환한다.
                 val requestFile = filee.asRequestBody("image/*".toMediaTypeOrNull())
-                Log.d("카메라 확인 7","${requestFile}")
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
-                Log.d("카메라 확인 8","${body}")
 
                 // thumbnail post
                 GlobalScope.launch(Dispatchers.IO) {
