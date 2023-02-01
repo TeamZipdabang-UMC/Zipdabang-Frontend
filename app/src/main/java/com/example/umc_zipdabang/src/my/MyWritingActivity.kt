@@ -2479,7 +2479,6 @@ class MyWritingActivity:AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
         Log.d("카메라 확인0", "1")
         if( resultCode == Activity.RESULT_OK) {
             Log.d("카메라 확인0", "2")
@@ -3239,12 +3238,10 @@ class MyWritingActivity:AppCompatActivity() {
                         Log.d("통신",t.message.toString())
                     }
                 })
+                }
             }
-        }
     }
 
-
-  
 
    /*override fun onBackPressed() {
            binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
@@ -3292,4 +3289,5 @@ class MyWritingActivity:AppCompatActivity() {
            dialog_reallynotsave.show()
    }*/
 
+    }
 }
