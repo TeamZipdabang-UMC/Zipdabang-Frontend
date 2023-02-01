@@ -25,7 +25,7 @@ class ActvityTos: AppCompatActivity(){
             val intent= Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
             startActivity(intent)
 
-            
+
         }
 
 

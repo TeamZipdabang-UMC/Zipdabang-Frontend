@@ -33,6 +33,8 @@ class MySettingActivity :AppCompatActivity(){
 
         var nickname_sp = sharedPreference.getString("nickname", "")
         var email_sp = sharedPreference.getString("email", "")
+        Log.d("닉네임","${nickname_sp}")
+        Log.d("이메일","email_sp")
 
 
         viewBinding.etNickname.setText(nickname_sp)
