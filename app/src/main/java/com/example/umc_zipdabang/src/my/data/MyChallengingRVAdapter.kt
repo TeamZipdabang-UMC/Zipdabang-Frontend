@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.databinding.ItemRecipeBinding
 import kotlinx.coroutines.Dispatchers
@@ -31,20 +32,20 @@ class MyChallengingRVAdapter(private val context: HomeMainActivity, private val 
             viewBinding.myRecipeTital.text = ItemRecipeChallengeData.name
             viewBinding.myRecipeHeart.text = ItemRecipeChallengeData.likes.toString()
 
-            itemView.setOnClickListener{
-                GlobalScope.launch(Dispatchers.IO){
+            itemView.setOnClickListener {
 
-                    withContext(Dispatchers.Main){
+                GlobalScope.launch(Dispatchers.IO) {
+
+                    withContext(Dispatchers.Main) {
                         val selectId = dataList[adapterPosition].userId.toString()
-                        Log.d("통신","${selectId}")
-                        val intent = Intent(itemView.context, ZipdabangRecipeDetailActivity::class.java)
-                        intent.putExtra("recipeId","${selectId}")
-                        intent.run{
+                        Log.d("통신", "${selectId}")
+                        val intent =
+                            Intent(itemView.context, ZipdabangRecipeDetailActivity::class.java)
+                        intent.putExtra("recipeId", "${selectId}")
+                        intent.run {
                             itemView.context.startActivity(this)
                         }
                     }
-
-
                 }
             }
         }

@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="324dp"
-    android:layout_height="538dp"
+    android:layout_height="450dp"
     android:layout_gravity="center"
     android:orientation="vertical">
 
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="업로드 완료!"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="8dp"
             android:layout_gravity="center"
             android:textSize="24dp"
             android:textColor="@color/jipdabang_black"
@@ -54,28 +54,5 @@
             android:textSize="16sp"
             android:textColor="@color/jipdabang_black"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/my_uploaddonebtn"
-            android:layout_width="204dp"
-            android:layout_height="52dp"
-            android:clickable="true"
-            android:background="@drawable/my_btn_round_yellow"
-            android:layout_gravity="center"
-            android:text="업로드 레시피 보러가기"
-            android:textColor="@color/jipdabang_black"
-            android:textSize="16sp"
-            android:fontFamily="@font/notosanskrbold"
-            style="?android:attr/borderlessButtonStyle"/>
-
-        <TextView
-            android:id="@+id/my_uploadseelaterbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:text="나중에 보기"
-            android:textSize="12dp"
-            android:textColor="#999999"
-            android:fontFamily="@font/notosanskrregular"/>
     </LinearLayout>
 </LinearLayout>

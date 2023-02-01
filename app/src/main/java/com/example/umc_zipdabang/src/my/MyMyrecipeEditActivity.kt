@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.ActivityMyMyrecipeEditBinding
 import com.example.umc_zipdabang.databinding.ToastMyDeleteBinding
 import com.example.umc_zipdabang.src.my.data.ItemRecipeChallengeData
@@ -30,7 +32,7 @@ class MyMyrecipeEditActivity: AppCompatActivity() {
 
     private var scraps: ArrayList<ItemRecipeChallengeData> = arrayListOf()
     private var delete: ArrayList<ItemRecipeChallengeData> = arrayListOf()
-    var token1: String? = null
+    var token: String = " "
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
     private var deletelist: ArrayList<Int> = arrayListOf()
 
@@ -46,12 +48,8 @@ class MyMyrecipeEditActivity: AppCompatActivity() {
 
 
         GlobalScope.launch(Dispatchers.IO) {
-
-
-            //val tokenDb = TokenDatabase.getTokenDatabase(this)
-            //   token1 = tokenDb.tokenDao().getToken().token.toString()
-            token1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
-
+            val tokenDb = TokenDatabase.getTokenDatabase(this@MyMyrecipeEditActivity)
+            token = tokenDb.tokenDao().getToken().token.toString()
 
             var intent = getIntent()
             scraps = intent.getSerializableExtra("array") as ArrayList<ItemRecipeChallengeData>
@@ -128,28 +126,30 @@ class MyMyrecipeEditActivity: AppCompatActivity() {
                                     val json = Delete(deletearray)
 
 
-                                    //통신
-                                    retrofit.deleteScrap(token1,json)?.enqueue(object :
-                                        Callback<Scrap_Delete_Response> {
 
-                                        override fun onResponse(
-                                            call: Call<Scrap_Delete_Response>,
-                                            response: Response<Scrap_Delete_Response>
+                                        //통신
+                                        retrofit.deleteScrap(token, json)?.enqueue(object :
+                                            Callback<Scrap_Delete_Response> {
 
-                                        ) {
-                                            // 정상적으로 통신이 성공된 경우
-                                            val result = response.body()
+                                            override fun onResponse(
+                                                call: Call<Scrap_Delete_Response>,
+                                                response: Response<Scrap_Delete_Response>
 
-
-                                        }
+                                            ) {
+                                                // 정상적으로 통신이 성공된 경우
+                                                val result = response.body()
 
 
-                                        override fun onFailure(
-                                            call: Call<Scrap_Delete_Response>,
-                                            t: Throwable
-                                        ) {
-                                        }
-                                    })
+                                            }
+
+
+                                            override fun onFailure(
+                                                call: Call<Scrap_Delete_Response>,
+                                                t: Throwable
+                                            ) {
+                                            }
+                                        })
+
 
                                     var a=delete.size
                                     for(i: Int in 0..a-1){
