@@ -32,6 +32,7 @@ class InitialActivity: AppCompatActivity() {
                }
 
 
+
         // 카카오 키 해시값 확인 목적
         Log.d(ContentValues.TAG, "keyhash:${Utility.getKeyHash(this)}")
 

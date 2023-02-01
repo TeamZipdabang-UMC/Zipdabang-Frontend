@@ -37,6 +37,7 @@
         android:id="@+id/arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:src="@drawable/my_setting_vector"
         app:layout_constraintStart_toStartOf="@id/quest_title"
         app:layout_constraintEnd_toEndOf="parent"
