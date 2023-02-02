@@ -307,7 +307,7 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                                 isLoading = false
                                                 progressBar.visibility = View.GONE
                                             }, 2000)
-                                        }
+                                  }
                                     }
                                 }
                             }
