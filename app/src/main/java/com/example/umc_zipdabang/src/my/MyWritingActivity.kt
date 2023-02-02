@@ -40,12 +40,14 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 //import com.example.umc_zipdabang.BuildConfig
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.databinding.*
 import com.google.firebase.components.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType
@@ -103,6 +105,41 @@ class MyWritingActivity:AppCompatActivity() {
         val encodeByte = Base64.decode(encodedString, Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
     }
+    lateinit var fullSizePictureIntents : Intent
+    var a : Uri?=null
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("URI",a.toString())
+
+        Log.d("카메라 확인 onsave","${a}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("카메라 확인 onpause","onpause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("카메라 확인 onstop","onstop")
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("카메라 확인 ondestroy","onstop")
+
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("카메라 확인 onrestart","onrestart")
+
+    }
+
+
 
     private val Permissions = arrayOf(
         Manifest.permission.CAMERA,
@@ -140,6 +177,14 @@ class MyWritingActivity:AppCompatActivity() {
         viewBinding = ActivityMyWritingBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
+        Log.d("카메라 확인 oncreate","ㅁ")
+
+        if(savedInstanceState!=null)
+        {
+            a= Uri.parse(savedInstanceState.getString("URI"))
+
+        }
 
         val sharedPreference = getSharedPreferences("writing", 0)
         val editor = sharedPreference.edit() //제목, 카테고리, 시간, 한줄소개, 재료이름, 재료갯수, 스텝설명, 후기, 재료스탭 갯수
@@ -451,6 +496,7 @@ class MyWritingActivity:AppCompatActivity() {
         //뒤로가기 버튼 눌렀을때
         viewBinding.myBackbtn.setOnClickListener {
             var category_check = false
+            Log.d("backk","/")
             if(viewBinding.myCoffee.isSelected ==false
                 && viewBinding.myAde.isSelected  ==false
                 && viewBinding.myTea.isSelected ==false
@@ -486,7 +532,8 @@ class MyWritingActivity:AppCompatActivity() {
                 && step10_describe.text.toString().length ==0 && list[10]==""
                 && list[0] =="" && category_check == false){
 
-                finish()
+               val intent = Intent(this,HomeMainActivity::class.java)
+                startActivity(intent)
             }
             else{
                 binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
@@ -501,7 +548,7 @@ class MyWritingActivity:AppCompatActivity() {
 
                 //레시피 쓰던거 삭제하겠다
                 binding_reallynotsave.myDeletebtn.setOnClickListener{
-                    dialog_reallynotsave.dismiss()
+
 
                     binding_notsave = DialogNotsaveBinding.inflate(layoutInflater)
                     val dialog_notsave_builder = AlertDialog.Builder(this).setView(binding_notsave.root)
@@ -515,17 +562,28 @@ class MyWritingActivity:AppCompatActivity() {
 
                     //취소 버튼 눌렀을때
                     binding_notsave.myCancelbtn.setOnClickListener{
+
+                        val intent = Intent(this,HomeMainActivity::class.java)
+                        startActivity(intent)
                         dialog_notsave.onBackPressed()
+                        dialog_reallynotsave.dismiss()
+
                     }
                     //삭제하기 버튼 눌렀을때
                     binding_notsave.myDeletebtn.setOnClickListener{
                         CustomToast.createToast(applicationContext, "작성 중인 레시피를 삭제하였어요")?.show()
+
+                        val intent = Intent(this,HomeMainActivity::class.java)
+                        startActivity(intent)
                         finish()
                     }
                     dialog_notsave.show()
                 }
                 //레시피 쓰던거 삭제안할거임
                 binding_reallynotsave.myCancelbtn.setOnClickListener {
+
+                    val intent = Intent(this,HomeMainActivity::class.java)
+                    startActivity(intent)
                     dialog_reallynotsave.onBackPressed()
                 }
 
@@ -1235,9 +1293,10 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_THUMBNAIL = 1
 
                 photoURI = Uri.EMPTY
-                val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                    startActivityForResult(fullSizePictureIntent, REQUEST_THUMBNAIL)
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_THUMBNAIL)
                 }
                 Log.d("카메라 되냐","")
                 viewBinding.myImage.bringToFront()
@@ -2476,12 +2535,21 @@ class MyWritingActivity:AppCompatActivity() {
                 "com.example.umc_zipdabang" + ".fileprovider",
                 it
             )
+            a = photoURI
             Log.d("확인 생성된 file로부터 uri 생성", photoURI.toString())
 
             //3) 생성된 Uri를 Intent에 Put
             fullSizeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
         }
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(100)
+        }
         return fullSizeCaptureIntent
+
+
+
+
+
     }
     // 절대경로 파악할 때 사용된 메소드
     fun createCopyAndReturnRealPath(context: Context, uri: Uri): String? {
@@ -2521,7 +2589,8 @@ class MyWritingActivity:AppCompatActivity() {
             if( requestCode == REQUEST_THUMBNAIL)
             {
                 Log.d("카메라 확인0", "3")
-                val imageUri = photoURI
+                val imageUri = a
+
                 Log.d("카메라 확인 phtouri","${imageUri}")
 
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
@@ -2531,7 +2600,7 @@ class MyWritingActivity:AppCompatActivity() {
                 Log.d("카메라 확인 2","${file}")
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 Log.d("카메라 확인 3","${inputStream}")
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
@@ -2599,6 +2668,7 @@ class MyWritingActivity:AppCompatActivity() {
                                         .load(list[0])
                                         .centerCrop()
                                         .into(viewBinding.myImage)
+                                    Log.d("카메라확인","8")
 
                                 } else {
                                     Log.d("통신", "이미지 전송 실패")
@@ -2928,7 +2998,7 @@ class MyWritingActivity:AppCompatActivity() {
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
-               
+
                 // step5 post
                 GlobalScope.launch(Dispatchers.IO) {
                     val tokenDb = TokenDatabase.getTokenDatabase(this@MyWritingActivity)
@@ -3250,7 +3320,7 @@ class MyWritingActivity:AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.IO) {
                     val tokenDb = TokenDatabase.getTokenDatabase(this@MyWritingActivity)
                     token = tokenDb.tokenDao().getToken().token.toString()
-                   
+
                 retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
                     override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
                         if(response.isSuccessful){
@@ -3277,6 +3347,9 @@ class MyWritingActivity:AppCompatActivity() {
                 }
             }
     }
+
+    }
+}
 
 
    /*override fun onBackPressed() {
@@ -3325,5 +3398,4 @@ class MyWritingActivity:AppCompatActivity() {
            dialog_reallynotsave.show()
    }*/
 
-    }
-}
+
