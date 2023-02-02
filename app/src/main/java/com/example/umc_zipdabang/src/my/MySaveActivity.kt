@@ -107,7 +107,13 @@ class MySaveActivity:AppCompatActivity() {
                         var steps = data?.stepImg
                         var step_size = data?.step_size
 
-                        list_save[0] = thumb
+
+                        if(thumb =="null"){
+                            list_save[0]=""
+                        }else{
+                            list_save[0] = thumb
+                        }
+
                         Log.d("통신 tkdlwm", step_size.toString())
 
                         if (step_size == null) {

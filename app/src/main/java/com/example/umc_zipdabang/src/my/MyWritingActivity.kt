@@ -2549,7 +2549,6 @@ class MyWritingActivity:AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
         Log.d("카메라 확인0", "1")
         if( resultCode == Activity.RESULT_OK) {
             Log.d("카메라 확인0", "2")
@@ -3312,9 +3311,10 @@ class MyWritingActivity:AppCompatActivity() {
                         Log.d("통신",t.message.toString())
                     }
                 })
+                }
             }
-        }
     }
+
 
 
     }
@@ -3331,6 +3331,7 @@ class MyWritingActivity:AppCompatActivity() {
 }
 
  /*override fun onBackPressed() {
+
            binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
            val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
            val dialog_reallynotsave = dialog_reallynotsave_builder.create()
