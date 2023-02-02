@@ -64,6 +64,7 @@ class HomeFragment : Fragment() {
             Log.d("토큰", token1!!)
 
 
+
             //통신
             service.get_Main(token1).enqueue(object :
                 Callback<Main_Response> {
@@ -79,6 +80,17 @@ class HomeFragment : Fragment() {
                     val result = response.body()
                     Log.d("오버뷰성공", "${result}")
                     if (result != null) {
+
+
+                        if(scraps.size==1) scraps.removeAt(0)
+                        else if(scraps.size==2) {
+                            scraps.removeAt(0)
+                            scraps.removeAt(0)
+                        }
+                        Log.d("사이즈","${scraps.size}")
+
+                        if(scraplist.size!=0) scraplist.removeAt(0)
+                        Log.d("사이즈","${scraplist.size}")
 
 
                         if (result?.data?.myScrapOverView?.size != 0) {
@@ -474,11 +486,11 @@ class HomeFragment : Fragment() {
         return viewBinding.root
     }
 
-    override fun onResume() {
+ /*   override fun onResume() {
 
         super.onResume()
         GlobalScope.launch(Dispatchers.IO) {
-            delay(100)
+            delay(0)
             viewBinding.etSearch.setText("")
             val tokenDb = TokenDatabase.getTokenDatabase(activity as HomeMainActivity)
             token1 = tokenDb.tokenDao().getToken().token.toString()
@@ -500,58 +512,29 @@ class HomeFragment : Fragment() {
                     val result = response.body()
                     Log.d("오버뷰성공", "${result}")
                     if (result != null) {
-                        if (result.data?.myScrapOverView?.size == 0) {
-
-                            if (scraps.size == 1) {
-                                scraps.removeAt(0)
-                            }
-                            if (scraps.size == 2) {
-                                scraps.removeAt(1)
-                                scraps.removeAt(0)
-                            }
+                        if(scraps.size==1) scraps.removeAt(0)
+                       else if(scraps.size==2) {
+                            scraps.removeAt(0)
+                            scraps.removeAt(0)
                         }
+                        Log.d("사이즈","${scraps.size}")
 
+                        if(scraplist.size!=0) scraplist.removeAt(0)
+                        Log.d("사이즈","${scraplist.size}")
 
+                        if (result?.data?.myScrapOverView?.size != 0) {
 
-                        if (result.data?.myScrapOverView?.size == 1) {
-                            if (scraps.size == 0) {
-                                scraps.add(
-                                    Main_Scrap(
-                                        result.data?.myScrapOverView?.get(0)?.recipeid,
-                                        result.data?.myScrapOverView?.get(0)?.likes,
-                                        result.data?.myScrapOverView?.get(0)?.image,
-                                        result.data?.myScrapOverView?.get(0)?.name
-                                    )
+                            scraps.add(
+                                Main_Scrap(
+                                    result.data?.myScrapOverView?.get(0)?.recipeid,
+                                    result.data?.myScrapOverView?.get(0)?.likes,
+                                    result.data?.myScrapOverView?.get(0)?.image,
+                                    result.data?.myScrapOverView?.get(0)?.name
                                 )
+                            )
+                            Log.d("성공성공", scraps.size.toString())
 
-                            } else if (scraps.size == 1) {
-                                scraps.get(0).recipeid =
-                                    result.data?.myScrapOverView?.get(0)?.recipeid
-                                scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
-                                scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
-                                scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
-
-                            } else {
-                                scraps.removeAt(1)
-                                scraps.get(0).recipeid =
-                                    result.data?.myScrapOverView?.get(0)?.recipeid
-                                scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
-                                scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
-                                scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
-                            }
-
-
-                        }
-                        if (result.data?.myScrapOverView?.size == 2) {
-                            if (scraps.size == 0) {
-                                scraps.add(
-                                    Main_Scrap(
-                                        result.data?.myScrapOverView?.get(0)?.recipeid,
-                                        result.data?.myScrapOverView?.get(0)?.likes,
-                                        result.data?.myScrapOverView?.get(0)?.image,
-                                        result.data?.myScrapOverView?.get(0)?.name
-                                    )
-                                )
+                            if (result?.data?.myScrapOverView?.size != 1) {
                                 scraps.add(
                                     Main_Scrap(
                                         result.data?.myScrapOverView?.get(1)?.recipeid,
@@ -560,45 +543,13 @@ class HomeFragment : Fragment() {
                                         result.data?.myScrapOverView?.get(1)?.name
                                     )
                                 )
-
                             }
-
-                            if (scraps.size == 1) {
-                                scraps.get(0).recipeid =
-                                    result.data?.myScrapOverView?.get(0)?.recipeid
-                                scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
-                                scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
-                                scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
-
-
-                                scraps.add(
-                                    Main_Scrap(
-                                        result.data?.myScrapOverView?.get(1)?.recipeid,
-                                        result.data?.myScrapOverView?.get(1)?.likes,
-                                        result.data?.myScrapOverView?.get(1)?.image,
-                                        result.data?.myScrapOverView?.get(1)?.name
-                                    )
-                                )
-
-                            } else {
-
-                                scraps.get(0).recipeid =
-                                    result.data?.myScrapOverView?.get(0)?.recipeid
-                                scraps.get(0).heart = result.data?.myScrapOverView?.get(0)?.likes
-                                scraps.get(0).ImageUrl = result.data?.myScrapOverView?.get(0)?.image
-                                scraps.get(0).title = result.data?.myScrapOverView?.get(0)?.name
-
-                                scraps.get(1).recipeid =
-                                    result.data?.myScrapOverView?.get(1)?.recipeid
-                                scraps.get(1).heart =
-                                    result.data?.myScrapOverView?.get(1)?.likes
-                                scraps.get(1).ImageUrl =
-                                    result.data?.myScrapOverView?.get(1)?.image
-                                scraps.get(1).title = result.data?.myScrapOverView?.get(1)?.name
-                            }
-
-
                         }
+
+
+
+
+
 
                         if (beverage.size != 0) {
 
@@ -751,7 +702,7 @@ class HomeFragment : Fragment() {
                             }
                         }
 
-                        if (scraplist.size != 0) scraplist[0] = scraps
+                      scraplist.add(scraps)
                         if (category.size != 0) {
                             category[0] = Home_receipe("커피", coffee)
                             category[1] = Home_receipe("beverage", beverage)
@@ -829,7 +780,7 @@ class HomeFragment : Fragment() {
         }
 
 
-    }
+    }*/
 }
 
 
