@@ -44,6 +44,7 @@ import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.databinding.*
+import com.example.umc_zipdabang.src.main.MainActivity
 import com.google.firebase.components.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -137,6 +138,7 @@ class MyWritingActivity:AppCompatActivity() {
         Log.d("카메라 확인 onrestart","onrestart")
 
     }
+    var back=true
 
 
 
@@ -2628,6 +2630,7 @@ class MyWritingActivity:AppCompatActivity() {
 
                                     /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
                             viewBinding.myImage.setImageBitmap(imageBitmap)*/
+                                    viewBinding.myImage.bringToFront()
 
                                     Glide.with(this@MyWritingActivity)
                                         .load(list[0])
@@ -3313,11 +3316,21 @@ class MyWritingActivity:AppCompatActivity() {
         }
     }
 
-    }
-}
-  
 
-   /*override fun onBackPressed() {
+    }
+
+    override fun onBackPressed() {
+        if(back){
+            val intent=Intent(this,HomeMainActivity::class.java)
+            intent.putExtra("GOBACK","GOBACK")
+            startActivity(intent)
+        }
+        super.onBackPressed()
+    }
+
+}
+
+ /*override fun onBackPressed() {
            binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
            val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
            val dialog_reallynotsave = dialog_reallynotsave_builder.create()
