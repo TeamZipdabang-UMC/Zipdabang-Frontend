@@ -312,6 +312,8 @@ class ZipdabangRecipeFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
+        val allRecipesList: ArrayList<AllRecipesData> = arrayListOf()
+
         val recipeRetrofit = Retrofit.Builder()
             .baseUrl("http://zipdabang.store:3000")
             .addConverterFactory(GsonConverterFactory.create()).build()
