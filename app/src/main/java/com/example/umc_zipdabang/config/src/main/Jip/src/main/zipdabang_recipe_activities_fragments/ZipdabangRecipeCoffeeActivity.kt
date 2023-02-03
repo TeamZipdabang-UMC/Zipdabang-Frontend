@@ -87,151 +87,156 @@ class ZipdabangRecipeCoffeeActivity: AppCompatActivity() {
                     val result = response.body()
                     Log.d("커피 카테고리 레시피 Get 성공", "${result}")
                     var firstResultArray = arrayListOf<RecipeInfo?>()
-                    for (i in 0 until result?.data!!.size) {
-                        val firstResult = result?.data?.get(i)
-                        firstResultArray.add(firstResult)
-                        Log.d("첫번째 배열", "${firstResultArray}")
-                    }
 
-                    val firstResultIdArray = arrayListOf<Int?>()
-                    val firstResultNameArray = arrayListOf<String?>()
-                    val firstResultImgUrlArray = ArrayList<String?>()
-                    val firstResultLikesArray = ArrayList<Int?>()
-
-                    for (i in 0 until firstResultArray.size) {
-                        firstResultIdArray.add(firstResultArray[i]?.id)
-                        firstResultNameArray.add(firstResultArray[i]?.name)
-                        firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                        firstResultLikesArray.add(firstResultArray[i]?.likes)
-                        Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
-                        Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
-                        Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
-                        Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-                        coffeeRecipesList.add(
-                            CoffeeRecipesData(
-                                firstResultArray[i]?.imageUrl,
-                                firstResultArray[i]?.name,
-                                firstResultArray[i]?.likes
-                            )
-                        )
-                    }
-                    Log.d("커피 Id 목록", "${firstResultIdArray}")
-
-                    // 여기 추가해주기.
-                    coffeeRecipesRVAdapter = CoffeeLoadingRVAdapter(this@ZipdabangRecipeCoffeeActivity, coffeeRecipesList, firstResultIdArray)
-                    layoutManager = GridLayoutManager(this@ZipdabangRecipeCoffeeActivity, 2)
-                    // 데이터 클래스 리스트에 값들 추가하고, initAdapter()
-
-                    viewBinding.rvZipdabangRecipeCoffee.setLayoutManager(layoutManager)
-                    viewBinding.rvZipdabangRecipeCoffee.setAdapter(coffeeRecipesRVAdapter)
-                    layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int {
-
-                            if (position == 0)
-                            {
-
-                                return 1
-
-
-                            }
-                            else if ((position % 12 == 0) && position == (coffeeRecipesList.size-1))
-                            {
-
-                                return 2
-                            }
-                            else
-                            {
-
-                                return 1
-                            }
-
+                    if (result?.data != null) {
+                        for (i in 0 until result?.data!!.size) {
+                            val firstResult = result?.data?.get(i)
+                            firstResultArray.add(firstResult)
+                            Log.d("첫번째 배열", "${firstResultArray}")
                         }
-                    })
-                    // 시작
-                    viewBinding.rvZipdabangRecipeCoffee.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            if (!isLoading) {
-                                if (viewBinding.rvZipdabangRecipeCoffee.layoutManager != null && (viewBinding.rvZipdabangRecipeCoffee.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (coffeeRecipesList.size - 1)) {
-                                    //리스트 마지막o
-//                                    moreItems()
+                        val firstResultIdArray = arrayListOf<Int?>()
+                        val firstResultNameArray = arrayListOf<String?>()
+                        val firstResultImgUrlArray = ArrayList<String?>()
+                        val firstResultLikesArray = ArrayList<Int?>()
 
-                                    val runnable = Runnable {
+                        for (i in 0 until firstResultArray.size) {
+                            firstResultIdArray.add(firstResultArray[i]?.id)
+                            firstResultNameArray.add(firstResultArray[i]?.name)
+                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                            firstResultLikesArray.add(firstResultArray[i]?.likes)
+                            Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                            Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                            Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                            Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                            coffeeRecipesList.add(
+                                CoffeeRecipesData(
+                                    firstResultArray[i]?.imageUrl,
+                                    firstResultArray[i]?.name,
+                                    firstResultArray[i]?.likes
+                                )
+                            )
+                        }
+                        Log.d("커피 Id 목록", "${firstResultIdArray}")
 
-                                        coffeeRecipesList.add(CoffeeRecipesData(null, null, null))
-                                        Log.d("insert before", "msg")
-                                        coffeeRecipesRVAdapter.notifyItemInserted(coffeeRecipesList.size - 1)
+                        // 여기 추가해주기.
+                        coffeeRecipesRVAdapter = CoffeeLoadingRVAdapter(this@ZipdabangRecipeCoffeeActivity, coffeeRecipesList, firstResultIdArray)
+                        layoutManager = GridLayoutManager(this@ZipdabangRecipeCoffeeActivity, 2)
+                        // 데이터 클래스 리스트에 값들 추가하고, initAdapter()
 
-                                    }
+                        viewBinding.rvZipdabangRecipeCoffee.setLayoutManager(layoutManager)
+                        viewBinding.rvZipdabangRecipeCoffee.setAdapter(coffeeRecipesRVAdapter)
+                        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+                            override fun getSpanSize(position: Int): Int {
 
-                                    viewBinding.rvZipdabangRecipeCoffee.post(runnable)
+                                if (position == 0)
+                                {
 
-                                    GlobalScope.launch {
-                                        delay(2000)
-                                        withContext(Dispatchers.Main) {
-                                            coffeeRecipesList.removeAt(coffeeRecipesList.size - 1)
-                                            val scrollToPosition = coffeeRecipesList.size
-                                            coffeeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+                                    return 1
 
-                                            recipeService.getCategoryRecipesScroll(tokenNum, 1, firstResultIdArray.get(firstResultIdArray.size-1), 0, 1).enqueue(object: Callback<ZipdabangRecipes> {
-                                                override fun onResponse(
-                                                    call: Call<ZipdabangRecipes>,
-                                                    response: Response<ZipdabangRecipes>
-                                                ) {
-                                                    var moreResult = response.body()
-                                                    firstResultArray = ArrayList<RecipeInfo?>()
-                                                    Log.d("more result 결과", "${moreResult}")
-
-                                                    if (moreResult != null) {
-                                                        for (i in 0 until moreResult?.data!!.size) {
-                                                            val moreResultData = moreResult?.data?.get(i)
-                                                            firstResultArray.add(moreResultData)
-                                                        }
-
-                                                        Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
-                                                        Log.d("다음 배열", "${firstResultArray}")
-                                                        for (i in 0 until moreResult?.data!!.size) {
-                                                            firstResultIdArray.add(firstResultArray[i]?.id)
-                                                            firstResultNameArray.add(firstResultArray[i]?.name)
-                                                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                                                            firstResultLikesArray.add(firstResultArray[i]?.likes)
-                                                            Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
-                                                            Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
-                                                            Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
-                                                            Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-                                                            coffeeRecipesList.add(
-                                                                CoffeeRecipesData(
-                                                                    firstResultArray[i]?.imageUrl,
-                                                                    firstResultArray[i]?.name,
-                                                                    firstResultArray[i]?.likes
-                                                                )
-                                                            )
-                                                            Log.d("아이디 배열 결과", "${firstResultIdArray}")
-                                                            coffeeRecipesRVAdapter.notifyDataSetChanged()
-                                                            isLoading = false
-                                                        }
-
-                                                    }
-                                                }
-
-                                                override fun onFailure(
-                                                    call: Call<ZipdabangRecipes>,
-                                                    t: Throwable
-                                                ) {
-                                                    Log.d("추가 레시피 불러오기", "실패")
-                                                }
-                                            })
-                                        }
-                                    }
-
-                                    isLoading = true
 
                                 }
+                                else if ((position % 12 == 0) && position == (coffeeRecipesList.size-1))
+                                {
+
+                                    return 2
+                                }
+                                else
+                                {
+
+                                    return 1
+                                }
+
                             }
-                        }
-                    })
-                    // 끝
+                        })
+                        // 시작
+                        viewBinding.rvZipdabangRecipeCoffee.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                if (!isLoading) {
+                                    if (viewBinding.rvZipdabangRecipeCoffee.layoutManager != null && (viewBinding.rvZipdabangRecipeCoffee.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (coffeeRecipesList.size - 1)) {
+                                        //리스트 마지막o
+//                                    moreItems()
+
+                                        val runnable = Runnable {
+
+                                            coffeeRecipesList.add(CoffeeRecipesData(null, null, null))
+                                            Log.d("insert before", "msg")
+                                            coffeeRecipesRVAdapter.notifyItemInserted(coffeeRecipesList.size - 1)
+
+                                        }
+
+                                        viewBinding.rvZipdabangRecipeCoffee.post(runnable)
+
+                                        GlobalScope.launch {
+                                            delay(2000)
+                                            withContext(Dispatchers.Main) {
+                                                coffeeRecipesList.removeAt(coffeeRecipesList.size - 1)
+                                                val scrollToPosition = coffeeRecipesList.size
+                                                coffeeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+
+                                                recipeService.getCategoryRecipesScroll(tokenNum, 1, firstResultIdArray.get(firstResultIdArray.size-1), 0, 1).enqueue(object: Callback<ZipdabangRecipes> {
+                                                    override fun onResponse(
+                                                        call: Call<ZipdabangRecipes>,
+                                                        response: Response<ZipdabangRecipes>
+                                                    ) {
+                                                        var moreResult = response.body()
+                                                        firstResultArray = ArrayList<RecipeInfo?>()
+                                                        Log.d("more result 결과", "${moreResult}")
+
+                                                        if (moreResult != null) {
+                                                            for (i in 0 until moreResult?.data!!.size) {
+                                                                val moreResultData = moreResult?.data?.get(i)
+                                                                firstResultArray.add(moreResultData)
+                                                            }
+
+                                                            Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
+                                                            Log.d("다음 배열", "${firstResultArray}")
+                                                            for (i in 0 until moreResult?.data!!.size) {
+                                                                firstResultIdArray.add(firstResultArray[i]?.id)
+                                                                firstResultNameArray.add(firstResultArray[i]?.name)
+                                                                firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                                                                firstResultLikesArray.add(firstResultArray[i]?.likes)
+                                                                Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                                                                Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                                                                Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                                                                Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                                                                coffeeRecipesList.add(
+                                                                    CoffeeRecipesData(
+                                                                        firstResultArray[i]?.imageUrl,
+                                                                        firstResultArray[i]?.name,
+                                                                        firstResultArray[i]?.likes
+                                                                    )
+                                                                )
+                                                                Log.d("아이디 배열 결과", "${firstResultIdArray}")
+                                                                coffeeRecipesRVAdapter.notifyDataSetChanged()
+                                                                isLoading = false
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                    override fun onFailure(
+                                                        call: Call<ZipdabangRecipes>,
+                                                        t: Throwable
+                                                    ) {
+                                                        Log.d("추가 레시피 불러오기", "실패")
+                                                    }
+                                                })
+                                            }
+                                        }
+
+                                        isLoading = true
+
+                                    }
+                                }
+                            }
+                        })
+                        // 끝
+                    }
+
+
 
 
                 }

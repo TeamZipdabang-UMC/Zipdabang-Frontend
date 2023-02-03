@@ -40,7 +40,7 @@
 
             <ImageView
                 android:id="@+id/iv_our_recipe_banner"
-                android:background="@drawable/our_banner"
+                android:background="@drawable/our_recipe_banner"
                 android:layout_width="0dp"
                 android:layout_height="260dp"
                 app:layout_constraintEnd_toEndOf="parent"

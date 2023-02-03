@@ -326,63 +326,13 @@ class OurRecipeFragment: Fragment() {
             .baseUrl("http://zipdabang.store:3000")
             .addConverterFactory(GsonConverterFactory.create()).build()
         val recipeService = recipeRetrofit.create(RecipeService::class.java)
-//        setData()
-//        initAdapter()
-//        initScrollListener()
+
         val tokenDb = TokenDatabase.getTokenDatabase(requireContext())
 
         val goToLogin = Intent(requireContext(), InitialActivity::class.java)
 
 
         layoutManager = GridLayoutManager(requireContext(), 2)
-
-        val categoriesList: ArrayList<CategoriesData> = arrayListOf()
-        val categoriesRVAdapter = CategoriesOurRVAdapter(requireContext(), categoriesList)
-
-        // 카테고리
-        categoriesList.apply {
-            // add(CategoriesData(사진, 카테고리명)
-            add(
-                CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215479023-38453832-4704-4f53-b28d-49524b4e446b.png",
-                    "커피"
-                )
-            )
-            add(
-                CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215479996-39fd6789-0ea1-470c-a5d6-5cdf8bdd2c6e.png",
-                    "Beverage"
-                )
-            )
-            add(
-                CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215480159-ebe3b12e-f0a2-4a6f-b343-f66c3c125b33.png",
-                    "티"
-                )
-            )
-            add(
-                CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215479031-d6d9366d-355b-4449-bde4-ddb0a98327d0.png",
-                    "에이드"
-                )
-            )
-            add(
-                CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215480346-136059e5-98a0-4003-a54f-b6c3ac8a1163.png",
-                    "스무디/주스"
-                )
-            )
-            add(
-                CategoriesData(
-                    "https://user-images.githubusercontent.com/101035437/215479086-0bdee389-123b-4f12-95b0-f918c9667468.png",
-                    "건강음료"
-                )
-            )
-        }
-
-        viewBinding.rvOurRecipeCategories.layoutManager =
-            GridLayoutManager(requireContext(), 3)
-        viewBinding.rvOurRecipeCategories.adapter = categoriesRVAdapter
 
         GlobalScope.launch(Dispatchers.IO) {
             val token: Token = tokenDb.tokenDao().getToken()
