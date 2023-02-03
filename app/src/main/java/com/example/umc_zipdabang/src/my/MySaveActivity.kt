@@ -818,7 +818,8 @@ class MySaveActivity:AppCompatActivity() {
 
         //뒤로가기 버튼 눌렀을때
         viewBinding.myBackbtn.setOnClickListener {
-            finish()
+            val intent = Intent(this,HomeMainActivity::class.java)
+            startActivity(intent)
         }
 
         //임시저장 버튼 눌렀을때
