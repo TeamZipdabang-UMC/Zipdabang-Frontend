@@ -75,36 +75,11 @@ class MyWritingActivity:AppCompatActivity() {
     private lateinit var binding_toast_delete : ToastDeleteBinding
 
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
-    //private var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJFbWFpbCI6ImVtYWlsMUBnbWFpbC5jb20iLCJpYXQiOjE2NzUwMDc2ODUsImV4cCI6MTY3NzU5OTY4NSwic3ViIjoidXNlckluZm8ifQ.38w5k86aZsM1qiRu2EGjN7wB2C4AMNluX_UAV1NcxGY"
     var token: String = " "
-
-    ////카테고리 버튼 되면하고 아님 말고
-    ////fragment 수정
-
 
     //임시저장 post 위한 리스트
     var list = arrayOf<String>("","","","","","","","","","","")
 
-
-    fun bitmaptoByteArray(bitmap: Bitmap) : ByteArray{
-        var outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, outputStream)
-        return outputStream.toByteArray()
-    }
-    fun byteArrayToBitmap(byteArray: ByteArray):Bitmap{
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        return bitmap
-    }
-    fun bitmapToString(bitmap:Bitmap):String{
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-        val byteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
-    }
-    fun stringToBitmap(encodedString: String):Bitmap{
-        val encodeByte = Base64.decode(encodedString, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
-    }
     lateinit var fullSizePictureIntents : Intent
     var a : Uri?=null
 
@@ -123,23 +98,18 @@ class MyWritingActivity:AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         Log.d("카메라 확인 onstop","onstop")
-
-
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Log.d("카메라 확인 ondestroy","onstop")
-
     }
 
     override fun onRestart() {
         super.onRestart()
         Log.d("카메라 확인 onrestart","onrestart")
-
     }
     var back=true
-
 
 
 
@@ -148,6 +118,13 @@ class MyWritingActivity:AppCompatActivity() {
         viewBinding = ActivityMyWritingBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
+        //카메라 허용되어있으면 그냥 넘어가고, 안되어있으면 권한 허용 받기
+        if(checkPermission()){
+
+        }else{
+            requestPermission()
+        }
 
         Log.d("카메라 확인 oncreate","ㅁ")
 
@@ -1260,8 +1237,8 @@ class MyWritingActivity:AppCompatActivity() {
             binding_camera.myCameraFrame.setOnClickListener{
                 REQUEST_THUMBNAIL = 1
                 photoURI = Uri.EMPTY
+                
                 fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
-
                 fullSizePictureIntents.resolveActivity(packageManager)?.also {
                     startActivityForResult(fullSizePictureIntents, REQUEST_THUMBNAIL)
                 }
@@ -1295,18 +1272,17 @@ class MyWritingActivity:AppCompatActivity() {
            binding_camera.myCameraFrame.setOnClickListener{
                REQUEST_THUMBNAIL = 0
                REQUEST_STEP1 = 1
-               if(checkPermission()){
-                   photoURI = Uri.EMPTY
-                   val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                   fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                       startActivityForResult(fullSizePictureIntent, REQUEST_STEP1)
-                   }
-                   viewBinding.myRecipeRealimageStep.bringToFront()
-                   viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
-                   viewBinding.myRecipeRealimageXbtn.bringToFront()
-               }else{
-                   requestPermission()
+               
+               photoURI = Uri.EMPTY
+               fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+               fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                   startActivityForResult(fullSizePictureIntents, REQUEST_STEP1)
                }
+
+               viewBinding.myRecipeRealimageStep.bringToFront()
+               viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
+               viewBinding.myRecipeRealimageXbtn.bringToFront()
+               
                dialog_camera.dismiss()
            }
            binding_camera.myFileFrame.setOnClickListener{
@@ -1335,18 +1311,17 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_THUMBNAIL = 0
                 REQUEST_STEP1 = 0
                 REQUEST_STEP2 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP2)
-                    }
-                    viewBinding.myRecipeRealimageStep2.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn2.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP2)
                 }
+
+                viewBinding.myRecipeRealimageStep2.bringToFront()
+                viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn2.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1377,18 +1352,17 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_STEP1 = 0
                 REQUEST_STEP2 = 0
                 REQUEST_STEP3 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP3)
-                    }
-                    viewBinding.myRecipeRealimageStep3.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn3.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP3)
                 }
+
+                viewBinding.myRecipeRealimageStep3.bringToFront()
+                viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn3.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1421,18 +1395,17 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_STEP2 = 0
                 REQUEST_STEP3 = 0
                 REQUEST_STEP4 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP4)
-                    }
-                    viewBinding.myRecipeRealimageStep4.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn4.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP4)
                 }
+
+                viewBinding.myRecipeRealimageStep4.bringToFront()
+                viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn4.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1467,18 +1440,16 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_STEP3 = 0
                 REQUEST_STEP4 = 0
                 REQUEST_STEP5 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP5)
-                    }
-                    viewBinding.myRecipeRealimageStep5.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn5.bringToFront()
-                }else{
-                    requestPermission()
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP5)
                 }
+
+                viewBinding.myRecipeRealimageStep5.bringToFront()
+                viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn5.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1515,18 +1486,17 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_STEP4 = 0
                 REQUEST_STEP5 = 0
                 REQUEST_STEP6 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP6)
-                    }
-                    viewBinding.myRecipeRealimageStep6.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn6.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP6)
                 }
+
+                viewBinding.myRecipeRealimageStep6.bringToFront()
+                viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn6.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1565,18 +1535,17 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_STEP5 = 0
                 REQUEST_STEP6 = 0
                 REQUEST_STEP7 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP7)
-                    }
-                    viewBinding.myRecipeRealimageStep7.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn7.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP7)
                 }
+
+                viewBinding.myRecipeRealimageStep7.bringToFront()
+                viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn7.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1617,18 +1586,17 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_STEP6 = 0
                 REQUEST_STEP7 = 0
                 REQUEST_STEP8 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP8)
-                    }
-                    viewBinding.myRecipeRealimageStep8.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn8.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP8)
                 }
+
+                viewBinding.myRecipeRealimageStep8.bringToFront()
+                viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn8.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1671,18 +1639,17 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_STEP7 = 0
                 REQUEST_STEP8 = 0
                 REQUEST_STEP9 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP9)
-                    }
-                    viewBinding.myRecipeRealimageStep9.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn9.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP9)
                 }
+
+                viewBinding.myRecipeRealimageStep9.bringToFront()
+                viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn9.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1727,18 +1694,17 @@ class MyWritingActivity:AppCompatActivity() {
                 REQUEST_STEP8 = 0
                 REQUEST_STEP9 = 0
                 REQUEST_STEP10 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP10)
-                    }
-                    viewBinding.myRecipeRealimageStep10.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn10.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP10)
                 }
+
+                viewBinding.myRecipeRealimageStep10.bringToFront()
+                viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn10.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -2579,8 +2545,7 @@ class MyWritingActivity:AppCompatActivity() {
                 }
                 outputStream.close()
                 inputStream?.close()
-
-
+                
 
                 //file 객체 만들어준다. 파일의 경로를 가져와야 한다.
                 val filee = File(file.getAbsolutePath())
@@ -2591,8 +2556,7 @@ class MyWritingActivity:AppCompatActivity() {
                 //maltipart.Part로 변환해준다.
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
                 Log.d("카메라 확인 7","${body}")
-
-
+                
 
                 // thumbnail post
                 GlobalScope.launch(Dispatchers.IO) {
@@ -2614,21 +2578,7 @@ class MyWritingActivity:AppCompatActivity() {
 
                                     list.set(0, data.toString())
                                     Log.d("통신", list[0])
-
-                                    /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                            Glide.with(this)
-                                .load(imageBitmap)
-                                .centerCrop()
-                                .apply(
-                                    RequestOptions()
-                                        .signature(ObjectKey(System.currentTimeMillis()))
-                                        .skipMemoryCache(true)
-                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                )
-                                .into(viewBinding.myImage)*/
-
-                                    /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
-                            viewBinding.myImage.setImageBitmap(imageBitmap)*/
+                                    
                                     viewBinding.myImage.bringToFront()
 
                                     Glide.with(this@MyWritingActivity)
@@ -2659,25 +2609,14 @@ class MyWritingActivity:AppCompatActivity() {
 
             } else if(requestCode == REQUEST_STEP1)
             {
-                /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep)*/
-
-                val imageUri = photoURI
+                
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -2736,24 +2675,14 @@ class MyWritingActivity:AppCompatActivity() {
 
             } else if(requestCode == REQUEST_STEP2)
             {
-                /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep2)*/
-                val imageUri = photoURI
+
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -2811,13 +2740,13 @@ class MyWritingActivity:AppCompatActivity() {
 
             }else if(requestCode == REQUEST_STEP3)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -2876,13 +2805,13 @@ class MyWritingActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP4)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -2940,13 +2869,13 @@ class MyWritingActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP5)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3004,13 +2933,13 @@ class MyWritingActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP6)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3068,13 +2997,13 @@ class MyWritingActivity:AppCompatActivity() {
 
             }else if(requestCode == REQUEST_STEP7)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3131,13 +3060,13 @@ class MyWritingActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP8)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3195,13 +3124,13 @@ class MyWritingActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP9)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3257,13 +3186,13 @@ class MyWritingActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP10)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MyWritingActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3313,10 +3242,7 @@ class MyWritingActivity:AppCompatActivity() {
                 })
                 }
             }
-    }
-
-
-
+        }
     }
 
     override fun onBackPressed() {
