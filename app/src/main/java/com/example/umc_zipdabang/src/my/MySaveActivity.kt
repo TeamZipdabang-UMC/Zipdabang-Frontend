@@ -42,6 +42,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import com.example.umc_zipdabang.R
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.*
 import com.google.firebase.components.BuildConfig
@@ -80,11 +81,50 @@ class MySaveActivity:AppCompatActivity() {
     //임시저장 get 위한 이미지 url 리스트
     var list_save = arrayOf<String?>("","","","","","","","","","","")
 
+     lateinit var fullSizePictureIntents : Intent
+    var a : Uri?=null
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("URI",a.toString())
+
+        Log.d("카메라 확인 onsave","${a}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("카메라 확인 onpause","onpause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("카메라 확인 onstop","onstop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("카메라 확인 ondestroy","onstop")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("카메라 확인 onrestart","onrestart")
+    }
+    var back=true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityMySaveBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
+        Log.d("카메라 확인 oncreate","ㅁ")
+
+        if(savedInstanceState!=null)
+        {
+            a= Uri.parse(savedInstanceState.getString("URI"))
+
+        }
 
         var num: Int
         var num2: Int = 0
@@ -1412,19 +1452,21 @@ class MySaveActivity:AppCompatActivity() {
             dialog_camera.window?.setGravity(Gravity.BOTTOM)
             dialog_camera.setCancelable(true)
 
+            dialog_camera.show()
+
+
             //카메라에서 가져오기
             binding_camera.myCameraFrame.setOnClickListener{
                 REQUEST_THUMBNAIL = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_THUMBNAIL)
-                    }
-                    viewBinding.myImage.bringToFront()
-                }else{
-                    requestPermission()
+                photoURI = Uri.EMPTY
+
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_THUMBNAIL)
                 }
+                Log.d("카메라 되냐","")
+                viewBinding.myImage.bringToFront()
+
                 dialog_camera.dismiss()
             }
 
@@ -1452,18 +1494,17 @@ class MySaveActivity:AppCompatActivity() {
             binding_camera.myCameraFrame.setOnClickListener{
                 REQUEST_THUMBNAIL = 0
                 REQUEST_STEP1 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP1)
-                    }
-                    viewBinding.myRecipeRealimageStep.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP1)
                 }
+
+                viewBinding.myRecipeRealimageStep.bringToFront()
+                viewBinding.myRecipeRealimageXbtn.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1492,18 +1533,17 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_THUMBNAIL = 0
                 REQUEST_STEP1 = 0
                 REQUEST_STEP2 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP2)
-                    }
-                    viewBinding.myRecipeRealimageStep2.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn2.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP2)
                 }
+
+                viewBinding.myRecipeRealimageStep2.bringToFront()
+                viewBinding.myRecipeRealimageXbtn2.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn2.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1534,18 +1574,17 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP1 = 0
                 REQUEST_STEP2 = 0
                 REQUEST_STEP3 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP3)
-                    }
-                    viewBinding.myRecipeRealimageStep3.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn3.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP3)
                 }
+
+                viewBinding.myRecipeRealimageStep3.bringToFront()
+                viewBinding.myRecipeRealimageXbtn3.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn3.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1578,18 +1617,17 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP2 = 0
                 REQUEST_STEP3 = 0
                 REQUEST_STEP4 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP4)
-                    }
-                    viewBinding.myRecipeRealimageStep4.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn4.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP4)
                 }
+
+                viewBinding.myRecipeRealimageStep4.bringToFront()
+                viewBinding.myRecipeRealimageXbtn4.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn4.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1624,18 +1662,16 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP3 = 0
                 REQUEST_STEP4 = 0
                 REQUEST_STEP5 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP5)
-                    }
-                    viewBinding.myRecipeRealimageStep5.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn5.bringToFront()
-                }else{
-                    requestPermission()
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP5)
                 }
+
+                viewBinding.myRecipeRealimageStep5.bringToFront()
+                viewBinding.myRecipeRealimageXbtn5.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn5.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1672,18 +1708,17 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP4 = 0
                 REQUEST_STEP5 = 0
                 REQUEST_STEP6 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP6)
-                    }
-                    viewBinding.myRecipeRealimageStep6.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn6.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP6)
                 }
+
+                viewBinding.myRecipeRealimageStep6.bringToFront()
+                viewBinding.myRecipeRealimageXbtn6.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn6.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1722,18 +1757,17 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP5 = 0
                 REQUEST_STEP6 = 0
                 REQUEST_STEP7 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP7)
-                    }
-                    viewBinding.myRecipeRealimageStep7.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn7.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP7)
                 }
+
+                viewBinding.myRecipeRealimageStep7.bringToFront()
+                viewBinding.myRecipeRealimageXbtn7.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn7.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1774,18 +1808,17 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP6 = 0
                 REQUEST_STEP7 = 0
                 REQUEST_STEP8 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP8)
-                    }
-                    viewBinding.myRecipeRealimageStep8.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn8.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP8)
                 }
+
+                viewBinding.myRecipeRealimageStep8.bringToFront()
+                viewBinding.myRecipeRealimageXbtn8.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn8.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1828,18 +1861,17 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP7 = 0
                 REQUEST_STEP8 = 0
                 REQUEST_STEP9 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP9)
-                    }
-                    viewBinding.myRecipeRealimageStep9.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn9.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP9)
                 }
+
+                viewBinding.myRecipeRealimageStep9.bringToFront()
+                viewBinding.myRecipeRealimageXbtn9.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn9.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -1884,18 +1916,17 @@ class MySaveActivity:AppCompatActivity() {
                 REQUEST_STEP8 = 0
                 REQUEST_STEP9 = 0
                 REQUEST_STEP10 = 1
-                if(checkPermission()){
-                    photoURI = Uri.EMPTY
-                    val fullSizePictureIntent = getPictureIntent_App_Specific(applicationContext)
-                    fullSizePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(fullSizePictureIntent, REQUEST_STEP10)
-                    }
-                    viewBinding.myRecipeRealimageStep10.bringToFront()
-                    viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
-                    viewBinding.myRecipeRealimageXbtn10.bringToFront()
-                }else{
-                    requestPermission()
+
+                photoURI = Uri.EMPTY
+                fullSizePictureIntents = getPictureIntent_App_Specific(applicationContext)
+                fullSizePictureIntents.resolveActivity(packageManager)?.also {
+                    startActivityForResult(fullSizePictureIntents, REQUEST_STEP10)
                 }
+
+                viewBinding.myRecipeRealimageStep10.bringToFront()
+                viewBinding.myRecipeRealimageXbtn10.visibility = View.VISIBLE
+                viewBinding.myRecipeRealimageXbtn10.bringToFront()
+
                 dialog_camera.dismiss()
             }
             binding_camera.myFileFrame.setOnClickListener{
@@ -2697,13 +2728,15 @@ class MySaveActivity:AppCompatActivity() {
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         Log.d("카메라 확인0", "1")
         if( resultCode == Activity.RESULT_OK) {
             Log.d("카메라 확인0", "2")
             if( requestCode == REQUEST_THUMBNAIL)
             {
                 Log.d("카메라 확인0", "3")
-                val imageUri = photoURI
+                val imageUri = a
+
                 Log.d("카메라 확인 phtouri","${imageUri}")
 
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
@@ -2713,7 +2746,7 @@ class MySaveActivity:AppCompatActivity() {
                 Log.d("카메라 확인 2","${file}")
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 Log.d("카메라 확인 3","${inputStream}")
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
@@ -2760,25 +2793,13 @@ class MySaveActivity:AppCompatActivity() {
                                     list.set(0, data.toString())
                                     Log.d("통신", list[0])
 
-                                    /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                            Glide.with(this)
-                                .load(imageBitmap)
-                                .centerCrop()
-                                .apply(
-                                    RequestOptions()
-                                        .signature(ObjectKey(System.currentTimeMillis()))
-                                        .skipMemoryCache(true)
-                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                )
-                                .into(viewBinding.myImage)*/
-
-                                    /*val imageBitmap :Bitmap? = data?.extras?.get("data") as Bitmap?
-                            viewBinding.myImage.setImageBitmap(imageBitmap)*/
+                                    viewBinding.myImage.bringToFront()
 
                                     Glide.with(this@MySaveActivity)
                                         .load(list[0])
                                         .centerCrop()
                                         .into(viewBinding.myImage)
+                                    Log.d("카메라확인","8")
 
                                 } else {
                                     Log.d("통신", "이미지 전송 실패")
@@ -2802,25 +2823,14 @@ class MySaveActivity:AppCompatActivity() {
 
             } else if(requestCode == REQUEST_STEP1)
             {
-                /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep)*/
 
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -2879,24 +2889,14 @@ class MySaveActivity:AppCompatActivity() {
 
             } else if(requestCode == REQUEST_STEP2)
             {
-                /*val imageBitmap :Bitmap = data?.extras?.get("data") as Bitmap
-                Glide.with(this)
-                    .load(imageBitmap)
-                    .centerCrop()
-                    .apply(
-                        RequestOptions()
-                            .signature(ObjectKey(System.currentTimeMillis()))
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    )
-                    .into(viewBinding.myRecipeRealimageStep2)*/
-                val imageUri = photoURI
+
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -2954,13 +2954,13 @@ class MySaveActivity:AppCompatActivity() {
 
             }else if(requestCode == REQUEST_STEP3)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3019,13 +3019,13 @@ class MySaveActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP4)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3083,13 +3083,13 @@ class MySaveActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP5)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3147,13 +3147,13 @@ class MySaveActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP6)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3211,13 +3211,13 @@ class MySaveActivity:AppCompatActivity() {
 
             }else if(requestCode == REQUEST_STEP7)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3274,13 +3274,13 @@ class MySaveActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP8)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3338,13 +3338,13 @@ class MySaveActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP9)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3400,13 +3400,13 @@ class MySaveActivity:AppCompatActivity() {
                 }
             }else if(requestCode == REQUEST_STEP10)
             {
-                val imageUri = photoURI
+                val imageUri = a
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
                 val file = File(filePath)
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
-                val inputStream = contentResolver.openInputStream(imageUri)
+                val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 val buf = ByteArray(1024)
@@ -3426,90 +3426,45 @@ class MySaveActivity:AppCompatActivity() {
                 val body = MultipartBody.Part.createFormData("img", filee.name, requestFile)
 
                 // step10 post
+
                 GlobalScope.launch(Dispatchers.IO) {
                     val tokenDb = TokenDatabase.getTokenDatabase(this@MySaveActivity)
                     token = tokenDb.tokenDao().getToken().token.toString()
-                    retrofit.post_newrecipe_image(token, body)
-                        .enqueue(object : Callback<PostNewRecipeImageBodyResponse> {
-                            override fun onResponse(
-                                call: Call<PostNewRecipeImageBodyResponse>,
-                                response: Response<PostNewRecipeImageBodyResponse>
-                            ) {
-                                if (response.isSuccessful) {
-                                    Log.d("통신", "이미지 전송 성공")
 
-                                    val result = response.body()
-                                    val data = result?.image?.image
-                                    list.set(10, data.toString())
-                                    Log.d("통신", list[10])
+                    retrofit.post_newrecipe_image(token, body).enqueue(object: Callback<PostNewRecipeImageBodyResponse>{
+                        override fun onResponse(call: Call<PostNewRecipeImageBodyResponse>, response: Response<PostNewRecipeImageBodyResponse>) {
+                            if(response.isSuccessful){
+                                Log.d("통신","이미지 전송 성공")
 
-                                    Glide.with(this@MySaveActivity)
-                                        .load(list[10])
-                                        .centerCrop()
-                                        .into(viewBinding.myRecipeRealimageStep10)
+                                val result = response.body()
+                                val data = result?.image?.image
+                                list.set(10, data.toString())
+                                Log.d("통신",list[10])
 
-                                } else {
-                                    Log.d("통신", "이미지 전송 실패")
-                                }
+                                Glide.with(this@MySaveActivity)
+                                    .load(list[10])
+                                    .centerCrop()
+                                    .into(viewBinding.myRecipeRealimageStep10)
+
+                            }else{
+                                Log.d("통신","이미지 전송 실패")
                             }
-
-                            override fun onFailure(
-                                call: Call<PostNewRecipeImageBodyResponse>,
-                                t: Throwable
-                            ) {
-                                Log.d("통신", t.message.toString())
-                            }
-                        })
+                        }
+                        override fun onFailure(call: Call<PostNewRecipeImageBodyResponse>, t: Throwable) {
+                            Log.d("통신",t.message.toString())
+                        }
+                    })
                 }
             }
         }
-
     }
 
-
-    /*override fun onBackPressed() {
-            binding_reallynotsave = DialogReallynotsaveBinding.inflate(layoutInflater)
-            val dialog_reallynotsave_builder = AlertDialog.Builder(this).setView(binding_reallynotsave.root)
-            val dialog_reallynotsave = dialog_reallynotsave_builder.create()
-
-            dialog_reallynotsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-            dialog_reallynotsave.setCanceledOnTouchOutside(true)
-            dialog_reallynotsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog_reallynotsave.window?.setGravity(Gravity.BOTTOM)
-            dialog_reallynotsave.setCancelable(true)
-
-            //레시피 쓰던거 삭제하겠다
-            binding_reallynotsave.myDeletebtn.setOnClickListener{
-                dialog_reallynotsave.dismiss()
-
-                binding_notsave = DialogNotsaveBinding.inflate(layoutInflater)
-                val dialog_notsave_builder = AlertDialog.Builder(this).setView(binding_notsave.root)
-                val dialog_notsave = dialog_notsave_builder.create()
-
-                dialog_notsave.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-                dialog_notsave.setCanceledOnTouchOutside(true)
-                dialog_notsave.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                dialog_notsave.window?.setGravity(Gravity.BOTTOM)
-                dialog_notsave.setCancelable(true)
-
-                //취소 버튼 눌렀을때
-                binding_notsave.myCancelbtn.setOnClickListener{
-                    dialog_notsave.onBackPressed()
-                }
-                //삭제하기 버튼 눌렀을때
-                binding_notsave.myDeletebtn.setOnClickListener{
-                    CustomToast.createToast(applicationContext, "작성 중인 레시피를 삭제하였어요")?.show()
-
-                    finish()
-                }
-                dialog_notsave.show()
-            }
-            //레시피 쓰던거 삭제안할거임
-            binding_reallynotsave.myCancelbtn.setOnClickListener {
-                dialog_reallynotsave.onBackPressed()
-                dialog_reallynotsave.dismiss()
-            }
-
-            dialog_reallynotsave.show()
-    }*/
+    override fun onBackPressed() {
+        if(back){
+            val intent=Intent(this, HomeMainActivity::class.java)
+            intent.putExtra("GOBACK","GOBACK")
+            startActivity(intent)
+        }
+        super.onBackPressed()
+    }
 }
