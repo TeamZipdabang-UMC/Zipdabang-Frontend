@@ -40,7 +40,7 @@
 
             <ImageView
                 android:id="@+id/iv_zipdabang_recipe_banner"
-                android:background="@drawable/zip_banner"
+                android:background="@drawable/zipdabang_recipe_banner"
                 android:layout_width="0dp"
                 android:layout_height="260dp"
                 app:layout_constraintEnd_toEndOf="parent"
