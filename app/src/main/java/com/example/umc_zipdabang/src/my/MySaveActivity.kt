@@ -118,6 +118,13 @@ class MySaveActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
+        //카메라 허용되어있으면 그냥 넘어가고, 안되어있으면 권한 허용 받기
+        if(checkPermission()){
+
+        }else{
+            requestPermission()
+        }
+
         Log.d("카메라 확인 oncreate","ㅁ")
 
         if(savedInstanceState!=null)
