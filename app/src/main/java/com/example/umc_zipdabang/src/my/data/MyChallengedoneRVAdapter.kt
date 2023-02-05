@@ -10,14 +10,14 @@ import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.databinding.ItemRecipeBinding
-import com.example.umc_zipdabang.src.my.MyChallengedoneFragment
+import com.example.umc_zipdabang.src.my.MyChallengedoneActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MyChallengedoneRVAdapter(private val context: HomeMainActivity, private val dataList:ArrayList<ItemRecipeChallengeData>)
+class MyChallengedoneRVAdapter(private val context: MyChallengedoneActivity, private val dataList:ArrayList<ItemRecipeChallengeData>)
     :RecyclerView.Adapter<MyChallengedoneRVAdapter.challengedoneItemViewHolder>(){
 
     private lateinit var binding: ItemRecipeBinding

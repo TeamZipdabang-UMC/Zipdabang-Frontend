@@ -12,12 +12,13 @@ import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.example.umc_zipdabang.databinding.ItemLoadingBinding
 import com.example.umc_zipdabang.databinding.ItemRecipeBinding
+import com.example.umc_zipdabang.src.my.MyMyrecipeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MyMyrecipeRVAdapter(private val context: HomeMainActivity,  private val dataList: ArrayList<ItemRecipeChallengeData>)
+class MyMyrecipeRVAdapter(private val context: MyMyrecipeActivity, private val dataList: ArrayList<ItemRecipeChallengeData>)
     : RecyclerView.Adapter<MyMyrecipeRVAdapter.MyRecipeDataViewHolder>(){
 
     private lateinit var binding: ItemRecipeBinding

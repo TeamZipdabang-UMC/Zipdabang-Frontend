@@ -1,23 +1,14 @@
-/*
 package com.example.umc_zipdabang.src.my
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
-import com.example.umc_zipdabang.databinding.ActivityMainBinding
-import com.example.umc_zipdabang.databinding.FragmentMyMyrecipeBinding
-import com.example.umc_zipdabang.src.main.MainActivity
+import com.example.umc_zipdabang.databinding.ActivityMyMyrecipeBinding
 import com.example.umc_zipdabang.src.my.data.ItemRecipeChallengeData
-import com.example.umc_zipdabang.src.my.data.ItemRecipeData
-import com.example.umc_zipdabang.src.my.data.MyChallengingRVAdapter
 import com.example.umc_zipdabang.src.my.data.MyMyrecipeRVAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -26,40 +17,31 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MyMyrecipeFragment : Fragment(){
-    lateinit var viewBinding: FragmentMyMyrecipeBinding
+class MyMyrecipeActivity: AppCompatActivity() {
+
+    private lateinit var viewBinding: ActivityMyMyrecipeBinding
     private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
+    var token: String = " "
     private var scraps: ArrayList<ItemRecipeChallengeData> = arrayListOf()
 
-    var token: String = " "
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewBinding = ActivityMyMyrecipeBinding.inflate(layoutInflater)
+        super.onCreate(savedInstanceState)
+        setContentView(viewBinding.root)
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewBinding = FragmentMyMyrecipeBinding.inflate(layoutInflater)
 
-        return viewBinding.root
-    }
-
-    ////레시피 총 갯수 서버한테 받기
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewBinding.myBackbtn.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.mainfragmentcontainer, MyFragment())
-                .commit()
+        viewBinding.myBackbtn.setOnClickListener{
+            val intent = Intent(this, MyFragment::class.java)
+            startActivity(intent)
         }
-        viewBinding.myToolbar.bringToFront()
 
 
         val myRecipeItemList: ArrayList<ItemRecipeChallengeData> = arrayListOf()
-        val myRecipeRVAdapter = MyMyrecipeRVAdapter(HomeMainActivity(), myRecipeItemList)
+        val myRecipeRVAdapter = MyMyrecipeRVAdapter(MyMyrecipeActivity(), myRecipeItemList)
 
         GlobalScope.launch(Dispatchers.IO) {
 
-            val tokenDb = TokenDatabase.getTokenDatabase(activity as HomeMainActivity)
+            val tokenDb = TokenDatabase.getTokenDatabase(this@MyMyrecipeActivity)
             token = tokenDb.tokenDao().getToken().token.toString()
 
             //통신
@@ -88,8 +70,8 @@ class MyMyrecipeFragment : Fragment(){
                         i++
                     }
                     viewBinding.myTvv.text = scraps.size.toString()
-                    viewBinding.myRv.layoutManager = GridLayoutManager(context, 2)
-                    val adapter = MyMyrecipeRVAdapter(HomeMainActivity(), scraps)
+                    viewBinding.myRv.layoutManager = GridLayoutManager(this@MyMyrecipeActivity, 2)
+                    val adapter = MyMyrecipeRVAdapter(MyMyrecipeActivity(), scraps)
                     viewBinding.myRv.adapter = adapter
                     adapter.notifyDataSetChanged()
                 }
@@ -100,13 +82,12 @@ class MyMyrecipeFragment : Fragment(){
             })
         }
 
+
         viewBinding.myFixbtn.setOnClickListener {
-            val intent = Intent(activity, MyMyrecipeEditActivity::class.java)
+            val intent = Intent(this@MyMyrecipeActivity, MyMyrecipeEditActivity::class.java)
             intent.putExtra("array", scraps)
             startActivity(intent)
         }
+
     }
-
 }
-
-*/

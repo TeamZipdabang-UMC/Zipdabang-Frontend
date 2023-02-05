@@ -240,6 +240,15 @@
         <activity android:name=".config.src.main.SocialLogin.JoinInitialActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".src.my.MyMyrecipeActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.my.MyChallengingActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".src.my.MyChallengedoneActivity" android:exported="true"
+            android:screenOrientation="portrait"
+            />
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
