@@ -10,6 +10,7 @@
         android:layout_height="31dp"
         android:fontFamily="@font/main_font"
         android:layout_marginBottom="10dp"
+        android:textColor="@color/jipdabang_black"
         android:textSize="16dp"
         android:layout_marginVertical="10dp"
         app:layout_constraintTop_toTopOf="parent"
