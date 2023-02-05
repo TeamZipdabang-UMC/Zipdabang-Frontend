@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <FrameLayout
         android:id="@+id/my_frame"
@@ -38,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="문의내역"
+        android:textColor="@color/jipdabang_black"
         android:textSize="18sp"
         android:fontFamily="@font/notosanskrfont"
         android:textStyle="bold"
@@ -80,6 +82,7 @@
         android:textStyle="bold"
         android:fontFamily="@font/notosanskrfont"
         android:gravity="center_vertical"
+        android:textColor="@color/jipdabang_black"
         android:paddingStart="10dp"
         app:layout_constraintVertical_weight="1"
       app:layout_constraintBottom_toTopOf="@id/ct_bt"
@@ -113,6 +116,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/jipdabang_black"
             android:textAlignment="center"
             android:background="@drawable/quest_bg_bt"
             android:text="문의하기"

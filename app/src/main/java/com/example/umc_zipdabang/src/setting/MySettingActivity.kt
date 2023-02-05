@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
@@ -132,8 +133,13 @@ class MySettingActivity :AppCompatActivity(){
                                                     "닉네임이 변경되었습니다."
                                                 )?.show()
                                                 //닉네임 sharedprefenence 변경!
+                                                val edit_nick=viewBinding.etNickname.text.toString()
                                                 viewBinding.ivWarning.visibility = View.GONE
                                                 viewBinding.tvWarning.visibility = View.GONE
+                                                editor.putString("nickname",edit_nick)
+                                                editor.apply()
+                                                Log.d("닉네임","${edit_nick}")
+
 
                                             } else {
                                                 custom_toast.createToast(
