@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ItemRecipeBinding
-import com.example.umc_zipdabang.src.my.MyChallengedoneFragment
 
 class IntroChallengedoneRVAdapter(private val ItemRecipeList: ArrayList<ItemRecipeChallengeData>):
     RecyclerView.Adapter<IntroChallengedoneRVAdapter.ItemRecipeDataViewHolder>(){

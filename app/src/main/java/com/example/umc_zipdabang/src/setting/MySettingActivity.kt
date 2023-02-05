@@ -7,18 +7,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityMyQuitBinding
 import com.example.umc_zipdabang.databinding.ActivityMySettingBinding
+import com.example.umc_zipdabang.src.my.APIS_My
+import com.example.umc_zipdabang.src.my.GetNicknameEmailResponse
+import com.example.umc_zipdabang.src.my.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class MySettingActivity :AppCompatActivity(){
     private lateinit var viewBinding: ActivityMySettingBinding
+
+    private val retrofit = RetrofitInstance.getInstance().create(APIS_My::class.java)
+    var token: String = " "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityMySettingBinding.inflate(layoutInflater)
@@ -27,19 +35,43 @@ class MySettingActivity :AppCompatActivity(){
 
         var token1: String? = null
 
+        //닉네임 & 이메일 받아오기
+        GlobalScope.launch(Dispatchers.IO) {
+
+            val tokenDb = TokenDatabase.getTokenDatabase(this@MySettingActivity)
+            token = tokenDb.tokenDao().getToken().token.toString()
+
+            retrofit.get_nickname_email(token).enqueue(object : Callback<GetNicknameEmailResponse>{
+                override fun onResponse(
+                    call: Call<GetNicknameEmailResponse>,
+                    response: Response<GetNicknameEmailResponse>
+                ) {
+                    Log.d("통신","성공")
+                    val result = response.body()
+                    val data = result?.data
+                    Log.d("통신","${result}")
+
+                    viewBinding.etNickname.setText(data?.nickname)
+                    viewBinding.tvEmail.setText(data?.email)
+                }
+
+                override fun onFailure(call: Call<GetNicknameEmailResponse>, t: Throwable) {
+                    Log.d("통신","실패")
+                }
+
+            })
+        }
+
         val sharedPreference = getSharedPreferences("signup", 0)
         val editor = sharedPreference.edit()
         //editor.clear()
         //editor.apply()
-
         var nickname_sp = sharedPreference.getString("nickname", "")
         var email_sp = sharedPreference.getString("email", "")
         Log.d("닉네임","${nickname_sp}")
         Log.d("이메일","email_sp")
 
 
-        viewBinding.etNickname.setText(nickname_sp)
-        viewBinding.tvEmail.setText(email_sp)
         //공지사항 이동
         viewBinding.ivToNotice.setOnClickListener {
             Log.d("이동", "?")

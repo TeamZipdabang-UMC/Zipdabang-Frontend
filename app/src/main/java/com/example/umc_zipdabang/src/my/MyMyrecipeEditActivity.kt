@@ -1,5 +1,6 @@
 package com.example.umc_zipdabang.src.my
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -42,9 +43,10 @@ class MyMyrecipeEditActivity: AppCompatActivity() {
         setContentView(viewBinding.root)
 
         viewBinding.myCancelbtn.setOnClickListener {
-            onBackPressed()
+            val intent = Intent(this@MyMyrecipeEditActivity, MyMyrecipeActivity::class.java)
+            startActivity(intent)
         }
-        viewBinding.myToolbar.bringToFront()
+        //viewBinding.myToolbar.bringToFront()
 
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -120,6 +122,7 @@ class MyMyrecipeEditActivity: AppCompatActivity() {
                             dialog.showDialog()
                             dialog.setOnClickListener(object :
                                 DeleteDialog.ButtonClickListener {
+                                @SuppressLint("SuspiciousIndentation")
                                 override fun onClicked() {
 
                                     var deletearray = deletelist.toTypedArray()

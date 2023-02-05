@@ -221,8 +221,8 @@
                         android:layout_weight="1" />
                     <FrameLayout
                         android:id="@+id/my_framebtn_challenging"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center">
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/my_btn_challenging"
@@ -273,8 +273,8 @@
                         android:layout_weight="1" />
                     <FrameLayout
                         android:id="@+id/my_framebtn_challengedone"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center">
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/my_btn_challengedone"
@@ -324,8 +324,8 @@
                         android:layout_weight="1" />
                     <FrameLayout
                         android:id="@+id/my_framebtn_myscrap"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center">
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/my_btn_myscrap"

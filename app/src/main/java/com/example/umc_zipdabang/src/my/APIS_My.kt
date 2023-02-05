@@ -1,5 +1,6 @@
 package com.example.umc_zipdabang.src.my
 
+import com.example.umc_zipdabang.config.src.main.signup.GetNicknameExistResponse
 import retrofit2.Call
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -69,4 +70,9 @@ interface APIS_My {
     fun get_recipe_two(
         @Header("x-access-token") token: String?,
     ) : Call<GetRecipeTwoResponse>
+
+    @GET("/users/my-page/my-info")
+    fun get_nickname_email(
+        @Header("x-access-token") token: String?,
+    ) : Call<GetNicknameEmailResponse>
 }

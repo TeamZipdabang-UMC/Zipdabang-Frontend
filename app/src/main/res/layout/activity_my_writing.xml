@@ -27,7 +27,7 @@
                 android:layout_marginTop="8dp"
                 android:clickable="false"
                 android:scaleType="centerCrop"
-                android:src="@drawable/my_backbtn2"
+                android:src="@drawable/myscrap_back"
                 tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
             <TextView
                 android:layout_width="wrap_content"

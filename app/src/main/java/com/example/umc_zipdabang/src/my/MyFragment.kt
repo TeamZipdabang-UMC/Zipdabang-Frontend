@@ -58,7 +58,7 @@ class MyFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        //도전중, 도전완료, 마이스크랩 2개씩 띄우기
         GlobalScope.launch(Dispatchers.IO){
             //viewBinding.etSearch.setText("")
             val tokenDb = TokenDatabase.getTokenDatabase(activity as HomeMainActivity)
@@ -179,16 +179,20 @@ class MyFragment : Fragment(){
 
 
         viewBinding.myBtnChallenging.setOnClickListener {
-            parentFragmentManager.beginTransaction()
+            /*parentFragmentManager.beginTransaction()
                 .replace(R.id.mainfragmentcontainer, MyChallengingFragment())
                 .addToBackStack(null)
-                .commit()
+                .commit()*/
+            val intent = Intent(activity, MyChallengingActivity::class.java)
+            startActivity(intent)
         }
         viewBinding.myBtnChallengedone.setOnClickListener {
-            parentFragmentManager.beginTransaction()
+            /*parentFragmentManager.beginTransaction()
                 .replace(R.id.mainfragmentcontainer, MyChallengedoneFragment())
                 .addToBackStack(null)
-                .commit()
+                .commit()*/
+            val intent = Intent(activity, MyChallengedoneActivity::class.java)
+            startActivity(intent)
         }
         viewBinding.myBtnMyscrap.setOnClickListener {
             val intent = Intent(activity, MyScapActivity::class.java)
@@ -205,10 +209,12 @@ class MyFragment : Fragment(){
             startActivity(intent)
         }
         viewBinding.myBtnIcon3.setOnClickListener {
-            parentFragmentManager.beginTransaction()
+            /*parentFragmentManager.beginTransaction()
                 .replace(R.id.mainfragmentcontainer, MyMyrecipeFragment())
                 .addToBackStack(null)
-                .commit()
+                .commit()*/
+            val intent = Intent(activity, MyMyrecipeActivity::class.java)
+            startActivity(intent)
         }
        //프로필설정 버튼 눌렀을떄 리스너->하현과 연결
         viewBinding.myBtnIcon4.setOnClickListener {

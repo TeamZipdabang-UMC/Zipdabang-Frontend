@@ -155,3 +155,13 @@ data class GetChallengedone(
     @SerializedName("name") var name : String,
 )
 
+
+data class GetNicknameEmailResponse(
+    @SerializedName("success") var success : Boolean,
+    @SerializedName("data") var data : GetNicknameEmail,
+    @SerializedName("error") var error : String?
+)
+data class GetNicknameEmail(
+    @SerializedName("nickname") var nickname : String?,
+    @SerializedName("email") var email : String?
+)

@@ -76,19 +76,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/main_font"
+                    android:fontFamily="@font/notosanskrregular"
                     android:text="스크랩한 레시피"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp" />
+                    android:textColor="#999999"
+                    android:textSize="16dp" />
                 <TextView
                     android:id="@+id/scrap_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/main_font"
+                    android:fontFamily="@font/notosanskrregular"
                     android:text="6"
-                    android:textSize="20sp"
-                    android:textColor="@color/gray"
+                    android:textSize="16dp"
+                    android:textColor="#999999"
                     android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="3dp"
                     />
@@ -105,6 +105,7 @@
                    android:layout_height="wrap_content"
                    android:textColor="#767676"
                    android:text="편집"
+                   android:textSize="16dp"
                    android:layout_gravity="center_vertical"
                    android:layout_marginRight="10dp">
 
