@@ -23,14 +23,22 @@
         android:theme="@style/Theme.Zipdabang_android"
         tools:targetApi="31">
 
-        <activity android:name=".config.src.main.SocialLogin.InitialActivity"
-                   android:screenOrientation="portrait"
+        <activity android:name=".config.src.main.SocialLogin.SplashActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity android:name=".config.src.main.SocialLogin.InitialActivity"
+                   android:screenOrientation="portrait"
+            android:exported="true">
+
         </activity>
 
         <provider
