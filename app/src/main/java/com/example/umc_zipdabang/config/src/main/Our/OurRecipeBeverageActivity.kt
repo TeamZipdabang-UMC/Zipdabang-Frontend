@@ -65,10 +65,7 @@ class OurRecipeBeverageActivity: AppCompatActivity() {
 
         lateinit var firstResult: List<RecipeInfo>
 
-        val firstResultIdArray = arrayListOf<Int?>()
-        val firstResultNameArray = arrayListOf<String?>()
-        val firstResultImgUrlArray = ArrayList<String?>()
-        val firstResultLikesArray = ArrayList<Int?>()
+
 
         GlobalScope.launch(Dispatchers.IO) {
             val token = tokenDb.tokenDao().getToken()
@@ -83,141 +80,147 @@ class OurRecipeBeverageActivity: AppCompatActivity() {
                     val result = response.body()
                     Log.d("Bev. 카테고리 레시피 Get 성공", "${result}")
                     var firstResultArray = arrayListOf<RecipeInfo?>()
-                    for (i in 0 until result?.data!!.size) {
-                        val firstResult = result?.data?.get(i)
-                        firstResultArray.add(firstResult)
-                        Log.d("첫번째 배열", "${firstResultArray}")
-                    }
+                    if (result?.data != null) {
+                        for (i in 0 until result?.data!!.size) {
+                            val firstResult = result?.data?.get(i)
+                            firstResultArray.add(firstResult)
+                            Log.d("첫번째 배열", "${firstResultArray}")
+                        }
 
-                    if (firstResultArray != null) {
-                        for (i in 0 until firstResultArray.size) {
-                            firstResultIdArray.add(firstResultArray[i]?.id)
-                            firstResultNameArray.add(firstResultArray[i]?.name)
-                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                            firstResultLikesArray.add(firstResultArray[i]?.likes)
-                            Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
-                            Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
-                            Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
-                            Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                        val firstResultIdArray = arrayListOf<Int?>()
+                        val firstResultNameArray = arrayListOf<String?>()
+                        val firstResultImgUrlArray = ArrayList<String?>()
+                        val firstResultLikesArray = ArrayList<Int?>()
 
-                            beverageRecipesList.add(
-                                BeverageRecipesData(
-                                    firstResultArray[i]?.imageUrl,
-                                    firstResultArray[i]?.name,
-                                    firstResultArray[i]?.likes
+                        if (firstResultArray != null) {
+                            for (i in 0 until firstResultArray.size) {
+                                firstResultIdArray.add(firstResultArray[i]?.id)
+                                firstResultNameArray.add(firstResultArray[i]?.name)
+                                firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                                firstResultLikesArray.add(firstResultArray[i]?.likes)
+                                Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                                Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                                Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                                Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+
+                                beverageRecipesList.add(
+                                    BeverageRecipesData(
+                                        firstResultArray[i]?.imageUrl,
+                                        firstResultArray[i]?.name,
+                                        firstResultArray[i]?.likes
+                                    )
                                 )
-                            )
+                            }
                         }
-                    }
 
 
 
-                    beverageRecipesRVAdapter = BeverageOurLoadingRVAdapter(this@OurRecipeBeverageActivity, beverageRecipesList, firstResultIdArray)
-                    layoutManager = GridLayoutManager(this@OurRecipeBeverageActivity, 2)
-                    viewBinding.rvOurRecipeBeverage.setLayoutManager(layoutManager)
-                    viewBinding.rvOurRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
-                    layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int {
+                        beverageRecipesRVAdapter = BeverageOurLoadingRVAdapter(this@OurRecipeBeverageActivity, beverageRecipesList, firstResultIdArray)
+                        layoutManager = GridLayoutManager(this@OurRecipeBeverageActivity, 2)
+                        viewBinding.rvOurRecipeBeverage.setLayoutManager(layoutManager)
+                        viewBinding.rvOurRecipeBeverage.setAdapter(beverageRecipesRVAdapter)
+                        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+                            override fun getSpanSize(position: Int): Int {
 
-                            if (position == 0)
-                            {
+                                if (position == 0)
+                                {
 
-                                return 1
+                                    return 1
 
+
+                                }
+                                else if ((position % 12 == 0) && position == (beverageRecipesList.size-1))
+                                {
+
+                                    return 2
+                                }
+                                else
+                                {
+
+                                    return 1
+                                }
 
                             }
-                            else if ((position % 12 == 0) && position == (beverageRecipesList.size-1))
-                            {
+                        })
 
-                                return 2
-                            }
-                            else
-                            {
+                        viewBinding.rvOurRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-                                return 1
-                            }
-
-                        }
-                    })
-
-                    viewBinding.rvOurRecipeBeverage.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            if (!isLoading) {
-                                if (viewBinding.rvOurRecipeBeverage.layoutManager != null && (viewBinding.rvOurRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
-                                    //리스트 마지막o
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                if (!isLoading) {
+                                    if (viewBinding.rvOurRecipeBeverage.layoutManager != null && (viewBinding.rvOurRecipeBeverage.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (beverageRecipesList.size - 1)) {
+                                        //리스트 마지막o
 //                                    moreItems()
 
-                                    val runnable = Runnable {
+                                        val runnable = Runnable {
 
-                                        beverageRecipesList.add(BeverageRecipesData(null, null, null))
-                                        Log.d("insert before", "msg")
-                                        beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
+                                            beverageRecipesList.add(BeverageRecipesData(null, null, null))
+                                            Log.d("insert before", "msg")
+                                            beverageRecipesRVAdapter.notifyItemInserted(beverageRecipesList.size - 1)
 
-                                    }
+                                        }
 
-                                    viewBinding.rvOurRecipeBeverage.post(runnable)
+                                        viewBinding.rvOurRecipeBeverage.post(runnable)
 
-                                    GlobalScope.launch {
-                                        delay(2000)
-                                        withContext(Dispatchers.Main) {
-                                            beverageRecipesList.removeAt(beverageRecipesList.size - 1)
-                                            val scrollToPosition = beverageRecipesList.size
-                                            beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+                                        GlobalScope.launch {
+                                            delay(2000)
+                                            withContext(Dispatchers.Main) {
+                                                beverageRecipesList.removeAt(beverageRecipesList.size - 1)
+                                                val scrollToPosition = beverageRecipesList.size
+                                                beverageRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
 
-                                            recipeService.getCategoryRecipesScroll(tokenNum, 2, firstResultIdArray.get(firstResultIdArray.size-1), 0, 0).enqueue(object: Callback<ZipdabangRecipes> {
-                                                override fun onResponse(
-                                                    call: Call<ZipdabangRecipes>,
-                                                    response: Response<ZipdabangRecipes>
-                                                ) {
+                                                recipeService.getCategoryRecipesScroll(tokenNum, 2, firstResultIdArray.get(firstResultIdArray.size-1), 0, 0).enqueue(object: Callback<ZipdabangRecipes> {
+                                                    override fun onResponse(
+                                                        call: Call<ZipdabangRecipes>,
+                                                        response: Response<ZipdabangRecipes>
+                                                    ) {
 
-                                                    var moreResult = response.body()
-                                                    firstResultArray = ArrayList<RecipeInfo?>()
-                                                    Log.d("more result 결과", "${moreResult}")
+                                                        var moreResult = response.body()
+                                                        firstResultArray = ArrayList<RecipeInfo?>()
+                                                        Log.d("more result 결과", "${moreResult}")
 
-                                                    if (moreResult != null) {
-                                                        for (i in 0 until moreResult?.data!!.size) {
-                                                            val moreResultData = moreResult?.data?.get(i)
-                                                            firstResultArray.add(moreResultData)
-                                                        }
+                                                        if (moreResult != null) {
+                                                            for (i in 0 until moreResult?.data!!.size) {
+                                                                val moreResultData = moreResult?.data?.get(i)
+                                                                firstResultArray.add(moreResultData)
+                                                            }
 
-                                                        Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
-                                                        Log.d("다음 배열", "${firstResultArray}")
+                                                            Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
+                                                            Log.d("다음 배열", "${firstResultArray}")
 
-                                                        for (i in 0 until moreResult?.data!!.size) {
-                                                            firstResultIdArray.add(firstResultArray[i]?.id)
-                                                            firstResultNameArray.add(firstResultArray[i]?.name)
-                                                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                                                            firstResultLikesArray.add(firstResultArray[i]?.likes)
-                                                            Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
-                                                            Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
-                                                            Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
-                                                            Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-                                                            beverageRecipesList.add(
-                                                                BeverageRecipesData(
-                                                                    firstResultArray[i]?.imageUrl,
-                                                                    firstResultArray[i]?.name,
-                                                                    firstResultArray[i]?.likes
+                                                            for (i in 0 until moreResult?.data!!.size) {
+                                                                firstResultIdArray.add(firstResultArray[i]?.id)
+                                                                firstResultNameArray.add(firstResultArray[i]?.name)
+                                                                firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                                                                firstResultLikesArray.add(firstResultArray[i]?.likes)
+                                                                Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                                                                Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                                                                Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                                                                Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                                                                beverageRecipesList.add(
+                                                                    BeverageRecipesData(
+                                                                        firstResultArray[i]?.imageUrl,
+                                                                        firstResultArray[i]?.name,
+                                                                        firstResultArray[i]?.likes
+                                                                    )
                                                                 )
-                                                            )
-                                                            Log.d("아이디 배열 결과", "${firstResultIdArray}")
-                                                            beverageRecipesRVAdapter.notifyDataSetChanged()
-                                                            isLoading = false
+                                                                Log.d("아이디 배열 결과", "${firstResultIdArray}")
+                                                                beverageRecipesRVAdapter.notifyDataSetChanged()
+                                                                isLoading = false
+                                                            }
                                                         }
+
                                                     }
 
-                                                }
-
-                                                override fun onFailure(
-                                                    call: Call<ZipdabangRecipes>,
-                                                    t: Throwable
-                                                ) {
-                                                    Log.d("추가 레시피 불러오기", "실패")
-                                                }
-                                            })
+                                                    override fun onFailure(
+                                                        call: Call<ZipdabangRecipes>,
+                                                        t: Throwable
+                                                    ) {
+                                                        Log.d("추가 레시피 불러오기", "실패")
+                                                    }
+                                                })
+                                            }
                                         }
-                                    }
 
 //                                    CoroutineScope(mainDispatcher).launch {
 //                                        delay(2000)
@@ -231,12 +234,14 @@ class OurRecipeBeverageActivity: AppCompatActivity() {
 //                                    }
 
 
-                                    isLoading = true
+                                        isLoading = true
 
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
+                    }
+
 
 
 

@@ -47,10 +47,6 @@ class OurRecipeAdeActivity: AppCompatActivity() {
 
         lateinit var firstResult: List<RecipeInfo>
 
-        val firstResultIdArray = arrayListOf<Int?>()
-        val firstResultNameArray = arrayListOf<String?>()
-        val firstResultImgUrlArray = ArrayList<String?>()
-        val firstResultLikesArray = ArrayList<Int?>()
 
 
 
@@ -68,11 +64,19 @@ class OurRecipeAdeActivity: AppCompatActivity() {
                     Log.d("Ade 카테고리 레시피 Get 성공", "${result}")
                     var firstResultArray = arrayListOf<RecipeInfo?>()
 
+                    if (result?.data != null) {
                         for (i in 0 until result?.data!!.size) {
                             val firstResult = result?.data?.get(i)
                             firstResultArray.add(firstResult)
                             Log.d("첫번째 배열", "${firstResultArray}")
                         }
+
+                        val firstResultIdArray = arrayListOf<Int?>()
+                        val firstResultNameArray = arrayListOf<String?>()
+                        val firstResultImgUrlArray = ArrayList<String?>()
+                        val firstResultLikesArray = ArrayList<Int?>()
+
+
 
 
                         if (firstResultArray != null) {
@@ -98,122 +102,124 @@ class OurRecipeAdeActivity: AppCompatActivity() {
                         }
 
 
-                    Log.d("Id 목록", "${firstResultIdArray}")
-                    adeRecipesRVAdapter = AdeOurLoadingRVAdapter(this@OurRecipeAdeActivity, adeRecipesList, firstResultIdArray)
-                    layoutManager = GridLayoutManager(this@OurRecipeAdeActivity, 2)
-                    viewBinding.rvOurRecipeAde.setLayoutManager(layoutManager)
-                    viewBinding.rvOurRecipeAde.setAdapter(adeRecipesRVAdapter)
-                    layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int {
+                        Log.d("Id 목록", "${firstResultIdArray}")
+                        adeRecipesRVAdapter = AdeOurLoadingRVAdapter(this@OurRecipeAdeActivity, adeRecipesList, firstResultIdArray)
+                        layoutManager = GridLayoutManager(this@OurRecipeAdeActivity, 2)
+                        viewBinding.rvOurRecipeAde.setLayoutManager(layoutManager)
+                        viewBinding.rvOurRecipeAde.setAdapter(adeRecipesRVAdapter)
+                        layoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+                            override fun getSpanSize(position: Int): Int {
 
-                            if (position == 0)
-                            {
+                                if (position == 0)
+                                {
 
-                                return 1
+                                    return 1
 
-
-                            }
-                            else if ((position % 12 == 0) && position == (adeRecipesList.size-1))
-                            {
-
-                                return 2
-                            }
-                            else
-                            {
-
-                                return 1
-                            }
-
-                        }
-                    })
-
-                    // 시작
-                    viewBinding.rvOurRecipeAde.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            if (!isLoading) {
-                                if (viewBinding.rvOurRecipeAde.layoutManager != null && (viewBinding.rvOurRecipeAde.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (adeRecipesList.size - 1)) {
-                                    //리스트 마지막o
-//                                    moreItems()
-
-                                    val runnable = Runnable {
-
-                                        adeRecipesList.add(AdeRecipesData(null, null, null))
-                                        Log.d("insert before", "msg")
-                                        adeRecipesRVAdapter.notifyItemInserted(adeRecipesList.size - 1)
-
-                                    }
-
-                                    viewBinding.rvOurRecipeAde.post(runnable)
-
-                                    GlobalScope.launch {
-                                        delay(2000)
-                                        withContext(Dispatchers.Main) {
-                                            adeRecipesList.removeAt(adeRecipesList.size - 1)
-                                            val scrollToPosition = adeRecipesList.size
-                                            adeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
-
-                                            recipeService.getCategoryRecipesScroll(tokenNum, 4, firstResultIdArray.get(firstResultIdArray.size-1), 0, 0).enqueue(object: Callback<ZipdabangRecipes> {
-                                                override fun onResponse(
-                                                    call: Call<ZipdabangRecipes>,
-                                                    response: Response<ZipdabangRecipes>
-                                                ) {
-
-                                                    var moreResult = response.body()
-                                                    firstResultArray = ArrayList<RecipeInfo?>()
-                                                    Log.d("more result 결과", "${moreResult}")
-
-                                                    if (moreResult != null) {
-                                                        for (i in 0 until moreResult?.data!!.size) {
-                                                            val moreResultData = moreResult?.data?.get(i)
-                                                            firstResultArray.add(moreResultData)
-                                                        }
-
-                                                        Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
-                                                        Log.d("다음 배열", "${firstResultArray}")
-
-                                                        for (i in 0 until moreResult?.data!!.size) {
-                                                            firstResultIdArray.add(firstResultArray[i]?.id)
-                                                            firstResultNameArray.add(firstResultArray[i]?.name)
-                                                            firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
-                                                            firstResultLikesArray.add(firstResultArray[i]?.likes)
-                                                            Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
-                                                            Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
-                                                            Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
-                                                            Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
-                                                            adeRecipesList.add(
-                                                                AdeRecipesData(
-                                                                    firstResultArray[i]?.imageUrl,
-                                                                    firstResultArray[i]?.name,
-                                                                    firstResultArray[i]?.likes
-                                                                )
-                                                            )
-                                                            Log.d("아이디 배열 결과", "${firstResultIdArray}")
-                                                            adeRecipesRVAdapter.notifyDataSetChanged()
-                                                            isLoading = false
-                                                        }
-                                                    }
-
-
-                                                }
-
-                                                override fun onFailure(
-                                                    call: Call<ZipdabangRecipes>,
-                                                    t: Throwable
-                                                ) {
-                                                    Log.d("추가 레시피 불러오기", "실패")
-                                                }
-                                            })
-                                        }
-                                    }
-
-                                    isLoading = true
 
                                 }
+                                else if ((position % 12 == 0) && position == (adeRecipesList.size-1))
+                                {
+
+                                    return 2
+                                }
+                                else
+                                {
+
+                                    return 1
+                                }
+
                             }
-                        }
-                    })
+                        })
+
+                        // 시작
+                        viewBinding.rvOurRecipeAde.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                if (!isLoading) {
+                                    if (viewBinding.rvOurRecipeAde.layoutManager != null && (viewBinding.rvOurRecipeAde.layoutManager as GridLayoutManager?)!!.findLastCompletelyVisibleItemPosition() == (adeRecipesList.size - 1)) {
+                                        //리스트 마지막o
+//                                    moreItems()
+
+                                        val runnable = Runnable {
+
+                                            adeRecipesList.add(AdeRecipesData(null, null, null))
+                                            Log.d("insert before", "msg")
+                                            adeRecipesRVAdapter.notifyItemInserted(adeRecipesList.size - 1)
+
+                                        }
+
+                                        viewBinding.rvOurRecipeAde.post(runnable)
+
+                                        GlobalScope.launch {
+                                            delay(2000)
+                                            withContext(Dispatchers.Main) {
+                                                adeRecipesList.removeAt(adeRecipesList.size - 1)
+                                                val scrollToPosition = adeRecipesList.size
+                                                adeRecipesRVAdapter.notifyItemRemoved(scrollToPosition)
+
+                                                recipeService.getCategoryRecipesScroll(tokenNum, 4, firstResultIdArray.get(firstResultIdArray.size-1), 0, 0).enqueue(object: Callback<ZipdabangRecipes> {
+                                                    override fun onResponse(
+                                                        call: Call<ZipdabangRecipes>,
+                                                        response: Response<ZipdabangRecipes>
+                                                    ) {
+
+                                                        var moreResult = response.body()
+                                                        firstResultArray = ArrayList<RecipeInfo?>()
+                                                        Log.d("more result 결과", "${moreResult}")
+
+                                                        if (moreResult != null) {
+                                                            for (i in 0 until moreResult?.data!!.size) {
+                                                                val moreResultData = moreResult?.data?.get(i)
+                                                                firstResultArray.add(moreResultData)
+                                                            }
+
+                                                            Log.d("last", "${firstResultIdArray.get(firstResultIdArray.size-1)}")
+                                                            Log.d("다음 배열", "${firstResultArray}")
+
+                                                            for (i in 0 until moreResult?.data!!.size) {
+                                                                firstResultIdArray.add(firstResultArray[i]?.id)
+                                                                firstResultNameArray.add(firstResultArray[i]?.name)
+                                                                firstResultImgUrlArray.add(firstResultArray[i]?.imageUrl)
+                                                                firstResultLikesArray.add(firstResultArray[i]?.likes)
+                                                                Log.d("${i}번째 아이디", "${firstResultArray[i]?.id}")
+                                                                Log.d("${i}번째 이름", "${firstResultArray[i]?.name}")
+                                                                Log.d("${i}번째 이미지", "${firstResultArray[i]?.imageUrl}")
+                                                                Log.d("${i}번째 좋아요", "${firstResultArray[i]?.likes}")
+                                                                adeRecipesList.add(
+                                                                    AdeRecipesData(
+                                                                        firstResultArray[i]?.imageUrl,
+                                                                        firstResultArray[i]?.name,
+                                                                        firstResultArray[i]?.likes
+                                                                    )
+                                                                )
+                                                                Log.d("아이디 배열 결과", "${firstResultIdArray}")
+                                                                adeRecipesRVAdapter.notifyDataSetChanged()
+                                                                isLoading = false
+                                                            }
+                                                        }
+
+
+                                                    }
+
+                                                    override fun onFailure(
+                                                        call: Call<ZipdabangRecipes>,
+                                                        t: Throwable
+                                                    ) {
+                                                        Log.d("추가 레시피 불러오기", "실패")
+                                                    }
+                                                })
+                                            }
+                                        }
+
+                                        isLoading = true
+
+                                    }
+                                }
+                            }
+                        })
+                    }
+
                     // 끝
 
 
