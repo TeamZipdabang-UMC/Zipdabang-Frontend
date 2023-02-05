@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/jipdabang_white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -50,6 +51,7 @@
             android:background="@drawable/shadow_edit"
             android:enabled="true"
             android:imeOptions="actionSearch"
+            android:textColor="@color/black"
             android:inputType="text"
             android:maxLines="1"
             android:paddingStart="10dp"

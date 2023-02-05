@@ -179,13 +179,14 @@ class CategoryCoffeeActivity : AppCompatActivity() {
                                         ) {
                                             // 정상적으로 통신이 성공된 경우
                                             val result = response.body()
+                                            if(result?.success==true){
+                                            Log.d("ssss_받은_result","${result}")
                                             if(result?.data?.size!! < 12) a=0
                                             Log.d("ssssscrapsremovebefore","${scraps}")
                                             scraps.removeAt(scraps.size-1)
                                             adapter.notifyItemRemoved(scrollToPosition)
                                             Log.d("ssssresultremoveaft","${scraps}")
                                             val size= result?.data?.size?.minus(1)
-                                            Log.d("ssss_받은_result","${result}")
                                             //      scraps.removeAt(scraps.size - 1)
 
                                             for (i: Int in 0..size!!) {
@@ -201,7 +202,11 @@ class CategoryCoffeeActivity : AppCompatActivity() {
                                             }
                                             Log.d("ssssresultaft2","${scraps}")
                                             Log.d("ssss######","----------------")
-
+                                            }else {
+                                                a = 0
+                                                scraps.removeAt(scraps.size - 1)
+                                                adapter.notifyItemRemoved(scrollToPosition)
+                                            }
 
 
                                         }

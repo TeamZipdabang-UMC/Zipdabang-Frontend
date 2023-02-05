@@ -39,7 +39,7 @@ class CategoryTeaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityCategory1Binding.inflate(layoutInflater)
-        binding.tvCategory.text="건강 음료"
+        binding.tvCategory.text="티"
         setContentView(binding.root)
 
 
