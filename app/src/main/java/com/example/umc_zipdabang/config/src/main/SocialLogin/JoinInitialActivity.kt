@@ -61,9 +61,9 @@ class JoinInitialActivity : AppCompatActivity() {
         // tokenDb
         tokenDb2 = TokenDatabase.getTokenDatabase(this)
 
-//        GlobalScope.launch(Dispatchers.IO) {
-//            tokenDb2.tokenDao().deleteAll()
-//        }
+    //    GlobalScope.launch(Dispatchers.IO) {
+      //      tokenDb2.tokenDao().deleteAll()
+       // }
 
         val baseUrl: String = "http://zipdabang.store:3000"
 
@@ -112,8 +112,12 @@ class JoinInitialActivity : AppCompatActivity() {
                                                 Log.e(TAG, "googleSignInToken이 null입니다.")
                                             }
 
-                                            val googleService = kakaoRetrofit.create(GoogleService::class.java)
-                                            googleService.addGoogleUser(userEmail = googleEmail, userProfile = googleProfileImageUrl).enqueue(object: Callback<GoogleResponse> {
+                                            val googleService =
+                                                kakaoRetrofit.create(GoogleService::class.java)
+                                            googleService.addGoogleUser(
+                                                userEmail = googleEmail,
+                                                userProfile = googleProfileImageUrl
+                                            ).enqueue(object : Callback<GoogleResponse> {
                                                 override fun onResponse(
                                                     call: Call<GoogleResponse>,
                                                     response: Response<GoogleResponse>
@@ -130,8 +134,14 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         Log.d("구글 회원 token", "${token}")
 
                                                         // 도착 액티비티 수정 필요
-                                                        val loggedInIntent = Intent(this@JoinInitialActivity, HomeMainActivity::class.java)
-                                                        val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
+                                                        val loggedInIntent = Intent(
+                                                            this@JoinInitialActivity,
+                                                            HomeMainActivity::class.java
+                                                        )
+                                                        val joinIntent = Intent(
+                                                            this@JoinInitialActivity,
+                                                            SignupServiceagreeActivity::class.java
+                                                        )
 
                                                         val tokenClass = Token(null, token)
 
@@ -154,7 +164,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                                 // status 값에 따라서 추가정보(join)/메인화면(login)
                                                 // 주의해야 할 것은,
 
-                                                override fun onFailure(call: Call<GoogleResponse>, t: Throwable) {
+                                                override fun onFailure(
+                                                    call: Call<GoogleResponse>,
+                                                    t: Throwable
+                                                ) {
                                                     Log.d("구글 회원정보 가져오기 실패", "실패")
                                                 }
                                             })
@@ -185,8 +198,6 @@ class JoinInitialActivity : AppCompatActivity() {
         }
 
 
-
-
         // '카카오 계정으로 시작하기' 클릭 시 카카오와 연동.
         // 카카오톡이 설치되어 있다면 카카오톡으로 이동, 그렇지 않다면 웹 상의 로그인 화면으로 이동
         viewBinding.btnKakaoLogin.setOnClickListener {
@@ -198,12 +209,15 @@ class JoinInitialActivity : AppCompatActivity() {
                     if (error != null) {
                         Log.e(TAG, "로그인 실패 $error")
                         // 사용자가 취소
-                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled ) {
+                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                             return@loginWithKakaoTalk
                         }
                         // 다른 오류
                         else {
-                            UserApiClient.instance.loginWithKakaoAccount(this, callback = mCallback) // 카카오 이메일 로그인
+                            UserApiClient.instance.loginWithKakaoAccount(
+                                this,
+                                callback = mCallback
+                            ) // 카카오 이메일 로그인
                         }
                     }
                     // 로그인 성공 부분
@@ -214,11 +228,15 @@ class JoinInitialActivity : AppCompatActivity() {
                             val kakaoEmail = "${user?.kakaoAccount?.email}"
                             Log.e(TAG, "kakao email : $kakaoEmail")
 
-                            val kakaoProfileImageUrl = "${user?.kakaoAccount?.profile?.profileImageUrl}"
+                            val kakaoProfileImageUrl =
+                                "${user?.kakaoAccount?.profile?.profileImageUrl}"
                             Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
 
                             val kakaoService = kakaoRetrofit.create(KakaoService::class.java)
-                            kakaoService.addKakaoUser(userEmail = kakaoEmail, userProfile = kakaoProfileImageUrl).enqueue(object: Callback<KakaoResponse> {
+                            kakaoService.addKakaoUser(
+                                userEmail = kakaoEmail,
+                                userProfile = kakaoProfileImageUrl
+                            ).enqueue(object : Callback<KakaoResponse> {
                                 override fun onResponse(
                                     call: Call<KakaoResponse>,
                                     response: Response<KakaoResponse>
@@ -235,8 +253,14 @@ class JoinInitialActivity : AppCompatActivity() {
                                         Log.d("카카오 회원 token", "${token}")
 
                                         // 도착 액티비티 수정 필요
-                                        val loggedInIntent = Intent(this@JoinInitialActivity, HomeMainActivity::class.java)
-                                        val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
+                                        val loggedInIntent = Intent(
+                                            this@JoinInitialActivity,
+                                            HomeMainActivity::class.java
+                                        )
+                                        val joinIntent = Intent(
+                                            this@JoinInitialActivity,
+                                            SignupServiceagreeActivity::class.java
+                                        )
 
 
                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
@@ -277,6 +301,7 @@ class JoinInitialActivity : AppCompatActivity() {
         }
     }
 
+
     // 카카오 메시지 콜백 변수
     private val mCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -295,7 +320,10 @@ class JoinInitialActivity : AppCompatActivity() {
                 Log.e(TAG, "kakao profile image url : ${kakaoProfileImageUrl}")
 
                 val kakaoService = kakaoRetrofit.create(KakaoService::class.java)
-                kakaoService.addKakaoUser(userEmail = kakaoEmail, userProfile = kakaoProfileImageUrl).enqueue(object: Callback<KakaoResponse> {
+                kakaoService.addKakaoUser(
+                    userEmail = kakaoEmail,
+                    userProfile = kakaoProfileImageUrl
+                ).enqueue(object : Callback<KakaoResponse> {
                     override fun onResponse(
                         call: Call<KakaoResponse>,
                         response: Response<KakaoResponse>
@@ -312,8 +340,12 @@ class JoinInitialActivity : AppCompatActivity() {
                             Log.d("카카오 회원 token", "${token}")
 
                             // 도착 액티비티 수정 필요
-                            val loggedInIntent = Intent(this@JoinInitialActivity, HomeMainActivity::class.java)
-                            val joinIntent = Intent(this@JoinInitialActivity, SignupServiceagreeActivity::class.java)
+                            val loggedInIntent =
+                                Intent(this@JoinInitialActivity, HomeMainActivity::class.java)
+                            val joinIntent = Intent(
+                                this@JoinInitialActivity,
+                                SignupServiceagreeActivity::class.java
+                            )
 
                             // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                             val tokenClass = Token(null, token)
