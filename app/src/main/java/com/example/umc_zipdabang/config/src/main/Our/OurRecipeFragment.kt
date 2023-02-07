@@ -85,37 +85,37 @@ class OurRecipeFragment: Fragment() {
             // add(CategoriesData(사진, 카테고리명)
             add(
                 CategoriesData(
-                    R.drawable.new_coffee,
+                    R.drawable.coffee_low,
                     "커피"
                 )
             )
             add(
                 CategoriesData(
-                    R.drawable.new_chocolattee,
+                    R.drawable.beverage_low,
                     "Beverage"
                 )
             )
             add(
                 CategoriesData(
-                    R.drawable.new_tea,
+                    R.drawable.tea_low,
                     "티"
                 )
             )
             add(
                 CategoriesData(
-                    R.drawable.new_ade,
+                    R.drawable.ade_low,
                     "에이드"
                 )
             )
             add(
                 CategoriesData(
-                    R.drawable.new_smudi,
+                    R.drawable.smoothie_low,
                     "스무디/주스"
                 )
             )
             add(
                 CategoriesData(
-                    R.drawable.new_health,
+                    R.drawable.wellbeing_low,
                     "건강음료"
                 )
             )
