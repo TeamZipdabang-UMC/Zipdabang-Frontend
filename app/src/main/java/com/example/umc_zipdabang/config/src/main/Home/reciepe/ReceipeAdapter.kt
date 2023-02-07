@@ -42,7 +42,11 @@ class ReceipeAdapter(private val context: HomeMainActivity, private val dataList
 
 
         fun bind(context: Context, item: Home_receipe){
+
+
             binding.homeTvCategory.text= item.category
+
+
             binding.homeTvCategory1.text= item.receipe[0].title
             binding.homeTvHeart1.text=item.receipe[0].heart.toString()
             binding.homeTvCategory2.text= item.receipe[1].title
@@ -52,14 +56,7 @@ class ReceipeAdapter(private val context: HomeMainActivity, private val dataList
             binding.homeIvCategory1.clipToOutline = true
             binding.homeIvCategory2.clipToOutline = true
 
-            binding.arrowIv.setOnClickListener(object : View.OnClickListener{
-                override fun onClick(p0: View?) {
-                    val pos=getAdapterPosition()
-                    if (pos != RecyclerView.NO_POSITION) {
-                        itemClickListener?.onItemClick(p0, pos,item.category)
-                    }
-                }
-            })
+
 
 
 
@@ -81,6 +78,17 @@ class ReceipeAdapter(private val context: HomeMainActivity, private val dataList
                 }
             })
 
+
+
+
+            binding.arrowIv.setOnClickListener(object : View.OnClickListener{
+                override fun onClick(p0: View?) {
+                    val pos=getAdapterPosition()
+                    if (pos != RecyclerView.NO_POSITION) {
+                        itemClickListener?.onItemClick(p0, pos,item.category)
+                    }
+                }
+            })
 
         }
 
