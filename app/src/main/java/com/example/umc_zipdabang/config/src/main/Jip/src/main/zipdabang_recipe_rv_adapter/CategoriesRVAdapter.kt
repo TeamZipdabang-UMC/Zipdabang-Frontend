@@ -17,12 +17,8 @@ class CategoriesRVAdapter(val context: Context, private val categoriesList: Arra
     inner class CategoriesDataViewHolder(private val viewBinding: ItemCategoriesBinding): RecyclerView.ViewHolder(viewBinding.root) {
         fun bind(categoriesData: CategoriesData) {
             // url이용, 글라이드 이용
-            val url = categoriesData.picUrl
-            GlideApp.with(itemView)
-                .load(url)
-                .into(viewBinding.ivCategory)
+            viewBinding.ivCategory.setImageResource(categoriesData.picUrl)
             viewBinding.tvCategory.text = categoriesData.category
-
 //            itemView.setOnClickListener()
 
         }
