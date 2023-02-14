@@ -13,7 +13,7 @@
         android:layout_height="84dp"
         android:background="@drawable/my_round"
         app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
-        <androidx.constraintlayout.utils.widget.ImageFilterButton
+        <!--<androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/my_backbtn"
             android:layout_width="15.5dp"
             android:layout_height="15.2dp"
@@ -21,6 +21,16 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
             android:clickable="false"
+            android:scaleType="centerCrop"
+            android:src="@drawable/myscrap_back"
+            tools:ignore="SpeakableTextPresentCheck" />-->
+        <ImageView
+            android:id="@+id/my_backbtn"
+            android:layout_width="15.5dp"
+            android:layout_height="15.2dp"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
             android:src="@drawable/myscrap_back"
             tools:ignore="SpeakableTextPresentCheck" />

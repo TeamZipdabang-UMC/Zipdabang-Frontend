@@ -15,15 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/my_backbtn"
             android:layout_width="15.5dp"
             android:layout_height="15.2dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/my_backbtn2"
-            android:scaleType="centerCrop"
+            android:layout_gravity="center_vertical|start"
             android:layout_marginStart="30dp"
-            android:layout_gravity="center_vertical|start"/>
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/myscrap_back"
+            tools:ignore="SpeakableTextPresentCheck" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
