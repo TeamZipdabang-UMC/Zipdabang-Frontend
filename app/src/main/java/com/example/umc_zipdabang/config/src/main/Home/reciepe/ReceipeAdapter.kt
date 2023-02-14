@@ -38,60 +38,73 @@ class ReceipeAdapter(private val context: HomeMainActivity, private val dataList
 
     inner class ViewHolder(private var binding: ItemReceipeBinding):
 
-        RecyclerView.ViewHolder(binding.root){
+        RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(context: Context, item: Home_receipe){
+        fun bind(context: Context, item: Home_receipe) {
 
 
-            binding.homeTvCategory.text= item.category
+            binding.homeTvCategory.text = item.category
+
+            if (item.receipe.size != 0) {
+
+                binding.homeTvCategory1.text = item.receipe[0].title
+                binding.homeTvHeart1.text = item.receipe[0].heart.toString()
+                Glide.with(context).load(item.receipe[0].ImageUrl).into(binding.homeIvCategory1)
+                binding.homeIvCategory1.clipToOutline = true
+                binding.homeHeartIv1.visibility = View.VISIBLE
+
+                binding.homeIvCategory1.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(p0: View?) {
+                        val pos = getAdapterPosition()
+                        if (pos != RecyclerView.NO_POSITION) {
+                            itemClickListener1?.onItemClick(p0, pos,item.category)
 
 
-            binding.homeTvCategory1.text= item.receipe[0].title
-            binding.homeTvHeart1.text=item.receipe[0].heart.toString()
-            binding.homeTvCategory2.text= item.receipe[1].title
-            binding.homeTvHeart2.text=item.receipe[1].heart.toString()
-            Glide.with(context).load(item.receipe[0].ImageUrl).into(binding.homeIvCategory1)
-            Glide.with(context).load(item.receipe[1].ImageUrl).into(binding.homeIvCategory2)
-            binding.homeIvCategory1.clipToOutline = true
-            binding.homeIvCategory2.clipToOutline = true
-
-
-
-
-
-            binding.homeIvCategory1.setOnClickListener(object : View.OnClickListener{
-                override fun onClick(p0: View?) {
-                    val pos=getAdapterPosition()
-                    if (pos != RecyclerView.NO_POSITION) {
-                        itemClickListener1?.onItemClick(p0, pos,item.category)
+                        }
                     }
-                }
-            })
+                })
 
-            binding.homeIvCategory2.setOnClickListener(object : View.OnClickListener{
-                override fun onClick(p0: View?) {
-                    val pos=getAdapterPosition()
-                    if (pos != RecyclerView.NO_POSITION) {
-                        itemClickListener2?.onItemClick(p0, pos,item.category)
+                if (item.receipe.size != 1) {
+
+                    binding.homeTvHeart2.text = item.receipe[1].heart.toString()
+                    binding.homeTvCategory2.text = item.receipe[1].title
+                    Glide.with(context).load(item.receipe[1].ImageUrl).into(binding.homeIvCategory2)
+                    binding.homeIvCategory2.clipToOutline = true
+                    binding.homeHeartIv2.visibility = View.VISIBLE
+
+
+
+
+                    binding.homeIvCategory2.setOnClickListener(object : View.OnClickListener {
+                        override fun onClick(p0: View?) {
+                            val pos = getAdapterPosition()
+                            if (pos != RecyclerView.NO_POSITION) {
+                                itemClickListener2?.onItemClick(p0, pos,item.category)
+
+
+                            }
+                        }
+                    })
+
+                }
+
+
+
+
+
+                binding.arrowIv.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(p0: View?) {
+                        val pos = getAdapterPosition()
+                        if (pos != RecyclerView.NO_POSITION) {
+                            itemClickListener?.onItemClick(p0, pos, item.category)
+                        }
                     }
-                }
-            })
+                })
 
-
-
-
-            binding.arrowIv.setOnClickListener(object : View.OnClickListener{
-                override fun onClick(p0: View?) {
-                    val pos=getAdapterPosition()
-                    if (pos != RecyclerView.NO_POSITION) {
-                        itemClickListener?.onItemClick(p0, pos,item.category)
-                    }
-                }
-            })
+            }
 
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
