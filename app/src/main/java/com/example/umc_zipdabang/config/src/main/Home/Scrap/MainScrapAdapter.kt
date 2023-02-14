@@ -36,7 +36,6 @@ class MainScrapAdapter(private val context: HomeMainActivity, private val dataLi
         fun bind(context: Context, item: ArrayList<Main_Scrap>){
 
             if(item.size!=0) {
-
                 binding.homeTvCategory1.text = item[0].title
                 binding.homeTvHeart1.text = item[0].heart.toString()
                 Glide.with(context).load(item[0].ImageUrl).into(binding.homeIvCategory1)
