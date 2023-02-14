@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/jipdabang_white"
-    android:fitsSystemWindows="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
-        android:id="@+id/my_toolbar"
+        android:id="@+id/my_frame"
         android:layout_width="match_parent"
         android:layout_height="84dp"
         android:background="@drawable/my_round"
-        android:clickable="false"
-        app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
-
-        <ImageView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/my_backbtn"
             android:layout_width="15.5dp"
             android:layout_height="15.2dp"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
-            android:clickable="true"
+            android:background="@drawable/my_backbtn2"
             android:scaleType="centerCrop"
-            android:src="@drawable/myscrap_back" />
+            android:layout_marginStart="30dp"
+            android:layout_gravity="center_vertical|start"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1220,6 +1220,8 @@ class MyWritingActivity:AppCompatActivity() {
 
         //썸네일 사진 올리기
         viewBinding.myAlbumbtn.setOnClickListener {
+
+
             binding_camera = DialogCameraBinding.inflate(layoutInflater)
             val dialog_camera_builder = AlertDialog.Builder(this).setView(binding_camera.root)
             val dialog_camera = dialog_camera_builder.create()

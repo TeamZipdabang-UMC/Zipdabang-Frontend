@@ -20,6 +20,7 @@
             android:layout_gravity="center_vertical|start"
             android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
+            android:clickable="false"
             android:scaleType="centerCrop"
             android:src="@drawable/myscrap_back"
             tools:ignore="SpeakableTextPresentCheck" />
