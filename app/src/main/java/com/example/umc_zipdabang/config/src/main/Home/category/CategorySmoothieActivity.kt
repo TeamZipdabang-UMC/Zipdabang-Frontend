@@ -37,7 +37,7 @@ private lateinit var binding: ActivityCategory1Binding
         super.onCreate(savedInstanceState)
 
         binding = ActivityCategory1Binding.inflate(layoutInflater)
-        binding.tvCategory.text="건강 음료"
+        binding.tvCategory.text="스무디/주스"
         setContentView(binding.root)
 
         binding.myscrapIvBack.setOnClickListener{

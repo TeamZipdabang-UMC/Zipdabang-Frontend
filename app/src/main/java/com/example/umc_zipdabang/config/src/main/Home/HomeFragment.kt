@@ -711,7 +711,7 @@ class HomeFragment : Fragment() {
                              category[2] = Home_receipe("티", tea)
                              category[3] = Home_receipe("에이드", ade)
                              category[4] = Home_receipe("스무디/주스", smootie_juice)
-                             category[5] = Home_receipe("건강음료", beverage)
+                             category[5] = Home_receipe("건강음료", health)
                          }
                      }
                      //마이스크랩 부분
@@ -727,6 +727,8 @@ class HomeFragment : Fragment() {
                      )
                      viewBinding.homeRvMyScrap.adapter = adapter1
                      Log.d("사이즈", scraps.size.toString())
+
+                     //카테고리별 음료
 
                      adapter1.setOnItemClickListener1(object :
                          MainScrapAdapter.OnItemClickListener {
@@ -761,6 +763,132 @@ class HomeFragment : Fragment() {
 
 
                      })
+
+                     viewBinding.homeRvReceipe.layoutManager = LinearLayoutManager(
+                         activity as HomeMainActivity,
+                         LinearLayoutManager.VERTICAL,
+                         false
+                     )
+
+                     adapter2 = ReceipeAdapter(activity as HomeMainActivity, category)
+                     viewBinding.homeRvReceipe.adapter = adapter2
+                     adapter2.notifyDataSetChanged()
+
+
+                     adapter2.setOnItemClickListener1(object : ReceipeAdapter.OnItemClickListener {
+
+                         override fun onItemClick(v: View?, pos: Int, category: String) {
+                             var intent = Intent(
+                                 context,
+                                 ZipdabangRecipeDetailActivity::class.java
+                             )
+                             if (category == "커피") intent.putExtra(
+                                 "recipeId",
+                                 coffee[0].recipeid.toString()
+                             )
+                             if (category == "beverage") intent.putExtra(
+                                 "recipeId",
+                                 beverage[0].recipeid.toString()
+                             )
+                             if (category == "티") intent.putExtra(
+                                 "recipeId",
+                                 tea[0].recipeid.toString()
+                             )
+                             if (category == "에이드") intent.putExtra(
+                                 "recipeId",
+                                 ade[0].recipeid.toString()
+                             )
+                             if (category == "스무디/주스") intent.putExtra(
+                                 "recipeId",
+                                 smootie_juice[0].recipeid.toString()
+                             )
+                             if (category == "건강음료") intent.putExtra(
+                                 "recipeId",
+                                 health[0].recipeid.toString()
+                             )
+
+                             startActivity(intent)
+                         }
+                     })
+
+                     adapter2.setOnItemClickListener2(object : ReceipeAdapter.OnItemClickListener {
+
+                         override fun onItemClick(v: View?, pos: Int, category: String) {
+                             var intent = Intent(
+                                 context,
+                                 ZipdabangRecipeDetailActivity::class.java
+                             )
+                             if (category == "커피") intent.putExtra(
+                                 "recipeId",
+                                 coffee[1].recipeid.toString()
+                             )
+                             if (category == "beverage") intent.putExtra(
+                                 "recipeId",
+                                 beverage[1].recipeid.toString()
+                             )
+                             if (category == "티") intent.putExtra(
+                                 "recipeId",
+                                 tea[1].recipeid.toString()
+                             )
+                             if (category == "에이드") intent.putExtra(
+                                 "recipeId",
+                                 ade[1].recipeid.toString()
+                             )
+                             if (category == "스무디/주스") intent.putExtra(
+                                 "recipeId",
+                                 smootie_juice[1].recipeid.toString()
+                             )
+                             if (category == "건강음료") intent.putExtra(
+                                 "recipeId",
+                                 health[1].recipeid.toString()
+                             )
+
+
+                             startActivity(intent)
+                         }
+                     })
+
+                     viewBinding.homeRvReceipe.isNestedScrollingEnabled = false
+                     adapter2.setOnItemClickListener(object : ReceipeAdapter.OnItemClickListener {
+                         override fun onItemClick(v: View?, pos: Int, category: String) {
+
+                             when (pos) {
+
+                                 0 -> {
+                                     val intent = Intent(context, CategoryCoffeeActivity::class.java)
+                                     startActivity(intent)
+                                 }
+                                 1 -> {
+                                     val intent =
+                                         Intent(context, CategoryBeverageActivity::class.java)
+                                     startActivity(intent)
+                                 }
+                                 2 -> {
+                                     val intent = Intent(context, CategoryTeaActivity::class.java)
+                                     startActivity(intent)
+                                 }
+                                 3 -> {
+                                     val intent = Intent(context, CategoryAdeActivity::class.java)
+                                     startActivity(intent)
+                                 }
+                                 4 -> {
+                                     val intent =
+                                         Intent(context, CategorySmoothieActivity::class.java)
+                                     startActivity(intent)
+                                 }
+                                 5 -> {
+                                     val intent = Intent(context, CategoryHealthActivity::class.java)
+                                     startActivity(intent)
+                                 }
+
+
+                             }
+
+
+                         }
+
+                     })
+
 
 
                  }
