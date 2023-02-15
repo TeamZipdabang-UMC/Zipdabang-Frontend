@@ -36,9 +36,9 @@ class InitialActivity: AppCompatActivity() {
         Log.d(ContentValues.TAG, "keyhash:${Utility.getKeyHash(this)}")
 
         // 로그인 화면이 만들어지면 구현 예정
-        viewBinding.tvLoginUnderline.setOnClickListener {
-
-        }
+//        viewBinding.tvLoginUnderline.setOnClickListener {
+//
+//        }
 
 //        val retrofit = Retrofit.Builder()
 //            .baseUrl("http://zipdabang.store:3000")
