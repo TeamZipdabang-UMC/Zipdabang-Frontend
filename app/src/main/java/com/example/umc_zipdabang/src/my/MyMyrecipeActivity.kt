@@ -30,10 +30,6 @@ class MyMyrecipeActivity: AppCompatActivity() {
         setContentView(viewBinding.root)
 
 
-        viewBinding.myBackbtn.setOnClickListener{
-            val intent = Intent(this, MyFragment::class.java)
-            startActivity(intent)
-        }
 
 
         val myRecipeItemList: ArrayList<ItemRecipeChallengeData> = arrayListOf()
@@ -80,6 +76,12 @@ class MyMyrecipeActivity: AppCompatActivity() {
 
                 }
             })
+        }
+
+        viewBinding.myBackbtn.bringToFront()
+        viewBinding.myBackbtn.setOnClickListener{
+            finish()
+            Log.d("터치", "터치 왜안되냐고 ㅁㅊ")
         }
 
 

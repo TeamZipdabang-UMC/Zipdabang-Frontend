@@ -1,56 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/jipdabang_white"
-    android:fitsSystemWindows="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="84dp"
-        android:background="@drawable/my_round"
-        android:clickable="false"
-        app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
-
-        <ImageView
-            android:id="@+id/my_backbtn"
-            android:layout_width="15.5dp"
-            android:layout_height="15.2dp"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/myscrap_back" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="내 레시피"
-            android:textSize="20dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/jipdabang_black"
-            android:fontFamily="@font/notosanskrbold"
-            android:layout_gravity="center_horizontal|center_vertical"/>
-    </FrameLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
+            android:id="@+id/my_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
+            android:layout_height="84dp"
+            android:background="@drawable/my_round"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <ImageView
+                android:id="@+id/my_backbtn"
+                android:layout_width="15.5dp"
+                android:layout_height="15.2dp"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/myscrap_back"
+                tools:ignore="SpeakableTextPresentCheck" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내 레시피"
+                android:textSize="20dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/jipdabang_black"
+                android:fontFamily="@font/notosanskrbold"
+                android:layout_gravity="center_horizontal|center_vertical"/>
+        </FrameLayout>
+        <LinearLayout
                 android:id="@+id/my_linear_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="88dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/my_frame">
                 <TextView
                     android:id="@+id/my_tv"
                     android:layout_width="wrap_content"
@@ -68,29 +63,28 @@
                     android:text="6"
                     android:textColor="#999999"
                     android:textSize="16dp" />
-            </LinearLayout>
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/my_fixbtn"
-                android:layout_marginTop="86dp"
-                android:background="#00FF0000"
-                android:text="편집"
-                android:textColor="#767676"
-                android:textSize="16dp"
-                android:fontFamily="@font/notosanskrregular"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.99"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/my_rv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/my_linear_tv" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/my_fixbtn"
+            android:layout_marginTop="84dp"
+            android:background="#00FF0000"
+            android:text="편집"
+            android:textColor="#767676"
+            android:textSize="16dp"
+            android:fontFamily="@font/notosanskrregular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.99"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_linear_tv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>

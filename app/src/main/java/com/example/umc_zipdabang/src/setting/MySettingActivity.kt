@@ -213,8 +213,6 @@ class MySettingActivity :AppCompatActivity(){
                 viewBinding.etNickname.text.clear()
             }
 
-
-
             viewBinding.myBackbtn.setOnClickListener {
                 finish()
             }

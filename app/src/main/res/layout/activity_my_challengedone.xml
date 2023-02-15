@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/jipdabang_white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
-    <FrameLayout
-        android:id="@+id/my_toolbar"
+<ScrollView
         android:layout_width="match_parent"
-        android:layout_height="84dp"
-        android:background="@drawable/my_round">
-        <androidx.constraintlayout.utils.widget.ImageFilterButton
-            android:id="@+id/my_backbtn"
-            android:layout_width="15.5dp"
-            android:layout_height="15.2dp"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/myscrap_back"
-            tools:ignore="SpeakableTextPresentCheck" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="도전 완료 레시피"
-            android:textSize="20dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/jipdabang_black"
-            android:fontFamily="@font/notosanskrbold"
-            android:layout_gravity="center_horizontal|center_vertical"/>
-    </FrameLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:fitsSystemWindows="true"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/jipdabang_white"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/my_frame"
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                android:background="@drawable/my_round"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.utils.widget.ImageFilterButton
+                    android:id="@+id/my_backbtn"
+                    android:layout_width="15.5dp"
+                    android:layout_height="15.2dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="false"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/myscrap_back"
+                    tools:ignore="SpeakableTextPresentCheck" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="도전 완료 레시피"
+                    android:textSize="20dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/jipdabang_black"
+                    android:fontFamily="@font/notosanskrbold"
+                    android:layout_gravity="center_horizontal|center_vertical"/>
+            </FrameLayout>
             <LinearLayout
                 android:id="@+id/my_linear_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="88dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/my_frame">
                 <TextView
                     android:id="@+id/my_tv"
                     android:layout_width="wrap_content"
@@ -75,6 +73,4 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/my_linear_tv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</ScrollView>
