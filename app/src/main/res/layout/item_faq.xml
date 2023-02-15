@@ -22,7 +22,7 @@
             android:fontFamily="@font/notosanskrfont"
             android:text="집다방에서는 무슨 메뉴가 맛있나여?"
             android:textColor="#191919"
-            android:textSize="22sp" />
+            android:textSize="15sp" />
 
         <ImageButton
             android:id="@+id/layoutBtn01"
