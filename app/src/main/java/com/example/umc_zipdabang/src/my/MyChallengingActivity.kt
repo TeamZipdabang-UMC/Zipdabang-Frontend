@@ -30,8 +30,7 @@ class MyChallengingActivity: AppCompatActivity() {
 
 
         viewBinding.myBackbtn.setOnClickListener{
-            val intent = Intent(this, MyFragment::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val challengingItemList: ArrayList<ItemRecipeChallengeData> = arrayListOf()

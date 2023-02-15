@@ -55,7 +55,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="4"
-                app:layout_constraintVertical_bias="0.024"
+                android:layout_marginTop="12dp"
+                app:layout_constraintVertical_bias="0.008"
                 app:layout_constraintTop_toBottomOf="@id/my_frame"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/my_linear_challenging"
@@ -221,8 +222,8 @@
                         android:layout_weight="1" />
                     <FrameLayout
                         android:id="@+id/my_framebtn_challenging"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center">
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/my_btn_challenging"
@@ -273,8 +274,8 @@
                         android:layout_weight="1" />
                     <FrameLayout
                         android:id="@+id/my_framebtn_challengedone"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center">
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/my_btn_challengedone"
@@ -324,8 +325,8 @@
                         android:layout_weight="1" />
                     <FrameLayout
                         android:id="@+id/my_framebtn_myscrap"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center">
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/my_btn_myscrap"
