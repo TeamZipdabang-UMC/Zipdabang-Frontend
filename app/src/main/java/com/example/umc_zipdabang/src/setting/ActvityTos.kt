@@ -27,6 +27,11 @@ class ActvityTos: AppCompatActivity(){
 
 
         }
+        binding.layoutBtn02.setOnClickListener {
+            val intent2= Intent(Intent.ACTION_VIEW, Uri.parse("https://www.notion.so/82b6e4652ec040f49d77cf99839c1bcc"))
+            startActivity(intent2)
+
+        }
 
 
 
