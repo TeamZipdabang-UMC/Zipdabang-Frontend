@@ -1259,6 +1259,7 @@ class MyWritingActivity:AppCompatActivity() {
         }
         //step1 사진 올리기
         viewBinding.myRecipeImageStep.setOnClickListener{
+
            binding_camera = DialogCameraBinding.inflate(layoutInflater)
            val dialog_camera_builder = AlertDialog.Builder(this).setView(binding_camera.root)
            val dialog_camera = dialog_camera_builder.create()
@@ -2422,13 +2423,15 @@ class MyWritingActivity:AppCompatActivity() {
     private var REQUEST_STEP10 = 1
     //허용안할경우에 재확인..?
     private fun requestPermission(){
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,CAMERA),1)
+        Log.d("카메라권한","request 왜 안돼ㅠㅠ")
+        ActivityCompat.requestPermissions(
+            this, arrayOf(android.Manifest.permission.CAMERA),1)
     }
     //카메라 허용이 됐는지 안됐는지 확인
     private fun checkPermission():Boolean{
-        return (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+        return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
     }
     //빈파일 생성
     @Throws(IOException::class)

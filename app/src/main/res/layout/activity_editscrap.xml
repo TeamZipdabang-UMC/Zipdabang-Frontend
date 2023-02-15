@@ -58,7 +58,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/main_font"/>
 
-</FrameLayout>
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

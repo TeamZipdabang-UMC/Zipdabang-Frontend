@@ -28,25 +28,21 @@ class SignupCameraagreeActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this, arrayOf(android.Manifest.permission.CAMERA), 1000)
         } else { //권한이 있는 경우
-            val REQUEST_IMAGE_CAPTURE = 1
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                takePictureIntent.resolveActivity(packageManager)?.also {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE) }
-            }
+
         }
 
         val intent_email = intent.getStringExtra("email").toString()
         Log.d("카메라 스트링", "${intent_email}")
 
+        viewBinding.signupBackbtn.setOnClickListener {
+            val intent = Intent(this, SignupServiceagreeActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+        }
         viewBinding.signupOkaybtn.setOnClickListener {
             val intent = Intent(this, SignupFirstActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             intent.putExtra("email", intent_email)
-            startActivity(intent)
-        }
-        viewBinding.signupBackbtn.setOnClickListener {
-            val intent = Intent(this, SignupServiceagreeActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
         }
     }

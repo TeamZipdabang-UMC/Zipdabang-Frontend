@@ -69,7 +69,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -78,7 +77,7 @@
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/notosanskrregular"
                     android:text="스크랩한 레시피"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="16dp"
                     android:textColor="#999999"
                     android:textSize="16dp" />
                 <TextView
@@ -107,7 +106,7 @@
                    android:text="편집"
                    android:textSize="16dp"
                    android:layout_gravity="center_vertical"
-                   android:layout_marginRight="10dp">
+                   android:layout_marginRight="16dp">
 
                </TextView>
 

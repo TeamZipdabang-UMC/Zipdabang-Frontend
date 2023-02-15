@@ -350,6 +350,8 @@ class SignupResearchActivity : AppCompatActivity() {
         }
 
         passBtn.setOnClickListener {
+            editor.clear()
+            editor.apply()
             val intent = Intent(this, HomeMainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
@@ -392,6 +394,9 @@ class SignupResearchActivity : AppCompatActivity() {
                 }
             })
              */
+
+            editor.clear()
+            editor.apply()
 
             val intent = Intent(this, HomeMainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
