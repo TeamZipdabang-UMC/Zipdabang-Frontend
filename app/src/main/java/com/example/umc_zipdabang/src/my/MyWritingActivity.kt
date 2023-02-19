@@ -750,7 +750,7 @@ class MyWritingActivity:AppCompatActivity() {
         //업로드 버튼 눌렀을때
         viewBinding.myUploadbtn.setOnClickListener {
             //카테고리 체크를 위한 변수
-           var category_check = false
+            var category_check = false //?
             if(viewBinding.myCoffee.isSelected ==false
                 && viewBinding.myAde.isSelected  ==false
                 && viewBinding.myTea.isSelected ==false
