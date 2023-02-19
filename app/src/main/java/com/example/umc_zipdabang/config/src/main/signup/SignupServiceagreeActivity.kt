@@ -211,7 +211,7 @@ class SignupServiceagreeActivity: AppCompatActivity() {
         must1Btn.setOnClickListener {
 //            val intent = Intent(this, SignupServiceagreeMust1Activity::class.java)
 //            startActivity(intent)
-            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
+            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.notion.so/82b6e4652ec040f49d77cf99839c1bcc"))
             startActivity(agree_intent)
         }
         must2Btn.setOnClickListener {
@@ -223,13 +223,13 @@ class SignupServiceagreeActivity: AppCompatActivity() {
         choice1Btn.setOnClickListener {
 //            val intent = Intent(this, SignupServiceagreeChoice1Activity::class.java)
 //            startActivity(intent)
-            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
+            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.notion.so/82b6e4652ec040f49d77cf99839c1bcc"))
             startActivity(agree_intent)
         }
         choice2Btn.setOnClickListener {
 //            val intent = Intent(this, SignupServiceagreeChoice2Activity::class.java)
 //            startActivity(intent)
-            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://app.catchsecu.com/document/P/33b1b25663ff8a3"))
+            val agree_intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.notion.so/82b6e4652ec040f49d77cf99839c1bcc"))
             startActivity(agree_intent)
         }
 
