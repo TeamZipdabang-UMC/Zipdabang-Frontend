@@ -42,6 +42,8 @@ data class IngredientDetail(
 )
 
 data class Recipe(
+    @SerializedName ("nickname")
+    val nickname: String?,
     @SerializedName ("created_at")
     val createdAt: String?,
     @SerializedName ("image_url")

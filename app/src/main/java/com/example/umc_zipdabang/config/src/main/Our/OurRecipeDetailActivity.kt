@@ -185,6 +185,7 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                     val challengersNum = recipeDetailResult?.recipeDataClass?.challenger
                     val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
                     val challengeStatus = recipeDetailResult?.recipeDataClass?.isChallenge
+                    val nickname = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.nickname
 
                     mainImageUrl = recipeImageUrl.toString()
                     Log.d("레시피 메인 이미지 url", "${mainImageUrl}")
@@ -242,7 +243,7 @@ class OurRecipeDetailActivity: AppCompatActivity() {
                     viewBinding.tvOurRecipeScrapNum.text = scraps.toString()
                     viewBinding.tvOurRecipeLikeNum.text = likes.toString()
                     viewBinding.tvOurRecipeDetailChallengeNum.text = challengersNum.toString()
-//                    viewBinding.tvOurRecipeDetailNickname.text =
+                    viewBinding.tvOurRecipeDetailNickname.text = nickname.toString()
 
 
                 }

@@ -163,6 +163,12 @@
         <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentWellbeingActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeCommentReportActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.BlockUserActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".config.src.main.Our.OurRecipeCoffeeActivity"
             android:screenOrientation="portrait"
             />
