@@ -179,6 +179,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     val challengersNum = recipeDetailResult?.recipeDataClass?.challenger
                     val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
                     val challengeStatus = recipeDetailResult?.recipeDataClass?.isChallenge
+                    val nickname = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.nickname
 
                     mainImageUrl = recipeImageUrl.toString()
 
@@ -236,6 +237,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     viewBinding.tvZipdabangRecipeScrapNum.text = scraps.toString()
                     viewBinding.tvZipdabangRecipeLikeNum.text = likes.toString()
                     viewBinding.tvZipdabangRecipeDetailChallengeNum.text = challengersNum.toString()
+                    viewBinding.tvZipdabangRecipeDetailNickname.text = nickname.toString()
 
 
                 }

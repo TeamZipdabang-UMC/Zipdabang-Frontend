@@ -80,8 +80,8 @@ class MyMyrecipeActivity: AppCompatActivity() {
 
         viewBinding.myBackbtn.bringToFront()
         viewBinding.myBackbtn.setOnClickListener{
-            finish()
-            Log.d("터치", "터치 왜안되냐고 ㅁㅊ")
+            val intent = Intent(this@MyMyrecipeActivity, HomeMainActivity::class.java)
+            startActivity(intent)
         }
 
 

@@ -1,5 +1,6 @@
 package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments
 
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.UserBlockBody
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -120,6 +121,27 @@ interface RecipeService {
         @Header ("x-access-token") token: String?,
         @Path ("recipeId") recipeId: Int?
     ): Call<ChallengeResponse>
+
+    // 댓글 신고
+    @POST ("/comments/report")
+    fun reportComment(
+        @Header ("x-access-token") token: String?,
+        @Body commentReportBody: CommentReportBody?
+    ): Call<CommentReportResponse>
+
+    // 댓글 차단
+    @POST ("/comments/block")
+    fun blockComment(
+        @Header ("x-access-token") token: String?,
+        @Body commentBlockBody: CommentBlockBody?
+    ): Call<CommentBlockResponse>
+
+    // 사용자 차단
+    @POST ("/users/block")
+    fun blockUser(
+        @Header ("x-access-token") token: String?,
+        @Body userBlockBody: UserBlockBody?
+    ): Call<UserBlockResponse>
 
 
 //    @GET ("/recipes/")
