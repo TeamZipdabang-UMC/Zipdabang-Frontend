@@ -232,6 +232,7 @@
                 android:gravity="top"
                 android:background="@drawable/comment_edittext"
                 android:padding="12dp"
+                android:maxLength="200"
                 />
 
             <LinearLayout
