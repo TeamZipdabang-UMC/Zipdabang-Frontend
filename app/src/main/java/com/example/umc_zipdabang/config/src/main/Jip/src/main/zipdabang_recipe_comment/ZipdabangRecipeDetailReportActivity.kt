@@ -10,13 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.CommentReportBody
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.CommentReportResponse
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.*
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailReportBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -117,35 +116,35 @@ class ZipdabangRecipeDetailReportActivity: AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.IO) {
                     val token = tokenDb.tokenDao().getToken()
                     val tokenNum = token.token
+
+
+
+
                     Log.d("토큰 넘버", "${tokenNum}")
-                    service.reportRecipe(tokenNum, CommentReportBody(reportedRecipeId, reportCrimeId))
-                        .enqueue(object : Callback<CommentReportResponse> {
+                    service.reportRecipe(tokenNum, RecipeReportBody(reportedRecipeId, reportCrimeId))
+                        .enqueue(object : Callback<RecipeReportResponse> {
                             override fun onResponse(
-                                call: Call<CommentReportResponse>,
-                                response: Response<CommentReportResponse>
+                                call: Call<RecipeReportResponse>,
+                                response: Response<RecipeReportResponse>
                             ) {
                                 val result = response.body()
                                 Log.d("레시피 신고 응답 코드", response.code().toString())
                                 if (response.code() == 200) {
                                     Log.d("레시피 신고 성공", result?.success.toString())
+                                    finish()
                                 } else if (response.code() == 400) {
                                     Log.d("레시피 신고 실패", "필요한 데이터 안넘어옴")
                                 } else if (response.code() == 401) {
                                     Log.d("레시피 신고 실패", "토큰 안넘어옴")
                                 } else {
                                     Log.d("레시피 신고 실패", "기타 이유")
+                                    Log.d("레시피 신고 실패 바디", response.body().toString())
                                 }
-                                finish()
-//                                moveIntent.putExtra("recipeId", recipeId.toString())
-//                                startActivity(moveIntent)
+
                             }
 
-                            override fun onFailure(
-                                call: Call<CommentReportResponse>,
-                                t: Throwable
-                            ) {
-                                Log.d("레시피 신고 실패", t.message.toString())
-                                finish()
+                            override fun onFailure(call: Call<RecipeReportResponse>, t: Throwable) {
+                                TODO("Not yet implemented")
                             }
                         })
                 }
