@@ -143,6 +143,11 @@ interface RecipeService {
         @Body userBlockBody: UserBlockBody?
     ): Call<UserBlockResponse>
 
+    @POST ("/report")
+    fun reportRecipe(
+        @Header ("x-access-token") token: String?,
+        @Body commentReportBody: CommentReportBody?
+    ): Call<CommentReportResponse>
 
 //    @GET ("/recipes/")
 

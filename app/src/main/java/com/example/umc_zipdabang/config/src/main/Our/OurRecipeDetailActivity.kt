@@ -24,6 +24,7 @@ import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDataba
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.*
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailReportActivity
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.Ingredient
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.RecipeOrder
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_rv_adapter.IngredientsRVAdapter
@@ -69,9 +70,51 @@ class OurRecipeDetailActivity: AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create()).build()
         val recipeService = recipeRetrofit.create(RecipeService::class.java)
 
+        // 레시피 신고 및 사용자 차단 다이얼로그 뷰
+        val recipeControlDialogView = LayoutInflater.from(this).inflate(R.layout.recipe_control_dialog, null)
+        val recipeControlDialogBuilder = AlertDialog.Builder(this).setView(recipeControlDialogView)
+        val recipeControlDialog = recipeControlDialogBuilder.create()
+
+        recipeControlDialog.apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            window?.setGravity(Gravity.BOTTOM)
+            window?.attributes?.width = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
+        }
+
         viewBinding.toolbarBackarrow.setOnClickListener{
             // 툴바의 뒤로가기 버튼을 눌렀을 때 동작
             finish()
+        }
+
+        // 툴바의 더보기 버튼을 눌렀을 때 동작
+        viewBinding.toolbarEtc.setOnClickListener {
+            recipeControlDialog.show()
+            val exitButton = recipeControlDialogView.findViewById<ImageView>(R.id.btn_recipe_control_exit)
+            val reportButton = recipeControlDialogView.findViewById<TextView>(R.id.btn_recipe_report)
+            val blockButton = recipeControlDialogView.findViewById<TextView>(R.id.btn_recipe_block_user)
+
+            // x버튼 누를 때
+            exitButton.setOnClickListener {
+                recipeControlDialog.dismiss()
+            }
+
+            // 레시피 신고 버튼 누를 때
+            reportButton.setOnClickListener {
+                recipeControlDialog.dismiss()
+                val reportIntent = Intent(this, ZipdabangRecipeDetailReportActivity::class.java)
+                reportIntent.putExtra("recipeId", idInt.toString())
+                Log.d("신고할 레시피의 아이디 선택", idInt.toString())
+                startActivity(reportIntent)
+            }
+
+            // 사용자 차단 버튼 클릭 시
+            blockButton.setOnClickListener {
+                recipeControlDialog.dismiss()
+                // 닉네임을 넘겨줘야 할건데 그에 맞게 api가 필요할듯?
+//                val blockIntent =
+            }
         }
 
         viewBinding.ivOurRecipeLike.setOnClickListener {
