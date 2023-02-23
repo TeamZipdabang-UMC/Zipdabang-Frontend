@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    android:id="@+id/toast_report_comment">
+
+    <TextView
+        android:id="@+id/toast_scrap_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="댓글이 신고되었어요. 신고하신 댓글은 집다방 정책에 따라 처리될 예정이에요."
+        android:fontFamily="@font/noto_sans"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/toast_message"
+        android:maxLines="2"/>
+
+</LinearLayout>

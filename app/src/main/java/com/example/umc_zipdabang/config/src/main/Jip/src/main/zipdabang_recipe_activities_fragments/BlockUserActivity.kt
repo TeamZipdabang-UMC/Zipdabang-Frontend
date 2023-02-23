@@ -2,7 +2,9 @@ package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
@@ -62,6 +64,12 @@ class BlockUserActivity: AppCompatActivity() {
                                 val result = response.body()
                                 if (response.code() == 200) {
                                     Log.d("사용자 차단 성공", result?.success.toString())
+                                    Toast(this@BlockUserActivity).apply {
+                                        duration = Toast.LENGTH_SHORT
+                                        setGravity(Gravity.BOTTOM, 0, 0)
+                                        val layout: View = layoutInflater.inflate(R.layout.toast_user_block_layout, findViewById(R.id.toast_block_user))
+                                        view = layout
+                                    }.show()
                                 } else {
                                     Log.d("사용자 차단 실패", "다른 원인")
                                 }

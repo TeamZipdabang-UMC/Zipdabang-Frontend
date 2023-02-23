@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.R
@@ -131,6 +133,12 @@ class ZipdabangRecipeDetailReportActivity: AppCompatActivity() {
                                 Log.d("레시피 신고 응답 코드", response.code().toString())
                                 if (response.code() == 200) {
                                     Log.d("레시피 신고 성공", result?.success.toString())
+                                    Toast(this@ZipdabangRecipeDetailReportActivity).apply {
+                                        duration = Toast.LENGTH_SHORT
+                                        setGravity(Gravity.BOTTOM, 0, 0)
+                                        val layout: View = layoutInflater.inflate(R.layout.toast_recipe_report_layout, findViewById(R.id.toast_report_recipe))
+                                        view = layout
+                                    }.show()
                                     finish()
                                 } else if (response.code() == 400) {
                                     Log.d("레시피 신고 실패", "필요한 데이터 안넘어옴")

@@ -36,6 +36,7 @@ import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
+import com.example.umc_zipdabang.src.my.CustomToast
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.NonDisposableHandle.parent
@@ -850,6 +851,8 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                                 val commentInfiniteRVAdapter = CommentInfiniteRVAdapter(ZipdabangRecipeDetailCommentActivity(), commentNumList, recipeIdSelected)
                                                 commentInfiniteRVAdapter.notifyItemRemoved(adapterPosition)
                                                 viewbinding.rvZipdabangRecipeDetailComment.adapter = commentInfiniteRVAdapter
+
+                                                CustomToast.createToast(context, "댓글을 삭제했어요")?.show()
 
                                                 val intent = Intent(context, ZipdabangRecipeDetailCommentActivity::class.java)
                                                 intent.putExtra("recipeId", recipeIdSelected)

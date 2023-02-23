@@ -3,8 +3,10 @@ package com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
@@ -101,9 +103,16 @@ class ZipdabangRecipeCommentReportActivity: AppCompatActivity() {
                                 val result = response.body()
                                 if (response.code() == 200) {
                                     Log.d("댓글 신고 성공", result?.success.toString())
+                                    Toast(this@ZipdabangRecipeCommentReportActivity).apply {
+                                        duration = Toast.LENGTH_SHORT
+                                        setGravity(Gravity.BOTTOM, 0, 0)
+                                        val layout: View = layoutInflater.inflate(R.layout.toast_comment_report_layout, findViewById(R.id.toast_report_comment))
+                                        view = layout
+                                    }.show()
                                 } else {
                                     Log.d("댓글 신고 실패", "다른 원인")
                                 }
+
                                 finish()
 //                                moveIntent.putExtra("recipeId", recipeId.toString())
 //                                startActivity(moveIntent)
