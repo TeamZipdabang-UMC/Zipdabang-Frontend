@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivitySignupFirstBinding
+import com.example.umc_zipdabang.src.my.CustomToast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -104,7 +105,10 @@ class SignupFirstActivity:AppCompatActivity() {
                         nextBtn.setEnabled(false)
                         nextBtn.setBackgroundResource(R.drawable.sign_btn_round)
                         nextBtn.setTextColor((ContextCompat.getColor(applicationContext, R.color.jipdabang_sign_text_gray)))
+
                         //!!!!!오류 메세지 띄워야함!!!!!
+                        CustomToast.createToast(applicationContext, "닉네임이 중복되었습니다")?.show()
+
                     }else{ //닉네임 중복 아님
                         Log.d("통신","fail "+response.body()?.exist.toString())
                         val intent = Intent(this@SignupFirstActivity, SignupSecondActivity::class.java)
@@ -136,7 +140,8 @@ class SignupFirstActivity:AppCompatActivity() {
         val value: String = viewBinding.signupRealedtNickname?.text.toString().trim()
         val nicknamepattern = "^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,10}$"
         return if(!value.matches(nicknamepattern.toRegex())){
-            viewBinding.signupRealedtNickname.error="닉네임 형식이 잘못되었습니다."
+            // viewBinding.signupRealedtNickname.error="닉네임 형식이 잘못되었습니다."
+            CustomToast.createToast(applicationContext, "닉네임 형식이 잘못되었습니다")?.show()
             false
         } else{
             viewBinding.signupRealedtNickname.error=null
