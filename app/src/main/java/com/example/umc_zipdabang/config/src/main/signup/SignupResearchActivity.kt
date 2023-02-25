@@ -28,7 +28,7 @@ import retrofit2.Response
 
 class SignupResearchActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupResearchBinding
-    public lateinit var tokenDb2: TokenDatabase
+
     val api = APIS.create()
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -38,6 +38,7 @@ class SignupResearchActivity : AppCompatActivity() {
         viewBinding= ActivitySignupResearchBinding.inflate((layoutInflater))
         setContentView(viewBinding.root)
 
+        val tokenDb2 = TokenDatabase.getTokenDatabase(this)
         val sharedPreference = getSharedPreferences("signup",0)
         val editor = sharedPreference.edit()
 
@@ -375,12 +376,14 @@ class SignupResearchActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<PostNewuserBodyResponse>, response: Response<PostNewuserBodyResponse>) {
 
                     val token = response.body()?.data.toString()
+                    Log.d("토큰 뭐야뭐야","${token}")
 
                     val tokenClass = Token(null, token)
 
                     // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                     GlobalScope.launch(Dispatchers.IO) {
                         tokenDb2.tokenDao().addToken(tokenClass)
+                        Log.d("토큰 뭐야뭐야", "토큰 들어감")
                     }
 
                 }

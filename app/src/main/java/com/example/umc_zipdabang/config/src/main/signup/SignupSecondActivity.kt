@@ -169,7 +169,7 @@ class SignupSecondActivity : AppCompatActivity() {
         val birthdaypattern = "^[0-9-]{8}$"
         return if(!value.matches(birthdaypattern.toRegex())){
             //viewBinding.signupRealedtBirthday.error="형식이 잘못되었습니다."
-            CustomToast.createToast(applicationContext, "형식이 잘못되었습니다")?.show()
+            CustomToast.createToast(applicationContext, "생년월일 형식이 잘못되었습니다")?.show()
             false
         } else{
             viewBinding.signupRealedtBirthday.error =null
