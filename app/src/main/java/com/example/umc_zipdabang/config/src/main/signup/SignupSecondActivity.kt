@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.databinding.ActivitySignupSecondBinding
+import com.example.umc_zipdabang.src.my.CustomToast
 
 class SignupSecondActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupSecondBinding
@@ -143,7 +144,8 @@ class SignupSecondActivity : AppCompatActivity() {
         val value: String = viewBinding.signupRealedtPhonenumber?.text.toString().trim()
         val phonenumberpattern = android.util.Patterns.PHONE
         return if(!value.matches(phonenumberpattern.toRegex())){
-            viewBinding.signupRealedtPhonenumber.error="전화번호 형식이 잘못되었습니다."
+            //viewBinding.signupRealedtPhonenumber.error="전화번호 형식이 잘못되었습니다."
+            CustomToast.createToast(applicationContext, "전화번호 형식이 잘못되었습니다")?.show()
             false
         } else{
             viewBinding.signupRealedtPhonenumber.error=null
@@ -166,7 +168,8 @@ class SignupSecondActivity : AppCompatActivity() {
         val value: String = viewBinding.signupRealedtBirthday?.text.toString().trim()
         val birthdaypattern = "^[0-9-]{8}$"
         return if(!value.matches(birthdaypattern.toRegex())){
-            viewBinding.signupRealedtBirthday.error="형식이 잘못되었습니다."
+            //viewBinding.signupRealedtBirthday.error="형식이 잘못되었습니다."
+            CustomToast.createToast(applicationContext, "형식이 잘못되었습니다")?.show()
             false
         } else{
             viewBinding.signupRealedtBirthday.error =null

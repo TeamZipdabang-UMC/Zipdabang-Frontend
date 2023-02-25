@@ -16,13 +16,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Home.HomeMainActivity
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.Token
+import com.example.umc_zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.example.umc_zipdabang.databinding.ActivitySignupResearchBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SignupResearchActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupResearchBinding
+    public lateinit var tokenDb2: TokenDatabase
     val api = APIS.create()
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -367,11 +373,16 @@ class SignupResearchActivity : AppCompatActivity() {
             val data = PostNewuserBody(name_sp, nickname_sp, phonenumber_sp, birthday_sp, email_sp)
             api.post_signup_newuser(data).enqueue(object: Callback<PostNewuserBodyResponse>{
                 override fun onResponse(call: Call<PostNewuserBodyResponse>, response: Response<PostNewuserBodyResponse>) {
-                    if(response.body()?.success == true){
-                        Log.d("통신", "통신 success "+response.body()?.user)
-                    }else{
-                        Log.d("통신", "통신 success"+response.body()?.success)
+
+                    val token = response.body()?.data.toString()
+
+                    val tokenClass = Token(null, token)
+
+                    // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                    GlobalScope.launch(Dispatchers.IO) {
+                        tokenDb2.tokenDao().addToken(tokenClass)
                     }
+
                 }
                 override fun onFailure(call: Call<PostNewuserBodyResponse>, t: Throwable) {
                     Log.d("통신","통신 failㅠㅠ")
