@@ -14,7 +14,7 @@ android {
             storeFile file('C:\\Users\\USER\\zipdabang_release\\release.jks')
         }
         release {
-            storeFile file('C:\\workspace\\zipdabang.jks')
+            storeFile file('C:\\Users\\USER\\zipdabang_release\\release.jks')
             storePassword '123456'
             keyAlias 'key0'
             keyPassword '123456'
