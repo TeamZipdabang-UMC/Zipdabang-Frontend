@@ -20,6 +20,7 @@ android {
             keyPassword '123456'
         }
     }
+
     namespace 'com.example.umc_zipdabang'
     compileSdk 33
 

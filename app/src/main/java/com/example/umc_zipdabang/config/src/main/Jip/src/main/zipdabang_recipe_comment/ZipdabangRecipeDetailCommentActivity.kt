@@ -36,6 +36,7 @@ import com.example.umc_zipdabang.config.src.main.Retrofit.Retrofit
 import com.example.umc_zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.example.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailCommentBinding
 import com.example.umc_zipdabang.databinding.ItemCommentBinding
+import com.example.umc_zipdabang.src.my.CustomToast
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.NonDisposableHandle.parent
@@ -699,6 +700,10 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
 //                        commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_edit)
                     val commentPopupDeleteButton =
                         commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_delete)
+                    val commentPopupReportButton =
+                        commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_report)
+                    val commentPopupUserBlockButton =
+                        commentEditDeleteDialogView.findViewById<TextView>(R.id.btn_comment_ban_user)
 
                     commentPopupExitButton.setOnClickListener {
                         commentEditDeleteDialog.dismiss()
@@ -847,6 +852,8 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                                 commentInfiniteRVAdapter.notifyItemRemoved(adapterPosition)
                                                 viewbinding.rvZipdabangRecipeDetailComment.adapter = commentInfiniteRVAdapter
 
+                                                CustomToast.createToast(context, "댓글을 삭제했어요")?.show()
+
                                                 val intent = Intent(context, ZipdabangRecipeDetailCommentActivity::class.java)
                                                 intent.putExtra("recipeId", recipeIdSelected)
                                                 (context as ZipdabangRecipeDetailCommentActivity).finish()
@@ -890,6 +897,28 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                             commentDeleteDialog.dismiss()
                         }
 
+                    }
+
+                    // 신고 버튼 클릭 시
+                    commentPopupReportButton.setOnClickListener {
+                        commentEditDeleteDialog.dismiss()
+                        val selectedReportComment = commentNumList[adapterPosition]
+                        val selectedReportCommentId = selectedReportComment.commentId
+                        val reportIntent = Intent(context, ZipdabangRecipeCommentReportActivity::class.java)
+                        Log.d("신고 댓글 아이디", "${selectedReportCommentId}")
+                        reportIntent.putExtra("reportCommentId", selectedReportCommentId.toString())
+                        reportIntent.putExtra("recipeId", recipeIdSelected)
+                        (context as ZipdabangRecipeDetailCommentActivity).startActivity(reportIntent)
+                    }
+
+                    // 사용자 차단 버튼 클릭 시
+                    commentPopupUserBlockButton.setOnClickListener {
+                        commentEditDeleteDialog.dismiss()
+                        val selectedBlockComment = commentNumList[adapterPosition]
+                        val selectedBlockUserId = selectedBlockComment.commentOwner
+                        val blockIntent = Intent(context, BlockUserActivity::class.java)
+                        blockIntent.putExtra("blockUserId", selectedBlockUserId.toString())
+                        (context as ZipdabangRecipeDetailCommentActivity).startActivity(blockIntent)
                     }
                 }
 

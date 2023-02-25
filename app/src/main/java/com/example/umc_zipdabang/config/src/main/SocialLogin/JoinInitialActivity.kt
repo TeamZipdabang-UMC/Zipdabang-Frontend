@@ -50,9 +50,7 @@ class JoinInitialActivity : AppCompatActivity() {
     // 토큰을 저장하기 위한 DB(RoomDB) -> 전역적으로 사용하도록 함
     public lateinit var tokenDb2: TokenDatabase
 
-
     // 카카오 로그인을 위하여 필요한 변수들
-
     override fun onCreate(savedInstanceState: Bundle?) {
         viewBinding = ActivityJoinInitialBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -143,12 +141,15 @@ class JoinInitialActivity : AppCompatActivity() {
                                                             SignupServiceagreeActivity::class.java
                                                         )
 
-                                                        val tokenClass = Token(null, token)
+                                                        if (token != null) {
+                                                            val tokenClass = Token(null, token)
+                                                            GlobalScope.launch(Dispatchers.IO) {
+                                                                tokenDb2.tokenDao().addToken(tokenClass)
+                                                            }
+                                                        }
 
                                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                                        GlobalScope.launch(Dispatchers.IO) {
-                                                            tokenDb2.tokenDao().addToken(tokenClass)
-                                                        }
+
 
                                                         if (status == "login") {
                                                             loggedInIntent.putExtra("email", email)
@@ -264,17 +265,17 @@ class JoinInitialActivity : AppCompatActivity() {
 
 
                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                        val tokenClass = Token(null, token)
+                                        if (token != null) {
+                                            val tokenClass = Token(null, token)
 
-//                                        GlobalScope.launch(Dispatchers.IO) {
-//                                            tokenDb2.tokenDao().deleteAll()
-//                                        }
 
-                                        // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                        GlobalScope.launch(Dispatchers.IO) {
-                                            tokenDb2.tokenDao().addToken(tokenClass)
-                                            Log.d("토큰 들어감", "성공")
+                                            // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                                            GlobalScope.launch(Dispatchers.IO) {
+                                                tokenDb2.tokenDao().addToken(tokenClass)
+                                                Log.d("토큰 들어감", "성공")
+                                            }
                                         }
+
 
                                         if (status == "login") {
                                             loggedInIntent.putExtra("email", email)
@@ -347,13 +348,16 @@ class JoinInitialActivity : AppCompatActivity() {
                                 SignupServiceagreeActivity::class.java
                             )
 
-                            // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                            val tokenClass = Token(null, token)
+                            if (token != null) {
+                                // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                                val tokenClass = Token(null, token)
 
-                            // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                            GlobalScope.launch(Dispatchers.IO) {
-                                tokenDb2.tokenDao().addToken(tokenClass)
+                                // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    tokenDb2.tokenDao().addToken(tokenClass)
+                                }
                             }
+
 
                             if (status == "login") {
                                 loggedInIntent.putExtra("email", email)

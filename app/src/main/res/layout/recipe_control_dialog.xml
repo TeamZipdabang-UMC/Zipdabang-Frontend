@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="280dp"
+    android:layout_height="200dp"
     android:background="@drawable/comment_control_popup">
 
     <ImageView
-        android:id="@+id/btn_comment_control_exit"
+        android:id="@+id/btn_recipe_control_exit"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/ic_exit_popup"
@@ -18,39 +18,23 @@
 
 
     <TextView
-        android:id="@+id/btn_comment_delete"
+        android:id="@+id/btn_recipe_report"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@drawable/btn_delete_or_edit"
         android:fontFamily="@font/noto_sans"
         android:gravity="center"
-        android:text="댓글 삭제"
-        android:textColor="#FF0000"
+        android:text="게시글 신고"
+        android:textColor="@color/jipdabang_black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_comment_control_exit"
-        app:layout_constraintBottom_toTopOf="@id/btn_comment_report"
+        app:layout_constraintTop_toBottomOf="@id/btn_recipe_control_exit"
+        app:layout_constraintBottom_toTopOf="@id/btn_recipe_report"
         android:layout_marginTop="12dp"/>
 
     <TextView
-        android:id="@+id/btn_comment_report"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@drawable/btn_delete_or_edit"
-        android:fontFamily="@font/noto_sans"
-        android:gravity="center"
-        android:text="댓글 신고"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_comment_delete"
-        app:layout_constraintBottom_toTopOf="@id/btn_comment_ban_user"
-        android:layout_marginTop="12dp"/>
-
-    <TextView
-        android:id="@+id/btn_comment_ban_user"
+        android:id="@+id/btn_recipe_block_user"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@drawable/btn_delete_or_edit"
@@ -61,9 +45,8 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_comment_report"
+        app:layout_constraintTop_toBottomOf="@id/btn_recipe_report"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="12dp"/>
 
 

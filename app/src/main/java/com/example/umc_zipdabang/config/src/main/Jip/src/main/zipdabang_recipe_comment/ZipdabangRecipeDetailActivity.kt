@@ -48,6 +48,9 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
+        // 레시피 오너의 아이디
+        var recipeOwnerId: Int? = null
+
         // 인텐트 가져오기
         val selectedRecipeId = intent.getStringExtra("recipeId")
         Log.d("선택된 레시피의 Id", "${selectedRecipeId}")
@@ -63,6 +66,20 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create()).build()
         val recipeService = recipeRetrofit.create(RecipeService::class.java)
 
+        // 레시피 신고 및 사용자 차단 다이얼로그 뷰
+        val recipeControlDialogView = LayoutInflater.from(this).inflate(R.layout.recipe_control_dialog, null)
+        val recipeControlDialogBuilder = AlertDialog.Builder(this).setView(recipeControlDialogView)
+        val recipeControlDialog = recipeControlDialogBuilder.create()
+
+        recipeControlDialog.apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            window?.setGravity(Gravity.BOTTOM)
+            window?.attributes?.width = WindowManager.LayoutParams.WRAP_CONTENT
+            window?.attributes?.height = WindowManager.LayoutParams.WRAP_CONTENT
+        }
+
+
 //        var mainImageUrl: String? = ""
 
         viewBinding.toolbarBackarrow.setOnClickListener{
@@ -71,6 +88,9 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
         }
         // 다시하기
 
+
+
+        // 좋아요
         viewBinding.ivZipdabangRecipeLike.setOnClickListener {
             if (!like!!) {
                 like = true
@@ -179,6 +199,8 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     val challengersNum = recipeDetailResult?.recipeDataClass?.challenger
                     val recipeImageUrl = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.imageUrl
                     val challengeStatus = recipeDetailResult?.recipeDataClass?.isChallenge
+                    val nickname = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.nickname
+                    recipeOwnerId = recipeDetailResult?.recipeDataClass?.recipe?.get(0)?.owner
 
                     mainImageUrl = recipeImageUrl.toString()
 
@@ -236,6 +258,7 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                     viewBinding.tvZipdabangRecipeScrapNum.text = scraps.toString()
                     viewBinding.tvZipdabangRecipeLikeNum.text = likes.toString()
                     viewBinding.tvZipdabangRecipeDetailChallengeNum.text = challengersNum.toString()
+                    viewBinding.tvZipdabangRecipeDetailNickname.text = nickname.toString()
 
 
                 }
@@ -245,6 +268,39 @@ class ZipdabangRecipeDetailActivity: AppCompatActivity() {
                 }
             })
         }
+
+        // 툴바의 더보기 버튼을 눌렀을 때 동작
+        viewBinding.toolbarEtc.setOnClickListener {
+            recipeControlDialog.show()
+            val exitButton = recipeControlDialogView.findViewById<ImageView>(R.id.btn_recipe_control_exit)
+            val reportButton = recipeControlDialogView.findViewById<TextView>(R.id.btn_recipe_report)
+            val blockButton = recipeControlDialogView.findViewById<TextView>(R.id.btn_recipe_block_user)
+
+            // x버튼 누를 때
+            exitButton.setOnClickListener {
+                recipeControlDialog.dismiss()
+            }
+
+            // 레시피 신고 버튼 누를 때
+            reportButton.setOnClickListener {
+                recipeControlDialog.dismiss()
+                val reportIntent = Intent(this, ZipdabangRecipeDetailReportActivity::class.java)
+                reportIntent.putExtra("recipeId", idInt.toString())
+                Log.d("신고할 레시피의 아이디 선택", idInt.toString())
+                startActivity(reportIntent)
+            }
+
+            // 사용자 차단 버튼 클릭 시
+            blockButton.setOnClickListener {
+                recipeControlDialog.dismiss()
+                // 닉네임을 넘겨줘야 할건데 그에 맞게 api가 필요할듯?
+                val blockIntent = Intent(this, BlockUserActivity::class.java)
+                Log.d("레시피 오너 사용자의 아이디", "${recipeOwnerId}")
+                blockIntent.putExtra("blockUserId", recipeOwnerId.toString())
+                startActivity(blockIntent)
+            }
+        }
+
 
         // 댓글 리사이클러 뷰 어댑터 연결
         val recipeDetailCommentList: ArrayList<Comment> = arrayListOf()
