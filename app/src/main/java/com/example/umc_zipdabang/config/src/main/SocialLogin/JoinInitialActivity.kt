@@ -142,12 +142,12 @@ class JoinInitialActivity : AppCompatActivity() {
                                                             SignupServiceagreeActivity::class.java
                                                         )
 
-                                                        if (token != "null") {
-                                                            val tokenClass = Token(null, token)
-                                                            GlobalScope.launch(Dispatchers.IO) {
-                                                                tokenDb2.tokenDao().addToken(tokenClass)
-                                                            }
+
+                                                        val tokenClass = Token(null, token)
+                                                        GlobalScope.launch(Dispatchers.IO) {
+                                                            tokenDb2.tokenDao().addToken(tokenClass)
                                                         }
+
 
                                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
 
@@ -267,15 +267,15 @@ class JoinInitialActivity : AppCompatActivity() {
 
 
                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                        if (token != "null") {
-                                            val tokenClass = Token(null, token)
 
-                                            // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                            GlobalScope.launch(Dispatchers.IO) {
-                                                tokenDb2.tokenDao().addToken(tokenClass)
-                                                Log.d("토큰 들어감", "성공")
-                                            }
+                                        val tokenClass = Token(null, token)
+
+                                        // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                                        GlobalScope.launch(Dispatchers.IO) {
+                                            tokenDb2.tokenDao().addToken(tokenClass)
+                                            Log.d("토큰 들어감", "성공")
                                         }
+
 
 
                                         if (status == "login") {
@@ -350,15 +350,15 @@ class JoinInitialActivity : AppCompatActivity() {
                                 SignupServiceagreeActivity::class.java
                             )
 
-                            if (token != "null") {
-                                // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                val tokenClass = Token(null, token)
 
-                                // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
-                                GlobalScope.launch(Dispatchers.IO) {
-                                    tokenDb2.tokenDao().addToken(tokenClass)
-                                }
+                            // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                            val tokenClass = Token(null, token)
+
+                            // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                            GlobalScope.launch(Dispatchers.IO) {
+                                tokenDb2.tokenDao().addToken(tokenClass)
                             }
+
 
 
                             if (status == "login") {
