@@ -126,10 +126,8 @@ class JoinInitialActivity : AppCompatActivity() {
 
                                                         val status = result?.status.toString()
                                                         val email = result?.email.toString()
-                                                        var token: String? = null
-                                                        if (result?.token != null) {
-                                                            token = result.token.toString()
-                                                        }
+                                                        val token = result?.token.toString()
+
                                                         Log.d("구글 회원 status", "${status}")
                                                         Log.d("구글 회원 email", "${email}")
                                                         Log.d("구글 회원 token", "${token}")
@@ -144,7 +142,7 @@ class JoinInitialActivity : AppCompatActivity() {
                                                             SignupServiceagreeActivity::class.java
                                                         )
 
-                                                        if (token != null) {
+                                                        if (token != "null") {
                                                             val tokenClass = Token(null, token)
                                                             GlobalScope.launch(Dispatchers.IO) {
                                                                 tokenDb2.tokenDao().addToken(tokenClass)
@@ -251,11 +249,14 @@ class JoinInitialActivity : AppCompatActivity() {
 
                                         val status = result?.status.toString()
                                         val email = result?.email.toString()
-                                        //val token = result?.token.toString()
-                                        var token: String? = null
-                                        if (result?.token != null) {
-                                            token = result.token.toString()
-                                        }
+                                        val token = result?.token.toString()
+
+//                                        var token: String? = null
+//                                        if (result?.token != null) {
+//                                            token = result.token.toString()
+//                                        }
+
+
                                         Log.d("카카오 회원 status", "${status}")
                                         Log.d("카카오 회원 email", "${email}")
                                         Log.d("카카오 회원 token", "${token}")
@@ -341,10 +342,8 @@ class JoinInitialActivity : AppCompatActivity() {
 
                             val status = result?.status.toString()
                             val email = result?.email.toString()
-                            var token: String? = null
-                            if (result?.token != null) {
-                                token = result.token.toString()
-                            }
+                            val token = result?.token.toString()
+
                             Log.d("카카오 회원 status", "${status}")
                             Log.d("카카오 회원 email", "${email}")
                             Log.d("카카오 회원 token", "${token}")
@@ -357,7 +356,7 @@ class JoinInitialActivity : AppCompatActivity() {
                                 SignupServiceagreeActivity::class.java
                             )
 
-                            if (token != null) {
+                            if (token != "null") {
                                 // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                                 val tokenClass = Token(null, token)
 
