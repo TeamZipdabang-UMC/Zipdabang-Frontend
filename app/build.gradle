@@ -11,10 +11,10 @@ android {
             keyAlias 'key0'
             keyPassword '123456'
             storePassword '123456'
-            storeFile file('C:\\Users\\USER\\zipdabang_release\\release.jks')
+            storeFile file('E:\\ZipdabangApplication\\Zipdabang.jks')
         }
         release {
-            storeFile file('C:\\Users\\USER\\zipdabang_release\\release.jks')
+            storeFile file('E:\\ZipdabangApplication\\Zipdabang.jks')
             storePassword '123456'
             keyAlias 'key0'
             keyPassword '123456'

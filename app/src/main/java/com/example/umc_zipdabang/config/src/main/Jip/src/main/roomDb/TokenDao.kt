@@ -27,4 +27,8 @@ interface TokenDao {
     @Query ("DELETE FROM tokenDb")
     suspend fun deleteAll()
 
+    // 토큰 덮어쓰는 코드. 토큰 열이 null인 칼럼을 찾아 그 열을 바꿔주기
+    @Query ("UPDATE tokenDb SET token=:token WHERE token LIKE :nullString")
+    suspend fun updateToken(nullString: String, token: String)
+
 }
