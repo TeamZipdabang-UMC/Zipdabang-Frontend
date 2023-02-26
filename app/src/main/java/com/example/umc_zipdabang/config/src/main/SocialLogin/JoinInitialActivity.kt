@@ -251,6 +251,7 @@ class JoinInitialActivity : AppCompatActivity() {
 
                                         val status = result?.status.toString()
                                         val email = result?.email.toString()
+                                        //val token = result?.token.toString()
                                         var token: String? = null
                                         if (result?.token != null) {
                                             token = result.token.toString()

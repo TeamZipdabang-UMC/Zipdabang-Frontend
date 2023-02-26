@@ -372,6 +372,7 @@ class SignupResearchActivity : AppCompatActivity() {
 
             Log.d("통신",name_sp+ nickname_sp+ phonenumber_sp+ birthday_sp+ email_sp)
             val data = PostNewuserBody(name_sp, nickname_sp, phonenumber_sp, birthday_sp, email_sp)
+
             api.post_signup_newuser(data).enqueue(object: Callback<PostNewuserBodyResponse>{
                 override fun onResponse(call: Call<PostNewuserBodyResponse>, response: Response<PostNewuserBodyResponse>) {
 

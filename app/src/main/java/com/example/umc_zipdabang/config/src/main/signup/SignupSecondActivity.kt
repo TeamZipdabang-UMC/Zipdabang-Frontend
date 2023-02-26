@@ -142,7 +142,7 @@ class SignupSecondActivity : AppCompatActivity() {
 
     private fun validPhonenumber():Boolean{
         val value: String = viewBinding.signupRealedtPhonenumber?.text.toString().trim()
-        val phonenumberpattern = android.util.Patterns.PHONE
+        val phonenumberpattern = "^[0-9]{11}$"
         return if(!value.matches(phonenumberpattern.toRegex())){
             //viewBinding.signupRealedtPhonenumber.error="전화번호 형식이 잘못되었습니다."
             CustomToast.createToast(applicationContext, "전화번호 형식이 잘못되었습니다")?.show()
