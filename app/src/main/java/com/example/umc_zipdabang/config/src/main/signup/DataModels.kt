@@ -14,16 +14,15 @@ data class PostNewuserBody(
 
 data class PostNewuserBodyResponse(
     @SerializedName("success") var success : Boolean,
-    @SerializedName("data") var data : String?,
-    @SerializedName("error") var error : String?
+    @SerializedName("user") var user : ArrayList<PostNewuserBodyUser>
 )
 
-//data class PostNewuserBodyUser(
-//    @SerializedName("email") var email : String?,
-//    @SerializedName("name") var name : String?,
-//    @SerializedName("birth") var birth : String?,
-//    @SerializedName("phoneNum") var phoneNum : String?
-//)
+data class PostNewuserBodyUser(
+    @SerializedName("email") var email : String?,
+    @SerializedName("name") var name : String?,
+    @SerializedName("birth") var birth : String?,
+    @SerializedName("phoneNum") var phoneNum : String?
+)
 
 data class GetNicknameExistResponse(
     @SerializedName("exist") var exist : Boolean,
