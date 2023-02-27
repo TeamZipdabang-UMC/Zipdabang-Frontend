@@ -369,6 +369,7 @@ class SignupResearchActivity : AppCompatActivity() {
             var phonenumber_sp =sharedPreference.getString("phonenumber","")
             var email_sp =sharedPreference.getString("email","")
             var birthday_sp =sharedPreference.getString("birthday","")
+            val check : String = "join"
 
             Log.d("통신",name_sp+ nickname_sp+ phonenumber_sp+ birthday_sp+ email_sp)
             val data = PostNewuserBody(name_sp, nickname_sp, phonenumber_sp, birthday_sp, email_sp)
@@ -383,7 +384,8 @@ class SignupResearchActivity : AppCompatActivity() {
 
                     // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                     GlobalScope.launch(Dispatchers.IO) {
-                        tokenDb2.tokenDao().addToken(tokenClass)
+                        //tokenDb2.tokenDao().addToken(tokenClass)
+                        tokenDb2.tokenDao().updateToken("null", token)
                         Log.d("토큰 뭐야뭐야", "토큰 들어감")
                     }
 
@@ -415,6 +417,8 @@ class SignupResearchActivity : AppCompatActivity() {
 
             val intent = Intent(this, HomeMainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            intent.putExtra("check", check)
+            finish()
             startActivity(intent)
         }
         viewBinding.signupBackbtn.setOnClickListener{

@@ -114,6 +114,7 @@ class SignupFirstActivity:AppCompatActivity() {
                         val intent = Intent(this@SignupFirstActivity, SignupSecondActivity::class.java)
                         intent.putExtra("email", intent_email)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        finish()
                         startActivity(intent)
                     }
                 }

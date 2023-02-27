@@ -126,6 +126,7 @@ class SignupSecondActivity : AppCompatActivity() {
 
             val intent = Intent(this, SignupResearchActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            finish()
             startActivity(intent)
         }
         viewBinding.signupBackbtn.setOnClickListener {
@@ -136,6 +137,7 @@ class SignupSecondActivity : AppCompatActivity() {
 
             val intent = Intent(this, SignupFirstActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+
             startActivity(intent)
         }
     }
