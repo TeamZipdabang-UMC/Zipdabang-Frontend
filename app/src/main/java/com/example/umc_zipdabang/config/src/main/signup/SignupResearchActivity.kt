@@ -357,6 +357,37 @@ class SignupResearchActivity : AppCompatActivity() {
         }
 
         passBtn.setOnClickListener {
+            var name_sp =sharedPreference.getString("name","")
+            var nickname_sp =sharedPreference.getString("nickname","")
+            var phonenumber_sp =sharedPreference.getString("phonenumber","")
+            var email_sp =sharedPreference.getString("email","")
+            var birthday_sp =sharedPreference.getString("birthday","")
+            val check : String = "join"
+
+            Log.d("통신",name_sp+ nickname_sp+ phonenumber_sp+ birthday_sp+ email_sp)
+            val data = PostNewuserBody(name_sp, nickname_sp, phonenumber_sp, birthday_sp, email_sp)
+
+            api.post_signup_newuser(data).enqueue(object: Callback<PostNewuserBodyResponse>{
+                override fun onResponse(call: Call<PostNewuserBodyResponse>, response: Response<PostNewuserBodyResponse>) {
+
+                    val token = response.body()?.data.toString()
+                    Log.d("토큰 뭐야뭐야","${token}")
+
+                    val tokenClass = Token(null, token)
+
+                    // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                    GlobalScope.launch(Dispatchers.IO) {
+                        //tokenDb2.tokenDao().addToken(tokenClass)
+                        tokenDb2.tokenDao().updateToken("null", token)
+                        Log.d("토큰 뭐야뭐야", "토큰 들어감")
+                    }
+
+                }
+                override fun onFailure(call: Call<PostNewuserBodyResponse>, t: Throwable) {
+                    Log.d("통신","통신 failㅠㅠ")
+                }
+            })
+
             editor.clear()
             editor.apply()
             val intent = Intent(this, HomeMainActivity::class.java)
@@ -414,7 +445,6 @@ class SignupResearchActivity : AppCompatActivity() {
 
             editor.clear()
             editor.apply()
-
             val intent = Intent(this, HomeMainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             intent.putExtra("check", check)
