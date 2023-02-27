@@ -152,10 +152,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
 
 
-                                                        if (status == "login") {
+                                                        if (status == "login" && token != "null") {
                                                             loggedInIntent.putExtra("email", email)
                                                             startActivity(loggedInIntent)
-                                                        } else if (status == "join") {
+                                                        } else if (status == "join" || token == "null") {
                                                             joinIntent.putExtra("email", email)
                                                             startActivity(joinIntent)
                                                         }
@@ -278,10 +278,10 @@ class JoinInitialActivity : AppCompatActivity() {
 
 
 
-                                        if (status == "login") {
+                                        if (status == "login" && token != "null") {
                                             loggedInIntent.putExtra("email", email)
                                             startActivity(loggedInIntent)
-                                        } else if (status == "join") {
+                                        } else if (status == "join" || token == "null") {
                                             joinIntent.putExtra("email", email)
                                             startActivity(joinIntent)
                                         }
@@ -302,7 +302,6 @@ class JoinInitialActivity : AppCompatActivity() {
             }
         }
     }
-
 
     // 카카오 메시지 콜백 변수
     private val mCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -361,10 +360,10 @@ class JoinInitialActivity : AppCompatActivity() {
 
 
 
-                            if (status == "login") {
+                            if (status == "login" && token != "null") {
                                 loggedInIntent.putExtra("email", email)
                                 startActivity(loggedInIntent)
-                            } else if (status == "join") {
+                            } else if (status == "join" || token == "null") {
                                 joinIntent.putExtra("email", email)
                                 startActivity(joinIntent)
                             }
