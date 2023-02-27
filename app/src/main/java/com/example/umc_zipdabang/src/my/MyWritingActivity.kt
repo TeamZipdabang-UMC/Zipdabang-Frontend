@@ -2460,7 +2460,7 @@ class MyWritingActivity:AppCompatActivity() {
             ex.printStackTrace()
             null
         }
-        Log.d("확인 file 생성", photoFile.toString())
+        Log.d("확인 file 생성, 글쓰기", photoFile.toString())
 
         photoFile?.also {
             //2) 생성된 File로 부터 Uri 생성 (by FileProvider)
@@ -2471,7 +2471,7 @@ class MyWritingActivity:AppCompatActivity() {
                 it
             )
             a = photoURI
-            Log.d("확인 생성된 file로부터 uri 생성", photoURI.toString())
+            Log.d("확인 생성된 file로부터 uri 생성, 글쓰기", photoURI.toString())
 
             //3) 생성된 Uri를 Intent에 Put
             fullSizeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
