@@ -5,6 +5,7 @@ package com.example.umc_zipdabang.config.src.main.Home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import com.example.umc_zipdabang.R
 import com.example.umc_zipdabang.config.src.main.Jip.JipFragment
@@ -27,6 +28,9 @@ class HomeMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("토큰메인","토큰메인")
+
+
        //val window = window
        // 상태바 투명하게
       //  window.setFlags(

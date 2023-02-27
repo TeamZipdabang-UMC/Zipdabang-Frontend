@@ -369,10 +369,22 @@ class SignupResearchActivity : AppCompatActivity() {
 
             api.post_signup_newuser(data).enqueue(object: Callback<PostNewuserBodyResponse>{
                 override fun onResponse(call: Call<PostNewuserBodyResponse>, response: Response<PostNewuserBodyResponse>) {
+                
                     if(response.body()?.success == true){
                         Log.d("통신", "통신 success "+response.body()?.user)
                     }else{
                         Log.d("통신", "통신 success"+response.body()?.success)
+                    val token = response.body()?.data.toString()
+                    Log.d("토큰건너뛰기 뭐야뭐야","${token}")
+
+                    val tokenClass = Token(null, token)
+
+                    // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
+                    GlobalScope.launch(Dispatchers.IO) {
+                        //tokenDb2.tokenDao().addToken(tokenClass)
+                        tokenDb2.tokenDao().updateToken("null", token)
+                        Log.d("토큰건너뛰기 뭐야뭐야", "토큰 들어감")
+
                     }
                 }
                 override fun onFailure(call: Call<PostNewuserBodyResponse>, t: Throwable) {
