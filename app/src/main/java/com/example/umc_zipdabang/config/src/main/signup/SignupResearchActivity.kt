@@ -371,7 +371,7 @@ class SignupResearchActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<PostNewuserBodyResponse>, response: Response<PostNewuserBodyResponse>) {
 
                     val token = response.body()?.data.toString()
-                    Log.d("토큰 뭐야뭐야","${token}")
+                    Log.d("토큰건너뛰기 뭐야뭐야","${token}")
 
                     val tokenClass = Token(null, token)
 
@@ -379,7 +379,7 @@ class SignupResearchActivity : AppCompatActivity() {
                     GlobalScope.launch(Dispatchers.IO) {
                         //tokenDb2.tokenDao().addToken(tokenClass)
                         tokenDb2.tokenDao().updateToken("null", token)
-                        Log.d("토큰 뭐야뭐야", "토큰 들어감")
+                        Log.d("토큰건너뛰기 뭐야뭐야", "토큰 들어감")
                     }
 
                 }
@@ -392,6 +392,8 @@ class SignupResearchActivity : AppCompatActivity() {
             editor.apply()
             val intent = Intent(this, HomeMainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            intent.putExtra("check", check)
+
             startActivity(intent)
         }
         nextBtn.setOnClickListener {
