@@ -2700,6 +2700,7 @@ class MySaveActivity:AppCompatActivity() {
                 "com.example.umc_zipdabang" + ".fileprovider",
                 it
             )
+            a = photoURI
             Log.d("확인 생성된 file로부터 uri 생성", photoURI.toString())
 
             //3) 생성된 Uri를 Intent에 Put
