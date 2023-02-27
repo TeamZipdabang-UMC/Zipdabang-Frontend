@@ -22,6 +22,7 @@ class InitialActivity: AppCompatActivity() {
 
         viewBinding.btnSignIn.setOnClickListener {
             val intent = Intent(this, JoinInitialActivity::class.java)
+            finish()
             startActivity(intent)
 
         }
