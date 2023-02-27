@@ -152,10 +152,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
 
 
-                                                        if (status == "login" && token != "null") {
+                                                        if (status == "login") {
                                                             loggedInIntent.putExtra("email", email)
                                                             startActivity(loggedInIntent)
-                                                        } else if (status == "join" || token == "null") {
+                                                        } else if (status == "join") {
                                                             joinIntent.putExtra("email", email)
                                                             startActivity(joinIntent)
                                                         }
@@ -278,10 +278,10 @@ class JoinInitialActivity : AppCompatActivity() {
 
 
 
-                                        if (status == "login" && token != "null") {
+                                        if (status == "login") {
                                             loggedInIntent.putExtra("email", email)
                                             startActivity(loggedInIntent)
-                                        } else if (status == "join" || token == "null") {
+                                        } else if (status == "join") {
                                             joinIntent.putExtra("email", email)
                                             startActivity(joinIntent)
                                         }
@@ -360,10 +360,10 @@ class JoinInitialActivity : AppCompatActivity() {
 
 
 
-                            if (status == "login" && token != "null") {
+                            if (status == "login") {
                                 loggedInIntent.putExtra("email", email)
                                 startActivity(loggedInIntent)
-                            } else if (status == "join" || token == "null") {
+                            } else if (status == "join") {
                                 joinIntent.putExtra("email", email)
                                 startActivity(joinIntent)
                             }
