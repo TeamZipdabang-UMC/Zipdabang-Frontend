@@ -2700,7 +2700,7 @@ class MySaveActivity:AppCompatActivity() {
                 "com.example.umc_zipdabang" + ".fileprovider",
                 it
             )
-            Log.d("확인 생성된 file로부터 uri 생성, 임시저장", photoURI.toString())
+            Log.d("확인 생성된 file로부터 uri 생성", photoURI.toString())
 
             //3) 생성된 Uri를 Intent에 Put
             fullSizeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
