@@ -151,5 +151,10 @@ interface RecipeService {
 
 //    @GET ("/recipes/")
 
+    // 도망자 색출
+    @GET ("/users/jailbreak")
+    fun isRunner(
+        @Header ("x-access-token") token: String?
+    ): Call<RunnerReportResponse>
 
 }

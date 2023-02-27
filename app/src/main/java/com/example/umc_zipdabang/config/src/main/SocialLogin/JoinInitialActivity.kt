@@ -152,10 +152,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                                         // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
 
 
-                                                        if (status == "login" && token != "null") {
+                                                        if (status == "login") {
                                                             loggedInIntent.putExtra("email", email)
                                                             startActivity(loggedInIntent)
-                                                        } else if (status == "join" || token == "null") {
+                                                        } else if (status == "join") {
                                                             joinIntent.putExtra("email", email)
                                                             finish()
                                                             startActivity(joinIntent)
@@ -283,12 +283,10 @@ class JoinInitialActivity : AppCompatActivity() {
                                             Log.d("토큰 들어감", "성공")
                                         }
 
-
-
-                                        if (status == "login" && token != "null") {
+                                        if (status == "login") {
                                             loggedInIntent.putExtra("email", email)
                                             startActivity(loggedInIntent)
-                                        } else if (status == "join" || token == "null") {
+                                        } else if (status == "join") {
                                             joinIntent.putExtra("email", email)
                                             finish()
                                             startActivity(joinIntent)
@@ -357,7 +355,6 @@ class JoinInitialActivity : AppCompatActivity() {
                                 SignupServiceagreeActivity::class.java
                             )
 
-
                             // 토큰을 저장하는데, 메인쓰레드에서는 이 작업 하면 안됨. 따라서 쓰레드 따로 생성
                             val tokenClass = Token(null, token)
 
@@ -368,10 +365,10 @@ class JoinInitialActivity : AppCompatActivity() {
 
 
 
-                            if (status == "login" && token != "null") {
+                            if (status == "login") {
                                 loggedInIntent.putExtra("email", email)
                                 startActivity(loggedInIntent)
-                            } else if (status == "join" || token == "null") {
+                            } else if (status == "join") {
                                 joinIntent.putExtra("email", email)
                                 finish()
                                 startActivity(joinIntent)
