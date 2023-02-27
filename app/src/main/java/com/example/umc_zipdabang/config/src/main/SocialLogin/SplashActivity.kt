@@ -32,7 +32,7 @@ class SplashActivity: AppCompatActivity() {
 
         val initialIntent = Intent(this, InitialActivity::class.java)
         val mainIntent = Intent(this, HomeMainActivity::class.java)
-
+        var goToInitial: Boolean? = null
 
         val tokenDb = TokenDatabase.getTokenDatabase(this)
         GlobalScope.launch(Dispatchers.IO) {
@@ -55,43 +55,45 @@ class SplashActivity: AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create()).build()
         val runnerService = runnerRetrofit.create(RecipeService::class.java)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (token != "") {
-                runnerService.isRunner(token).enqueue(object: Callback<RunnerReportResponse> {
-                    override fun onResponse(
-                        call: Call<RunnerReportResponse>,
-                        response: Response<RunnerReportResponse>
-                    ) {
-                        if (response.code() == 200) {
-                            val result = response.body()
-                            Log.d("도망자 여부 GET 성공", "${result}")
-                            val isRunner = result?.data
-                            Log.d("도망자 여부", "${isRunner}")
-                            if (isRunner == true) {
-                                startActivity(initialIntent)
-                                finish()
-                            } else {
-                                startActivity(mainIntent)
-                                finish()
-                            }
+        if (token != "") {
+            runnerService.isRunner(token).enqueue(object: Callback<RunnerReportResponse> {
+                override fun onResponse(
+                    call: Call<RunnerReportResponse>,
+                    response: Response<RunnerReportResponse>
+                ) {
+                    if (response.code() == 200) {
+                        val result = response.body()
+                        Log.d("도망자 여부 GET 성공", "${result}")
+                        goToInitial = result?.data
+                        Log.d("도망자 여부", "${goToInitial}")
+                        if (goToInitial == true) {
+                            startActivity(initialIntent)
+                            finish()
+                        } else {
+                            startActivity(mainIntent)
+                            finish()
                         }
                     }
+                }
 
-                    override fun onFailure(call: Call<RunnerReportResponse>, t: Throwable) {
-                        Log.d("도망자 여부 색출 실패", "${t.message}")
-                    }
+                override fun onFailure(call: Call<RunnerReportResponse>, t: Throwable) {
+                    Log.d("도망자 여부 색출 실패", "${t.message}")
+                }
 
-                })
-//                val intent = Intent( this, HomeMainActivity::class.java)
-//                startActivity(intent)
-//                // 이전 키를 눌렀을 때 스플래스 스크린 화면으로 이동을 방지하기 위해 finish 처리
-//                finish()
-            } else {
+            })
+        } else {
+            goToInitial = true
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (goToInitial == true) {
                 startActivity(initialIntent)
+                // 이전 키를 눌렀을 때 스플래스 스크린 화면으로 이동을 방지하기 위해 finish 처리
+                finish()
+            } else {
+                startActivity(mainIntent)
                 finish()
             }
-
-
         }, 1000) // 시간 0.5초 이후 실행
 
     }
