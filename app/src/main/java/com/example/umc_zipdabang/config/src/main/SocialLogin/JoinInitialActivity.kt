@@ -157,6 +157,7 @@ class JoinInitialActivity : AppCompatActivity() {
                                                             startActivity(loggedInIntent)
                                                         } else if (status == "join") {
                                                             joinIntent.putExtra("email", email)
+                                                            finish()
                                                             startActivity(joinIntent)
                                                         }
                                                     }
@@ -251,6 +252,12 @@ class JoinInitialActivity : AppCompatActivity() {
                                         val email = result?.email.toString()
                                         val token = result?.token.toString()
 
+//                                        var token: String? = null
+//                                        if (result?.token != null) {
+//                                            token = result.token.toString()
+//                                        }
+
+
                                         Log.d("카카오 회원 status", "${status}")
                                         Log.d("카카오 회원 email", "${email}")
                                         Log.d("카카오 회원 token", "${token}")
@@ -283,6 +290,7 @@ class JoinInitialActivity : AppCompatActivity() {
                                             startActivity(loggedInIntent)
                                         } else if (status == "join") {
                                             joinIntent.putExtra("email", email)
+                                            finish()
                                             startActivity(joinIntent)
                                         }
                                     }
@@ -365,6 +373,7 @@ class JoinInitialActivity : AppCompatActivity() {
                                 startActivity(loggedInIntent)
                             } else if (status == "join") {
                                 joinIntent.putExtra("email", email)
+                                finish()
                                 startActivity(joinIntent)
                             }
                         }

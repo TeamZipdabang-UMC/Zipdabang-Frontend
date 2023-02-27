@@ -81,7 +81,7 @@ class MySaveActivity:AppCompatActivity() {
     //임시저장 get 위한 이미지 url 리스트
     var list_save = arrayOf<String?>("","","","","","","","","","","")
 
-     lateinit var fullSizePictureIntents : Intent
+    lateinit var fullSizePictureIntents : Intent
     var a : Uri?=null
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -1003,6 +1003,8 @@ class MySaveActivity:AppCompatActivity() {
                 && step1_describe.text.toString().length >0 && list[1]!=""
                 && list[0] !="" && category_check == true ){
 
+                Log.d("통신 썸네일, 업로드 조건", list[0])
+
                 if(ingredient2_title.text.toString().length ==0)
                     if(num >= 2){
                         check = "empty"
@@ -1269,6 +1271,7 @@ class MySaveActivity:AppCompatActivity() {
                     //업로드 하겠습니다 버튼 눌렀을때
                     binding_upload.myUploadbtn.setOnClickListener {
                         //여기서 api 호출
+                        Log.d("통신 썸네일, 버튼 누르고", list[0])
                         val recipe_list = PostNewRecipeList(
                             sharedPreference.getInt("category", 0),
                             sharedPreference.getString("title", ""),
@@ -1279,7 +1282,6 @@ class MySaveActivity:AppCompatActivity() {
                             sharedPreference.getInt("step",1),
                             sharedPreference.getInt("ingredient",1)
                         )
-
                         val ingredient_list = arrayListOf<PostNewRecipeIngredient>(
                             PostNewRecipeIngredient(
                                 sharedPreference.getString("ingredient1_title", ""),
@@ -1322,7 +1324,6 @@ class MySaveActivity:AppCompatActivity() {
                                 sharedPreference.getString("ingredient10_quan", "")
                             )
                         )
-
                         val steps_list = arrayListOf<PostNewRecipeSteps>(
                             PostNewRecipeSteps(
                                 1,
@@ -1441,7 +1442,8 @@ class MySaveActivity:AppCompatActivity() {
 
                     dialog_upload.show()
                 }
-            }else{
+            }
+            else{
                 //btn 눌러도 아무런 것도 동작하지 않음
                 CustomToast.createToast(applicationContext, "모든 항목을 채워주세요")?.show()
             }
@@ -2688,7 +2690,7 @@ class MySaveActivity:AppCompatActivity() {
             ex.printStackTrace()
             null
         }
-        Log.d("확인 file 생성", photoFile.toString())
+        Log.d("확인 file 생성, 임시저장", photoFile.toString())
 
         photoFile?.also {
             //2) 생성된 File로 부터 Uri 생성 (by FileProvider)
@@ -2745,7 +2747,7 @@ class MySaveActivity:AppCompatActivity() {
                 Log.d("카메라 확인0", "3")
                 val imageUri = a
 
-                Log.d("카메라 확인 phtouri","${imageUri}")
+                Log.d("카메라 확인 phtouri!!!","${imageUri}")
 
                 val filePath: String = (this@MySaveActivity.getApplicationInfo().dataDir + File.separator
                         + System.currentTimeMillis())
@@ -2755,7 +2757,7 @@ class MySaveActivity:AppCompatActivity() {
 
                 // 매개변수로 받은 uri 를 통해 이미지에 필요한 데이터를 불러 들인다.
                 val inputStream = imageUri?.let { contentResolver.openInputStream(it) }
-                Log.d("카메라 확인 3","${inputStream}")
+                Log.d("카메라 확인 3!!!","${inputStream}")
                 // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
                 val outputStream: OutputStream = FileOutputStream(file)
                 Log.d("카메라 확인 4","${outputStream}")

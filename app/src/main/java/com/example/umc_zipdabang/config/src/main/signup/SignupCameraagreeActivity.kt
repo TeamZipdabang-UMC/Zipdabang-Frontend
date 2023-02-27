@@ -43,6 +43,7 @@ class SignupCameraagreeActivity : AppCompatActivity() {
             val intent = Intent(this, SignupFirstActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             intent.putExtra("email", intent_email)
+            finish()
             startActivity(intent)
         }
     }
