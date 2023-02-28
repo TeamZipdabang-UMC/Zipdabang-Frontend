@@ -106,9 +106,6 @@ class SignupSecondActivity : AppCompatActivity() {
             if(!validPhonenumber()){
                 return@setOnClickListener
             }
-//            if(!validEmail()){
-//                return@setOnClickListener
-//            }
             if(!validBirthday()){
                 return@setOnClickListener
             }
@@ -125,7 +122,7 @@ class SignupSecondActivity : AppCompatActivity() {
             sharedPreference.getString("nickname","")?.let { Log.e(ContentValues.TAG, it) }
 
             val intent = Intent(this, SignupResearchActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             finish()
             startActivity(intent)
         }

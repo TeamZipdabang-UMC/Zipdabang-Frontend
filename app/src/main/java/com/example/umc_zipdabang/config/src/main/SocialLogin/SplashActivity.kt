@@ -56,11 +56,15 @@ class SplashActivity: AppCompatActivity() {
         val runnerService = runnerRetrofit.create(RecipeService::class.java)
 
         if (token != "") {
+            Log.d("도망자 여부 전","토큰이 무언가 있을때")
+
             runnerService.isRunner(token).enqueue(object: Callback<RunnerReportResponse> {
                 override fun onResponse(
                     call: Call<RunnerReportResponse>,
                     response: Response<RunnerReportResponse>
                 ) {
+                    Log.d("도망자 여부 후","api 성공")
+
                     if (response.code() == 200) {
                         val result = response.body()
                         Log.d("도망자 여부 GET 성공", "${result}")
@@ -81,7 +85,9 @@ class SplashActivity: AppCompatActivity() {
                 }
 
             })
-        } else {
+        }
+        else {
+            Log.d("도망자 여부 전","토큰이 아무것도 없을때")
             goToInitial = true
         }
 
