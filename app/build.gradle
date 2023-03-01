@@ -7,19 +7,7 @@ plugins {
 
 android {
 
-    signingConfigs {
-
-        release {
-            storeFile file('C:\\workspace\\zipdabang.jks')
-            storePassword '123456'
-            keyAlias 'key0'
-            keyPassword '123456'
-        }
-
-    }
-
-
-    namespace 'com.example.umc_zipdabang'
+    namespace 'com.UMC.umc_zipdabang'
     compileSdk 33
 
     viewBinding{
@@ -30,7 +18,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.umc_zipdabang"
+        applicationId "com.UMC.umc_zipdabang"
         minSdk 21
         targetSdk 33
         versionCode 1
