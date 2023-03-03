@@ -3,20 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+
     <TextView
         android:id="@+id/home_tv_category"
         android:layout_width="93dp"
         android:layout_height="31dp"
-        android:fontFamily="@font/main_font"
+        android:layout_marginVertical="12dp"
+        android:layout_marginStart="28dp"
         android:layout_marginBottom="10dp"
+        android:fontFamily="@font/main_font"
         android:textColor="@color/jipdabang_black"
         android:textSize="16dp"
-        android:layout_marginVertical="12dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/home_ll"
+        app:layout_constraintBottom_toTopOf="@id/home_ll_1"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="30dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/arrow_iv"
@@ -37,25 +37,53 @@
 
 
     <LinearLayout
-        android:id="@+id/home_ll"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="-10dp"
+        android:id="@+id/home_ll_1"
+        android:layout_width="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/home_tv_category"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/empty"
+        app:layout_constraintHorizontal_weight="1"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/home_iv_category_1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@drawable/bg_home_iv"
-            android:scaleType="fitXY"
-            android:layout_marginHorizontal="24dp"
-            app:layout_constraintTop_toTopOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent">
-        </ImageView>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toStartOf="@id/home_iv_category_1"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/home_iv_category_1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/bg_home_iv"
+                android:scaleType="fitXY"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@id/tv_2"
+                app:layout_constraintHorizontal_weight="10"
+                app:layout_constraintStart_toEndOf="@id/tv_1"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/tv_2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@id/home_iv_category_1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/home_tv_category_1"
@@ -71,6 +99,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="24dp"
             android:maxLines="2"
+            android:layout_gravity="center"
             android:gravity="center_horizontal"
             >
 
@@ -78,8 +107,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
-
 
             >
 
@@ -121,26 +150,67 @@
 
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/empty"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHorizontal_weight="0"
+        app:layout_constraintEnd_toStartOf="@id/home_ll_2"
+        app:layout_constraintStart_toEndOf="@id/home_ll_1"
+        />
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_marginTop="-10dp"
+        android:id="@+id/home_ll_2"
+        android:layout_width="0dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/empty"
         app:layout_constraintTop_toBottomOf="@id/home_tv_category"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/home_iv_category_2"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@drawable/bg_home_iv"
-            android:scaleType="fitXY"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginHorizontal="24dp"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="20dp"
-            >
-        </ImageView>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_2_1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toStartOf="@id/home_iv_category_2"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/home_iv_category_2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:background="@drawable/bg_home_iv"
+                android:scaleType="fitXY"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_2"
+                app:layout_constraintHorizontal_weight="10"
+                app:layout_constraintStart_toEndOf="@id/tv_2_1"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/tv_2_2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/home_iv_category_2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/home_tv_category_2"
@@ -156,6 +226,7 @@
             app:layout_constraintStart_toStartOf="@id/home_iv_category_2"
             android:layout_marginTop="10dp"
             android:maxLines="2"
+            android:layout_gravity="center"
             android:gravity="center_horizontal"
             >
 
@@ -166,8 +237,6 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
-
-
             >
 
             <ImageView
