@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemLoadingBinding
-import com.UMC.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.BeverageRecipesData
+import com.example.umc_zipdabang.databinding.ItemLoadingBinding
+import com.example.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 
