@@ -7,7 +7,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.DialogDeleteBinding
+import com.UMC.zipdabang.databinding.DialogDeleteBinding
 
 class DeleteDialog(context: AppCompatActivity):Dialog(context) {
 

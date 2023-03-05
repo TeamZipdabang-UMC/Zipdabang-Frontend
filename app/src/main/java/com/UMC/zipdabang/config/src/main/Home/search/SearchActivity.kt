@@ -9,7 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.UMC.umc_zipdabang.databinding.ActivitySearchBinding
+import com.UMC.zipdabang.databinding.ActivitySearchBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.config.src.main.Retrofit.Retrofit
 import com.UMC.zipdabang.config.src.main.Retrofit.RetrofitMainService

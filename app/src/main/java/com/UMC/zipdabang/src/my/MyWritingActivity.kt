@@ -26,8 +26,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.*
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemRecipesPreviewBinding
+import com.UMC.zipdabang.databinding.ItemRecipesPreviewBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.GlideApp
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.AllRecipesData

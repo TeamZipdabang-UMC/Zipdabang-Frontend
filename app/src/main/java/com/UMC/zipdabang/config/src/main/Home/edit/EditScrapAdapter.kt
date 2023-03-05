@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ItemMyscrapEditBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.ItemMyscrapEditBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Home.Scrap.My_Scrap
 import com.UMC.zipdabang.config.src.main.Home.Scrap.My_Scrapp

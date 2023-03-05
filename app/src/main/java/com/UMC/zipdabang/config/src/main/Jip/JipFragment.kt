@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.UMC.umc_zipdabang.databinding.FragmentJipBinding
+import com.UMC.zipdabang.databinding.FragmentJipBinding
 
 class JipFragment:Fragment() {
 

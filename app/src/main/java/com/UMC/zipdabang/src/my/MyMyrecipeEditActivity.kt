@@ -10,9 +10,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ActivityMyMyrecipeEditBinding
-import com.UMC.umc_zipdabang.databinding.ToastMyDeleteBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.ActivityMyMyrecipeEditBinding
+import com.UMC.zipdabang.databinding.ToastMyDeleteBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 
 import com.UMC.zipdabang.src.my.data.ItemRecipeChallengeData

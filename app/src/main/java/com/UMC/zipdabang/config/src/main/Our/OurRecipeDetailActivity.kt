@@ -17,9 +17,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ActivityOurRecipeDetailBinding
-import com.UMC.umc_zipdabang.databinding.RecipeSuccessDialogBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.ActivityOurRecipeDetailBinding
+import com.UMC.zipdabang.databinding.RecipeSuccessDialogBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.Token
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase

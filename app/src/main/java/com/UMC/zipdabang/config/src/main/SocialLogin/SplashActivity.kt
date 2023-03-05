@@ -6,7 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.ActivitySplashBinding
+import com.UMC.zipdabang.databinding.ActivitySplashBinding
 import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService

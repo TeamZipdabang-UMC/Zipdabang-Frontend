@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.ActivityInitialBinding
+import com.UMC.zipdabang.databinding.ActivityInitialBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.kakao.sdk.common.util.Utility
 import kotlinx.coroutines.Dispatchers

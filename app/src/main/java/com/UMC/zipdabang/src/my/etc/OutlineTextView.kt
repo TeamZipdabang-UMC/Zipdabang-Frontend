@@ -5,7 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import com.UMC.umc_zipdabang.R
+import com.UMC.zipdabang.R
 
 class OutlineTextView : AppCompatTextView {
     private var stroke = false

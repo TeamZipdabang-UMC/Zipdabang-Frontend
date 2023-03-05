@@ -9,8 +9,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ActivityEditscrapBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.ActivityEditscrapBinding
 import com.UMC.zipdabang.config.src.main.Home.CustomDialogDialog
 import com.UMC.zipdabang.config.src.main.Home.Scrap.MyScapActivity
 import com.UMC.zipdabang.config.src.main.Home.Scrap.My_Scrapp

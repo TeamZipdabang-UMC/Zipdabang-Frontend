@@ -3,7 +3,7 @@ package com.UMC.zipdabang.src.my.data
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemRecipeBinding
+import com.UMC.zipdabang.databinding.ItemRecipeBinding
 import com.bumptech.glide.Glide
 
 class ItemRecipeRVAdapter(private val dataList: ArrayList<ItemRecipeChallengeData>):

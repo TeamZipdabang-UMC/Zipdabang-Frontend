@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.UMC.umc_zipdabang.databinding.FragmentMyBinding
+import com.UMC.zipdabang.databinding.FragmentMyBinding
 import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 import com.UMC.zipdabang.config.src.main.Home.Scrap.MyScapActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase

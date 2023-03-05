@@ -8,7 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.QuestionDialogBinding
+import com.UMC.zipdabang.databinding.QuestionDialogBinding
 
 class Dialog_question(
     context: AppCompatActivity

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.R
+import com.UMC.zipdabang.R
 import com.bumptech.glide.Glide
 
 class ZipdabangRecipeDetailBannerRVAdapter(var bannerImagesUrl: ArrayList<String>): RecyclerView.Adapter<ZipdabangRecipeDetailBannerRVAdapter.PagerViewHolder>() {
