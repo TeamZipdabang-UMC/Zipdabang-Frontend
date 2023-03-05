@@ -42,7 +42,8 @@
                 android:id="@+id/iv_our_recipe_banner"
                 android:background="@drawable/our_recipe_banner"
                 android:layout_width="0dp"
-                android:layout_height="260dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="H, 3:2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -75,7 +76,7 @@
             <View
                 android:id="@+id/view_all_recipes"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="60dp"
                 app:layout_constraintTop_toBottomOf="@id/line_categories_all"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
