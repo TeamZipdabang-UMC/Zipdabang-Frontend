@@ -2454,7 +2454,7 @@ class MyWritingActivity:AppCompatActivity() {
             //URI 형식 EX) content://com.example.img.fileprovider/cameraImg/JPEG_20211124_202832_6573897384086993610.jpg
             photoURI = FileProvider.getUriForFile(
                 context,
-                "com.example.umc_zipdabang" + ".fileprovider",
+                "com.UMC.zipdabang" + ".fileprovider",
                 it
             )
             a = photoURI
