@@ -39,7 +39,7 @@ class SplashActivity: AppCompatActivity() {
             try {
                 token = tokenDb.tokenDao().getToken().token.toString()
                 // api. 도망갔냐 아니냐
-                // 응답 => 응답에 따라 join/login/run
+                // 응답 => 응답에 따라 join/login/run]
                 Log.d("룸디비에 토큰 있음", "${token}")
             } catch (e: java.lang.NullPointerException) {
                 Log.d("룸디비에 토큰 비어있음", "${e.message}")
