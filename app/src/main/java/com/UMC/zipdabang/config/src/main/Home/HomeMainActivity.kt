@@ -5,10 +5,10 @@ package com.UMC.zipdabang.config.src.main.Home
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ActivityMainBinding
+import com.UMC.zipdabang.R
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeFragment
 import com.UMC.zipdabang.config.src.main.Our.OurRecipeFragment
+import com.UMC.zipdabang.databinding.ActivityMainBinding
 import com.UMC.zipdabang.src.my.MyFragment
 
 

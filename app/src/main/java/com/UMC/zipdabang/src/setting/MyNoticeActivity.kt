@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.UMC.umc_zipdabang.databinding.ActivityMyNoticeBinding
+import com.UMC.zipdabang.databinding.ActivityMyNoticeBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

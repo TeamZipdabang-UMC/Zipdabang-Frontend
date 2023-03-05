@@ -9,8 +9,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailReportBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.ActivityZipdabangRecipeDetailReportBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.*
 import kotlinx.coroutines.Dispatchers

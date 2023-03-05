@@ -7,10 +7,10 @@ plugins {
 
 android {
 
-    namespace 'com.UMC.umc_zipdabang'
+    namespace 'com.UMC.zipdabang'
     compileSdk 33
 
-   viewBinding{
+    viewBinding{
         enabled= true
     }
     task wrapper(type: Wrapper) {
@@ -18,7 +18,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.UMC.umc_zipdabang"
+        applicationId "com.UMC.zipdabang"
         minSdk 21
         targetSdk 33
         versionCode 1

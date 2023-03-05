@@ -7,7 +7,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemRecipeBinding
+import com.UMC.zipdabang.databinding.ItemRecipeBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.UMC.zipdabang.src.my.MyChallengingActivity

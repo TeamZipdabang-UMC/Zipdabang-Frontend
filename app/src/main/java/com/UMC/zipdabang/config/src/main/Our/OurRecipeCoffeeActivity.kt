@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ActivityOurRecipeCoffeeBinding
+import com.UMC.zipdabang.databinding.ActivityOurRecipeCoffeeBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.Token
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeInfo

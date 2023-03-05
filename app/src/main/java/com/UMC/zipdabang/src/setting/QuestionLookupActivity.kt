@@ -2,7 +2,7 @@ package com.UMC.zipdabang.src.setting
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.ActivityMyQuestonLookupBinding
+import com.UMC.zipdabang.databinding.ActivityMyQuestonLookupBinding
 
 class QuestionLookupActivity :AppCompatActivity(){
     private lateinit var viewBinding: ActivityMyQuestonLookupBinding

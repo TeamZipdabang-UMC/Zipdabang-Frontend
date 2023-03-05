@@ -5,7 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemIngredientsBinding
+import com.UMC.zipdabang.databinding.ItemIngredientsBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.IngredientDetail
 
 

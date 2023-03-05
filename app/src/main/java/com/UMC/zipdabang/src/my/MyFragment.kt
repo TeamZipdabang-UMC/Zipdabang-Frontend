@@ -10,17 +10,14 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.UMC.umc_zipdabang.databinding.FragmentMyBinding
-
+import com.UMC.zipdabang.databinding.FragmentMyBinding
 import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 import com.UMC.zipdabang.config.src.main.Home.Scrap.MyScapActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
-
 import com.UMC.zipdabang.src.my.data.IntroChallengedoneRVAdapter
 import com.UMC.zipdabang.src.my.data.IntroChallengingRVAdapter
 import com.UMC.zipdabang.src.my.data.ItemRecipeRVAdapter
 import com.UMC.zipdabang.src.setting.MySettingActivity
-
 import com.UMC.zipdabang.src.my.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

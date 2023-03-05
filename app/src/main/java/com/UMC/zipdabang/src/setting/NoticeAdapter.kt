@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemMyNoticeBinding
+import com.UMC.zipdabang.databinding.ItemMyNoticeBinding
 
 class NoticeAdapter(private val context: MyNoticeActivity, private val dataList: ArrayList<Notice>) :
     RecyclerView.Adapter<NoticeAdapter.ViewHolder>(){

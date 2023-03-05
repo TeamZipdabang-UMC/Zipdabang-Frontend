@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemSearchBinding
+import com.UMC.zipdabang.databinding.ItemSearchBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 
 class SearchAdpater_1(private val context: SearchActivity, private val dataList: ArrayList<Search_Receipe>) :

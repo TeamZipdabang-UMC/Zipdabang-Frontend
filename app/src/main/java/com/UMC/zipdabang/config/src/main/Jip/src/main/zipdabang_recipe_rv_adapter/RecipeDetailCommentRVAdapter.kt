@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemCommentBinding
+import com.UMC.zipdabang.databinding.ItemCommentBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.GlideApp
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Comment
 

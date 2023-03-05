@@ -2,7 +2,7 @@ package com.UMC.zipdabang.src.setting
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.ActivityMyNoticeDetailBinding
+import com.UMC.zipdabang.databinding.ActivityMyNoticeDetailBinding
 
 class NoticeDetailActivity  : AppCompatActivity(){
     private lateinit var viewBinding: ActivityMyNoticeDetailBinding

@@ -8,7 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.NicknameDialogBinding
+import com.UMC.zipdabang.databinding.NicknameDialogBinding
 
 
 class Dialog_nickname(

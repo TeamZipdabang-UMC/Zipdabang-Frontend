@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemLoadingBinding
-import com.UMC.umc_zipdabang.databinding.ItemRecipesPreviewBinding
+import com.UMC.zipdabang.databinding.ItemLoadingBinding
+import com.UMC.zipdabang.databinding.ItemRecipesPreviewBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeTeaActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailTeaActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.TeaRecipesData
-
 
 
 class TeaRecipesRVAdapter(private val context: ZipdabangRecipeTeaActivity, private var dataList: ArrayList<TeaRecipesData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

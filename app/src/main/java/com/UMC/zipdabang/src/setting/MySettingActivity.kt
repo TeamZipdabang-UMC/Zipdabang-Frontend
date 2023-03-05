@@ -5,7 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.UMC.umc_zipdabang.databinding.ActivityMySettingBinding
+import com.UMC.zipdabang.databinding.ActivityMySettingBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.config.src.main.SocialLogin.InitialActivity
 import com.UMC.zipdabang.src.my.APIS_My

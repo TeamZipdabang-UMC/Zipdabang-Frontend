@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemCommentBinding
+import com.UMC.zipdabang.databinding.ItemCommentBinding
 
 class CommentItemAdapter(private val mList: ArrayList<ImageView>): RecyclerView.Adapter<CommentItemAdapter.ViewHolder>() {
     private var onClickListener: CommentClickInterface? = null

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ActivityMyQuitBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.ActivityMyQuitBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.config.src.main.SocialLogin.InitialActivity
 import kotlinx.coroutines.Dispatchers

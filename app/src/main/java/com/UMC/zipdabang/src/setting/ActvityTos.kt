@@ -4,7 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.ActivityMyTosBinding
+import com.UMC.zipdabang.databinding.ActivityMyTosBinding
 
 class ActvityTos: AppCompatActivity(){
     private lateinit var binding: ActivityMyTosBinding

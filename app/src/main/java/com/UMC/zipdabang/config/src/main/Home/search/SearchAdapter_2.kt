@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemSearchReciepeBinding
+import com.UMC.zipdabang.databinding.ItemSearchReciepeBinding
 import com.bumptech.glide.Glide
 
 class SearchAdapter_2(private val context: SearchActivity, private val dataList: ArrayList<Search>) :

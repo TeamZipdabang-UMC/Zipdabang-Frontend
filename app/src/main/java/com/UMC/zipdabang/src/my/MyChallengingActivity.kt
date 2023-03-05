@@ -9,7 +9,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.UMC.umc_zipdabang.databinding.ActivityMyChallengingBinding
+import com.UMC.zipdabang.databinding.ActivityMyChallengingBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.src.my.data.ItemRecipeChallengeData
 import com.UMC.zipdabang.src.my.data.MyChallengingRVAdapter
