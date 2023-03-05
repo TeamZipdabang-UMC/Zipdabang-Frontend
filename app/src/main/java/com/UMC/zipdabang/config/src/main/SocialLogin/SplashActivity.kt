@@ -11,6 +11,7 @@ import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RunnerReportResponse
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,12 +30,10 @@ class SplashActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
-        val initialIntent = Intent(this, InitialActivity::class.java)
-        val mainIntent = Intent(this, HomeMainActivity::class.java)
-        var goToInitial: Boolean? = null
+
 
         val tokenDb = TokenDatabase.getTokenDatabase(this)
-        GlobalScope.launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 token = tokenDb.tokenDao().getToken().token.toString()
                 // api. 도망갔냐 아니냐
@@ -44,8 +43,30 @@ class SplashActivity: AppCompatActivity() {
                 Log.d("룸디비에 토큰 비어있음", "${e.message}")
                 token = ""
             }
-
         }
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                token = tokenDb.tokenDao().getToken().token.toString()
+//                // api. 도망갔냐 아니냐
+//                // 응답 => 응답에 따라 join/login/run]
+//                Log.d("룸디비에 토큰 있음", "${token}")
+//            } catch (e: java.lang.NullPointerException) {
+//                Log.d("룸디비에 토큰 비어있음", "${e.message}")
+//                token = ""
+//            }
+//
+//        }
+
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val initialIntent = Intent(this, InitialActivity::class.java)
+        val mainIntent = Intent(this, HomeMainActivity::class.java)
+        var goToInitial: Boolean? = null
 
         Log.d("시작 토큰", "${token}")
 
