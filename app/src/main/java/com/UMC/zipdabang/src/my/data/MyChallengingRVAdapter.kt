@@ -2,9 +2,10 @@ package com.UMC.zipdabang.src.my.data
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.UMC.zipdabang.databinding.ItemRecipeBinding
 import com.bumptech.glide.Glide
@@ -20,6 +21,11 @@ class MyChallengingRVAdapter(private val context: MyChallengingActivity, private
     : RecyclerView.Adapter<MyChallengingRVAdapter.challengingItemViewHolder>(){
 
     private lateinit var binding: ItemRecipeBinding
+
+    val displayMetrics = DisplayMetrics()
+
+    val pxWidth = displayMetrics.widthPixels
+    val pxHeight = displayMetrics.heightPixels
 
     //viewholder 객체
     inner class challengingItemViewHolder(private val viewBinding: ItemRecipeBinding) :RecyclerView.ViewHolder(viewBinding.root){
@@ -66,5 +72,6 @@ class MyChallengingRVAdapter(private val context: MyChallengingActivity, private
     /*override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)
     }*/
+
 
 }

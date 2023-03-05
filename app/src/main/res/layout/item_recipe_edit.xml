@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="4dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/my_recipe_img"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:background="@drawable/my_item_edgeround"
-            android:clipToOutline="true" />
+            android:clipToOutline="true"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
         <ImageView
             android:id="@+id/my_checkiv"
             android:layout_width="24dp"
@@ -23,15 +28,16 @@
             android:layout_marginEnd="6dp"
             android:layout_marginTop="6dp"
             android:layout_gravity="end"
-            android:src="@drawable/my_check_edit" />
-    </FrameLayout>
+            android:src="@drawable/my_check_edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/my_recipe_tital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="-6dp"
         android:textSize="12dp"
         android:text="음료이름이얼마나길어질까요\n20자정도는거뜬히들어가겠져"
         android:fontFamily="@font/notosanskrregular"
@@ -47,7 +53,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp"
+        android:layout_marginTop="-4dp"
         android:drawableLeft="@drawable/my_heart"
         android:maxLines="1"
         android:text="219"/>
