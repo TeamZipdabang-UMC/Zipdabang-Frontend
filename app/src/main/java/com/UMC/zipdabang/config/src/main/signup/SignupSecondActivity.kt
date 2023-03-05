@@ -9,8 +9,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import com.example.umc_zipdabang.R
-import com.example.umc_zipdabang.databinding.ActivitySignupSecondBinding
+import com.UMC.umc_zipdabang.R
+import com.UMC.umc_zipdabang.databinding.ActivitySignupSecondBinding
 import com.UMC.zipdabang.src.my.CustomToast
 
 class SignupSecondActivity : AppCompatActivity() {

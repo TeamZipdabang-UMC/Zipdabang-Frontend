@@ -10,7 +10,7 @@ android {
     namespace 'com.UMC.umc_zipdabang'
     compileSdk 33
 
-    viewBinding{
+   viewBinding{
         enabled= true
     }
     task wrapper(type: Wrapper) {

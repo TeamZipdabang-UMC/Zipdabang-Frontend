@@ -11,8 +11,8 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.umc_zipdabang.R
-import com.example.umc_zipdabang.databinding.ActivitySignupResearchBinding
+import com.UMC.umc_zipdabang.R
+import com.UMC.umc_zipdabang.databinding.ActivitySignupResearchBinding
 import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import retrofit2.Call

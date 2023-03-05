@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.umc_zipdabang.databinding.ActivitySignupCameraagreeBinding
+import com.UMC.umc_zipdabang.databinding.ActivitySignupCameraagreeBinding
 
 class SignupCameraagreeActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupCameraagreeBinding

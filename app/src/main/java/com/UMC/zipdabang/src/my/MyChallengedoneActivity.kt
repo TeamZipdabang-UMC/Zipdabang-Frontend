@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import com.UMC.umc_zipdabang.databinding.ActivityMyChallengedoneBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.src.my.data.ItemRecipeChallengeData
 import com.UMC.zipdabang.src.my.data.MyChallengedoneRVAdapter
-import com.example.umc_zipdabang.databinding.ActivityMyChallengedoneBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

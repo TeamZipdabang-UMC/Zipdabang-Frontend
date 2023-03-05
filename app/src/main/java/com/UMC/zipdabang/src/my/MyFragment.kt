@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.umc_zipdabang.databinding.FragmentMyBinding
+import com.UMC.umc_zipdabang.databinding.FragmentMyBinding
 
 import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 import com.UMC.zipdabang.config.src.main.Home.Scrap.MyScapActivity
@@ -83,10 +83,7 @@ class MyFragment : Fragment(){
                 displayMetrics.heightPixels
             }
         }
-        var width = getScreenWidth(mainActivity)
-        var height = getScreenHeight(mainActivity)
-        Log.d("화면 가로", "${width}")
-        Log.d("화면 세로", "${height}")
+
 
         //도전중, 도전완료, 마이스크랩 2개씩 띄우기
         GlobalScope.launch(Dispatchers.IO){
@@ -181,7 +178,7 @@ class MyFragment : Fragment(){
 
 
                     viewBinding.myRvChallenging.layoutManager = GridLayoutManager(context, 2)
-                    val adapter1 = IntroChallengingRVAdapter(challenging, width, height)
+                    val adapter1 = IntroChallengingRVAdapter(challenging)
                     viewBinding.myRvChallenging.adapter = adapter1
                     adapter1.notifyDataSetChanged()
 

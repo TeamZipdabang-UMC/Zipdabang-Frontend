@@ -7,8 +7,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import com.example.umc_zipdabang.R
-import com.example.umc_zipdabang.databinding.ActivitySignupFirstBinding
+import com.UMC.umc_zipdabang.R
+import com.UMC.umc_zipdabang.databinding.ActivitySignupFirstBinding
 import com.UMC.zipdabang.src.my.CustomToast
 import retrofit2.Call
 import retrofit2.Callback

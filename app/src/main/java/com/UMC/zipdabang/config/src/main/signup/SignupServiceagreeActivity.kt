@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.umc_zipdabang.R
-import com.example.umc_zipdabang.databinding.ActivitySignupServiceagreeBinding
+import com.UMC.umc_zipdabang.R
+import com.UMC.umc_zipdabang.databinding.ActivitySignupServiceagreeBinding
 
 class SignupServiceagreeActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupServiceagreeBinding

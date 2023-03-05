@@ -9,7 +9,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.umc_zipdabang.databinding.ActivityMyChallengingBinding
+import com.UMC.umc_zipdabang.databinding.ActivityMyChallengingBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.src.my.data.ItemRecipeChallengeData
 import com.UMC.zipdabang.src.my.data.MyChallengingRVAdapter
@@ -44,7 +44,7 @@ class MyChallengingActivity: AppCompatActivity() {
         val pxWidth = displayMetrics.widthPixels
         val pxHeight = displayMetrics.heightPixels*/
 
-      fun getScreenWidth(context: Context): Int {
+        fun getScreenWidth(context: Context): Int {
           val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
           return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
               val windowMetrics = wm.currentWindowMetrics
@@ -71,11 +71,11 @@ class MyChallengingActivity: AppCompatActivity() {
                 displayMetrics.heightPixels
             }
         }
-        var width = getScreenWidth(this).toDouble()
-        var height = getScreenHeight(this)
+        //var width = getScreenWidth(this).toDouble()
+        //var height = getScreenHeight(this)
 
         val challengingItemList: ArrayList<ItemRecipeChallengeData> = arrayListOf()
-        val challengingRVAdapter = MyChallengingRVAdapter(MyChallengingActivity(),challengingItemList,width, height)
+        val challengingRVAdapter = MyChallengingRVAdapter(MyChallengingActivity(),challengingItemList)
 
         GlobalScope.launch(Dispatchers.IO) {
 
@@ -112,7 +112,7 @@ class MyChallengingActivity: AppCompatActivity() {
                         viewBinding.myTvv.text = challengingItemList.size.toString()
                         viewBinding.myRv.layoutManager = GridLayoutManager(this@MyChallengingActivity, 2)
                         val adapter =
-                            MyChallengingRVAdapter(MyChallengingActivity(), challengingItemList, width, height)
+                            MyChallengingRVAdapter(MyChallengingActivity(), challengingItemList)
                         viewBinding.myRv.adapter = adapter
                         adapter.notifyDataSetChanged()
                     }

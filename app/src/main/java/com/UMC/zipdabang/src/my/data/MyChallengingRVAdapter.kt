@@ -7,12 +7,8 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.databinding.ItemRecipeBinding
+import com.UMC.umc_zipdabang.databinding.ItemRecipeBinding
 import com.bumptech.glide.Glide
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.MainActivity
-import com.example.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
-import com.example.umc_zipdabang.src.my.MyChallengingActivity
-
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity
 import com.UMC.zipdabang.src.my.MyChallengingActivity
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class MyChallengingRVAdapter(private val context: MyChallengingActivity, private val dataList: ArrayList<ItemRecipeChallengeData>, private val width :Double, private val height: Int)
+class MyChallengingRVAdapter(private val context: MyChallengingActivity, private val dataList: ArrayList<ItemRecipeChallengeData>)
     : RecyclerView.Adapter<MyChallengingRVAdapter.challengingItemViewHolder>(){
 
     private lateinit var binding: ItemRecipeBinding
@@ -69,10 +65,6 @@ class MyChallengingRVAdapter(private val context: MyChallengingActivity, private
     //viewholder가 실제로 데이터를 표시해야 할 때 호출되는 함수
     override fun onBindViewHolder(holder: challengingItemViewHolder, position: Int) {
         holder.bind(context, dataList[position])
-
-        holder.itemView.layoutParams.height = (width/1.6).toInt()
-        holder.itemView.layoutParams.width = (width/2).toInt()
-        holder.itemView.requestLayout()
     }
 
     override fun getItemCount(): Int =dataList.size

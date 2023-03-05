@@ -3,7 +3,7 @@ package com.UMC.zipdabang.config.src.main.signup
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.umc_zipdabang.databinding.ActivitySignupServiceagreeChoice1Binding
+import com.UMC.umc_zipdabang.databinding.ActivitySignupServiceagreeChoice1Binding
 
 class SignupServiceagreeChoice1Activity: AppCompatActivity() {
     private lateinit var viewBinding: ActivitySignupServiceagreeChoice1Binding

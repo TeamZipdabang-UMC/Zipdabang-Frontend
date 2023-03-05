@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.umc_zipdabang.R
-import com.example.umc_zipdabang.databinding.ItemRecipeEditBinding
+import com.UMC.umc_zipdabang.R
+import com.UMC.umc_zipdabang.databinding.ItemRecipeEditBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.src.my.MyMyrecipeEditActivity
 import java.sql.Types.NULL
