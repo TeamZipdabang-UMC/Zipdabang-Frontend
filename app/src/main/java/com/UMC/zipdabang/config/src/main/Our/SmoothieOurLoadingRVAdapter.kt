@@ -12,7 +12,6 @@ import com.UMC.umc_zipdabang.databinding.ItemRecipesPreviewBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.RecipeService
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.SmoothieRecipesData
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 
