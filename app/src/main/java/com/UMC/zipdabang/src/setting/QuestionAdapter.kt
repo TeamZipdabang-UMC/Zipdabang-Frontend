@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemQuestionBinding
+import com.UMC.zipdabang.databinding.ItemQuestionBinding
 
 class QuestionAdapter(private val context: FirstQuestionActivity, private val dataList: ArrayList<question>) :
     RecyclerView.Adapter<QuestionAdapter.ViewHolder>(){

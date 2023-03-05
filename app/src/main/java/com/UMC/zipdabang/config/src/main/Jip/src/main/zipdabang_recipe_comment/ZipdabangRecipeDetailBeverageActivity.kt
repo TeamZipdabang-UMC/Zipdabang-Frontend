@@ -11,8 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ActivityZipdabangRecipeDetailBeverageBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.ActivityZipdabangRecipeDetailBeverageBinding
 
 class ZipdabangRecipeDetailBeverageActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityZipdabangRecipeDetailBeverageBinding

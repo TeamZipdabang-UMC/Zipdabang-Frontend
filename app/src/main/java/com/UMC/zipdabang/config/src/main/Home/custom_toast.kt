@@ -5,7 +5,7 @@ import android.content.res.Resources
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.Toast
-import com.UMC.umc_zipdabang.databinding.CustomToastBinding
+import com.UMC.zipdabang.databinding.CustomToastBinding
 
 object custom_toast {
 

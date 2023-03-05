@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemReceipeBinding
+import com.UMC.zipdabang.databinding.ItemReceipeBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 

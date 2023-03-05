@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemInfinteBinding
-import com.UMC.umc_zipdabang.databinding.ItemLoadingBinding
+import com.UMC.zipdabang.databinding.ItemInfinteBinding
+import com.UMC.zipdabang.databinding.ItemLoadingBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Home.Scrap.My_Scrap
-
 
 
 class loadingAdapter(private val context: CategoryTeaActivity, private var dataList: ArrayList<My_Scrap>) :

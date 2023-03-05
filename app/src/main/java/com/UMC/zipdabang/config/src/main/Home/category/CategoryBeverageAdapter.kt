@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemInfinteBinding
-import com.UMC.umc_zipdabang.databinding.ItemLoadingBinding
+import com.UMC.zipdabang.databinding.ItemInfinteBinding
+import com.UMC.zipdabang.databinding.ItemLoadingBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Home.Scrap.My_Scrapp
 
@@ -32,7 +32,7 @@ class CategoryBeverageAdapter(private val context: CategoryBeverageActivity, pri
     private var VIEW_TYPE_ITEM = 0
     private var VIEW_TYPE_LOADING = 1
 
-   inner class ItemViewHolder(private var binding: com.UMC.umc_zipdabang.databinding.ItemInfinteBinding) :
+   inner class ItemViewHolder(private var binding: ItemInfinteBinding) :
 
         RecyclerView.ViewHolder(binding.root) {
 
@@ -56,7 +56,7 @@ class CategoryBeverageAdapter(private val context: CategoryBeverageActivity, pri
         }
     }
 
-  inner class LoadingViewHolder(private var binding: com.UMC.umc_zipdabang.databinding.ItemLoadingBinding) :
+  inner class LoadingViewHolder(private var binding: ItemLoadingBinding) :
 
         RecyclerView.ViewHolder(binding.root) {
 

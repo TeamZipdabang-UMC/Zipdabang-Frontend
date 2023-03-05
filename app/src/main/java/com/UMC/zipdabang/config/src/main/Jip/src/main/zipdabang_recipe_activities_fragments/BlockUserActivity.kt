@@ -6,8 +6,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.ActivityBlockUserBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.ActivityBlockUserBinding
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.UserBlockBody
 import kotlinx.coroutines.Dispatchers

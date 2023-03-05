@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemLoadingBinding
-import com.UMC.umc_zipdabang.databinding.ItemRecipesPreviewBinding
+import com.UMC.zipdabang.databinding.ItemLoadingBinding
+import com.UMC.zipdabang.databinding.ItemRecipesPreviewBinding
 import com.bumptech.glide.Glide
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeSmoothieActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailSmoothieActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_data_class.SmoothieRecipesData
-
 
 
 class SmoothieRecipesRVAdapter(private val context: ZipdabangRecipeSmoothieActivity, private var dataList: ArrayList<SmoothieRecipesData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

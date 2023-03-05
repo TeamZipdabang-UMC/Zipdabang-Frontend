@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemMyscrapBeforeEditBinding
+import com.UMC.zipdabang.databinding.ItemMyscrapBeforeEditBinding
 import com.bumptech.glide.Glide
 
 class MyScrapAdapter(private val context: MyScapActivity, private val dataList: ArrayList<My_Scrapp>) :

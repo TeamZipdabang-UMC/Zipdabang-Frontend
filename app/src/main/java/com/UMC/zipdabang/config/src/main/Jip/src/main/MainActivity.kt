@@ -2,7 +2,7 @@ package com.UMC.zipdabang.config.src.main.Jip.src.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.UMC.umc_zipdabang.databinding.ActivityMainBinding
+import com.UMC.zipdabang.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {

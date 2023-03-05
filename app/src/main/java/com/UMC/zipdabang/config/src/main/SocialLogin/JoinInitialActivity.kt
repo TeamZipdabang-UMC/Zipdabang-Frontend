@@ -7,7 +7,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.UMC.umc_zipdabang.databinding.ActivityJoinInitialBinding
+import com.UMC.zipdabang.databinding.ActivityJoinInitialBinding
 import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.KakaoService
 import com.UMC.zipdabang.config.src.main.SocialLogin.model.GoogleResponse

@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.R
-import com.UMC.umc_zipdabang.databinding.FragmentZipdabangRecipeBinding
+import com.UMC.zipdabang.R
+import com.UMC.zipdabang.databinding.FragmentZipdabangRecipeBinding
 import com.UMC.zipdabang.config.src.main.Home.HomeMainActivity
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.Token
 import com.UMC.zipdabang.config.src.main.Jip.src.main.roomDb.TokenDatabase

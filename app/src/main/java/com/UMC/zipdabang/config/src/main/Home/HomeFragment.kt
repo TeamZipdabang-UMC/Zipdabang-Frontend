@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.UMC.umc_zipdabang.databinding.FragmentHomeBinding
 import com.UMC.zipdabang.config.src.main.Home.Scrap.MainScrapAdapter
 import com.UMC.zipdabang.config.src.main.Home.Scrap.Main_Scrap
 import com.UMC.zipdabang.config.src.main.Home.Scrap.MyScapActivity
@@ -19,6 +18,7 @@ import com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.Z
 import com.UMC.zipdabang.config.src.main.Retrofit.Main_Response
 import com.UMC.zipdabang.config.src.main.Retrofit.Retrofit
 import com.UMC.zipdabang.config.src.main.Retrofit.RetrofitMainService
+import com.UMC.zipdabang.databinding.FragmentHomeBinding
 import com.UMC.zipdabang.src.setting.MySettingActivity
 import kotlinx.coroutines.*
 import retrofit2.Call

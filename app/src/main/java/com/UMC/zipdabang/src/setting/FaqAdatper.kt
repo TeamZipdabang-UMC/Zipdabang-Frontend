@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.UMC.umc_zipdabang.databinding.ItemFaqBinding
+import com.UMC.zipdabang.databinding.ItemFaqBinding
 
 class FaqAdatper(private val context: MyFAQActivity, private val dataList: ArrayList<FAQ>) :
     RecyclerView.Adapter<FaqAdatper.ViewHolder>(){
