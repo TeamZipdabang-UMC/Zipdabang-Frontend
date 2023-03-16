@@ -22,12 +22,11 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.1"
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a'
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
 
         // 룸디비 변경시 필요한 라이브러리
 
