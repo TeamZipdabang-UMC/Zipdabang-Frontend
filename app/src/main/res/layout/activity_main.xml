@@ -27,6 +27,7 @@ android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/main_bottom_nav"
+        android:background="@color/jipdabang_white"
 
         />
 
