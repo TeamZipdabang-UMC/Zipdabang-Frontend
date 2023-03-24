@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="zipdabang_recipe_view_order">
+        <item>조회순</item>
+        <item>최신순</item>
+        <item>댓글순</item>
+        <item>스크랩순</item>
+    </string-array>
+</resources>

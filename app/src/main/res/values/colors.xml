@@ -20,6 +20,9 @@
     <color name="jipdabang_dialog_tv">#767676</color>
     <color name="jipdabang_sign_button_gray">#EDEDED</color>
     <color name="jipdabang_login_edt_gray">#F5F5F5</color>
+    <color name="jipdabang_login_tv_gray">#F5F5F5</color>
+    <color name="jipdabang_login_btn_gray">#F5F5F5</color>
+    <color name="jipdabang_login_bt_gray">#F5F5F5</color>
     <color name="jipdabang_sign_text_gray">#999999</color>
     <color name="jipdabang_white">#FFFFFF</color>
     <color name="jipdabang_signup_text_gray">#767676</color>

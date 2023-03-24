@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/jipdabang_white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ll">
+
+        <FrameLayout
+            android:id="@+id/my_frame"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:background="@drawable/my_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterButton
+                android:id="@+id/my_backbtn"
+                android:layout_width="15.5dp"
+                android:layout_height="15.2dp"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="8dp"
+                android:clickable="false"
+                android:scaleType="centerCrop"
+                android:src="@drawable/my_backbtn2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/notosanskrbold"
+                android:text="탈퇴하기"
+                android:textColor="@color/jipdabang_black"
+                android:textSize="20dp" />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/top"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+
+        <TextView
+                android:id="@+id/tv_3_title"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:fontFamily="@font/notosanskrfont"
+                android:includeFontPadding="false"
+                android:layout_marginTop="20dp"
+                android:text="탈퇴시 유의사항 안내"
+            android:layout_weight="0.3"
+                android:layout_marginStart="30dp"
+                android:textColor="#191919"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/et_content"
+                app:layout_constraintTop_toBottomOf="@id/et_content"
+                app:layout_constraintVertical_bias="0.073" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/notosanskrfont"
+                android:text="집다방 서비스를 탈퇴하시면 직접 작성한 레시피와 댓글, 스크랩 레시피 기록 등 회원님의 계정과 관련된 기록은 모두 폐기되며 재가입하실 경우에도 복원되지 않습니다. "
+                android:textColor="#767676"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_3_title"
+                app:layout_constraintVertical_bias="0.123" />
+
+        <TextView
+            android:id="@+id/tv_content2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/notosanskrfont"
+            android:text="혹시 이용 과정에서 불편한 점이 있으셨다면, 1:1문의로 내용을 남겨주세요."
+            android:textColor="#767676"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_3_title"
+            app:layout_constraintVertical_bias="0.123" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content
+"             android:background="@drawable/sign_edge_round"
+                android:padding="10dp"
+                android:layout_margin="20dp"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    android:textColor="@color/jipdabang_black"
+                    android:fontFamily="@font/notosanskrfont"
+                    android:text="유의사항을 확인하였으며 회원 탈퇴에 동의합니다."
+                    android:textSize="12sp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <ImageButton
+                    android:id="@+id/agree_bt"
+                    android:layout_width="32dp"
+                    android:layout_weight="3"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/sign_roundbtn_checking"
+                    android:src="@drawable/my_check">
+
+                </ImageButton>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_question"
+            android:layout_width="149dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:background="@drawable/quest_bg_bt_gray"
+            android:fontFamily="@font/notosanskrfont"
+            android:text="탈퇴하기"
+            android:textAlignment="center"
+            android:textColor="#999999"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/agree" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageButton
         android:id="@+id/signup_backbtn"
@@ -110,7 +111,7 @@
             android:background="@drawable/round"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/jipdabang_sign_text_gray"/>
+            android:textColor="@color/jipdabang_black"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -146,7 +147,7 @@
             android:maxLength="10"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/jipdabang_sign_text_gray"/>
+            android:textColor="@color/jipdabang_black"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton

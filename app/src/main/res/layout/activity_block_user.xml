@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/jipdabang_white">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_zipdabang_recipe_beverage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fragment_appbar"
+            >
+
+            <TextView
+                android:id="@+id/tv_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/noto_sans"
+                android:text="사용자 차단하기"
+                android:textColor="@color/jipdabaing_black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/toolbar_exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_exit_popup"
+                android:layout_gravity="start"
+                android:padding="12dp"
+                />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/jipdabang_white">
+
+        <TextView
+            android:id="@+id/tv_block_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용자 차단하기 유의 사항"
+            android:textSize="20sp"
+            android:textColor="@color/jipdabang_black"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="80dp"
+            android:layout_marginStart="24dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_block_notice_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="집다방 앱을 부적절하게 이용하는 사용자를 신고해주세요. 신고 사유와 무관한 내용을 반복해서 접수하거나, 허위 신고가 누적되면 집다방 이용에 제한을 받을 수 있습니다. 차단한 사용자의 레시피와 댓글은 나에게만 숨김 처리됩니다."
+            android:textSize="16sp"
+            android:textColor="@color/jipdabang_dialog_tv"
+            app:layout_constraintTop_toBottomOf="@id/tv_block_notice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="8dp"/>
+
+        <RadioGroup
+            android:id="@+id/radio_for_block"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/frame_layout_block_user_button"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/btn_agree_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유의 사항을 확인하였으며 동의합니다."
+                android:textSize="16sp"
+                android:padding="8dp"
+                android:textColor="@color/jipdabang_black"
+                android:button="@drawable/selector_report_radio_button" />
+
+
+        </RadioGroup>
+
+        <FrameLayout
+            android:id="@+id/frame_layout_block_user_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="14dp">
+
+            <TextView
+                android:id="@+id/btn_block_active"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="사용자 차단하기"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/jipdabaing_black"
+                android:fontFamily="@font/noto_sans"
+                android:background="@drawable/btn_challenge_recipe"
+                android:gravity="center"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/btn_block_inactive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="사용자 차단하기"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray"
+                android:fontFamily="@font/noto_sans"
+                android:background="@drawable/btn_challenge_recipe"
+                android:backgroundTint="@color/jipdabang_login_btn_gray"
+                android:gravity="center"
+                android:visibility="visible"/>
+
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

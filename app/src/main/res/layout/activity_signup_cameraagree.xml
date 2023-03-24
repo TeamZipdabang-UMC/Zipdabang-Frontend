@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageButton
         android:id="@+id/signup_backbtn"
@@ -93,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="33dp"
                 android:fontFamily="@font/notosanskrbold"
-                android:text="카메라 (선택)"
+                android:text="카메라 (필수)"
                 android:textColor="@color/jipdabang_black"
                 android:textSize="16dp" />
             <TextView
@@ -138,10 +139,10 @@
         android:id="@+id/signup_okaybtn"
         android:layout_width="0dp"
         android:layout_height="52dp"
-        android:text="확인"
         android:textSize="16dp"
         android:fontFamily="@font/notosanskrbold"
-        android:textColor="@color/jipdabang_black"
+        android:text="다음"
+        android:textColor="@color/jipdabaing_black"
         android:background="@drawable/sign_btn_round_yellow"
         style="?android:attr/borderlessButtonStyle"
         app:layout_constraintHorizontal_weight="312"

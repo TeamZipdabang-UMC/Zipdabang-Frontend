@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/my_dialog_background">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="탈퇴하기"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/notosanskrfont"
+            android:layout_marginVertical="25dp">
+
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="집다방 회원탈퇴를 진행하시겠습니까?"
+            android:layout_gravity="center"
+            android:fontFamily="@font/notosanskrfont"
+            android:textSize="16sp"
+            android:textColor="#767676"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/quest_bg_bt_gray"
+                android:enabled="true"
+                android:fontFamily="@font/notosanskrfont"
+                android:layout_weight="1.5"
+                android:text="취소"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                style="?android:attr/borderlessButtonStyle"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.5" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/quest_bg_bt"
+                android:enabled="true"
+                android:layout_weight="1.5"
+                android:fontFamily="@font/notosanskrfont"
+                android:text="확인"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                style="?android:attr/borderlessButtonStyle"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

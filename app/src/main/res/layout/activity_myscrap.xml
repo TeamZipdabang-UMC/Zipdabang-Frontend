@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/jipdabang_white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_top"
@@ -69,26 +69,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/main_font"
+                    android:fontFamily="@font/notosanskrregular"
                     android:text="스크랩한 레시피"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/gray"
-                    android:textSize="20sp" />
+                    android:layout_marginLeft="16dp"
+                    android:textColor="#999999"
+                    android:textSize="16dp" />
                 <TextView
                     android:id="@+id/scrap_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/main_font"
+                    android:fontFamily="@font/notosanskrregular"
                     android:text="6"
-                    android:textSize="20sp"
-                    android:textColor="@color/gray"
+                    android:textSize="16dp"
+                    android:textColor="#999999"
                     android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="3dp"
                     />
@@ -105,8 +104,9 @@
                    android:layout_height="wrap_content"
                    android:textColor="#767676"
                    android:text="편집"
+                   android:textSize="16dp"
                    android:layout_gravity="center_vertical"
-                   android:layout_marginRight="10dp">
+                   android:layout_marginRight="16dp">
 
                </TextView>
 

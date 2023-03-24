@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/jipdabang_white"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scroll">
+
+        <FrameLayout
+            android:id="@+id/my_frame"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:background="@drawable/my_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterButton
+                android:id="@+id/my_backbtn"
+                android:layout_width="15.5dp"
+                android:layout_height="15.2dp"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="8dp"
+                android:clickable="false"
+                android:scaleType="centerCrop"
+                android:src="@drawable/my_backbtn2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/notosanskrbold"
+                android:text="1:1 문의"
+                android:textColor="@color/jipdabang_black"
+                android:textSize="20dp" />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/notosanskrfont"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="이메일"
+                android:textColor="#191919"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.00"
+                app:layout_constraintStart_toStartOf="@id/et_email"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.07"
+                app:layout_constraintVertical_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <View
+                android:id="@+id/empty_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toStartOf="@id/et_email"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@drawable/sign_edge_round"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:layout_weight="11"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/jipdabang_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/empty_2"
+                app:layout_constraintHorizontal_weight="9"
+                app:layout_constraintStart_toEndOf="@id/empty_1"
+                app:layout_constraintTop_toBottomOf="@id/email"
+                app:layout_constraintVertical_bias="0.03">
+
+            </EditText>
+
+            <View
+                android:id="@+id/empty_2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/et_email" />
+        </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_exact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/jipdabang_black"
+                android:fontFamily="@font/notosanskrfont"
+                android:text="이메일을 정확히 입력해주세요"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/et_email"
+                app:layout_constraintTop_toBottomOf="@id/et_email"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskrfont"
+                android:gravity="center_vertical"
+                android:layout_marginStart="30dp"
+                android:includeFontPadding="false"
+                android:text="문의사항"
+                android:textColor="#191919"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/text_exact"
+                app:layout_constraintTop_toBottomOf="@id/text_exact"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <View
+                android:id="@+id/empty_3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/et_content"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/sign_edge_round"
+                android:fontFamily="@font/notosanskrfont"
+                android:gravity="start"
+                android:layout_weight="13"
+                android:textColor="@color/jipdabang_black"
+                android:hint="문의할 내용을 작성해주세요"
+                android:padding="10dp"
+                android:textAlignment="textStart"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@id/empty_4"
+                app:layout_constraintHorizontal_weight="9"
+                app:layout_constraintStart_toEndOf="@id/empty_3"
+                app:layout_constraintTop_toBottomOf="@id/content"
+                app:layout_constraintVertical_weight="6">
+
+            </EditText>
+
+
+            <View
+                android:id="@+id/empty_4"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/et_content"
+                tools:layout_editor_absoluteY="-96dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_3_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosanskrfont"
+                android:includeFontPadding="false"
+                android:layout_marginTop="20dp"
+                android:text="개인 정보 수집 및 이용"
+                android:layout_marginStart="30dp"
+                android:textColor="#191919"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/et_content"
+                app:layout_constraintTop_toBottomOf="@id/et_content"
+                app:layout_constraintVertical_bias="0.073" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/notosanskrfont"
+                android:text="문의처리를 위해 이메일, 회원정보, 기기정보, 문의내용에 포함된 개인정보를 수집하며 개인정보처리방침에 따라 3년 후 파기됩니다. "
+                android:textColor="#767676"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_3_title"
+                app:layout_constraintVertical_bias="0.123" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sign_edge_round"
+                android:padding="10dp"
+                android:layout_margin="20dp"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/notosanskrfont"
+                    android:textColor="@color/jipdabang_black"
+                    android:text="[필수] : 개인 정보 수집 및 이용 동의"
+                    android:textSize="14sp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <ImageButton
+                    android:id="@+id/agree_bt"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/sign_roundbtn_checking"
+                    android:src="@drawable/my_check"></ImageButton>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_question"
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_gravity="center"
+                android:background="@drawable/quest_bg_bt_gray"
+                android:fontFamily="@font/notosanskrfont"
+                android:text="문의하기"
+                android:textAlignment="center"
+                android:textColor="#999999"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/agree" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
