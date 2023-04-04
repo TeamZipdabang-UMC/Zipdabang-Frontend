@@ -260,12 +260,14 @@ class ZipdabangRecipeDetailCommentActivity : AppCompatActivity() {
                                                                     dateTimeNewArray?.get(0)
                                                                 val newTime =
                                                                     dateTimeNewArray?.get(1)
+                                                                val newTimeArray = newTime?.split('.')
+                                                                val newTimeFix = newTimeArray?.get(0)
                                                                 commentNumberList.add(
                                                                     Comment(
                                                                         firstResultArray[i]?.profile,
                                                                         firstResultArray[i]?.nickname,
                                                                         newDate,
-                                                                        newTime,
+                                                                        newTimeFix,
                                                                         firstResultArray[i]?.body,
                                                                         firstResultArray[i]?.commentId,
                                                                         firstResultArray[i]?.owner
