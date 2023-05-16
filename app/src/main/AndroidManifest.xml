@@ -11,7 +11,7 @@
     <uses-sdk android:minSdkVersion="21"/>
 
     <application
-        android:name="com.UMC.zipdabang.config.src.main.SocialLogin.KakaoApplication"
+        android:name="com.UMC.umc_zipdabang.config.src.main.SocialLogin.KakaoApplication"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -23,7 +23,7 @@
         android:theme="@style/Theme.Zipdabang_android"
         tools:targetApi="31">
 
-        <activity android:name="com.UMC.zipdabang.config.src.main.SocialLogin.SplashActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.SocialLogin.SplashActivity"
             android:screenOrientation="portrait"
             android:exported="true">
 
@@ -35,7 +35,7 @@
 
         </activity>
 
-        <activity android:name="com.UMC.zipdabang.config.src.main.SocialLogin.InitialActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.SocialLogin.InitialActivity"
                    android:screenOrientation="portrait"
             android:exported="true">
 
@@ -51,49 +51,49 @@
                 android:resource="@xml/filepaths" />
         </provider>
         <activity
-            android:name="com.UMC.zipdabang.src.main.MainActivity"
+            android:name="com.UMC.umc_zipdabang.src.main.MainActivity"
             android:screenOrientation="portrait"
             >
         </activity>
 
-        <activity android:name="com.UMC.zipdabang.src.my.MyWritingActivity"
+        <activity android:name="com.UMC.umc_zipdabang.src.my.MyWritingActivity"
             android:screenOrientation="portrait"
             android:exported="true">
         </activity>
-        <activity android:name="com.UMC.zipdabang.src.setting.MySettingActivity"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.MySettingActivity"
             android:screenOrientation="portrait"
             android:exported="true">
         </activity>
-        <activity android:name="com.UMC.zipdabang.src.my.MySaveActivity"
+        <activity android:name="com.UMC.umc_zipdabang.src.my.MySaveActivity"
             android:screenOrientation="portrait"
             android:exported="true">
         </activity>
-        <activity android:name="com.UMC.zipdabang.src.my.MyMyrecipeEditActivity"
+        <activity android:name="com.UMC.umc_zipdabang.src.my.MyMyrecipeEditActivity"
             android:screenOrientation="portrait"
             android:exported="true">
         </activity>
-        <activity android:name="com.UMC.zipdabang.src.setting.MyNoticeActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.MyNoticeActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.setting.NoticeDetailActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.NoticeDetailActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.setting.ActvityTos" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.ActvityTos" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.setting.FirstQuestionActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.FirstQuestionActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.setting.QuestionDetailActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.QuestionDetailActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.setting.QuestionLookupActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.QuestionLookupActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.setting.QuitActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.QuitActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.setting.MyFAQActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.setting.MyFAQActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
 
@@ -102,102 +102,102 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeCoffeeActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeCoffeeActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeBeverageActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeBeverageActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeTeaActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeTeaActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeAdeActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeAdeActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeSmoothieActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeSmoothieActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeWellbeingActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.ZipdabangRecipeWellbeingActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCoffeeActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCoffeeActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailAdeActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailAdeActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailTeaActivity"
-            android:screenOrientation="portrait"
-
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailBeverageActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailSmoothieActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailWellbeingActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentAdeActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentBeverageActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentCoffeeActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentSmoothieActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentTeaActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentWellbeingActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeCommentReportActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.BlockUserActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailReportActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Our.OurRecipeCoffeeActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Our.OurRecipeAdeActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Our.OurRecipeBeverageActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailTeaActivity"
             android:screenOrientation="portrait"
 
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Our.OurRecipeSmoothieActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailBeverageActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Our.OurRecipeTeaActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailSmoothieActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Our.OurRecipeWellbeingActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailWellbeingActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.Our.OurRecipeDetailActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentAdeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentBeverageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentCoffeeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentSmoothieActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentTeaActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailCommentWellbeingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeCommentReportActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_activities_fragments.BlockUserActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.zipdabang_recipe_comment.ZipdabangRecipeDetailReportActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.Our.OurRecipeCoffeeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.Our.OurRecipeAdeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.Our.OurRecipeBeverageActivity"
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.Our.OurRecipeSmoothieActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.Our.OurRecipeTeaActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.Our.OurRecipeWellbeingActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Jip.Our.OurRecipeDetailActivity"
             android:screenOrientation="portrait"
 
             />
 
         <activity
-            android:name="com.UMC.zipdabang.config.src.main.Jip.src.main.MainActivity"
+            android:name="com.UMC.umc_zipdabang.config.src.main.Jip.src.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             >
@@ -207,7 +207,7 @@
     </activity>
 
         <activity
-            android:name="com.UMC.zipdabang.config.src.main.Home.HomeMainActivity"
+            android:name="com.UMC.umc_zipdabang.config.src.main.Home.HomeMainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             >
@@ -215,47 +215,47 @@
         </activity>
 
 
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupCameraagreeActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupCameraagreeActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupFirstActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupFirstActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupResearchActivity"
-            android:screenOrientation="portrait"
-
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupSecondActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupServiceagreeActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupServiceagreeChoice1Activity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupResearchActivity"
             android:screenOrientation="portrait"
 
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupServiceagreeChoice2Activity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupSecondActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupServiceagreeMust1Activity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupServiceagreeActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.config.src.main.signup.SignupServiceagreeMust2Activity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupServiceagreeChoice1Activity"
+            android:screenOrientation="portrait"
+
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupServiceagreeChoice2Activity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupServiceagreeMust1Activity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.signup.SignupServiceagreeMust2Activity"
             android:screenOrientation="portrait"
             />
 
 
-        <activity android:name="com.UMC.zipdabang.config.src.main.SocialLogin.JoinInitialActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.SocialLogin.JoinInitialActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.my.MyMyrecipeActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.my.MyMyrecipeActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.my.MyChallengingActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.my.MyChallengingActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.UMC.zipdabang.src.my.MyChallengedoneActivity" android:exported="true"
+        <activity android:name="com.UMC.umc_zipdabang.src.my.MyChallengedoneActivity" android:exported="true"
             android:screenOrientation="portrait"
             />
 
@@ -274,39 +274,39 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.Scrap.MyScapActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.Scrap.MyScapActivity"
             android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.edit.EditScrapActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.edit.EditScrapActivity"
             android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.search.SearchActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.search.SearchActivity"
             android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.category.CategoryAdeActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.category.CategoryAdeActivity"
             android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.category.CategoryBeverageActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.category.CategoryBeverageActivity"
             android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.category.CategoryCoffeeActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.category.CategoryCoffeeActivity"
             android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.category.CategorySmoothieActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.category.CategorySmoothieActivity"
             android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.category.CategoryHealthActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.category.CategoryHealthActivity"
             android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name="com.UMC.zipdabang.config.src.main.Home.category.CategoryTeaActivity"
+        <activity android:name="com.UMC.umc_zipdabang.config.src.main.Home.category.CategoryTeaActivity"
             android:screenOrientation="portrait"
             >
         </activity>

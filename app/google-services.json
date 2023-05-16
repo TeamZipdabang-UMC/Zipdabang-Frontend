@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:712573004341:android:daef488ad16b9b8c8f5f7c",
         "android_client_info": {
-          "package_name": "com.UMC.zipdabang"
+          "package_name": "com.UMC.umc_zipdabang"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "712573004341-bp5gpn3qsnht8c3mn7m2v0uvq74dvp34.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.UMC.zipdabang",
+            "package_name": "com.UMC.umc_zipdabang",
             "certificate_hash": "5f309dd6a0e3cd0aa6905e08f6c02ce422c9db14"
           }
         },
@@ -46,7 +46,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:712573004341:android:c3e3bc88953f346b8f5f7c",
         "android_client_info": {
-          "package_name": "com.UMC.zipdabang"
+          "package_name": "com.UMC.umc_zipdabang"
         }
       },
       "oauth_client": [
@@ -54,7 +54,7 @@
           "client_id": "712573004341-b02k6ff0pq50js60685ku5is8r09phjg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.UMC.zipdabang",
+            "package_name": "com.UMC.umc_zipdabang",
             "certificate_hash": "5f309dd6a0e3cd0aa6905e08f6c02ce422c9db14"
           }
         },
@@ -62,7 +62,7 @@
           "client_id": "712573004341-jj7uu1ju529him9tbse6tc3gdbbmqppk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.UMC.zipdabang",
+            "package_name": "com.UMC.umc_zipdabang",
             "certificate_hash": "d39deead053467e27f284a1727f404a79a6d1153"
           }
         },

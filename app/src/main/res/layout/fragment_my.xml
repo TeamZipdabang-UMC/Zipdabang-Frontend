@@ -30,7 +30,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/my_zipdabang_logo"
                         android:layout_gravity="bottom"/>
-                    <com.UMC.zipdabang.src.my.OutlineTextView
+                    <com.UMC.umc_zipdabang.src.my.OutlineTextView
                         android:id="@+id/my_tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -18,7 +18,7 @@
         app:layout_constraintVertical_weight="1"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.UMC.zipdabang.config.src.main.Home.CustomTextView
+        <com.UMC.umc_zipdabang.config.src.main.Home.CustomTextView
             android:id="@+id/main_tv_jip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             app:textStrokeColor="@color/gray"
             app:textStrokeWidth="7" />
 
-        <com.UMC.zipdabang.config.src.main.Home.CustomTextView
+        <com.UMC.umc_zipdabang.config.src.main.Home.CustomTextView
             android:id="@+id/main_tv_my"
             android:layout_width="24dp"
             android:layout_height="wrap_content"
