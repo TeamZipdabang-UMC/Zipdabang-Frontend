@@ -86,7 +86,7 @@
 
 ## Functions
 
-* [Function Explanation Page](https://cooperative-floor-0d8.notion.site/563582bdf5564ada8bdf3b6a4ab4c8b5?pvs=4)
+* [Function Explanation Page](https://cooperative-floor-0d8.notion.site/4d9f116d21a74d6bb59426a010bb6e9b?pvs=4)
 
 <br>
 
